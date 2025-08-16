@@ -1,6 +1,6 @@
 <template>
-  <div class="register-page">
-    <h1>Zarejestruj się</h1>
+  <div class="login-page">
+    <h1>Zaloguj się</h1>
     <form @submit.prevent="handleRegister">
       <div class="form-group">
         <label for="email">Email</label>
@@ -22,22 +22,12 @@
         />
       </div>
 
-      <div class="form-group">
-        <label for="password"> Powtórz hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
-
       <button type="submit">Zaloguj się</button>
     </form>
 
-    <p class="login-link">
-      Już masz konto?
-      <NuxtLink to="/login">Zalogować się</NuxtLink>
+    <p class="register-link">
+      Nie masz jeszcze konta?
+      <NuxtLink to="/register">Zarejestruj się</NuxtLink>
     </p>
   </div>
 </template>
@@ -50,15 +40,10 @@ const form = reactive({
   email: "",
   password: "",
 });
-
-function handleRegister() {
-  console.log("Zarejestruj się:", form);
-  alert(`Użytkownik ${form.name} jest zarejestrowany!`);
-}
 </script>
 
 <style scoped>
-.register-page {
+.login-page {
   max-width: 400px;
   margin: 0 auto;
 }
@@ -80,7 +65,7 @@ button {
   cursor: pointer;
 }
 
-.login-link {
+.register-link {
   margin-top: 10px;
 }
 </style>
