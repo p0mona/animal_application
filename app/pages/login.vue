@@ -58,7 +58,7 @@ const form = reactive({
 }
 
 input {
-  width: 100%;
+  width: 90%;
   padding: 8px;
 }
 

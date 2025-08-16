@@ -1,5 +1,5 @@
 <template>
   <div>
-    <h1>Главная</h1>
+    <h1>Strona główna</h1>
   </div>
 </template>
