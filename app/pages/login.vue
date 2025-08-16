@@ -60,14 +60,6 @@ input {
   padding: 8px;
 }
 
-button {
-  padding: 10px 20px;
-  background: #8b4513;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
 .register-link {
   margin-top: 10px;
 }

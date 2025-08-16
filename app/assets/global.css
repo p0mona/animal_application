@@ -1,0 +1,22 @@
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: #fcf6ed;
+  color: #7a3d11;
+}
+
+button {
+  padding: 10px 20px;
+  background: #8b4513;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+select {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+input {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}

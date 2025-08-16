@@ -106,7 +106,7 @@ const form = reactive({
 });
 </script>
 
-<style>
+<style scoped>
 .account-page {
   max-width: 400px;
   margin: 0 auto;
@@ -120,34 +120,15 @@ select {
   width: 50%;
   padding: 8px;
   margin-left: 10px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 input {
   width: 90%;
   padding: 8px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .example-photo {
   width: 50px;
   height: 70px;
-}
-
-/* перекинуть в global.css т.е. этот стиль распространяется на всю платформу */
-html,
-body {
-  background-color: #fcf6ed;
-  color: #7a3d11;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-}
-
-button {
-  padding: 10px 20px;
-  background: #8b4513;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 </style>
