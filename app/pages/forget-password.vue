@@ -1,6 +1,6 @@
 <template>
-  <div class="login-page">
-    <h1>Zaloguj się</h1>
+  <div class="forget-password-page">
+    <h1>Zmień hasło</h1>
     <form @submit.prevent="handleRegister">
       <div class="form-group">
         <label for="email">Email</label>
@@ -12,28 +12,10 @@
         />
       </div>
 
-      <div class="form-group">
-        <label for="password">Hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
-
-      <button type="submit">Zaloguj się</button>
+      <router-link to="/new-password">
+        <button>Wysłij kod</button>
+      </router-link>
     </form>
-
-    <p class="register-link">
-      Nie masz jeszcze konta?
-      <NuxtLink to="/register">Zarejestruj się</NuxtLink>
-    </p>
-
-    <p class="forget-password-link">
-      Nie pamiętasz hasło?
-      <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
-    </p>
   </div>
 </template>
 
@@ -48,7 +30,7 @@ const form = reactive({
 </script>
 
 <style scoped>
-.login-page {
+.forget-password-page {
   max-width: 400px;
   margin: 0 auto;
 }
@@ -68,9 +50,5 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-}
-
-.register-link {
-  margin-top: 10px;
 }
 </style>

@@ -1,19 +1,9 @@
 <template>
-  <div class="login-page">
-    <h1>Zaloguj się</h1>
+  <div class="new-password-page">
+    <h1>Ustaw nowe hasło</h1>
     <form @submit.prevent="handleRegister">
       <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model="form.email"
-          type="email"
-          placeholder="Wprowadź email"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="password">Hasło</label>
+        <label for="password">Nowe hasło</label>
         <input
           id="password"
           v-model="form.password"
@@ -22,18 +12,20 @@
         />
       </div>
 
-      <button type="submit">Zaloguj się</button>
+      <div class="form-group">
+        <label for="password">Powtórz nowe hasło</label>
+        <input
+          id="password"
+          v-model="form.password"
+          type="password"
+          placeholder="Wprowadź hasłó"
+        />
+      </div>
+
+      <router-link to="/login">
+        <button>Potwierdzam</button>
+      </router-link>
     </form>
-
-    <p class="register-link">
-      Nie masz jeszcze konta?
-      <NuxtLink to="/register">Zarejestruj się</NuxtLink>
-    </p>
-
-    <p class="forget-password-link">
-      Nie pamiętasz hasło?
-      <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
-    </p>
   </div>
 </template>
 
@@ -48,7 +40,7 @@ const form = reactive({
 </script>
 
 <style scoped>
-.login-page {
+.new-password-page {
   max-width: 400px;
   margin: 0 auto;
 }
@@ -68,9 +60,5 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-}
-
-.register-link {
-  margin-top: 10px;
 }
 </style>
