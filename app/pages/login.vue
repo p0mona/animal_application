@@ -1,29 +1,27 @@
 <template>
   <div class="login-page">
     <h1>Zaloguj się</h1>
-    <form @submit.prevent="handleRegister">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model="form.email"
-          type="email"
-          placeholder="Wprowadź email"
-        />
-      </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        v-model="form.email"
+        type="email"
+        placeholder="Wprowadź email"
+      />
+    </div>
 
-      <div class="form-group">
-        <label for="password">Hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
+    <div class="form-group">
+      <label for="password">Hasło</label>
+      <input
+        id="password"
+        v-model="form.password"
+        type="password"
+        placeholder="Wprowadź hasłó"
+      />
+    </div>
 
-      <button type="submit">Zaloguj się</button>
-    </form>
+    <button type="submit">Zaloguj się</button>
 
     <p class="register-link">
       Nie masz jeszcze konta?
@@ -64,7 +62,7 @@ input {
 
 button {
   padding: 10px 20px;
-  background: #3b82f6;
+  background: #8b4513;
   color: white;
   border: none;
   cursor: pointer;
