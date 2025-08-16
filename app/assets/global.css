@@ -11,6 +11,12 @@ button {
   border: none;
   cursor: pointer;
   font-family: "Comic Sans MS", cursive, sans-serif;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #5d2d0b;
 }
 
 select {
