@@ -47,7 +47,8 @@ const form = reactive({
 
 <style scoped>
 .login-page {
-  max-width: 400px;
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
 }
 

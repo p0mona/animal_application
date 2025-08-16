@@ -108,12 +108,14 @@ const form = reactive({
 
 <style scoped>
 .account-page {
-  max-width: 400px;
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .form-group {
   margin-bottom: 15px;
+  padding-right: 20px;
 }
 
 select {
