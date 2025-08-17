@@ -3,39 +3,45 @@
     <h1>Konto</h1>
     <h4>Pupil</h4>
 
-    <img
-      src="@/images/example-photo.jpg"
-      alt="Example-photo"
-      class="example-photo"
-    />
+    <div class="two-columns">
+      <div class="left-column">
+        <div class="form-group">
+          <label for="animal">Wybierz zwięrzę</label>
+          <select id="animal" v-model="form.animal">
+            <option value="cat">Kot</option>
+            <option value="dog">Pies</option>
+            <option value="hamster">Chomik</option>
+          </select>
+        </div>
 
-    <div class="form-group">
-      <label for="animal">Wybierz zwięrzę</label>
-      <select id="animal" v-model="form.animal">
-        <option value="cat">Kot</option>
-        <option value="dog">Pies</option>
-        <option value="hamster">Chomik</option>
-      </select>
-    </div>
+        <div class="form-group">
+          <label for="breed">Wybierz rasę</label>
+          <select id="breed" v-model="form.breed">
+            <option value="-">-</option>
+            <option value="akita-inu">Akita Inu</option>
+            <option value="beagle">Beagle</option>
+            <option value="Spitz">Szpic</option>
+          </select>
+        </div>
 
-    <div class="form-group">
-      <label for="breed">Wybierz rasę</label>
-      <select id="breed" v-model="form.breed">
-        <option value="-">-</option>
-        <option value="akita-inu">Akita Inu</option>
-        <option value="beagle">Beagle</option>
-        <option value="Spitz">Szpic</option>
-      </select>
-    </div>
+        <div class="form-group">
+          <label for="animal-name">Imię pupila</label>
+          <input
+            id="animal-name"
+            v-model="form.animal_name"
+            type="text"
+            placeholder="Wprowadź imię"
+          />
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="animal-name">Imię pupila</label>
-      <input
-        id="animal-name"
-        v-model="form.animal_name"
-        type="animal-name"
-        placeholder="Wprowadź imię"
-      />
+      <div class="right-column">
+        <img
+          src="@/images/example-photo.jpg"
+          alt="Example-photo"
+          class="example-photo"
+        />
+      </div>
     </div>
 
     <div class="form-group">
@@ -43,7 +49,7 @@
       <input
         id="age"
         v-model="form.age"
-        type="age"
+        type="text"
         placeholder="Wprowadź wiek"
       />
     </div>
@@ -53,7 +59,7 @@
       <input
         id="height"
         v-model="form.height"
-        type="height"
+        type="text"
         placeholder="Wprowadź wzrost"
       />
     </div>
@@ -63,7 +69,7 @@
       <input
         id="weight"
         v-model="form.weight"
-        type="weight"
+        type="text"
         placeholder="Wprowadź wagę"
       />
     </div>
@@ -73,7 +79,7 @@
       <input
         id="chip"
         v-model="form.chip"
-        type="chip"
+        type="text"
         placeholder="Wprowadź numer czipu"
       />
     </div>
@@ -84,7 +90,7 @@
       <input
         id="name"
         v-model="form.name"
-        type="name"
+        type="text"
         placeholder="Wprowadź imię"
       />
     </div>
@@ -123,24 +129,37 @@ const form = reactive({
   margin: 0 auto;
 }
 
+.two-columns {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.left-column,
+.right-column {
+  flex: 1;
+}
+
 .form-group {
   margin-bottom: 15px;
-  padding-right: 20px;
+  padding-right: 5px;
 }
 
-select {
-  width: 50%;
-  padding: 8px;
-  margin-left: 10px;
-}
-
+select,
 input {
-  width: 90%;
+  width: 100%;
   padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
 }
 
 .example-photo {
-  width: 100px;
-  height: 120px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: 3px solid #8b4513;
+  border-radius: 8px;
 }
 </style>
