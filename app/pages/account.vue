@@ -68,6 +68,16 @@
       />
     </div>
 
+    <div class="form-group">
+      <label for="chip">Сzip</label>
+      <input
+        id="chip"
+        v-model="form.chip"
+        type="chip"
+        placeholder="Wprowadź numer czipu"
+      />
+    </div>
+
     <h4>Właściciel</h4>
     <div class="form-group">
       <label for="name">Imię</label>
@@ -130,7 +140,7 @@ input {
 }
 
 .example-photo {
-  width: 50px;
-  height: 70px;
+  width: 100px;
+  height: 120px;
 }
 </style>
