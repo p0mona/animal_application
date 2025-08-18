@@ -24,23 +24,39 @@
 
     <p class="login-link">
       Już masz konto? <NuxtLink to="/login">Zalogować się</NuxtLink>
->>>>>>> a7a9135 (changed forms for authorization and registration)
     </p>
   </div>
 </template>
 
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from "vue";
+import * as v from "valibot";
+import type { FormSubmitEvent } from "@nuxt/ui";
 
-const form = reactive({
-  name: "",
+const schema = v.object({
+  email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
+  ),
+});
+
+type Schema = v.InferOutput<typeof schema>;
+
+const state = reactive<Schema>({
   email: "",
   password: "",
 });
 
-function handleRegister() {
-  alert(`Użytkownik ${form.name} jest zarejestrowany!`);
+const toast = useToast();
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  toast.add({
+    title: "Sukces",
+    description: "Użytkownik został zarejestrowany.",
+    color: "success",
+  })
 }
 </script>
 
