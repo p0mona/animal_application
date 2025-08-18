@@ -1,27 +1,24 @@
 <template>
   <div class="login-page">
     <h1>Zaloguj się</h1>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        id="email"
-        v-model="form.email"
-        type="email"
-        placeholder="Wprowadź email"
-      />
-    </div>
 
-    <div class="form-group">
-      <label for="password">Hasło</label>
-      <input
-        id="password"
-        v-model="form.password"
-        type="password"
-        placeholder="Wprowadź hasłó"
-      />
-    </div>
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+      <UFormField label="Email" name="email">
+        <UInput v-model="state.email" placeholder="Wprowadź email" />
+        <UFormMessage type="error" />
+      </UFormField>
 
-    <button type="submit">Zaloguj się</button>
+      <UFormField label="Hasło" name="password">
+        <UInput
+          v-model="state.password"
+          type="password"
+          placeholder="Wprowadź hasło"
+        />
+        <UFormMessage type="error" />
+      </UFormField>
+
+      <UButton type="submit">Zaloguj się</UButton>
+    </UForm>
 
     <p class="register-link">
       Nie masz jeszcze konta?
@@ -35,14 +32,36 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from "vue";
+import * as v from "valibot";
+import type { FormSubmitEvent } from "@nuxt/ui";
 
-const form = reactive({
-  name: "",
+const schema = v.object({
+  email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
+  ),
+});
+
+type Schema = v.InferOutput<typeof schema>;
+
+const state = reactive<Schema>({
   email: "",
   password: "",
 });
+
+const toast = useToast();
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  toast.add({
+    title: "Sukces",
+    description: "Formularz został wysłany.",
+    color: "success",
+  });
+  console.log(event.data);
+}
 </script>
 
 <style scoped>
@@ -50,15 +69,6 @@ const form = reactive({
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-input {
-  width: 90%;
-  padding: 8px;
 }
 
 .register-link {
