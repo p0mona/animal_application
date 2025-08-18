@@ -2,7 +2,6 @@
   <div class="register-page">
     <h1>Zarejestruj się</h1>
 
-
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email">
         <UInput v-model="state.email" placeholder="Wprowadź email" />
@@ -10,12 +9,20 @@
       </UFormField>
 
       <UFormField label="Hasło" name="password">
-        <UInput v-model="state.password" type="password" placeholder="Wprowadź hasło" />
+        <UInput
+          v-model="state.password"
+          type="password"
+          placeholder="Wprowadź hasło"
+        />
         <UFormMessage />
       </UFormField>
 
       <UFormField label="Powtórz hasło" name="confirmPassword">
-        <UInput v-model="state.confirmPassword" type="password" placeholder="Powtórz hasło" />
+        <UInput
+          v-model="state.confirmPassword"
+          type="password"
+          placeholder="Powtórz hasło"
+        />
         <UFormMessage />
       </UFormField>
 
@@ -27,7 +34,6 @@
     </p>
   </div>
 </template>
-
 
 <script setup lang="ts">
 import { reactive } from "vue";
@@ -56,7 +62,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     title: "Sukces",
     description: "Użytkownik został zarejestrowany.",
     color: "success",
-  })
+  });
 }
 </script>
 
@@ -71,4 +77,3 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   margin-top: 10px;
 }
 </style>
-

@@ -9,14 +9,24 @@
       </UFormField>
 
       <UFormField label="Hasło" name="password">
-        <UInput v-model="state.password" type="password" placeholder="Wprowadź hasło" />
+        <UInput
+          v-model="state.password"
+          type="password"
+          placeholder="Wprowadź hasło"
+        />
         <UFormMessage />
       </UFormField>
 
       <UButton type="submit">Zaloguj się</UButton>
     </UForm>
-    <p class="register-link"> Nie masz jeszcze konta? <NuxtLink to="/register">Zarejestruj się</NuxtLink> </p> 
-      <p class="forget-password-link"> Nie pamiętasz hasło? <NuxtLink to="/forget-password">Zmień hasło</NuxtLink> </p>
+    <p class="register-link">
+      Nie masz jeszcze konta?
+      <NuxtLink to="/register">Zarejestruj się</NuxtLink>
+    </p>
+    <p class="forget-password-link">
+      Nie pamiętasz hasło?
+      <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
+    </p>
   </div>
 </template>
 
@@ -47,7 +57,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     title: "Sukces",
     description: "Formularz został wysłany.",
     color: "success",
-  })
+  });
 }
 </script>
 
