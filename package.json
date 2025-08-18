@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@nuxt/ui": "^3.3.2",
+<<<<<<< HEAD
+=======
+    "@tailwindcss/vite": "^4.1.12",
+>>>>>>> a7a9135 (changed forms for authorization and registration)
     "nuxt": "^4.0.3",
     "typescript": "^5.9.2",
     "valibot": "^1.1.0",

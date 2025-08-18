@@ -1,46 +1,34 @@
 <template>
   <div class="register-page">
     <h1>Zarejestruj się</h1>
-    <form @submit.prevent="handleRegister">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model="form.email"
-          type="email"
-          placeholder="Wprowadź email"
-        />
-      </div>
 
-      <div class="form-group">
-        <label for="password">Hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
 
-      <div class="form-group">
-        <label for="password">Powtórz hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+      <UFormField label="Email" name="email">
+        <UInput v-model="state.email" placeholder="Wprowadź email" />
+        <UFormMessage />
+      </UFormField>
 
-      <button type="submit">Zaloguj się</button>
-    </form>
+      <UFormField label="Hasło" name="password">
+        <UInput v-model="state.password" type="password" placeholder="Wprowadź hasło" />
+        <UFormMessage />
+      </UFormField>
+
+      <UFormField label="Powtórz hasło" name="confirmPassword">
+        <UInput v-model="state.confirmPassword" type="password" placeholder="Powtórz hasło" />
+        <UFormMessage />
+      </UFormField>
+
+      <UButton type="submit">Zarejestruj się</UButton>
+    </UForm>
 
     <p class="login-link">
-      Już masz konto?
-      <NuxtLink to="/login">Zalogować się</NuxtLink>
+      Już masz konto? <NuxtLink to="/login">Zalogować się</NuxtLink>
+>>>>>>> a7a9135 (changed forms for authorization and registration)
     </p>
   </div>
 </template>
+
 
 <script setup>
 import { reactive } from "vue";
@@ -52,7 +40,6 @@ const form = reactive({
 });
 
 function handleRegister() {
-  console.log("Zarejestruj się:", form);
   alert(`Użytkownik ${form.name} jest zarejestrowany!`);
 }
 </script>
@@ -64,16 +51,8 @@ function handleRegister() {
   margin: 0 auto;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
-input {
-  width: 90%;
-  padding: 8px;
-}
-
 .login-link {
   margin-top: 10px;
 }
 </style>
+

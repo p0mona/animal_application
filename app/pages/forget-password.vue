@@ -1,32 +1,47 @@
 <template>
   <div class="forget-password-page">
     <h1>Zmień hasło</h1>
-    <form @submit.prevent="handleRegister">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model="form.email"
-          type="email"
-          placeholder="Wprowadź email"
-        />
-      </div>
 
-      <router-link to="/new-password">
-        <button>Wysłij kod</button>
-      </router-link>
-    </form>
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+      <UFormField label="Email" name="email">
+        <UInput v-model="state.email" placeholder="Wprowadź email" />
+        <UFormMessage />
+      </UFormField>
+    </UForm>
+
+    <NuxtLink to="/new-password">
+      <UButton type="button">Wyślij kod</UButton>
+    </NuxtLink>
+    
   </div>
 </template>
 
-<script setup>
-import { reactive } from "vue";
+<script setup lang="ts">
+import { reactive } from "vue"
+import * as v from "valibot"
+import type { FormSubmitEvent } from "@nuxt/ui"
 
-const form = reactive({
-  name: "",
+const schema = v.object({
+  email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
+})
+
+type Schema = v.InferOutput<typeof schema>
+
+const state = reactive<Schema>({
   email: "",
-  password: "",
-});
+})
+
+const toast = useToast()
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  if (!event.data) return
+  toast.add({
+    title: "Sukces",
+    description: "Formularz został wysłany.",
+    color: "success",
+  })
+}
+
 </script>
 
 <style scoped>
@@ -34,14 +49,5 @@ const form = reactive({
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-input {
-  width: 90%;
-  padding: 8px;
 }
 </style>

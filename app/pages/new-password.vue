@@ -1,42 +1,51 @@
 <template>
   <div class="new-password-page">
     <h1>Ustaw nowe hasło</h1>
-    <form @submit.prevent="handleRegister">
-      <div class="form-group">
-        <label for="password">Nowe hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+      <UFormField label="Nowe hasło" name="newPassword">
+        <UInput v-model="state.newPassword" type="password" placeholder="Wprowadź hasło" />
+        <UFormMessage />
+      </UFormField>
 
-      <div class="form-group">
-        <label for="password">Powtórz nowe hasło</label>
-        <input
-          id="password"
-          v-model="form.password"
-          type="password"
-          placeholder="Wprowadź hasłó"
-        />
-      </div>
+       <UFormField label="Powtórz nowe hasło" name="confirmNewPassword">
+        <UInput v-model="state.confirmNewPassword" type="password" placeholder="Wprowadź hasło" />
+        <UFormMessage />
+      </UFormField>
+    </UForm>
 
-      <router-link to="/login">
-        <button>Potwierdzam</button>
-      </router-link>
-    </form>
+    <NuxtLink to="/login">
+      <UButton type="button">Potwierdzam</UButton>
+    </NuxtLink>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from "vue";
+import * as v from "valibot";
+import type { FormSubmitEvent } from "@nuxt/ui";
 
-const form = reactive({
-  name: "",
-  email: "",
-  password: "",
+const schema = v.object({
+  newPassword: v.pipe(v.string(), v.minLength(8, "Hasło musi mieć co najmniej 8 znaków")),
+  confirmNewPassword: v.string()
 });
+
+type Schema = v.InferOutput<typeof schema>;
+
+const state = reactive<Schema>({
+  newPassword: "",
+  confirmNewPassword: "",
+});
+
+const toast = useToast();
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  if (state.newPassword !== state.confirmNewPassword) {
+    toast.add({ title: "Błąd", description: "Hasła nie są takie same", color: "error" });
+    return;
+  }
+
+  toast.add({ title: "Sukces", description: "Hasło zostało zmienione.", color: "success" });
+}
 </script>
 
 <style scoped>
@@ -44,14 +53,5 @@ const form = reactive({
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-input {
-  width: 90%;
-  padding: 8px;
 }
 </style>
