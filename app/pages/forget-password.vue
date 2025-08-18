@@ -7,12 +7,11 @@
         <UInput v-model="state.email" placeholder="Wprowadź email" />
         <UFormMessage />
       </UFormField>
-    </UForm>
 
-    <NuxtLink to="/new-password">
-      <UButton type="button">Wyślij kod</UButton>
-    </NuxtLink>
-    
+       <NuxtLink to="/new-password">
+        <UButton type="button">Wyślij kod</UButton>
+      </NuxtLink>
+    </UForm>
   </div>
 </template>
 

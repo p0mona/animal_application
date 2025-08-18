@@ -11,11 +11,11 @@
         <UInput v-model="state.confirmNewPassword" type="password" placeholder="Wprowadź hasło" />
         <UFormMessage />
       </UFormField>
-    </UForm>
 
-    <NuxtLink to="/login">
-      <UButton type="button">Potwierdzam</UButton>
-    </NuxtLink>
+      <NuxtLink to="/login">
+        <UButton type="button">Potwierdzam</UButton>
+      </NuxtLink>
+    </UForm>
   </div>
 </template>
 
