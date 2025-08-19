@@ -9,15 +9,7 @@
 
         <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48" />
 
-        <div class="form-group">
-          <label for="animal-name">Imię pupila</label>
-          <input
-            id="animal-name"
-            v-model="form.animal_name"
-            type="text"
-            placeholder="Wprowadź imię"
-          />
-        </div>
+        <UInput placeholder="Wpisz imię pupila" />
       </div>
 
         <UFileUpload
@@ -30,71 +22,30 @@
         />
     </div>
 
-    <div class="form-group">
-      <label for="age">Wiek</label>
-      <input
-        id="age"
-        v-model="form.age"
-        type="text"
-        placeholder="Wprowadź wiek"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="height">Wzrost</label>
-      <input
-        id="height"
-        v-model="form.height"
-        type="text"
-        placeholder="Wprowadź wzrost"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="weight">Waga</label>
-      <input
-        id="weight"
-        v-model="form.weight"
-        type="text"
-        placeholder="Wprowadź wagę"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="chip">Сzip</label>
-      <input
-        id="chip"
-        v-model="form.chip"
-        type="text"
-        placeholder="Wprowadź numer czipu"
-      />
-    </div>
+    <UInput placeholder="Wpisz wiek" />
+    <UInput placeholder="Wpisz wzrost" />
+    <UInput placeholder="Wpisz wagę" />
+    <UInput placeholder="Wprowadź numer czipu" />
 
     <h4>Właściciel</h4>
-    <div class="form-group">
-      <label for="name">Imię</label>
-      <input
-        id="name"
-        v-model="form.name"
-        type="text"
-        placeholder="Wprowadź imię"
-      />
-    </div>
+    <UInput placeholder="Wpisz imię" />
 
     <URadioGroup v-model="form.sex" orientation="horizontal" variant="list" :items="sex" />
 
     <div class="form-group">
       <label for="birthday">Data urodzenia</label>
-      <input id="birthday" type="date" v-model="form.birthday" />
     </div>
 
-    <button type="submit">Potwierdzam</button>
+    <UInput type="date" v-model="form.birthday" />
+
+    <UButton type="button">Potwierdź</UButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import type { RadioGroupItem } from '@nuxt/ui'
+import type { RadioGroupItem,  } from '@nuxt/ui'
+import { CalendarDate } from '@internationalized/date'
 
 const form = reactive({
   animal_name: "",
@@ -115,6 +66,8 @@ const sex = ref<RadioGroupItem[]>([
 const animals = ref(['Pies', 'Kot', 'Chomik'])
 
 const breeds = ref(['Akita Inu', 'Beagle', 'Szpic'])
+
+const value = ref(new CalendarDate(2022, 2, 3))
 </script>
 
 <style scoped>
