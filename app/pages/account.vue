@@ -35,13 +35,14 @@
         </div>
       </div>
 
-      <div class="right-column">
-        <img
-          src="@/images/example-photo.jpg"
-          alt="Example-photo"
-          class="example-photo"
+        <UFileUpload
+          color="neutral"
+          highlight
+          label="Drop your image here"
+          description="SVG, PNG, JPG or GIF (max. 2MB)"
+          class="w-48 min-h-24"
+          dropzone="true"
         />
-      </div>
     </div>
 
     <div class="form-group">
@@ -153,13 +154,5 @@ input {
   padding: 8px;
   margin-top: 5px;
   box-sizing: border-box;
-}
-
-.example-photo {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border: 3px solid #8b4513;
-  border-radius: 8px;
 }
 </style>

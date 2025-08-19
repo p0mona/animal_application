@@ -3,7 +3,7 @@
     <h1>Zarejestruj się</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-      <UFormField label="Email" name="email">
+      <UFormField label="Email" name="email" >
         <UInput v-model="state.email" placeholder="Wprowadź email" />
         <UFormMessage />
       </UFormField>
@@ -26,6 +26,8 @@
         <UFormMessage />
       </UFormField>
 
+
+      <UCheckbox color="neutral" default-value required label="RODO" description="coca cola" />
       <UButton type="submit">Zarejestruj się</UButton>
     </UForm>
 
@@ -46,6 +48,10 @@ const schema = v.object({
     v.string(),
     v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
   ),
+  confirmPassword: v.pipe(
+    v.string(),
+    v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
+  ),
 });
 
 type Schema = v.InferOutput<typeof schema>;
@@ -53,6 +59,7 @@ type Schema = v.InferOutput<typeof schema>;
 const state = reactive<Schema>({
   email: "",
   password: "",
+  confirmPassword: "",
 });
 
 const toast = useToast();
