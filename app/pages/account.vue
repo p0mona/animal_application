@@ -5,24 +5,9 @@
 
     <div class="two-columns">
       <div class="left-column">
-        <div class="form-group">
-          <label for="animal">Wybierz zwięrzę</label>
-          <select id="animal" v-model="form.animal">
-            <option value="cat">Kot</option>
-            <option value="dog">Pies</option>
-            <option value="hamster">Chomik</option>
-          </select>
-        </div>
+        <USelectMenu placeholder="Wybierz zwierzę" :items="animals" class="w-48" />
 
-        <div class="form-group">
-          <label for="breed">Wybierz rasę</label>
-          <select id="breed" v-model="form.breed">
-            <option value="-">-</option>
-            <option value="akita-inu">Akita Inu</option>
-            <option value="beagle">Beagle</option>
-            <option value="Spitz">Szpic</option>
-          </select>
-        </div>
+        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48" />
 
         <div class="form-group">
           <label for="animal-name">Imię pupila</label>
@@ -41,7 +26,7 @@
           label="Drop your image here"
           description="SVG, PNG, JPG or GIF (max. 2MB)"
           class="w-48 min-h-24"
-          dropzone="true"
+          :dropzone="true"
         />
     </div>
 
@@ -96,13 +81,7 @@
       />
     </div>
 
-    <div class="form-group">
-      <label for="sex">Płeć</label>
-      <select id="sex" v-model="form.sex">
-        <option value="w">K</option>
-        <option value="m">M</option>
-      </select>
-    </div>
+    <URadioGroup v-model="form.sex" orientation="horizontal" variant="list" :items="sex" />
 
     <div class="form-group">
       <label for="birthday">Data urodzenia</label>
@@ -113,14 +92,29 @@
   </div>
 </template>
 
-<script setup>
-import { reactive } from "vue";
+<script setup lang="ts">
+import { reactive, ref } from "vue";
+import type { RadioGroupItem } from '@nuxt/ui'
 
 const form = reactive({
-  animal: "dog",
-  breed: "-",
-  sex: "w",
-});
+  animal_name: "",
+  age: "",
+  height: "",
+  weight: "",
+  chip: "",
+  name: "",
+  birthday: "",
+  sex: "K",
+})
+
+const sex = ref<RadioGroupItem[]>([
+  { label: "Kobieta", value: "K" },
+  { label: "Mężczyzna", value: "M" }
+])
+
+const animals = ref(['Pies', 'Kot', 'Chomik'])
+
+const breeds = ref(['Akita Inu', 'Beagle', 'Szpic'])
 </script>
 
 <style scoped>
