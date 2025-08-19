@@ -3,9 +3,8 @@
     <h1>Zaloguj się</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-      <UFormField label="Email" name="email">
-        <UInput v-model="state.email" placeholder="Wprowadź email" />
-        <UFormMessage />
+      <UFormField label="Email" required>
+        <UInput v-model="email" placeholder="Wprowadź email" icon="i-lucide-at-sign" />
       </UFormField>
 
       <UFormField label="Hasło" name="password">
@@ -59,6 +58,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     color: "success",
   });
 }
+
+const email = ref('')
 </script>
 
 <style scoped>
