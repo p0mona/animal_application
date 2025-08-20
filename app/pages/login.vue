@@ -4,7 +4,11 @@
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" required>
-        <UInput v-model="state.email" placeholder="Wprowadź email" icon="i-lucide-at-sign" />
+        <UInput
+          v-model="state.email"
+          placeholder="Wprowadź email"
+          icon="i-lucide-at-sign"
+        />
         <UFormMessage />
       </UFormField>
 
@@ -38,7 +42,10 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 
 const schema = v.object({
   email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
-  password: v.pipe(v.string(), v.minLength(8, "Hasło musi mieć co najmniej 8 znaków")),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
+  ),
 });
 
 type Schema = v.InferOutput<typeof schema>;

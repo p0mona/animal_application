@@ -4,7 +4,11 @@
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" required>
-        <UInput v-model="state.email" placeholder="Wprowadź email" icon="i-lucide-at-sign" />
+        <UInput
+          v-model="state.email"
+          placeholder="Wprowadź email"
+          icon="i-lucide-at-sign"
+        />
         <UFormMessage />
       </UFormField>
 
@@ -55,12 +59,15 @@
             class="flex items-center gap-0.5"
             :class="req.met ? 'text-success' : 'text-muted'"
           >
-            <UIcon :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'" class="size-4 shrink-0" />
+            <UIcon
+              :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'"
+              class="size-4 shrink-0"
+            />
 
             <span class="text-xs font-light">
               {{ req.text }}
               <span class="sr-only">
-                {{ req.met ? ' - Requirement met' : ' - Requirement not met' }}
+                {{ req.met ? " - Requirement met" : " - Requirement not met" }}
               </span>
             </span>
           </li>
@@ -76,7 +83,13 @@
         <UFormMessage />
       </UFormField>
 
-      <UCheckbox color="neutral" default-value required label="RODO" description="coca cola" />
+      <UCheckbox
+        color="neutral"
+        default-value
+        required
+        label="RODO"
+        description="coca cola"
+      />
 
       <UButton type="submit">Zarejestruj się</UButton>
     </UForm>
@@ -94,7 +107,10 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 
 const schema = v.object({
   email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
-  password: v.pipe(v.string(), v.minLength(8, "Hasło musi mieć co najmniej 8 znaków")),
+  password: v.pipe(
+    v.string(),
+    v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
+  ),
   confirmPassword: v.pipe(v.string()),
 });
 
@@ -120,32 +136,35 @@ const show = ref(false);
 
 function checkStrength(str: string) {
   const requirements = [
-    { regex: /.{8,}/, text: 'Przynajmniej 8 znaków' },
-    { regex: /\d/, text: 'Przynajmniej 1 cyfra' },
-    { regex: /[a-z]/, text: 'Przynajmniej 1 mała litera' },
-    { regex: /[A-Z]/, text: 'Przynajmniej 1 duża litera' }
-  ]
+    { regex: /.{8,}/, text: "Przynajmniej 8 znaków" },
+    { regex: /\d/, text: "Przynajmniej 1 cyfra" },
+    { regex: /[a-z]/, text: "Przynajmniej 1 mała litera" },
+    { regex: /[A-Z]/, text: "Przynajmniej 1 duża litera" },
+  ];
 
-  return requirements.map(req => ({ met: req.regex.test(str), text: req.text }))
+  return requirements.map((req) => ({
+    met: req.regex.test(str),
+    text: req.text,
+  }));
 }
 
 const strength = computed(() => checkStrength(state.password));
-const score = computed(() => strength.value.filter(req => req.met).length);
+const score = computed(() => strength.value.filter((req) => req.met).length);
 
 const color = computed(() => {
-  if (score.value === 0) return 'neutral'
-  if (score.value <= 1) return 'error'
-  if (score.value <= 2) return 'warning'
-  if (score.value === 3) return 'warning'
-  return 'success'
-})
+  if (score.value === 0) return "neutral";
+  if (score.value <= 1) return "error";
+  if (score.value <= 2) return "warning";
+  if (score.value === 3) return "warning";
+  return "success";
+});
 
 const text = computed(() => {
-  if (score.value === 0) return 'Wprowadź hasło'
-  if (score.value <= 2) return 'Słabe hasło'
-  if (score.value === 3) return 'Średnie hasło'
-  return 'Silne hasło'
-})
+  if (score.value === 0) return "Wprowadź hasło";
+  if (score.value <= 2) return "Słabe hasło";
+  if (score.value === 3) return "Średnie hasło";
+  return "Silne hasło";
+});
 </script>
 
 <style scoped>

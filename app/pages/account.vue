@@ -5,18 +5,15 @@
 
     <div class="two-columns">
       <div class="left-column">
-        <USelectMenu 
-          placeholder="Wybierz zwierzę" 
-          :items="animals" class="w-48" />
-
-        <USelectMenu 
-          placeholder="Wybierz rasę" 
-          :items="breeds" class="w-48" />
-
-        <UInput
-          v-model="form.animal_name"
-          placeholder="Wpisz imię pupila"
+        <USelectMenu
+          placeholder="Wybierz zwierzę"
+          :items="animals"
+          class="w-48"
         />
+
+        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48" />
+
+        <UInput v-model="form.animal_name" placeholder="Wpisz imię pupila" />
       </div>
 
       <div class="right-column">
@@ -56,14 +53,14 @@
         <UInput id="birthday" type="date" v-model="form.birthday" />
       </div>
 
-      <UButton type="button" >Potwierdź</UButton>
+      <UButton type="button">Potwierdź</UButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import type { RadioGroupItem } from '@nuxt/ui';
+import type { RadioGroupItem } from "@nuxt/ui";
 
 const form = reactive({
   animal_type: "",
@@ -81,11 +78,11 @@ const form = reactive({
 
 const sex = ref<RadioGroupItem[]>([
   { label: "Kobieta", value: "K" },
-  { label: "Mężczyzna", value: "M" }
+  { label: "Mężczyzna", value: "M" },
 ]);
 
-const animals = ref(['Pies', 'Kot', 'Chomik']);
-const breeds = ref(['Akita Inu', 'Beagle', 'Szpic']);
+const animals = ref(["Pies", "Kot", "Chomik"]);
+const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
 </script>
 
 <style scoped>

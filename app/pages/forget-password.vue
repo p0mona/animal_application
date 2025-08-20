@@ -4,7 +4,11 @@
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" required>
-        <UInput v-model="state.email" placeholder="Wprowadź email" icon="i-lucide-at-sign" />
+        <UInput
+          v-model="state.email"
+          placeholder="Wprowadź email"
+          icon="i-lucide-at-sign"
+        />
       </UFormField>
 
       <NuxtLink to="/new-password">
