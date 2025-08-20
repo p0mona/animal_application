@@ -4,7 +4,7 @@
       <h1>Konto</h1>
       <h4>Pupil</h4>
 
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
         <UFileUpload
           v-model="form.image"
           color="neutral"
@@ -14,27 +14,40 @@
           class="w-48 min-h-24"
           :dropzone="true"
         />
-
+        <p class="text-sm">Wybierz zwierzę</p>
         <USelectMenu
-          placeholder="Wybierz zwierzę"
+          placeholder="-"
           :items="animals"
-          class="w-48"
+          class="w-full"
         />
+        
+        <p class="text-sm">Wybierz rasę</p>
+        <USelectMenu placeholder="-" :items="breeds" class="w-full" />
 
-        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48" />
+        <p class="text-sm">Wpisz imię pupila</p>
+        <UInput v-model="form.animal_name"/>
 
-        <UInput v-model="form.animal_name" placeholder="Wpisz imię pupila" />
+        <p class="text-sm">Wpisz wiek</p>
+        <UInput v-model="form.age"/>
 
-        <UInput v-model="form.age" placeholder="Wpisz wiek" />
-        <UInput v-model="form.height" placeholder="Wpisz wzrost" />
-        <UInput v-model="form.weight" placeholder="Wpisz wagę" />
-        <UInput v-model="form.chip" placeholder="Wprowadź nr czipu" />
+        <p class="text-sm">Wpisz wzrost</p>
+        <UInput v-model="form.height"/>
+
+        <p class="text-sm">Wpisz wagę</p>
+        <UInput v-model="form.weight"/>
+
+        <p class="text-sm">Wprowadź nr czipu</p>
+        <UInput v-model="form.chip"/>
       </div>
 
       <h4>Właściciel</h4>
 
-      <UInput v-model="form.name" placeholder="Wpisz imię" />
+      <div class="w-full">
+        <p class="text-sm mb-2">Wpisz imię</p>
+        <UInput v-model="form.name"/>
+      </div>
 
+      <p class="text-sm">Płeć</p>
       <URadioGroup
         v-model="form.sex"
         orientation="horizontal"
@@ -42,7 +55,7 @@
         :items="sex"
       />
 
-      <label for="birthday">Data urodzenia</label>
+      <label for="birthday" class="text-sm">Data urodzenia</label>
       <UInput id="birthday" type="date" v-model="form.birthday" />
 
       <div>
