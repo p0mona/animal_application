@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <h1>Zaloguj się</h1>
+    <h1 class="mb-5">Zaloguj się</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" required>

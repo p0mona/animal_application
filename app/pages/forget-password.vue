@@ -1,6 +1,6 @@
 <template>
   <div class="forget-password-page">
-    <h1>Zmień hasło</h1>
+    <h1 class="mb-5">Zmień hasło</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" required>

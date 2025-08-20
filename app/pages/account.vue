@@ -1,17 +1,17 @@
 <template>
   <div class="account-page">
-    <h1>Konto</h1>
-    <h4>Pupil</h4>
+    <h1 class="mb-5">Konto</h1>
+    <h4 class="mb-3">Pupil</h4>
 
     <div class="two-columns">
       <div class="left-column">
         <USelectMenu
           placeholder="Wybierz zwierzę"
           :items="animals"
-          class="w-48"
+          class="w-48 mb-2"
         />
 
-        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48" />
+        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48 mb-2" />
 
         <UInput v-model="form.animal_name" placeholder="Wpisz imię pupila" />
       </div>

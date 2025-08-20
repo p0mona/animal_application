@@ -1,8 +1,8 @@
 <template>
   <div class="register-page">
-    <h1>Zarejestruj się</h1>
+    <h1 class="mb-5">Zarejestruj się</h1>
 
-    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="space-y-4 w" @submit="onSubmit">
       <UFormField label="Email" name="email" required>
         <UInput
           v-model="state.email"
