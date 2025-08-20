@@ -1,20 +1,27 @@
 <template>
-  <div class="forget-password-page">
-    <h1 class="mb-5">Zmień hasło</h1>
+  <div class="flex justify-center">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="mb-5">Zmień hasło</h1>
 
-    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-      <UFormField label="Email" required>
-        <UInput
-          v-model="state.email"
-          placeholder="Wprowadź email"
-          icon="i-lucide-at-sign"
-        />
-      </UFormField>
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <UFormField label="Email" required>
+          <UInput
+            v-model="state.email"
+            placeholder="Wprowadź email"
+            icon="i-lucide-at-sign"
+          />
+        </UFormField>
 
-      <NuxtLink to="/new-password">
-        <UButton type="button">Wyślij kod</UButton>
-      </NuxtLink>
-    </UForm>
+        <NuxtLink to="/new-password">
+          <UButton type="button">Wyślij kod</UButton>
+        </NuxtLink>
+      </UForm>
+    </div>
   </div>
 </template>
 
@@ -45,11 +52,3 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 }
 </script>
-
-<style scoped>
-.forget-password-page {
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
-}
-</style>

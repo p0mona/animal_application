@@ -1,22 +1,10 @@
 <template>
-  <div class="account-page">
-    <h1 class="mb-5">Konto</h1>
-    <h4 class="mb-3">Pupil</h4>
+  <div class="flex justify-center">
+    <div class="max-w-2xl mx-auto space-y-3 space-x-3">
+      <h1>Konto</h1>
+      <h4>Pupil</h4>
 
-    <div class="two-columns">
-      <div class="left-column">
-        <USelectMenu
-          placeholder="Wybierz zwierzę"
-          :items="animals"
-          class="w-48 mb-2"
-        />
-
-        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48 mb-2" />
-
-        <UInput v-model="form.animal_name" placeholder="Wpisz imię pupila" />
-      </div>
-
-      <div class="right-column">
+      <div class="flex flex-col gap-4">
         <UFileUpload
           v-model="form.image"
           color="neutral"
@@ -26,19 +14,25 @@
           class="w-48 min-h-24"
           :dropzone="true"
         />
+
+        <USelectMenu
+          placeholder="Wybierz zwierzę"
+          :items="animals"
+          class="w-48"
+        />
+
+        <USelectMenu placeholder="Wybierz rasę" :items="breeds" class="w-48" />
+
+        <UInput v-model="form.animal_name" placeholder="Wpisz imię pupila" />
+
+        <UInput v-model="form.age" placeholder="Wpisz wiek" />
+        <UInput v-model="form.height" placeholder="Wpisz wzrost" />
+        <UInput v-model="form.weight" placeholder="Wpisz wagę" />
+        <UInput v-model="form.chip" placeholder="Wprowadź nr czipu" />
       </div>
-    </div>
 
-    <div class="space-y-4">
-      <UInput v-model="form.age" placeholder="Wpisz wiek" />
-      <UInput v-model="form.height" placeholder="Wpisz wzrost" />
-      <UInput v-model="form.weight" placeholder="Wpisz wagę" />
-      <UInput v-model="form.chip" placeholder="Wprowadź numer czipu" />
-    </div>
+      <h4>Właściciel</h4>
 
-    <h4>Właściciel</h4>
-
-    <div class="space-y-4">
       <UInput v-model="form.name" placeholder="Wpisz imię" />
 
       <URadioGroup
@@ -48,12 +42,12 @@
         :items="sex"
       />
 
-      <div class="form-group">
-        <label for="birthday">Data urodzenia</label>
-        <UInput id="birthday" type="date" v-model="form.birthday" />
-      </div>
+      <label for="birthday">Data urodzenia</label>
+      <UInput id="birthday" type="date" v-model="form.birthday" />
 
-      <UButton type="button">Potwierdź</UButton>
+      <div>
+        <UButton type="button">Potwierdź</UButton>
+      </div>
     </div>
   </div>
 </template>
@@ -84,37 +78,3 @@ const sex = ref<RadioGroupItem[]>([
 const animals = ref(["Pies", "Kot", "Chomik"]);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
 </script>
-
-<style scoped>
-.account-page {
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.two-columns {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 30px;
-  margin-bottom: 20px;
-}
-
-.left-column,
-.right-column {
-  flex: 1;
-}
-
-.form-group {
-  margin-bottom: 15px;
-  padding-right: 5px;
-}
-
-select,
-input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  box-sizing: border-box;
-}
-</style>
