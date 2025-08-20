@@ -1,45 +1,47 @@
 <template>
-  <div class="flex justify-center p-4 bg-primary">
-    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
-      <h1 class="mb-5">Zaloguj się</h1>
+  <div class="min-h-screen bg-primary">
+    <div class="flex justify-center p-4">
+      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
+        <h1 class="mb-5">Zaloguj się</h1>
 
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-4"
-        @submit="onSubmit"
-      >
-        <UFormField label="Email" name="email" required>
-          <UInput
-            v-model="state.email"
-            placeholder="Wprowadź email"
-            icon="i-lucide-at-sign"
-            class="w-full"
-          />
-          <UFormMessage />
-        </UFormField>
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
+          <UFormField label="Email" name="email" required>
+            <UInput
+              v-model="state.email"
+              placeholder="Wprowadź email"
+              icon="i-lucide-at-sign"
+              class="w-full"
+            />
+            <UFormMessage />
+          </UFormField>
 
-        <UFormField label="Hasło" name="password" required>
-          <UInput
-            v-model="state.password"
-            type="password"
-            placeholder="Wprowadź hasło"
-            class="w-full"
-          />
-          <UFormMessage />
-        </UFormField>
+          <UFormField label="Hasło" name="password" required>
+            <UInput
+              v-model="state.password"
+              type="password"
+              placeholder="Wprowadź hasło"
+              class="w-full"
+            />
+            <UFormMessage />
+          </UFormField>
 
-        <UButton type="submit">Zaloguj się</UButton>
-      </UForm>
+          <UButton type="submit">Zaloguj się</UButton>
+        </UForm>
 
-      <p class="mt-3">
-        Nie masz jeszcze konta?
-        <NuxtLink to="/register">Zarejestruj się</NuxtLink>
-      </p>
-      <p class="forget-password-link">
-        Nie pamiętasz hasło?
-        <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
-      </p>
+        <p class="mt-3">
+          Nie masz jeszcze konta?
+          <NuxtLink to="/register">Zarejestruj się</NuxtLink>
+        </p>
+        <p class="forget-password-link">
+          Nie pamiętasz hasło?
+          <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
+        </p>
+      </div>
     </div>
   </div>
 </template>

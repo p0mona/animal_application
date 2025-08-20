@@ -1,90 +1,92 @@
 <template>
-  <div class="flex justify-center p-4 bg-primary">
-    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
-      <h1 class="mb-5">Ustaw nowe hasło</h1>
+  <div class="min-h-screen bg-primary">
+    <div class="flex justify-center p-4">
+      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 mt-8">
+        <h1 class="mb-5">Ustaw nowe hasło</h1>
 
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-4"
-        @submit="onSubmit"
-      >
-        <div class="space-y-2">
-          <UFormField label="Nowe hasło" name="newPassword">
-            <UInput
-              v-model="state.newPassword"
-              placeholder="Wpisz hasło"
-              :color="color"
-              :type="show ? 'text' : 'password'"
-              aria-describedby="password-strength"
-              :ui="{ trailing: 'pe-1' }"
-              class="w-full"
-            >
-              <template #trailing>
-                <UButton
-                  color="neutral"
-                  variant="link"
-                  size="sm"
-                  :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                  :aria-label="show ? 'Hide password' : 'Show password'"
-                  :aria-pressed="show"
-                  @click="show = !show"
-                />
-              </template>
-            </UInput>
-
-            <UProgress
-              :color="color"
-              :indicator="text"
-              :model-value="score"
-              :max="4"
-              size="sm"
-            />
-
-            <p id="password-strength" class="text-sm font-medium">
-              {{ text }}. Musi zawierać:
-            </p>
-
-            <ul class="space-y-1" aria-label="Password requirements">
-              <li
-                v-for="(req, index) in strength"
-                :key="index"
-                class="flex items-center gap-0.5"
-                :class="req.met ? 'text-success' : 'text-muted'"
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
+          <div class="space-y-2">
+            <UFormField label="Nowe hasło" name="newPassword">
+              <UInput
+                v-model="state.newPassword"
+                placeholder="Wpisz hasło"
+                :color="color"
+                :type="show ? 'text' : 'password'"
+                aria-describedby="password-strength"
+                :ui="{ trailing: 'pe-1' }"
+                class="w-full"
               >
-                <UIcon
-                  :name="
-                    req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
-                  "
-                  class="size-4 shrink-0"
-                />
-                <span class="text-xs font-light">
-                  {{ req.text }}
-                  <span class="sr-only">
-                    {{
-                      req.met ? " - Requirement met" : " - Requirement not met"
-                    }}
+                <template #trailing>
+                  <UButton
+                    color="neutral"
+                    variant="link"
+                    size="sm"
+                    :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                    :aria-label="show ? 'Hide password' : 'Show password'"
+                    :aria-pressed="show"
+                    @click="show = !show"
+                  />
+                </template>
+              </UInput>
+
+              <UProgress
+                :color="color"
+                :indicator="text"
+                :model-value="score"
+                :max="4"
+                size="sm"
+              />
+
+              <p id="password-strength" class="text-sm font-medium">
+                {{ text }}. Musi zawierać:
+              </p>
+
+              <ul class="space-y-1" aria-label="Password requirements">
+                <li
+                  v-for="(req, index) in strength"
+                  :key="index"
+                  class="flex items-center gap-0.5"
+                  :class="req.met ? 'text-success' : 'text-muted'"
+                >
+                  <UIcon
+                    :name="
+                      req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
+                    "
+                    class="size-4 shrink-0"
+                  />
+                  <span class="text-xs font-light">
+                    {{ req.text }}
+                    <span class="sr-only">
+                      {{
+                        req.met ? " - Requirement met" : " - Requirement not met"
+                      }}
+                    </span>
                   </span>
-                </span>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </UFormField>
+          </div>
+
+          <UFormField label="Powtórz nowe hasło" name="confirmNewPassword">
+            <UInput
+              v-model="state.confirmNewPassword"
+              type="password"
+              placeholder="Wprowadź hasło"
+              class="w-full"
+            />
+            <UFormMessage />
           </UFormField>
-        </div>
 
-        <UFormField label="Powtórz nowe hasło" name="confirmNewPassword">
-          <UInput
-            v-model="state.confirmNewPassword"
-            type="password"
-            placeholder="Wprowadź hasło"
-            class="w-full"
-          />
-          <UFormMessage />
-        </UFormField>
-
-        <NuxtLink to="/login">
-          <UButton type="button">Potwierdzam</UButton>
-        </NuxtLink>
-      </UForm>
+          <NuxtLink to="/login">
+            <UButton type="button">Potwierdzam</UButton>
+          </NuxtLink>
+        </UForm>
+      </div>
     </div>
   </div>
 </template>

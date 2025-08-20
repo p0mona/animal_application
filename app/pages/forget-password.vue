@@ -1,27 +1,29 @@
 <template>
-  <div class="flex justify-center p-4 bg-primary">
-    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
-      <h1 class="mb-5">Zmień hasło</h1>
+  <div class="min-h-screen bg-primary">
+    <div class="flex justify-center p-4">
+      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+        <h1 class="mb-5">Zmień hasło</h1>
 
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-4"
-        @submit="onSubmit"
-      >
-        <UFormField label="Email" required name="email">
-          <UInput
-            v-model="state.email"
-            placeholder="Wprowadź email"
-            icon="i-lucide-at-sign"
-            class="w-full"
-          />
-        </UFormField>
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
+          <UFormField label="Email" required name="email">
+            <UInput
+              v-model="state.email"
+              placeholder="Wprowadź email"
+              icon="i-lucide-at-sign"
+              class="w-full"
+            />
+          </UFormField>
 
-        <NuxtLink to="/new-password">
-          <UButton type="button">Wyślij kod</UButton>
-        </NuxtLink>
-      </UForm>
+          <NuxtLink to="/new-password">
+            <UButton type="button">Wyślij kod</UButton>
+          </NuxtLink>
+        </UForm>
+      </div>
     </div>
   </div>
 </template>
