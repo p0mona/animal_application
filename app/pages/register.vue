@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center">
-    <div class="max-w-2xl mx-auto">
+  <div class="flex justify-center p-4 bg-primary">
+    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
       <h1 class="mb-5">Zarejestruj się</h1>
 
       <UForm

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-center p-4">
-    <div class="max-w-2xl mx-auto space-y-4">
-      <h1>Konto</h1>
-      <h4>Pupil</h4>
+  <div class="flex justify-center p-4 bg-primary">
+    <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <h1 class="text-xl">Konto</h1>
+      <h4 class="text-lg">Pupil</h4>
 
       <div class="flex flex-col gap-4">
         <div class="w-full">
@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <h4>Właściciel</h4>
+      <h4 class="text-lg">Właściciel</h4>
 
       <div class="w-full">
         <p class="text-sm mb-1">Wpisz imię</p>
