@@ -76,6 +76,7 @@
             v-model="state.confirmNewPassword"
             type="password"
             placeholder="Wprowadź hasło"
+            class="w-full"
           />
           <UFormMessage />
         </UFormField>

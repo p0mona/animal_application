@@ -14,6 +14,7 @@
             v-model="state.email"
             placeholder="Wprowadź email"
             icon="i-lucide-at-sign"
+            class="w-full"
           />
           <UFormMessage />
         </UFormField>
@@ -23,6 +24,7 @@
             v-model="state.password"
             type="password"
             placeholder="Wprowadź hasło"
+            class="w-full"
           />
           <UFormMessage />
         </UFormField>

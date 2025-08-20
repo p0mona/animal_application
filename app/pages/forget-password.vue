@@ -9,11 +9,12 @@
         class="space-y-4"
         @submit="onSubmit"
       >
-        <UFormField label="Email" required>
+        <UFormField label="Email" required name="email">
           <UInput
             v-model="state.email"
             placeholder="Wprowadź email"
             icon="i-lucide-at-sign"
+            class="w-full"
           />
         </UFormField>
 
@@ -47,7 +48,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   toast.add({
     title: "Sukces",
-    description: "Formularz został wysłany.",
+    description: "Kod został wysłany na email.",
     color: "success",
   });
 }
