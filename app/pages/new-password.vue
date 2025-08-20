@@ -1,15 +1,15 @@
 <template>
   <div class="new-password-page">
     <h1>Ustaw nowe hasło</h1>
+
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <div class="space-y-2">
-        <UFormField label="Nowe hasło">
+        <UFormField label="Nowe hasło" name="newPassword">
           <UInput
-            v-model="password"
+            v-model="state.newPassword"
             placeholder="Wpisz hasło"
             :color="color"
             :type="show ? 'text' : 'password'"
-            :aria-invalid="score < 4"
             aria-describedby="password-strength"
             :ui="{ trailing: 'pe-1' }"
             class="w-full"
@@ -22,12 +22,10 @@
                 :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
                 :aria-label="show ? 'Hide password' : 'Show password'"
                 :aria-pressed="show"
-                aria-controls="password"
                 @click="show = !show"
               />
             </template>
           </UInput>
-        </UFormField>
 
         <UProgress
           :color="color"
@@ -37,27 +35,27 @@
           size="sm"
         />
 
-        <p id="password-strength" class="text-sm font-medium">
-          {{ text }}. Musi zawierać:
-        </p>
+          <p id="password-strength" class="text-sm font-medium">
+            {{ text }}. Musi zawierać:
+          </p>
 
-        <ul class="space-y-1" aria-label="Password requirements">
-          <li
-            v-for="(req, index) in strength"
-            :key="index"
-            class="flex items-center gap-0.5"
-            :class="req.met ? 'text-success' : 'text-muted'"
-          >
-            <UIcon :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'" class="size-4 shrink-0" />
-
-            <span class="text-xs font-light">
-              {{ req.text }}
-              <span class="sr-only">
-                {{ req.met ? ' - Requirement met' : ' - Requirement not met' }}
+          <ul class="space-y-1" aria-label="Password requirements">
+            <li
+              v-for="(req, index) in strength"
+              :key="index"
+              class="flex items-center gap-0.5"
+              :class="req.met ? 'text-success' : 'text-muted'"
+            >
+              <UIcon :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'" class="size-4 shrink-0" />
+              <span class="text-xs font-light">
+                {{ req.text }}
+                <span class="sr-only">
+                  {{ req.met ? ' - Requirement met' : ' - Requirement not met' }}
+                </span>
               </span>
-            </span>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </UFormField>
       </div>
 
       <UFormField label="Powtórz nowe hasło" name="confirmNewPassword">
@@ -77,15 +75,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref, computed } from "vue";
 import * as v from "valibot";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
 const schema = v.object({
-  newPassword: v.pipe(
-    v.string(),
-    v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
-  ),
+  newPassword: v.pipe(v.string(), v.minLength(8, "Hasło musi mieć co najmniej 8 znaków")),
   confirmNewPassword: v.string(),
 });
 
@@ -96,27 +91,8 @@ const state = reactive<Schema>({
   confirmNewPassword: "",
 });
 
+const show = ref(false);
 const toast = useToast();
-
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  if (state.newPassword !== state.confirmNewPassword) {
-    toast.add({
-      title: "Błąd",
-      description: "Hasła nie są takie same",
-      color: "error",
-    });
-    return;
-  }
-
-  toast.add({
-    title: "Sukces",
-    description: "Hasło zostało zmienione.",
-    color: "success",
-  });
-}
-
-const show = ref(false)
-const password = ref('')
 
 function checkStrength(str: string) {
   const requirements = [
@@ -124,14 +100,13 @@ function checkStrength(str: string) {
     { regex: /\d/, text: 'Przynajmniej 1 cyfra' },
     { regex: /[a-z]/, text: 'Przynajmniej 1 mała litera' },
     { regex: /[A-Z]/, text: 'Przynajmniej 1 duża litera' }
-  ]
+  ];
 
-  return requirements.map(req => ({ met: req.regex.test(str), text: req.text }))
+  return requirements.map(req => ({ met: req.regex.test(str), text: req.text }));
 }
 
-const strength = computed(() => checkStrength(password.value))
-const score = computed(() => strength.value.filter(req => req.met).length)
-
+const strength = computed(() => checkStrength(state.newPassword));
+const score = computed(() => strength.value.filter(req => req.met).length);
 const color = computed(() => {
   if (score.value === 0) return 'neutral'
   if (score.value <= 1) return 'error'
@@ -141,11 +116,20 @@ const color = computed(() => {
 })
 
 const text = computed(() => {
-  if (score.value === 0) return 'Wprowadź hasło'
-  if (score.value <= 2) return 'Słabe hasło'
-  if (score.value === 3) return 'Średnie hasło'
-  return 'Silne hasło'
-})
+  if (score.value === 0) return 'Wprowadź hasło';
+  if (score.value <= 2) return 'Słabe hasło';
+  if (score.value === 3) return 'Średnie hasło';
+  return 'Silne hasło';
+});
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  if (state.newPassword !== state.confirmNewPassword) {
+    toast.add({ title: "Błąd", description: "Hasła nie są takie same", color: "error" });
+    return;
+  }
+
+  toast.add({ title: "Sukces", description: "Hasło zostało zmienione.", color: "success" });
+}
 </script>
 
 <style scoped>

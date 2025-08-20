@@ -4,7 +4,7 @@
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" required>
-        <UInput v-model="email" placeholder="Wprowadź email" icon="i-lucide-at-sign" />
+        <UInput v-model="state.email" placeholder="Wprowadź email" icon="i-lucide-at-sign" />
       </UFormField>
 
       <NuxtLink to="/new-password">
@@ -33,13 +33,13 @@ const toast = useToast();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!event.data) return;
+
   toast.add({
     title: "Sukces",
     description: "Formularz został wysłany.",
     color: "success",
   });
 }
-const email = ref('')
 </script>
 
 <style scoped>
