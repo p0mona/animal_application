@@ -63,7 +63,9 @@
                     {{ req.text }}
                     <span class="sr-only">
                       {{
-                        req.met ? " - Requirement met" : " - Requirement not met"
+                        req.met
+                          ? " - Requirement met"
+                          : " - Requirement not met"
                       }}
                     </span>
                   </span>

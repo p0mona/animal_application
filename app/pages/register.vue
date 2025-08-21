@@ -67,7 +67,9 @@
                 :class="req.met ? 'text-success' : 'text-muted'"
               >
                 <UIcon
-                  :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'"
+                  :name="
+                    req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
+                  "
                   class="size-4 shrink-0"
                 />
 

@@ -73,7 +73,9 @@
         </div>
 
         <div class="w-full">
-          <label for="birthday" class="text-sm mb-1 block">Data urodzenia</label>
+          <label for="birthday" class="text-sm mb-1 block"
+            >Data urodzenia</label
+          >
           <UInput
             id="birthday"
             type="date"
