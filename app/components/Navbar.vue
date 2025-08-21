@@ -65,6 +65,9 @@
           <li>
             <NuxtLink to="/account" @click="isOpen = false">Konto</NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/settings" @click="isOpen = false">Ustawienia</NuxtLink>
+          </li>
         </ul>
       </nav>
     </div>
