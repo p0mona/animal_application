@@ -302,7 +302,7 @@
                       <p class="text-sm mb-1">Język</p>
                       <USelect
                         v-model="preferences.language"
-                        :options="languageOptions"
+                        :items="languageOptions"
                         class="w-full"
                       />
                     </UFormGroup>
@@ -315,7 +315,7 @@
                       <p class="text-sm mb-1">Strefa czasowa</p>
                       <USelect
                         v-model="preferences.timezone"
-                        :options="timezoneOptions"
+                        :items="timezoneOptions"
                         class="w-full"
                       />
                     </UFormGroup>
@@ -324,14 +324,14 @@
                       <p class="text-sm mb-1">Motyw</p>
                       <USelect
                         v-model="preferences.theme"
-                        :options="themeOptions"
+                        :items="themeOptions"
                         class="w-full"
                       />
                     </UFormGroup>
                   </div>
 
                   <UButton type="submit" color="primary" :loading="saving">
-                    Zapisz preferencje
+                    Zapisz
                   </UButton>
                 </UForm>
               </div>
@@ -345,7 +345,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { FormSubmitEvent } from "#ui/types";
 import type { RadioGroupItem } from "@nuxt/ui";
 
 const activeTab = ref("profile");
