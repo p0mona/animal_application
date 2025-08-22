@@ -11,8 +11,8 @@
               v-model="form.image"
               color="neutral"
               highlight
-              label="Drop your image here"
-              description="SVG, PNG, JPG or GIF (max. 2MB)"
+              label="Przeciągnij plik tutaj "
+              description="SVG, PNG, JPG or GIF (maks. 2MB)"
               class="w-full min-h-24"
               :dropzone="true"
             />

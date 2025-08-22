@@ -24,7 +24,7 @@
       <div
         v-if="isOpen"
         @click="isOpen = false"
-        style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5)"
+        style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 50;"
       ></div>
 
       <!-- Боковое меню -->
@@ -39,6 +39,7 @@
           padding: '20px',
           transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.3s ease',
+          zIndex: 100
         }"
       >
         <button
