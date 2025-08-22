@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4">
       <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
-        <h1 class="mb-5">Zarejestruj się</h1>
+        <h1 class="mb-5 text-3xl font-bold">Zarejestruj się</h1>
 
         <UForm
           :schema="schema"

@@ -10,8 +10,6 @@
             <UButton color="primary" variant="ghost" size="lg" />
           </div>
 
-          <!-- изменить раположение элементов -->
-
           <!-- Mobile Navigation -->
           <div class="sm:hidden mb-6">
             <div
