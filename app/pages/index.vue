@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-primary">
+  <div class="min-h-screen bg-primary relative">
     <div class="flex justify-center p-4 bg-primary">
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
@@ -22,11 +22,31 @@
         </section>
       </div>
     </div>
+
+    <!-- Круглая SOS кнопка -->
+    <UButton
+      class="fixed bottom-6 right-6 bg-[#9370DB] hover:bg-[#7B68EE] text-white font-bold w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
+      :loading="saving"
+      @click="handleSOS"
+    >
+      SOS
+    </UButton>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import ArticleCard from "/Users/polinabezukladnova/Desktop/animals_app/app/components/ArticleCard.vue";
+
+const saving = ref(false);
+
+function handleSOS() {
+  saving.value = true;
+  setTimeout(() => {
+    alert("Wezwanie SOS wysłane!");
+    saving.value = false;
+  }, 1500);
+}
 
 const articles = [
   {

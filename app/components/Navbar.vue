@@ -76,6 +76,14 @@
               >Ustawienia</NuxtLink
             >
           </li>
+          <li>
+            <NuxtLink to="/tracker" @click="isOpen = false">Tracker</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/documents" @click="isOpen = false"
+              >Dokumenty</NuxtLink
+            >
+          </li>
         </ul>
       </nav>
     </div>

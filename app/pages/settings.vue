@@ -392,13 +392,13 @@ const twoFactorEnabled = ref(false);
 const languageOptions = [
   { value: "pl", label: "Polski" },
   { value: "en", label: "English" },
-  { value: "de", label: "Deutsch" },
+  { value: "ru", label: "Русский" },
 ];
 
 const timezoneOptions = [
   { value: "Europe/Warsaw", label: "Warszawa (UTC+1)" },
   { value: "Europe/London", label: "Londyn (UTC+0)" },
-  { value: "Europe/Berlin", label: "Berlin (UTC+1)" },
+  { value: "Europe/Berlin", label: "Moskwa (UTC+2)" },
 ];
 
 const themeOptions = [
