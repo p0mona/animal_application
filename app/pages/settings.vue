@@ -24,7 +24,7 @@
                 :color="activeTab === item.key ? 'primary' : 'neutral'"
                 variant="ghost"
                 size="lg"
-                :ui="{ rounded: 'rounded-full' }"
+                class="rounded-full"
                 @click="activeTab = item.key"
               />
             </div>
@@ -73,24 +73,50 @@
                   >
                     <USelectMenu placeholder="Pies" :items="animals" />
                     <USelectMenu placeholder="Akita Inu" :items="breeds" />
+
                     <UFormGroup label="Animal_name" name="animal_name">
-                      <UInput v-model="profile.animal_name" type="text" class="w-full"/>
+                      <p class="text-sm mb-1">Imię</p>
+                      <UInput
+                        v-model="profile.animal_name"
+                        type="text"
+                        class="w-full"
+                      />
                     </UFormGroup>
 
                     <UFormGroup label="Animal_age" name="animal_age">
-                      <UInput v-model="profile.animal_age" type="number" class="w-full"/>
+                      <p class="text-sm mb-1">Wiek</p>
+                      <UInput
+                        v-model="profile.animal_age"
+                        type="number"
+                        class="w-full"
+                      />
                     </UFormGroup>
 
                     <UFormGroup label="Animal_height" name="animal_height">
-                      <UInput v-model="profile.animal_height" type="number" class="w-full"/>
+                      <p class="text-sm mb-1">Wzrost</p>
+                      <UInput
+                        v-model="profile.animal_height"
+                        type="number"
+                        class="w-full"
+                      />
                     </UFormGroup>
 
                     <UFormGroup label="Animal_weight" name="animal_weight">
-                      <UInput v-model="profile.animal_weight" type="number" class="w-full"/>
+                      <p class="text-sm mb-1">Waga</p>
+                      <UInput
+                        v-model="profile.animal_weight"
+                        type="number"
+                        class="w-full"
+                      />
                     </UFormGroup>
 
                     <UFormGroup label="Chip" name="chip">
-                      <UInput v-model="profile.chip" type="text" class="w-full"/>
+                      <p class="text-sm mb-1">Nr chipu</p>
+                      <UInput
+                        v-model="profile.chip"
+                        type="text"
+                        class="w-full"
+                      />
                     </UFormGroup>
                   </UForm>
                 </div>
@@ -104,7 +130,12 @@
                     class="grid gap-4"
                   >
                     <UFormGroup label="Name" name="name">
-                      <UInput v-model="profile.name" type="text" class="w-full"/>
+                      <p class="text-sm mb-1">Imię</p>
+                      <UInput
+                        v-model="profile.name"
+                        type="text"
+                        class="w-full"
+                      />
                     </UFormGroup>
 
                     <URadioGroup
@@ -115,6 +146,7 @@
                     />
 
                     <UFormGroup label="Birthday" name="birthday">
+                      <p class="text-sm mb-1">Data urodzenia</p>
                       <UInput
                         id="birthday"
                         type="date"
@@ -123,7 +155,7 @@
                       />
                     </UFormGroup>
 
-                    <div class="flex justify-end ">
+                    <div class="flex justify-end">
                       <UButton type="button" color="primary">
                         Zapisz zmiany
                       </UButton>
@@ -143,54 +175,58 @@
                 </h2>
               </template>
 
-              <div class="space-y-6">
-                <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                  <div class="flex items-center space-x-2">
-                    <UIcon
-                      name="i-heroicons-shield-check"
-                      class="w-5 h-5 text-green-600 dark:text-green-400"
-                    />
-                    <span class="text-green-800 dark:text-green-200"
-                      >Twoje konto jest zabezpieczone</span
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-6">
+                  <UForm
+                    :schema="securitySchema"
+                    :state="security"
+                    class="space-y-4"
+                  >
+                    <UFormGroup label="Obecne hasło" name="currentPassword">
+                      <p class="text-sm mb-1">Obecne hasło</p>
+                      <UInput
+                        v-model="security.currentPassword"
+                        type="password"
+                        class="w-full"
+                      />
+                    </UFormGroup>
+
+                    <UFormGroup label="Nowe hasło" name="newPassword">
+                      <p class="text-sm mb-1">Nowe hasło</p>
+                      <UInput
+                        v-model="security.newPassword"
+                        type="password"
+                        class="w-full"
+                      />
+                    </UFormGroup>
+
+                    <UFormGroup
+                      label="Potwierdź nowe hasło"
+                      name="confirmPassword"
                     >
-                  </div>
+                      <p class="text-sm mb-1">Potwierdź nowe hasło</p>
+                      <UInput
+                        v-model="security.confirmPassword"
+                        type="password"
+                        class="w-full"
+                      />
+                    </UFormGroup>
+
+                    <UButton
+                      type="submit"
+                      color="primary"
+                      :loading="saving"
+                      class="mt-2"
+                    >
+                      Zmień hasło
+                    </UButton>
+                  </UForm>
+
+                  <UDivider />
                 </div>
 
-                <UForm
-                  :schema="securitySchema"
-                  :state="security"
-                  class="space-y-4"
-                >
-                  <UFormGroup label="Obecne hasło" name="currentPassword">
-                    <UInput
-                      v-model="security.currentPassword"
-                      type="password"
-                    />
-                  </UFormGroup>
-
-                  <UFormGroup label="Nowe hasło" name="newPassword">
-                    <UInput v-model="security.newPassword" type="password" />
-                  </UFormGroup>
-
-                  <UFormGroup
-                    label="Potwierdź nowe hasło"
-                    name="confirmPassword"
-                  >
-                    <UInput
-                      v-model="security.confirmPassword"
-                      type="password"
-                    />
-                  </UFormGroup>
-
-                  <UButton type="submit" color="primary" :loading="saving">
-                    Zmień hasło
-                  </UButton>
-                </UForm>
-
-                <UDivider />
-
                 <div>
-                  <h3 class="text-lg font-medium mb-4">
+                  <h3 class="text-sm font-medium mb-4">
                     Uwierzytelnianie dwuskładnikowe
                   </h3>
                   <USwitch v-model="twoFactorEnabled" label="Włącz 2FA" />
@@ -260,40 +296,42 @@
                 </h2>
               </template>
 
-              <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <UForm :state="preferences">
-                  <div class="space-y-4">
-                    <UFormGroup label="Język" name="language">
+                  <div class="space-y-4 space-x-4">
+                    <UFormGroup label="Język" name="language" class="space-y-4">
+                      <p class="text-sm mb-1">Język</p>
                       <USelect
                         v-model="preferences.language"
                         :options="languageOptions"
-                        placeholder="Wybierz język"
+                        class="w-full"
                       />
                     </UFormGroup>
 
-                    <UFormGroup label="Strefa czasowa" name="timezone">
+                    <UFormGroup
+                      label="Strefa czasowa"
+                      name="timezone"
+                      class="space-y-4"
+                    >
+                      <p class="text-sm mb-1">Strefa czasowa</p>
                       <USelect
                         v-model="preferences.timezone"
                         :options="timezoneOptions"
-                        placeholder="Wybierz strefę czasową"
+                        class="w-full"
                       />
                     </UFormGroup>
 
-                    <UFormGroup label="Motyw" name="theme">
+                    <UFormGroup label="Motyw" name="theme" class="space-y-4">
+                      <p class="text-sm mb-1">Motyw</p>
                       <USelect
                         v-model="preferences.theme"
                         :options="themeOptions"
-                        placeholder="Wybierz motyw"
+                        class="w-full"
                       />
                     </UFormGroup>
                   </div>
 
-                  <UButton
-                    type="submit"
-                    color="primary"
-                    class="mt-6"
-                    :loading="saving"
-                  >
+                  <UButton type="submit" color="primary" :loading="saving">
                     Zapisz preferencje
                   </UButton>
                 </UForm>
