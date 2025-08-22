@@ -35,17 +35,17 @@
 
           <div class="w-full">
             <p class="text-sm mb-1">Wpisz wiek</p>
-            <UInput v-model="form.age" class="w-full" />
+            <UInput v-model="form.animal_age" class="w-full" />
           </div>
 
           <div class="w-full">
             <p class="text-sm mb-1">Wpisz wzrost</p>
-            <UInput v-model="form.height" class="w-full" />
+            <UInput v-model="form.animal_height" class="w-full" />
           </div>
 
           <div class="w-full">
             <p class="text-sm mb-1">Wpisz wagę</p>
-            <UInput v-model="form.weight" class="w-full" />
+            <UInput v-model="form.animal_weight" class="w-full" />
           </div>
 
           <div class="w-full">
@@ -100,9 +100,9 @@ const form = reactive({
   animal_type: "",
   breed: "",
   animal_name: "",
-  age: "",
-  height: "",
-  weight: "",
+  animal_age: "",
+  animal_height: "",
+  animal_weight: "",
   chip: "",
   name: "",
   birthday: "",
