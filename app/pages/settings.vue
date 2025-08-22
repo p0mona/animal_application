@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4 bg-primary">
-      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
         <UContainer class="py-8">
           <div class="flex items-center justify-between mb-8">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
@@ -168,15 +168,15 @@
 
           <!-- Security Content -->
           <div v-else-if="activeTab === 'security'" class="space-y-6">
-            <UCard>
+            <UCard class="w-full">
               <template #header>
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
                   Bezpieczeństwo
                 </h2>
               </template>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                <div class="w-full min-w-0">
                   <UForm
                     :schema="securitySchema"
                     :state="security"
@@ -187,7 +187,7 @@
                       <UInput
                         v-model="security.currentPassword"
                         type="password"
-                        class="w-full"
+                        class="w-full max-w-full"
                       />
                     </UFormGroup>
 
@@ -196,7 +196,7 @@
                       <UInput
                         v-model="security.newPassword"
                         type="password"
-                        class="w-full"
+                        class="w-full max-w-full"
                       />
                     </UFormGroup>
 
@@ -208,28 +208,27 @@
                       <UInput
                         v-model="security.confirmPassword"
                         type="password"
-                        class="w-full"
+                        class="w-full max-w-full"
                       />
                     </UFormGroup>
 
-                    <UButton
-                      type="submit"
-                      color="primary"
-                      :loading="saving"
-                      class="mt-2"
-                    >
-                      Zmień hasło
-                    </UButton>
+                    <div class="flex justify-end">
+                      <UButton type="submit" color="primary" :loading="saving">
+                        Zmień hasło
+                      </UButton>
+                    </div>
                   </UForm>
-
-                  <UDivider />
                 </div>
 
-                <div>
+                <div class="w-full min-w-0">
                   <h3 class="text-sm font-medium mb-4">
                     Uwierzytelnianie dwuskładnikowe
                   </h3>
-                  <USwitch v-model="twoFactorEnabled" label="Włącz 2FA" />
+                  <USwitch
+                    v-model="twoFactorEnabled"
+                    label="Włącz 2FA"
+                    class="w-full max-w-full"
+                  />
                 </div>
               </div>
             </UCard>
