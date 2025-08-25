@@ -61,6 +61,11 @@
         </button>
         <ul style="display: flex; flex-direction: column; gap: 15px">
           <li>
+            <NuxtLink to="/" @click="isOpen = false"
+              >Strona główna</NuxtLink
+            >
+          </li>
+          <li>
             <NuxtLink to="/register" @click="isOpen = false"
               >Zarejestruj się</NuxtLink
             >
