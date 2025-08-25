@@ -20,7 +20,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string;
-  author: string;
+  author?: string;
   date: string;
   image: string;
   excerpt: string;
