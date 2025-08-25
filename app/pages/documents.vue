@@ -6,20 +6,16 @@
           Dokumenty
         </h1>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="underline cursor-pointer">
-            <ul>
-              Książka zdrowia
-            </ul>
-            <ul>
-              Paszport
-            </ul>
-            <ul>
-              Metryka
-            </ul>
-          </div>
-
+          <ul class="list-disc list-inside underline cursor-pointer">
+            <li>Książka zdrowia</li>
+            <li>Paszport</li>
+            <li>Metryka</li>
+          </ul>
           <div>
-            <UFileUpload label="Przeciągnij plik tutaj" class="w-full min-h-48 max-w-md" />
+            <UFileUpload
+              label="Przeciągnij plik tutaj"
+              class="w-full min-h-48 max-w-md"
+            />
           </div>
         </div>
       </div>

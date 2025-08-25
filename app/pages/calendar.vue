@@ -10,6 +10,17 @@
               Przypomnienia
             </h3>
             <UCalendar multiple />
+
+            <h5 class="mt-7 font-semibold">Najbliższe szczepienie:</h5>
+            <p>Termin: -----</p>
+            <p>Przychodnia: -----</p>
+            <p>Nazwa szczepienia: -----</p>
+
+            <h5 class="mt-7 font-semibold">
+              Najbliższa terapia przeciwpasożytnicza:
+            </h5>
+            <p>Termin: -----</p>
+            <p>Lek: -----</p>
           </div>
 
           <div>
