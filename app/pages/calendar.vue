@@ -1,34 +1,31 @@
 <template>
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4 bg-primary">
-      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3
-              class="text-xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
+          <div class="space-y-4">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
               Przypomnienia
-            </h3>
+            </h1>
             <UCalendar multiple />
+            <div class="space-y-1">
+              <h5 class="font-semibold">Najbliższe szczepienie:</h5>
+              <p>Termin: -----</p>
+              <p>Przychodnia: -----</p>
+              <p>Nazwa szczepienia: -----</p>
 
-            <h5 class="mt-7 font-semibold">Najbliższe szczepienie:</h5>
-            <p>Termin: -----</p>
-            <p>Przychodnia: -----</p>
-            <p>Nazwa szczepienia: -----</p>
-
-            <h5 class="mt-7 font-semibold">
-              Najbliższa terapia przeciwpasożytnicza:
-            </h5>
-            <p>Termin: -----</p>
-            <p>Lek: -----</p>
+              <h5 class="font-semibold">
+                Najbliższa terapia przeciwpasożytnicza:
+              </h5>
+              <p>Termin: -----</p>
+              <p>Lek: -----</p>
+            </div>
           </div>
 
-          <div>
-            <h3
-              class="text-xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
+          <div class="space-y-4">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
               Tracker wagi i wzrostu
-            </h3>
+            </h1>
 
             <!-- Фальшивый график -->
             <svg
@@ -85,7 +82,7 @@
 
             <!-- История записей -->
             <div v-if="entries.length" class="space-y-4">
-              <h2 class="font-semibold text-lg">Historia:</h2>
+              <h2 class="font-semibold text-lg mt-4">Historia:</h2>
 
               <!-- Список с данными -->
               <ul class="divide-y">

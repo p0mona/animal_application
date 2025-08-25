@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4">
       <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
-        <h1 class="mb-5 text-3xl font-bold">Zarejestruj się</h1>
+        <h1 class="mb-4 text-xl font-bold">Zarejestruj się</h1>
 
         <UForm
           :schema="schema"
@@ -59,7 +59,7 @@
               {{ text }}. Musi zawierać:
             </p>
 
-            <ul class="space-y-1" aria-label="Password requirements">
+            <ul class="space-y-2" aria-label="Password requirements">
               <li
                 v-for="(req, index) in strength"
                 :key="index"
@@ -105,7 +105,7 @@
           <UButton type="submit">Zarejestruj się</UButton>
         </UForm>
 
-        <p class="mt-3">
+        <p class="mt-2">
           Już masz konto? <NuxtLink to="/login">Zalogować się</NuxtLink>
         </p>
       </div>

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-primary relative">
     <div class="flex justify-center p-4 bg-primary">
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">
           Strona główna
         </h1>
 

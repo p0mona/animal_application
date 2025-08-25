@@ -4,7 +4,7 @@
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
         <UContainer class="py-8">
           <div class="flex items-center justify-between mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
               Ustawienia
             </h1>
             <UButton color="primary" variant="ghost" size="lg" />
@@ -31,7 +31,7 @@
           <!-- Desktop Navigation -->
           <div class="hidden sm:block mb-6">
             <div
-              class="flex space-x-1 bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm"
+              class="flex space-x-2 bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm"
             >
               <UButton
                 v-for="item in navItems"
@@ -52,10 +52,10 @@
           </div>
 
           <!-- Profile Content -->
-          <div v-if="activeTab === 'profile'" class="space-y-6">
+          <div v-if="activeTab === 'profile'" class="space-y-4">
             <UCard>
               <template #header>
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Profil
                 </h2>
               </template>
@@ -63,7 +63,7 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Pupil Section -->
                 <div>
-                  <h3 class="text-lg font-medium mb-4">Pupil</h3>
+                  <h3 class="text-base font-semibold mb-4">Pupil</h3>
                   <UForm
                     :schema="profileSchema"
                     :state="profile"
@@ -73,7 +73,7 @@
                     <USelectMenu placeholder="Akita Inu" :items="breeds" />
 
                     <UFormGroup label="Animal_name" name="animal_name">
-                      <p class="text-sm mb-1">Imię</p>
+                      <p class="text-sm mb-2">Imię</p>
                       <UInput
                         v-model="profile.animal_name"
                         type="text"
@@ -82,7 +82,7 @@
                     </UFormGroup>
 
                     <UFormGroup label="Animal_age" name="animal_age">
-                      <p class="text-sm mb-1">Wiek</p>
+                      <p class="text-sm mb-2">Wiek</p>
                       <UInput
                         v-model="profile.animal_age"
                         type="number"
@@ -91,7 +91,7 @@
                     </UFormGroup>
 
                     <UFormGroup label="Animal_height" name="animal_height">
-                      <p class="text-sm mb-1">Wzrost</p>
+                      <p class="text-sm mb-2">Wzrost</p>
                       <UInput
                         v-model="profile.animal_height"
                         type="number"
@@ -100,7 +100,7 @@
                     </UFormGroup>
 
                     <UFormGroup label="Animal_weight" name="animal_weight">
-                      <p class="text-sm mb-1">Waga</p>
+                      <p class="text-sm mb-2">Waga</p>
                       <UInput
                         v-model="profile.animal_weight"
                         type="number"
@@ -109,7 +109,7 @@
                     </UFormGroup>
 
                     <UFormGroup label="Chip" name="chip">
-                      <p class="text-sm mb-1">Nr chipu</p>
+                      <p class="text-sm mb-2">Nr chipu</p>
                       <UInput
                         v-model="profile.chip"
                         type="text"
@@ -121,14 +121,14 @@
 
                 <!-- Owner Section -->
                 <div>
-                  <h3 class="text-lg font-medium mb-4">Właściciel</h3>
+                  <h3 class="text-base font-semibold mb-4">Właściciel</h3>
                   <UForm
                     :schema="profileSchema"
                     :state="profile"
                     class="grid gap-4"
                   >
                     <UFormGroup label="Name" name="name">
-                      <p class="text-sm mb-1">Imię</p>
+                      <p class="text-sm mb-2">Imię</p>
                       <UInput
                         v-model="profile.name"
                         type="text"
@@ -144,7 +144,7 @@
                     />
 
                     <UFormGroup label="Birthday" name="birthday">
-                      <p class="text-sm mb-1">Data urodzenia</p>
+                      <p class="text-sm mb-2">Data urodzenia</p>
                       <UInput
                         id="birthday"
                         type="date"
@@ -165,10 +165,10 @@
           </div>
 
           <!-- Security Content -->
-          <div v-else-if="activeTab === 'security'" class="space-y-6">
+          <div v-else-if="activeTab === 'security'" class="space-y-4">
             <UCard class="w-full">
               <template #header>
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Bezpieczeństwo
                 </h2>
               </template>
@@ -181,7 +181,7 @@
                     class="space-y-4"
                   >
                     <UFormGroup label="Obecne hasło" name="currentPassword">
-                      <p class="text-sm mb-1">Obecne hasło</p>
+                      <p class="text-sm mb-2">Obecne hasło</p>
                       <UInput
                         v-model="security.currentPassword"
                         type="password"
@@ -190,7 +190,7 @@
                     </UFormGroup>
 
                     <UFormGroup label="Nowe hasło" name="newPassword">
-                      <p class="text-sm mb-1">Nowe hasło</p>
+                      <p class="text-sm mb-2">Nowe hasło</p>
                       <UInput
                         v-model="security.newPassword"
                         type="password"
@@ -202,7 +202,7 @@
                       label="Potwierdź nowe hasło"
                       name="confirmPassword"
                     >
-                      <p class="text-sm mb-1">Potwierdź nowe hasło</p>
+                      <p class="text-sm mb-2">Potwierdź nowe hasło</p>
                       <UInput
                         v-model="security.confirmPassword"
                         type="password"
@@ -233,18 +233,18 @@
           </div>
 
           <!-- Notifications Content -->
-          <div v-else-if="activeTab === 'notifications'" class="space-y-6">
+          <div v-else-if="activeTab === 'notifications'" class="space-y-4">
             <UCard>
               <template #header>
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Powiadomienia
                 </h2>
               </template>
 
-              <div class="space-y-6">
+              <div class="space-y-4">
                 <UForm :state="notifications">
                   <div class="space-y-4">
-                    <h3 class="text-lg font-medium">Kanały powiadomień</h3>
+                    <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
                     <UCheckbox v-model="notifications.email" label="Email" />
                     <UCheckbox
@@ -255,7 +255,7 @@
 
                     <UDivider />
 
-                    <h3 class="text-lg font-medium">Typy powiadomień</h3>
+                    <h3 class="text-base font-semibold">Typy powiadomień</h3>
 
                     <UCheckbox
                       v-model="notifications.news"
@@ -274,7 +274,7 @@
                   <UButton
                     type="submit"
                     color="primary"
-                    class="mt-6"
+                    class="mt-4"
                     :loading="saving"
                   >
                     Zapisz ustawienia
@@ -285,10 +285,10 @@
           </div>
 
           <!-- Preferences Content -->
-          <div v-else-if="activeTab === 'preferences'" class="space-y-6">
+          <div v-else-if="activeTab === 'preferences'" class="space-y-4">
             <UCard>
               <template #header>
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Preferencje
                 </h2>
               </template>
@@ -296,8 +296,8 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <UForm :state="preferences">
                   <div class="space-y-4 space-x-4">
-                    <UFormGroup label="Język" name="language" class="space-y-4">
-                      <p class="text-sm mb-1">Język</p>
+                    <UFormGroup label="Język" name="language" class="space-y-2">
+                      <p class="text-sm">Język</p>
                       <USelect
                         v-model="preferences.language"
                         :items="languageOptions"
@@ -308,9 +308,9 @@
                     <UFormGroup
                       label="Strefa czasowa"
                       name="timezone"
-                      class="space-y-4"
+                      class="space-y-2"
                     >
-                      <p class="text-sm mb-1">Strefa czasowa</p>
+                      <p class="text-sm">Strefa czasowa</p>
                       <USelect
                         v-model="preferences.timezone"
                         :items="timezoneOptions"
@@ -318,8 +318,8 @@
                       />
                     </UFormGroup>
 
-                    <UFormGroup label="Motyw" name="theme" class="space-y-4">
-                      <p class="text-sm mb-1">Motyw</p>
+                    <UFormGroup label="Motyw" name="theme" class="space-y-2">
+                      <p class="text-sm">Motyw</p>
                       <USelect
                         v-model="preferences.theme"
                         :items="themeOptions"

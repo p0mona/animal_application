@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4">
-      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 mt-8">
-        <h1 class="mb-5 text-3xl font-bold">Ustaw nowe hasło</h1>
+      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+        <h1 class="mb-5 text-xl font-bold">Ustaw nowe hasło</h1>
 
         <UForm
           :schema="schema"
@@ -10,7 +10,7 @@
           class="space-y-4"
           @submit="onSubmit"
         >
-          <div class="space-y-2">
+          <div>
             <UFormField label="Nowe hasło" name="newPassword">
               <UInput
                 v-model="state.newPassword"
@@ -42,11 +42,11 @@
                 size="sm"
               />
 
-              <p id="password-strength" class="text-sm font-medium">
+              <p id="password-strength" class="text-sm font-medium mt-4 mb-2">
                 {{ text }}. Musi zawierać:
               </p>
 
-              <ul class="space-y-1" aria-label="Password requirements">
+              <ul class="space-y-2" aria-label="Password requirements">
                 <li
                   v-for="(req, index) in strength"
                   :key="index"
