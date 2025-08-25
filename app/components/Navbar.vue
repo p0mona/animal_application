@@ -86,6 +86,11 @@
               >Dokumenty</NuxtLink
             >
           </li>
+          <li>
+            <NuxtLink to="/vet" @click="isOpen = false"
+              >Klinika weterynaryjna</NuxtLink
+            >
+          </li>
         </ul>
       </nav>
     </div>
