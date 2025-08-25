@@ -17,7 +17,7 @@
           />
           <!-- Линия роста -->
           <polyline
-            points="0,30 10,29 20,28 30,27 40,27 50,26 60,25 70,24 80,24 90,23 100,22"
+            points=2
             fill="none"
             stroke="orchid"
             stroke-width="2"

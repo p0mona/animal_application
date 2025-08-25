@@ -77,7 +77,7 @@
             >
           </li>
           <li>
-            <NuxtLink to="/tracker" @click="isOpen = false">Tracker</NuxtLink>
+            <NuxtLink to="/calendar" @click="isOpen = false">Kalendarz</NuxtLink>
           </li>
           <li>
             <NuxtLink to="/documents" @click="isOpen = false"

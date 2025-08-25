@@ -94,7 +94,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import ArticleCard from "/Users/polinabezukladnova/Desktop/animals_app/app/components/ArticleCard.vue";
-import { any } from "valibot";
 
 const navItems = [
   { key: "article", label: "Artykuły", icon: "heroicons:book-open" },
