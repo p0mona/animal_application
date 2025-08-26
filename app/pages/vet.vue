@@ -4,12 +4,20 @@
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
         <h1 class="text-xl font-bold text-gray-900">Klinika weterynaryjna</h1>
 
-        <div>
-          <h5 class="font-semibold">Moja przychodnia</h5>
-          <p>Nazwa: -----</p>
-          <p>Adres: -----</p>
-          <p>Godziny otwarcia: -----</p>
-          <p>Telefon: -----</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h5 class="font-semibold">Moja przychodnia</h5>
+            <p>Nazwa: -----</p>
+            <p>Adres: -----</p>
+            <p>Godziny otwarcia: -----</p>
+            <p>Kontakt: -----</p>
+          </div>
+
+          <div>
+            <h5 class="font-semibold">Mój weterynarz</h5>
+            <p>Imię: -----</p>
+            <p>Kontakt: -----</p>
+          </div>
         </div>
         <div>
           <h5 class="font-semibold mb-4">Mapa najbliższych przychodni</h5>

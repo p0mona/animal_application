@@ -5,7 +5,6 @@
         <UContainer class="py-8">
           <div class="flex items-center justify-between mb-8">
             <h1 class="text-xl font-bold text-gray-900">Ustawienia</h1>
-            <UButton color="primary" variant="ghost" size="lg" />
           </div>
 
           <!-- Mobile Navigation -->
