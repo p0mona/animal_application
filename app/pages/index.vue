@@ -77,6 +77,23 @@
             />
           </section>
         </div>
+        
+        <div v-if="activeTab === 'advice'" class="space-y-6">
+          <!-- Статьи -->
+          <section
+            class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            <ArticleCard
+              v-for="(article, index) in articles"
+              :key="index"
+              :title="article.title"
+              :author="article.author"
+              :date="article.date"
+              :image="article.image"
+              :excerpt="article.excerpt"
+            />
+          </section>
+        </div>
       </div>
     </div>
 
@@ -97,6 +114,7 @@ import ArticleCard from "/Users/polinabezukladnova/Desktop/animals_app/app/compo
 const navItems = [
   { key: "article", label: "Artykuły", icon: "heroicons:book-open" },
   { key: "abroad", label: "Za granicą", icon: "heroicons:identification" },
+  { key: "advice", label: "Porady", icon: "heroicons:arrow-trending-up-solid" },
 ];
 
 const activeTab = ref("article");
@@ -130,23 +148,44 @@ const articles = [
 const abroads = [
   {
     title: "Artykuł 1",
-    author: "Autor 1",
     date: "22 sierpnia 2025",
     image: "/images/cat-abroad1.jpeg",
     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   {
     title: "Artykuł 2",
-    author: "Autor 2",
     date: "21 kwietnia 2025",
     image: "/images/dog-abroad2.jpg",
     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   {
     title: "Artykuł 3",
-    author: "Autor 3",
     date: "20 lutego 2025",
     image: "/images/dog-abroad3.jpg",
+    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+];
+
+const advie = [
+  {
+    title: "Artykuł 1",
+    author: "Autor 1",
+    date: "22 sierpnia 2025",
+    image: "/images/dog-article1.jpg",
+    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    title: "Artykuł 2",
+    author: "Autor 2",
+    date: "21 kwietnia 2025",
+    image: "/images/cat-article2.jpg",
+    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    title: "Artykuł 3",
+    author: "Autor 3",
+    date: "20 lutego 2025",
+    image: "/images/parrot-article3.jpg",
     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
 ];
