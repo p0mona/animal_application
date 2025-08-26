@@ -80,8 +80,8 @@
             >
           </li>
           <li>
-            <NuxtLink to="/calendar" @click="isOpen = false"
-              >Kalendarz</NuxtLink
+            <NuxtLink to="/reminders" @click="isOpen = false"
+              >Przypomnienia</NuxtLink
             >
           </li>
           <li>
@@ -93,6 +93,9 @@
             <NuxtLink to="/vet" @click="isOpen = false"
               >Klinika weterynaryjna</NuxtLink
             >
+          </li>
+          <li>
+            <NuxtLink to="/tracker" @click="isOpen = false">Tracker</NuxtLink>
           </li>
         </ul>
       </nav>
