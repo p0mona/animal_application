@@ -5,17 +5,17 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-4">
             <h1 class="text-xl font-bold text-gray-900">Przypomnienia</h1>
-            <!-- Поменять цвет для дней недели и поправить график-не хватает одной линии-->
+           
             <UCalendar
               multiple
               :ui="{
                 cellTrigger: `
-        w-8 h-8 rounded-full
-        bg-transparent
-        [&:hover:not([data-selected])]:bg-violet-100 [&:hover:not([data-selected])]:text-violet-600
-        [&[data-selected]]:bg-violet-500 [&[data-selected]]:text-white
-        [&[data-today]:not([data-selected])]:text-violet-500 [&[data-today]:not([data-selected])]:font-bold
-      `,
+                  w-8 h-8 rounded-full
+                  bg-transparent
+                  [&:hover:not([data-selected])]:bg-violet-100 [&:hover:not([data-selected])]:text-violet-600
+                  [&[data-selected]]:bg-violet-500 [&[data-selected]]:text-white
+                  [&[data-today]:not([data-selected])]:text-violet-500 [&[data-today]:not([data-selected])]:font-bold
+                `,
               }"
               class="[&_thead_th]:text-violet-600 [&_tr_th]:text-violet-600"
             />
@@ -52,7 +52,7 @@
               />
               <!-- Линия роста -->
               <polyline
-                points="2"
+                points="0,30 10,28 20,27 30,26 40,25 50,24 60,23 70,22 80,21 90,20 100,19"
                 fill="none"
                 stroke="orchid"
                 stroke-width="2"
