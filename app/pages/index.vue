@@ -2,23 +2,24 @@
   <div class="min-h-screen bg-primary relative">
     <div class="flex justify-center p-4 bg-primary">
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
-        <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-          Strona główna
-        </h1>
+        <h1 class="text-xl font-bold text-gray-900">Strona główna</h1>
 
         <!-- Mobile Navigation -->
         <div class="sm:hidden mb-6">
-          <div
-            class="flex justify-around bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm"
-          >
+          <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
             <UButton
               v-for="item in navItems"
               :key="item.key"
               :icon="item.icon"
-              :color="activeTab === item.key ? 'primary' : 'neutral'"
+              :color="activeTab === item.key ? undefined : 'neutral'"
               variant="ghost"
               size="lg"
-              class="rounded-full"
+              :class="[
+                'rounded-full',
+                activeTab === item.key
+                  ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                  : '',
+              ]"
               @click="activeTab = item.key"
             />
           </div>
@@ -26,21 +27,19 @@
 
         <!-- Desktop Navigation -->
         <div class="hidden sm:block mb-6">
-          <div
-            class="flex space-x-1 bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm"
-          >
+          <div class="flex space-x-1 bg-white rounded-lg p-2 shadow-sm">
             <UButton
               v-for="item in navItems"
               :key="item.key"
               :icon="item.icon"
               :label="item.label"
-              :color="activeTab === item.key ? 'primary' : 'neutral'"
+              :color="activeTab === item.key ? undefined : 'neutral'"
               variant="ghost"
               :class="[
                 'flex items-center space-x-2 px-4 py-3',
                 activeTab === item.key
-                  ? 'bg-primary-50 dark:bg-primary-900/20'
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700',
+                  ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                  : 'hover:bg-gray-100',
               ]"
               @click="activeTab = item.key"
             />
@@ -83,7 +82,7 @@
 
     <!-- Круглая SOS кнопка -->
     <UButton
-      class="fixed bottom-6 right-6 bg-[#9370DB] hover:bg-[#7B68EE] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
+      class="fixed bottom-6 right-6 cursor-pointer bg-[#FF2400] hover:bg-[#e62000] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
       :loading="saving"
     >
       SOS

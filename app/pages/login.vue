@@ -30,7 +30,11 @@
             <UFormMessage />
           </UFormField>
 
-          <UButton type="submit">Zaloguj się</UButton>
+          <UButton
+            type="submit"
+            class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+            >Zaloguj się</UButton
+          >
         </UForm>
 
         <p class="mt-3">

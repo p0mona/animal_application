@@ -4,10 +4,21 @@
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-4">
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-              Przypomnienia
-            </h1>
-            <UCalendar multiple />
+            <h1 class="text-xl font-bold text-gray-900">Przypomnienia</h1>
+            <!-- Поменять цвет для дней недели и поправить график-не хватает одной линии-->
+            <UCalendar
+              multiple
+              :ui="{
+                cellTrigger: `
+        w-8 h-8 rounded-full
+        bg-transparent
+        [&:hover:not([data-selected])]:bg-violet-100 [&:hover:not([data-selected])]:text-violet-600
+        [&[data-selected]]:bg-violet-500 [&[data-selected]]:text-white
+        [&[data-today]:not([data-selected])]:text-violet-500 [&[data-today]:not([data-selected])]:font-bold
+      `,
+              }"
+              class="[&_thead_th]:text-violet-600 [&_tr_th]:text-violet-600"
+            />
             <div class="space-y-1">
               <h5 class="font-semibold">Najbliższe szczepienie:</h5>
               <p>Termin: -----</p>
@@ -23,7 +34,7 @@
           </div>
 
           <div class="space-y-4">
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
+            <h1 class="text-xl font-bold text-gray-900">
               Tracker wagi i wzrostu
             </h1>
 
@@ -77,7 +88,11 @@
                   required
                 />
               </div>
-              <UButton type="submit">Dodaj</UButton>
+              <UButton
+                type="submit"
+                class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                >Dodaj</UButton
+              >
             </form>
 
             <!-- История записей -->

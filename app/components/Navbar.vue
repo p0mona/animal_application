@@ -65,7 +65,7 @@
           </li>
           <li>
             <NuxtLink to="/register" @click="isOpen = false"
-              >Zarejestruj się</NuxtLink
+              >Załóż konto</NuxtLink
             >
           </li>
           <li>

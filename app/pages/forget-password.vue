@@ -20,7 +20,11 @@
           </UFormField>
 
           <NuxtLink to="/new-password">
-            <UButton type="button">Wyślij kod</UButton>
+            <UButton
+              type="button"
+              class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+              >Wyślij kod</UButton
+            >
           </NuxtLink>
         </UForm>
       </div>

@@ -85,7 +85,11 @@
           </UFormField>
 
           <NuxtLink to="/login">
-            <UButton type="button">Potwierdzam</UButton>
+            <UButton
+              type="button"
+              class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+              >Potwierdzam</UButton
+            >
           </NuxtLink>
         </UForm>
       </div>

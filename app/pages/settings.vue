@@ -4,25 +4,26 @@
       <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
         <UContainer class="py-8">
           <div class="flex items-center justify-between mb-8">
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-              Ustawienia
-            </h1>
+            <h1 class="text-xl font-bold text-gray-900">Ustawienia</h1>
             <UButton color="primary" variant="ghost" size="lg" />
           </div>
 
           <!-- Mobile Navigation -->
           <div class="sm:hidden mb-6">
-            <div
-              class="flex justify-around bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm"
-            >
+            <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
               <UButton
                 v-for="item in navItems"
                 :key="item.key"
                 :icon="item.icon"
-                :color="activeTab === item.key ? 'primary' : 'neutral'"
+                :color="activeTab === item.key ? undefined : 'neutral'"
                 variant="ghost"
                 size="lg"
-                class="rounded-full"
+                :class="[
+                  'rounded-full',
+                  activeTab === item.key
+                    ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                    : '',
+                ]"
                 @click="activeTab = item.key"
               />
             </div>
@@ -30,21 +31,19 @@
 
           <!-- Desktop Navigation -->
           <div class="hidden sm:block mb-6">
-            <div
-              class="flex space-x-2 bg-white dark:bg-gray-800 rounded-lg p-2 shadow-sm"
-            >
+            <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm">
               <UButton
                 v-for="item in navItems"
                 :key="item.key"
                 :icon="item.icon"
                 :label="item.label"
-                :color="activeTab === item.key ? 'primary' : 'neutral'"
+                :color="activeTab === item.key ? undefined : 'neutral'"
                 variant="ghost"
                 :class="[
                   'flex items-center space-x-2 px-4 py-3',
                   activeTab === item.key
-                    ? 'bg-primary-50 dark:bg-primary-900/20'
-                    : 'hover:bg-gray-100 dark:hover:bg-gray-700',
+                    ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                    : 'hover:bg-gray-100',
                 ]"
                 @click="activeTab = item.key"
               />
@@ -55,9 +54,7 @@
           <div v-if="activeTab === 'profile'" class="space-y-4">
             <UCard>
               <template #header>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Profil
-                </h2>
+                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
               </template>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -141,6 +138,13 @@
                       orientation="horizontal"
                       variant="list"
                       :items="sex"
+                      :ui="{
+                        base: 'ui-radio',
+                        container: 'w-full',
+                        indicator: 'bg-violet-500',
+                        label: 'ui-label',
+                        description: 'ui-description',
+                      }"
                     />
 
                     <UFormGroup label="Birthday" name="birthday">
@@ -154,7 +158,10 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <UButton type="button" color="primary">
+                      <UButton
+                        type="button"
+                        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                      >
                         Zapisz zmiany
                       </UButton>
                     </div>
@@ -168,7 +175,7 @@
           <div v-else-if="activeTab === 'security'" class="space-y-4">
             <UCard class="w-full">
               <template #header>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-lg font-semibold text-gray-900">
                   Bezpieczeństwo
                 </h2>
               </template>
@@ -211,7 +218,11 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <UButton type="submit" color="primary" :loading="saving">
+                      <UButton
+                        type="submit"
+                        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                        :loading="saving"
+                      >
                         Zmień hasło
                       </UButton>
                     </div>
@@ -225,7 +236,7 @@
                   <USwitch
                     v-model="twoFactorEnabled"
                     label="Włącz 2FA"
-                    class="w-full max-w-full"
+                    class="w-full max-w-full [&_[data-state=checked]]:bg-violet-500 [&_[data-state=checked]_.bg-default]:bg-white"
                   />
                 </div>
               </div>
@@ -236,7 +247,7 @@
           <div v-else-if="activeTab === 'notifications'" class="space-y-4">
             <UCard>
               <template #header>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-lg font-semibold text-gray-900">
                   Powiadomienia
                 </h2>
               </template>
@@ -246,12 +257,21 @@
                   <div class="space-y-4">
                     <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
-                    <UCheckbox v-model="notifications.email" label="Email" />
+                    <UCheckbox
+                      v-model="notifications.email"
+                      class="[&_[data-state=checked]]:bg-violet-500"
+                      label="Email"
+                    />
                     <UCheckbox
                       v-model="notifications.push"
                       label="Powiadomienia push"
+                      class="[&_[data-state=checked]]:bg-violet-500"
                     />
-                    <UCheckbox v-model="notifications.sms" label="SMS" />
+                    <UCheckbox
+                      v-model="notifications.sms"
+                      class="[&_[data-state=checked]]:bg-violet-500"
+                      label="SMS"
+                    />
 
                     <UDivider />
 
@@ -260,21 +280,23 @@
                     <UCheckbox
                       v-model="notifications.news"
                       label="Aktualności i ogłoszenia"
+                      class="[&_[data-state=checked]]:bg-violet-500"
                     />
                     <UCheckbox
                       v-model="notifications.security"
                       label="Alerty bezpieczeństwa"
+                      class="[&_[data-state=checked]]:bg-violet-500"
                     />
                     <UCheckbox
                       v-model="notifications.marketing"
                       label="Oferty marketingowe"
+                      class="[&_[data-state=checked]]:bg-violet-500"
                     />
                   </div>
 
                   <UButton
                     type="submit"
-                    color="primary"
-                    class="mt-4"
+                    class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-4"
                     :loading="saving"
                   >
                     Zapisz ustawienia
@@ -288,9 +310,7 @@
           <div v-else-if="activeTab === 'preferences'" class="space-y-4">
             <UCard>
               <template #header>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Preferencje
-                </h2>
+                <h2 class="text-lg font-semibold text-gray-900">Preferencje</h2>
               </template>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -328,7 +348,11 @@
                     </UFormGroup>
                   </div>
 
-                  <UButton type="submit" color="primary" :loading="saving">
+                  <UButton
+                    type="submit"
+                    class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                    :loading="saving"
+                  >
                     Zapisz
                   </UButton>
                 </UForm>

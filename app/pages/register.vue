@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4">
       <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
-        <h1 class="mb-4 text-xl font-bold">Zarejestruj się</h1>
+        <h1 class="mb-4 text-xl font-bold">Załóż konto</h1>
 
         <UForm
           :schema="schema"
@@ -102,7 +102,11 @@
             description="coca cola"
           />
 
-          <UButton type="submit">Zarejestruj się</UButton>
+          <UButton
+            type="submit"
+            class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+            >Zarejestruj się</UButton
+          >
         </UForm>
 
         <p class="mt-2">

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-primary">
     <div class="flex justify-center p-4 bg-primary">
       <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
-        <h1 class="text-xl font-bold text-gray-900 dark:text-white">Konto</h1>
+        <h1 class="text-xl font-bold text-gray-900">Konto</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -59,6 +59,13 @@
                   orientation="horizontal"
                   variant="list"
                   :items="sex"
+                  :ui="{
+                    base: 'ui-radio',
+                    container: 'w-full',
+                    indicator: 'bg-violet-500',
+                    label: 'ui-label',
+                    description: 'ui-description',
+                  }"
                   class="w-full"
                 />
               </div>
@@ -76,7 +83,9 @@
               </div>
 
               <div class="w-full">
-                <UButton type="button" class="w-full md:w-auto"
+                <UButton
+                  type="button"
+                  class="w-full md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
                   >Potwierdź</UButton
                 >
               </div>
@@ -98,7 +107,9 @@
             <div class="w-full space-y-4">
               <h5 class="text-lg font-semibold mt-4">QR</h5>
               <img src="/images/qr.svg" />
-              <UButton type="button" class="w-full md:w-auto"
+              <UButton
+                type="button"
+                class="w-full md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
                 >Generuj QR</UButton
               >
             </div>
