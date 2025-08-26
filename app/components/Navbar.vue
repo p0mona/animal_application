@@ -97,6 +97,11 @@
           <li>
             <NuxtLink to="/tracker" @click="isOpen = false">Tracker</NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/shelter" @click="isOpen = false"
+              >Schronisko</NuxtLink
+            >
+          </li>
         </ul>
       </nav>
     </div>

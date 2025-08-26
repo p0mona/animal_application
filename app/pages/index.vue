@@ -77,7 +77,7 @@
             />
           </section>
         </div>
-        
+
         <div v-if="activeTab === 'advice'" class="space-y-6">
           <!-- Статьи -->
           <section
