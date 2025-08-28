@@ -9,7 +9,7 @@
           padding: 10px;
         "
       >
-        <h1>Logo</h1>
+        <img src="/images/logo.svg"  alt="Logo" class="w-16 h-16">
 
         <div style="display: flex; align-items: center; gap: 10px">
           <UAvatar
