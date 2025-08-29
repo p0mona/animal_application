@@ -21,6 +21,24 @@
               </div>
 
               <div class="w-full">
+                <p class="text-sm">Płeć</p>
+                <URadioGroup
+                  v-model="form.animal_sex"
+                  orientation="horizontal"
+                  variant="list"
+                  :items="animal_sex"
+                  :ui="{
+                    base: 'ui-radio',
+                    container: 'w-full',
+                    indicator: 'bg-violet-500',
+                    label: 'ui-label',
+                    description: 'ui-description',
+                  }"
+                  class="w-full"
+                />
+              </div>
+
+              <div class="w-full">
                 <p class="text-sm">Wybierz rasę</p>
                 <USelectMenu placeholder="-" :items="breeds" class="w-full" />
               </div>
@@ -119,8 +137,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from "vue";
+import type { RadioGroupItem } from "@nuxt/ui";
 
 const form = reactive({
   animal_type: "",
@@ -133,7 +152,19 @@ const form = reactive({
   name: "",
   birthday: "",
   sex: "K",
+  animal_sex: "K",
+  image: null as File | null,
 });
 const animals = ref(["Pies", "Kot", "Chomik"]);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
+
+const sex = ref<RadioGroupItem[]>([
+  { label: "Kobieta", value: "K" },
+  { label: "Mężczyzna", value: "M" },
+]);
+
+const animal_sex = ref<RadioGroupItem[]>([
+  { label: "Samica", value: "K" },
+  { label: "Samiec", value: "M" },
+]);
 </script>

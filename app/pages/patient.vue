@@ -67,6 +67,7 @@
                 <p>Imię: -----</p>
                 <p>Rasa: -----</p>
                 <p>Nr chipu: -----</p>
+                <p>Płeć: -----</p>
               </div>
 
               <div>

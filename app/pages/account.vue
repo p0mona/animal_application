@@ -14,6 +14,24 @@
               </div>
 
               <div class="w-full">
+                <p class="text-sm">Płeć</p>
+                <URadioGroup
+                  v-model="form.animal_sex"
+                  orientation="horizontal"
+                  variant="list"
+                  :items="animal_sex"
+                  :ui="{
+                    base: 'ui-radio',
+                    container: 'w-full',
+                    indicator: 'bg-violet-500',
+                    label: 'ui-label',
+                    description: 'ui-description',
+                  }"
+                  class="w-full"
+                />
+              </div>
+
+              <div class="w-full">
                 <p class="text-sm">Wybierz rasę</p>
                 <USelectMenu placeholder="-" :items="breeds" class="w-full" />
               </div>
@@ -125,6 +143,7 @@ const form = reactive({
   name: "",
   birthday: "",
   sex: "K",
+  animal_sex: "K",
   image: null as File | null,
 });
 
@@ -135,4 +154,9 @@ const sex = ref<RadioGroupItem[]>([
 
 const animals = ref(["Pies", "Kot", "Chomik"]);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
+
+const animal_sex = ref<RadioGroupItem[]>([
+  { label: "Samica", value: "K" },
+  { label: "Samiec", value: "M" },
+]);
 </script>

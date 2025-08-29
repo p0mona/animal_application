@@ -139,6 +139,7 @@
                 :name="patient.name"
                 :breed="patient.breed"
                 :image="patient.image"
+                :sex="patient.sex"
               />
             </div>
             <div class="flex justify-end">
@@ -187,16 +188,19 @@ const patients = [
     name: "Agata",
     breed: "Pudel",
     image: "/images/parrot-article3.jpg",
+    sex: "Samica",
   },
   {
     name: "Burek",
     breed: "Labrador",
     image: "/images/dog-article1.jpg",
+    sex: "Samiec",
   },
   {
     name: "Mila",
     breed: "Kot Perski",
     image: "/images/cat-article2.jpg",
+    sex: "Samica",
   },
 ];
 </script>

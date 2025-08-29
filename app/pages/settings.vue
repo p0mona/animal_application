@@ -68,6 +68,24 @@
                     <USelectMenu placeholder="Pies" :items="animals" />
                     <USelectMenu placeholder="Akita Inu" :items="breeds" />
 
+                    <div class="w-full">
+                      <p class="text-sm">Płeć</p>
+                      <URadioGroup
+                        v-model="profile.animal_sex"
+                        orientation="horizontal"
+                        variant="list"
+                        :items="animal_sex"
+                        :ui="{
+                          base: 'ui-radio',
+                          container: 'w-full',
+                          indicator: 'bg-violet-500',
+                          label: 'ui-label',
+                          description: 'ui-description',
+                        }"
+                        class="w-full"
+                      />
+                    </div>
+
                     <UFormGroup label="Animal_name" name="animal_name">
                       <p class="text-sm mb-2">Imię</p>
                       <UInput
@@ -422,6 +440,7 @@ const profile = ref({
   name: "Beata",
   sex: "K",
   birthday: "",
+  animal_sex: "K",
 });
 
 const security = ref({
@@ -487,6 +506,11 @@ const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
 const sex = ref<RadioGroupItem[]>([
   { label: "Kobieta", value: "K" },
   { label: "Mężczyzna", value: "M" },
+]);
+
+const animal_sex = ref<RadioGroupItem[]>([
+  { label: "Samica", value: "K" },
+  { label: "Samiec", value: "M" },
 ]);
 </script>
 

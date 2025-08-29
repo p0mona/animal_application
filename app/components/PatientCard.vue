@@ -8,7 +8,7 @@
     <!-- Текст посередине -->
     <div class="flex-1">
       <h2 class="text-lg font-semibold text-gray-900">{{ name }}</h2>
-      <p class="text-sm text-gray-500">{{ breed }}</p>
+      <p class="text-sm text-gray-500">{{ breed }} - {{ sex }}</p>
     </div>
 
     <!-- Кнопка справа -->
@@ -30,5 +30,6 @@ defineProps<{
   name: string;
   breed: string;
   image: string;
+  sex: string;
 }>();
 </script>
