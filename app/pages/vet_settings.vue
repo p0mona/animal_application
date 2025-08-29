@@ -142,12 +142,14 @@
               />
             </div>
             <div class="flex justify-end">
-              <UButton
-                type="button"
-                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-6 mr-4"
-              >
-                Dodać
-              </UButton>
+              <NuxtLink to="/new_patient">
+                <UButton
+                  type="button"
+                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-6 mr-4"
+                >
+                  Dodać
+                </UButton>
+              </NuxtLink>
             </div>
           </template>
         </div>
