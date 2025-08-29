@@ -9,9 +9,8 @@
           padding: 10px;
         "
       >
-
         <NuxtLink to="/" class="inline-block">
-          <img src="/images/logo.svg"  alt="Logo" class="w-16 h-16">
+          <img src="/images/logo.svg" alt="Logo" class="w-16 h-16" />
         </NuxtLink>
 
         <div style="display: flex; align-items: center; gap: 10px">
@@ -19,6 +18,7 @@
             @click="isOpen = true"
             src="/images/example-photo.jpg"
             size="3xl"
+            class="shadow-lg"
           />
         </div>
       </header>
@@ -103,6 +103,11 @@
           <li>
             <NuxtLink to="/shelter" @click="isOpen = false"
               >Schronisko</NuxtLink
+            >
+          </li>
+          <li>
+            <NuxtLink to="/veterinarian" @click="isOpen = false"
+              >Weterynarz</NuxtLink
             >
           </li>
         </ul>

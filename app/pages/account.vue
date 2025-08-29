@@ -97,7 +97,7 @@
                 v-model="form.image"
                 color="neutral"
                 highlight
-                label="Przeciągnij plik tutaj "
+                label="Przeciągnij zdięcie tutaj "
                 description="SVG, PNG, JPG or GIF (maks. 2MB)"
                 class="w-full min-h-54"
                 :dropzone="true"
