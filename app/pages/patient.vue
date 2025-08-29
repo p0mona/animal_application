@@ -1,0 +1,167 @@
+<template>
+  <div class="min-h-screen bg-[#77e177]">
+    <div class="flex justify-center p-4 bg-[#77e177]">
+      <div
+        class="max-w-4xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4"
+      >
+        <!-- Заголовок -->
+        <div class="flex items-center justify-between mb-8">
+          <h1 class="text-2xl font-bold text-gray-900">Pacjent</h1>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="sm:hidden mb-6">
+          <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
+            <UButton
+              v-for="item in navItems"
+              :key="item.key"
+              :icon="item.icon"
+              :color="activeTab === item.key ? undefined : 'neutral'"
+              variant="ghost"
+              size="lg"
+              :class="[
+                'rounded-full',
+                activeTab === item.key
+                  ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                  : '',
+              ]"
+              @click="activeTab = item.key"
+            />
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden sm:block mb-6">
+          <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm">
+            <UButton
+              v-for="item in navItems"
+              :key="item.key"
+              :icon="item.icon"
+              :label="item.label"
+              :color="activeTab === item.key ? undefined : 'neutral'"
+              variant="ghost"
+              :class="[
+                'flex items-center space-x-2 px-4 py-3',
+                activeTab === item.key
+                  ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                  : 'hover:bg-gray-100',
+              ]"
+              @click="activeTab = item.key"
+            />
+          </div>
+        </div>
+
+        <!-- Profil -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-2 gap-6">
+            <div v-if="activeTab === 'patient'">
+              <img
+                src="/images/example-photo.jpg"
+                class="w-full max-w-[200px] sm:max-w-[300px] md:max-w-[400px] object-cover rounded-2xl transition duration-300 group-hover:brightness-75 mx-auto"
+              />
+            </div>
+
+            <div v-if="activeTab === 'patient'">
+              <div class="mb-4">
+                <h5 class="font-semibold">Pupil</h5>
+                <p>Imię: -----</p>
+                <p>Rasa: -----</p>
+                <p>Nr chipu: -----</p>
+              </div>
+
+              <div>
+                <h5 class="font-semibold">Właściciel</h5>
+                <p>Imię: -----</p>
+                <p>Kontakt: -----</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizyty -->
+        <div v-if="activeTab === 'appointment'" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Future appointmnet Section -->
+            <div>
+              <h3 class="text-base font-semibold mb-4">Zaplanowane wizyty</h3>
+              <div class="space-y-4">
+                <FutureAppointmentCard
+                  v-for="(appointment, index) in future"
+                  :key="index"
+                  :date="appointment.date"
+                  :time="appointment.time"
+                  :reason="appointment.reason"
+                />
+              </div>
+              <div class="flex justify-end">
+                <UButton
+                  type="button"
+                  class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                >
+                  Zapłanuj nową wizytę
+                </UButton>
+              </div>
+            </div>
+
+            <!-- History Section -->
+            <div>
+              <h3 class="text-base font-semibold mb-4">Historia wizytów</h3>
+              <div class="space-y-4">
+                <PastAppointmentCard
+                  v-for="(appointment, index) in past"
+                  :key="index"
+                  :date="appointment.date"
+                  :time="appointment.time"
+                  :reason="appointment.reason"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import FutureAppointmentCard from "~/components/FutureAppointmentCard.vue";
+
+const activeTab = ref("patient");
+
+const navItems = [
+  { key: "patient", label: "Pacjent", icon: "i-heroicons-user" },
+  { key: "appointment", label: "Wizyty", icon: "heroicons:folder-plus" },
+  {
+    key: "vaccination",
+    label: "Szczepionki",
+    icon: "heroicons:eye-dropper-solid",
+  },
+];
+
+const future = [
+  {
+    date: "14.12.2025",
+    time: "17:00",
+    reason: "Szczepionka na wściekliznę",
+  },
+];
+
+const past = [
+  {
+    date: "10.11.2024",
+    time: "10:00",
+    reason: "Odrobaczenie",
+  },
+  {
+    date: "01.08.2025",
+    time: "12:00",
+    reason: "Szczepionka na wściekliznę",
+  },
+  {
+    date: "27.08.2025",
+    time: "09:00",
+    reason: "Check Up",
+  },
+];
+</script>
