@@ -51,23 +51,31 @@
           </div>
         </div>
 
-        <!-- Контент вкладок -->
+        <!-- Profil -->
         <div>
-          <template v-if="activeTab === 'account'">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="space-y-4">
-                <div>
-                  <p class="text-sm">Wpisz imię</p>
-                  <UInput v-model="account.name" class="w-full" size="lg" />
-                </div>
+          <div v-if="activeTab === 'account'">
+            <UCard>
+              <template #header>
+                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
+              </template>
 
-                <div>
-                  <p class="text-sm">Wpisz miejsce pracy</p>
-                  <UInput v-model="account.hospital" class="w-full" size="lg" />
-                </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Левая колонка -->
+                <div class="space-y-4">
+                  <UFormGroup label="Name" name="name">
+                    <p class="text-sm mb-2">Imię</p>
+                    <UInput v-model="account.name" type="text" class="w-full" />
+                  </UFormGroup>
 
-                <div>
-                  <p class="text-sm">Płeć</p>
+                  <UFormGroup label="hospital" name="hospital">
+                    <p class="text-sm mb-2 mt-2">Miejsce pracy</p>
+                    <UInput
+                      v-model="account.hospital"
+                      type="text"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
                   <URadioGroup
                     v-model="account.sex"
                     orientation="horizontal"
@@ -81,43 +89,46 @@
                       description: 'ui-description',
                     }"
                   />
+
+                  <UFormGroup label="Birthday" name="birthday">
+                    <p class="text-sm mb-2">Data urodzenia</p>
+                    <UInput
+                      id="birthday"
+                      type="date"
+                      v-model="account.birthday"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <div class="flex justify-start mt-4">
+                    <UButton
+                      type="button"
+                      class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                    >
+                      Zapisz zmiany
+                    </UButton>
+                  </div>
                 </div>
 
-                <div>
-                  <label for="birthday" class="text-sm block"
-                    >Data urodzenia</label
-                  >
-                  <UInput
-                    id="birthday"
-                    type="date"
-                    v-model="account.birthday"
-                    class="w-full"
-                  />
+                <!-- Правая колонка: фото -->
+                <div class="flex justify-center items-start">
+                  <div class="relative w-56 h-56 group cursor-pointer">
+                    <img
+                      src="/images/vet.jpg"
+                      class="w-full h-full object-cover rounded-2xl transition duration-300 group-hover:brightness-75"
+                    />
+
+                    <!-- Overlay текст -->
+                    <div
+                      class="absolute inset-0 flex items-center justify-center text-sm text-white font-semibold text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                      Zmień zdjęcie
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div class="w-full flex items-start">
-                  <UFileUpload
-                    v-model="account.image"
-                    color="neutral"
-                    highlight
-                    label="Przeciągnij zdjęcie tutaj"
-                    description="SVG, PNG, JPG or GIF (maks. 2MB)"
-                    class="w-full min-h-[200px]"
-                    :dropzone="true"
-                  />
-                </div>
-              </div>
-              <div>
-                <UButton
-                  type="button"
-                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                >
-                  Potwierdź
-                </UButton>
-              </div>
-            </div>
-          </template>
+            </UCard>
+          </div>
 
           <!-- Пациенты -->
           <template v-if="activeTab === 'patients'">
@@ -146,7 +157,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 import PatientCard from "~/components/PatientCard.vue";
 
@@ -162,12 +173,11 @@ const sex = ref<RadioGroupItem[]>([
   { label: "Mężczyzna", value: "M" },
 ]);
 
-const account = reactive({
-  name: "",
-  birthday: "",
+const account = ref({
+  name: "Beata",
   sex: "K",
+  birthday: "",
   hospital: "",
-  image: null as File | null,
 });
 
 const patients = [

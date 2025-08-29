@@ -110,6 +110,11 @@
               >Weterynarz</NuxtLink
             >
           </li>
+          <li>
+            <NuxtLink to="/vet_account" @click="isOpen = false"
+              >Vet Konto</NuxtLink
+            >
+          </li>
         </ul>
       </nav>
     </div>
