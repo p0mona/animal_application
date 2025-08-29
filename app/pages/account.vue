@@ -43,6 +43,19 @@
                 <UInput v-model="form.chip" class="w-full" />
               </div>
             </div>
+          </div>
+          <div>
+            <div class="w-full">
+              <UFileUpload
+                v-model="form.image"
+                color="neutral"
+                highlight
+                label="Przeciągnij zdięcie tutaj "
+                description="SVG, PNG, JPG or GIF (maks. 2MB)"
+                class="w-full min-h-54"
+                :dropzone="true"
+              />
+            </div>
 
             <div class="flex flex-col space-y-4 mt-4">
               <h5 class="text-lg font-semibold">Właściciel</h5>
@@ -82,36 +95,13 @@
                 />
               </div>
 
-              <div class="w-full">
+              <div class="flex justify-end">
                 <UButton
                   type="button"
                   class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
                   >Potwierdź</UButton
                 >
               </div>
-            </div>
-          </div>
-          <div>
-            <div class="w-full">
-              <UFileUpload
-                v-model="form.image"
-                color="neutral"
-                highlight
-                label="Przeciągnij zdięcie tutaj "
-                description="SVG, PNG, JPG or GIF (maks. 2MB)"
-                class="w-full min-h-54"
-                :dropzone="true"
-              />
-            </div>
-
-            <div class="w-full space-y-4">
-              <h5 class="text-lg font-semibold mt-4">QR</h5>
-              <img src="/images/qr.svg" />
-              <UButton
-                type="button"
-                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                >Generuj QR</UButton
-              >
             </div>
           </div>
         </div>
