@@ -94,27 +94,27 @@
                     class="w-full"
                   />
                 </div>
-
-                <div>
-                  <UButton
-                    type="button"
-                    class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                  >
-                    Potwierdź
-                  </UButton>
+              </div>
+              <div>
+                <div class="w-full flex items-start">
+                  <UFileUpload
+                    v-model="account.image"
+                    color="neutral"
+                    highlight
+                    label="Przeciągnij zdjęcie tutaj"
+                    description="SVG, PNG, JPG or GIF (maks. 2MB)"
+                    class="w-full min-h-[200px]"
+                    :dropzone="true"
+                  />
                 </div>
               </div>
-
-              <div class="w-full flex items-start">
-                <UFileUpload
-                  v-model="account.image"
-                  color="neutral"
-                  highlight
-                  label="Przeciągnij zdjęcie tutaj"
-                  description="SVG, PNG, JPG or GIF (maks. 2MB)"
-                  class="w-full min-h-[200px]"
-                  :dropzone="true"
-                />
+              <div>
+                <UButton
+                  type="button"
+                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                >
+                  Potwierdź
+                </UButton>
               </div>
             </div>
           </template>
@@ -130,10 +130,11 @@
                 :image="patient.image"
               />
             </div>
-            <div class="flex justify-end ">
+            <div class="flex justify-end">
               <UButton
                 type="button"
-                      class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-6 mr-4">
+                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-6 mr-4"
+              >
                 Dodać
               </UButton>
             </div>
