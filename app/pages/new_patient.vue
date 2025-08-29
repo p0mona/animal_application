@@ -9,6 +9,13 @@
           <h1 class="text-2xl font-bold text-gray-900">Nowy pacjent</h1>
         </div>
 
+        <div>
+          <UButton class="flex items-center gap-2 text-sm font-semibold bg-violet-500 hover:bg-violet-600 active:bg-violet-700">
+            Zeskanuj QR
+            <UIcon name="heroicons:camera" class="w-4 h-4 text-white" />
+          </UButton>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- левая колонка -->
           <div>
