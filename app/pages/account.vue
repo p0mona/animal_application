@@ -85,7 +85,7 @@
               <div class="w-full">
                 <UButton
                   type="button"
-                  class="w-full md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
                   >Potwierdź</UButton
                 >
               </div>
@@ -109,7 +109,7 @@
               <img src="/images/qr.svg" />
               <UButton
                 type="button"
-                class="w-full md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
                 >Generuj QR</UButton
               >
             </div>
