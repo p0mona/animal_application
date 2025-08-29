@@ -15,7 +15,7 @@
           </h3>
 
           <div class="w-full">
-            <p class="text-sm">Imie</p>
+            <p class="text-sm mt-2">Imie</p>
             <UInput v-model="form.name" class="w-full" />
           </div>
 
