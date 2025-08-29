@@ -9,7 +9,10 @@
           padding: 10px;
         "
       >
-        <img src="/images/logo.svg"  alt="Logo" class="w-16 h-16">
+
+        <NuxtLink to="/" class="inline-block">
+          <img src="/images/logo.svg"  alt="Logo" class="w-16 h-16">
+        </NuxtLink>
 
         <div style="display: flex; align-items: center; gap: 10px">
           <UAvatar
