@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[#77e177]">
     <div class="flex justify-center p-4 bg-[#77e177]">
-      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
         <UContainer class="py-8">
           <div class="flex items-center justify-between mb-8">
             <h1 class="text-xl font-bold text-gray-900">Ustawienia</h1>
@@ -358,6 +358,19 @@
               </div>
             </UCard>
           </div>
+
+          <!-- QR Content -->
+          <div v-else-if="activeTab === 'qr'" class="space-y-4">
+            <div class="w-full flex flex-col items-center">
+              <img src="/images/qr.svg" class="mb-4" />
+              <UButton
+                type="button"
+                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+              >
+                Generuj QR
+              </UButton>
+            </div>
+          </div>
         </UContainer>
       </div>
     </div>
@@ -373,6 +386,7 @@ const saving = ref(false);
 
 const navItems = [
   { key: "profile", label: "Profil", icon: "i-heroicons-user" },
+  { key: "qr", label: "QR", icon: "heroicons:qr-code" },
   { key: "security", label: "Bezpieczeństwo", icon: "i-heroicons-lock-closed" },
   { key: "notifications", label: "Powiadomienia", icon: "i-heroicons-bell" },
   { key: "preferences", label: "Preferencje", icon: "i-heroicons-cog-6-tooth" },
