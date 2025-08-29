@@ -165,7 +165,7 @@ const activeTab = ref("account");
 
 const navItems = [
   { key: "account", label: "Profil", icon: "i-heroicons-user" },
-  { key: "patients", label: "Pacienci", icon: "heroicons:identification" },
+  { key: "patients", label: "Pacjenci", icon: "heroicons:identification" },
 ];
 
 const sex = ref<RadioGroupItem[]>([

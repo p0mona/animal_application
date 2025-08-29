@@ -93,7 +93,7 @@
             >
           </li>
           <li>
-            <NuxtLink to="/vet" @click="isOpen = false"
+            <NuxtLink to="/vet_clinic" @click="isOpen = false"
               >Klinika weterynaryjna</NuxtLink
             >
           </li>
@@ -106,7 +106,7 @@
             >
           </li>
           <li>
-            <NuxtLink to="/veterinarian" @click="isOpen = false"
+            <NuxtLink to="/vet_settings" @click="isOpen = false"
               >Weterynarz</NuxtLink
             >
           </li>
