@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-primary">
-    <div class="p-4 bg-primary">
+  <div class="bg-[#77e177]">
+    <div class="p-4 bg-[#77e177]">
       <header
         style="
           display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-primary">
+  <div class="min-h-screen bg-[#77e177]">
     <div class="flex justify-center p-4">
       <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
         <h1 class="mb-4 text-xl font-bold">Załóż konto</h1>
@@ -110,7 +110,7 @@
         </UForm>
 
         <p class="mt-2">
-          Już masz konto? <NuxtLink to="/login">Zalogować się</NuxtLink>
+          Już masz konto? <NuxtLink to="/login">Zaloguj się</NuxtLink>
         </p>
       </div>
     </div>

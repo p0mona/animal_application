@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-primary">
-    <div class="flex justify-center p-4 bg-primary">
+  <div class="min-h-screen bg-">
+    <div class="flex justify-center p-4 bg-[#77e177]">
       <div
         class="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4"
       >
