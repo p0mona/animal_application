@@ -10,7 +10,9 @@
         </div>
 
         <div>
-          <UButton class="flex items-center gap-2 text-sm font-semibold bg-violet-500 hover:bg-violet-600 active:bg-violet-700">
+          <UButton
+            class="flex items-center gap-2 text-sm font-semibold bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+          >
             Zeskanuj QR
             <UIcon name="heroicons:camera" class="w-4 h-4 text-white" />
           </UButton>
