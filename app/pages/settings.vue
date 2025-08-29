@@ -377,15 +377,20 @@
 
           <!-- QR Content -->
           <div v-else-if="activeTab === 'qr'" class="space-y-4">
-            <div class="w-full flex flex-col items-center">
-              <img src="/images/qr.svg" class="mb-4" />
-              <UButton
-                type="button"
-                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-              >
-                Generuj QR
-              </UButton>
-            </div>
+            <UCard>
+              <template #header>
+                <h2 class="text-lg font-semibold text-gray-900">QR</h2>
+              </template>
+              <div class="w-full flex flex-col items-center">
+                <img src="/images/qr.svg" class="mb-4" />
+                <UButton
+                  type="button"
+                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                >
+                  Generuj QR
+                </UButton>
+              </div>
+            </UCard>
           </div>
         </UContainer>
       </div>
