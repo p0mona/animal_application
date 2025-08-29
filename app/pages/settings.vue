@@ -115,8 +115,24 @@
                   </UForm>
                 </div>
 
-                <!-- Owner Section -->
                 <div>
+                  <div
+                    class="relative w-48 h-48 mx-auto mb-4 group cursor-pointer"
+                  >
+                    <img
+                      src="/images/example-photo.jpg"
+                      class="w-full h-full object-cover rounded-2xl transition duration-300 group-hover:brightness-75"
+                    />
+
+                    <!-- Overlay текст -->
+                    <div
+                      class="absolute inset-0 flex items-center justify-center text-sm text-white font-semibold text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                      Zmień zdięcie
+                    </div>
+                  </div>
+
+                  <!-- Owner Section -->
                   <h3 class="text-base font-semibold mb-4">Właściciel</h3>
                   <UForm
                     :schema="profileSchema"
