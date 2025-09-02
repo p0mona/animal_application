@@ -8,7 +8,19 @@
         <!-- Заголовок -->
         <div class="flex items-center justify-between mb-8">
           <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
+          <div class="flex justify-end">
+          <NuxtLink to="new_announcement">
+            <UButton
+              type="button"
+              class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+            >
+              Dodaj ogłoszenie
+            </UButton>
+          </NuxtLink>
         </div>
+        </div>
+
+        
 
         <!-- Сетка карточек -->
         <section
@@ -34,7 +46,7 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
       @click.self="closeModal"
     >
-      <div class="bg-white rounded-2xl shadow-lg p-6 max-w-lg w-full relative">
+      <div class="bg-white rounded-2xl shadow-lg p-8 max-w-lg w-full relative">
         <button
           @click="closeModal"
           class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
