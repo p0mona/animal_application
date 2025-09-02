@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#77e177]">
     <div class="flex justify-center p-4 bg-[#77e177]">
       <div
-        class="max-w-2xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4"
+        class="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4"
       >
         <UButton
           icon="i-heroicons-arrow-left"

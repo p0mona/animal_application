@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[#77e177]">
     <div class="flex justify-center p-4">
-      <div class="max-w-2xl bg-white rounded-2xl shadow-lg p-6">
+      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
         <UButton
           icon="i-heroicons-arrow-left"
           variant="ghost"

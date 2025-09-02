@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[#77e177]">
     <div class="flex justify-center p-4 bg-[#77e177]">
-      <div class="max-w-4xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <div class="max-w-3xl bg-white w-full rounded-2xl shadow-lg p-6 space-y-4">
         <UContainer class="py-8">
           <div class="flex items-center justify-between mb-8">
             <h1 class="text-xl font-bold text-gray-900">Ustawienia</h1>
