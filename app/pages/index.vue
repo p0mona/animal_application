@@ -99,7 +99,7 @@
 
     <!-- Круглая SOS кнопка -->
     <UButton
-      class="fixed bottom-6 right-6 cursor-pointer bg-[#FF2400] hover:bg-[#e62000] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
+      class="fixed bottom-6 right-6 cursor-pointer bg-[#FF2400] hover:bg-[#e62000] active:bg-[#c9260d] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
       :loading="saving"
     >
       SOS

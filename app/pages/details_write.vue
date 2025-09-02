@@ -4,6 +4,14 @@
       <div
         class="max-w-2xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4"
       >
+        <UButton
+          icon="i-heroicons-arrow-left"
+          variant="ghost"
+          color="neutral"
+          class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
+          @click="goBack"
+        />
+
         <!-- Заголовок -->
         <div class="flex items-center justify-between mb-8">
           <h1 class="text-2xl font-bold text-gray-900">Podsumowanie wizyty</h1>
@@ -105,6 +113,10 @@
 
 <script setup lang="ts">
 import type { RadioGroupItem } from "@nuxt/ui";
+
+const goBack = () => {
+  navigateTo("/patient");
+};
 
 const animal_sex = ref<RadioGroupItem[]>([
   { label: "Samica", value: "K" },

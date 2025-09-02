@@ -4,6 +4,14 @@
       <div
         class="max-w-4xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4"
       >
+        <UButton
+          icon="i-heroicons-arrow-left"
+          variant="ghost"
+          color="neutral"
+          class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
+          @click="goBack"
+        />
+
         <!-- Заголовок -->
         <div class="flex items-center justify-between mb-8">
           <h1 class="text-2xl font-bold text-gray-900">Szczególy wizyty</h1>
@@ -59,6 +67,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { NuxtLink, UButton } from "#components";
+
+const goBack = () => {
+  navigateTo("/patient");
+};
 </script>
