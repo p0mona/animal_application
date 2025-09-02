@@ -2,7 +2,7 @@
   <div
     class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
   >
-    <img :src="image" class="w-full h-48 object-cover" />
+    <img :src="image" class="w-full h-48 object-cover" style="object-position: 30% 10%;"/>
     <div class="p-4">
       <h2 class="text-xl font-bold text-gray-900 mb-2">
         Imię: {{ name }}
