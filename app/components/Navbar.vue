@@ -115,6 +115,11 @@
               >Vet Konto</NuxtLink
             >
           </li>
+          <li>
+            <NuxtLink to="/trainer" @click="isOpen = false"
+              >Behawiorysta</NuxtLink
+            >
+          </li>
         </ul>
       </nav>
     </div>
