@@ -106,12 +106,14 @@
                 />
               </div>
               <div class="flex justify-end">
-                <UButton
-                  type="button"
-                  class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                >
-                  Zaplanuj nową wizytę
-                </UButton>
+                <NuxtLink to="/new_appointment">
+                  <UButton
+                    type="button"
+                    class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                  >
+                    Zaplanuj nową wizytę
+                  </UButton>
+                </NuxtLink>
               </div>
             </div>
 
@@ -188,11 +190,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import FutureAppointmentCard from "~/components/FutureAppointmentCard.vue";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
 const goBack = () => {
-  router.push("/vet_settings");
+  navigateTo("/login");
 };
 
 const activeTab = ref("patient");
