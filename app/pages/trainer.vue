@@ -59,7 +59,7 @@
             <p class="text-gray-600 mb-2">
               Kontakt: {{ selectedTrainer.contact }}
             </p>
-            <p class="text-gray-600">Opis:пш</p>
+            <p class="text-gray-600">Opis:</p>
             <p class="text-gray-600">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
