@@ -1,12 +1,6 @@
 <template>
   <FullWidthLayout>
-    <UButton
-      icon="i-heroicons-arrow-left"
-      variant="ghost"
-      color="neutral"
-      class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
-      @click="goBack"
-    />
+    <BackButton to="/patient" />
 
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
@@ -105,10 +99,6 @@
 
 <script setup lang="ts">
 import type { RadioGroupItem } from "@nuxt/ui";
-
-const goBack = () => {
-  navigateTo("/patient");
-};
 
 const animal_sex = ref<RadioGroupItem[]>([
   { label: "Samica", value: "K" },

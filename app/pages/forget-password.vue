@@ -1,12 +1,6 @@
 <template>
   <Layout>
-    <UButton
-      icon="i-heroicons-arrow-left"
-      variant="ghost"
-      color="neutral"
-      class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
-      @click="goBack"
-    />
+    <BackButton to="/login" />
 
     <h1 class="mb-4 text-xl font-bold">Zmień hasło</h1>
 
@@ -57,8 +51,4 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     color: "success",
   });
 }
-
-const goBack = () => {
-  navigateTo("/login");
-};
 </script>

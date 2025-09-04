@@ -1,12 +1,6 @@
 <template>
   <Layout>
-    <UButton
-      icon="i-heroicons-arrow-left"
-      variant="ghost"
-      color="neutral"
-      class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
-      @click="goBack"
-    />
+    <BackButton to="/patient" />
 
     <h1 class="mb-5 text-xl font-bold">Nowa wizyta</h1>
     <div class="space-y-4">
@@ -39,9 +33,6 @@
 </template>
 
 <script setup>
-const goBack = () => {
-  navigateTo("/patient");
-};
 
 const form = ref({
   birthday: "",
