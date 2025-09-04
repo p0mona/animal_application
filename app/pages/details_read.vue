@@ -23,35 +23,12 @@
       <p>Kontakt: -----</p>
     </div>
 
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Objawy</h3>
-      <p>-----</p>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Badanie</h3>
-      <p>-----</p>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Diagnoza</h3>
-      <p>-----</p>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Plan leczenia</h3>
-      <p>-----</p>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Polecenia</h3>
-      <p>-----</p>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Dodatkowe uwagi</h3>
-      <p>-----</p>
-    </div>
+    <InfoSection title="Objawy" :content="visit?.symptoms || '-----'" />
+    <InfoSection title="Badanie" :content="visit?.exam || '-----'" />
+    <InfoSection title="Badanie" :content="visit?.diagnosis || '-----'" />
+    <InfoSection title="Plan leczenia" :content="visit?.treatment || '-----'" />
+    <InfoSection title="Polecenia" :content="visit?.advice || '-----'" />
+    <InfoSection title="Dodatkowe uwagi" :content="visit?.notes || '-----'" />
 
     <NuxtLink to="/details_write">
       <UButton>write</UButton>
