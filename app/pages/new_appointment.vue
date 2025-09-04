@@ -2,7 +2,7 @@
   <Layout>
     <BackButton to="/patient" />
 
-    <h1 class="mb-5 text-xl font-bold">Nowa wizyta</h1>
+    <h1 class="mb-5 text-2xl font-bold">Nowa wizyta</h1>
     <div class="space-y-4">
       <div>
         <UFormGroup label="Birthday" name="birthday">

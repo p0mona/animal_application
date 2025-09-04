@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <h1 class="mb-5 text-xl font-bold">Zaloguj się</h1>
+    <h1 class="mb-5 text-2xl font-bold">Zaloguj się</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" required>

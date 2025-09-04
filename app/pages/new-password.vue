@@ -2,7 +2,7 @@
   <Layout>
     <BackButton to="/login" />
 
-    <h1 class="mb-5 text-xl font-bold">Ustaw nowe hasło</h1>
+    <h1 class="mb-5 text-2xl font-bold">Ustaw nowe hasło</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <div>

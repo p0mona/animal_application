@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <h1 class="text-xl font-bold text-gray-900">Strona główna</h1>
+    <h1 class="text-2xl font-bold text-gray-900">Strona główna</h1>
 
     <Navigation :items="navItems" v-model="activeTab" />
 

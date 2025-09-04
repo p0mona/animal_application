@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <h1 class="mb-4 text-xl font-bold">Załóż konto</h1>
+    <h1 class="mb-4 text-2xl font-bold">Załóż konto</h1>
 
     <UForm
       :schema="schema"

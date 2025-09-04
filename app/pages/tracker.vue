@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="space-y-4">
-      <h1 class="text-xl font-bold text-gray-900">Tracker wagi i wzrostu</h1>
+      <h1 class="text-2xl font-bold text-gray-900">Tracker wagi i wzrostu</h1>
 
       <!-- Фальшивый график -->
       <svg class="w-full h-32 bg-gray-100 rounded-lg" viewBox="0 0 100 32">

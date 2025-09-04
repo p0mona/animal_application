@@ -2,7 +2,7 @@
   <Layout>
     <BackButton to="/login" />
 
-    <h1 class="mb-4 text-xl font-bold">Zmień hasło</h1>
+    <h1 class="mb-4 text-2xl font-bold">Zmień hasło</h1>
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" required name="email">
