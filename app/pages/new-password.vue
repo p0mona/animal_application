@@ -1,108 +1,104 @@
 <template>
-  <div class="min-h-screen bg-[#77e177]">
-    <div class="flex justify-center p-4">
-      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
-        <UButton
-          icon="i-heroicons-arrow-left"
-          variant="ghost"
-          color="neutral"
-          class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
-          @click="goBack"
-        />
+  <Layout>
+    <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <UButton
+        icon="i-heroicons-arrow-left"
+        variant="ghost"
+        color="neutral"
+        class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
+        @click="goBack"
+      />
 
-        <h1 class="mb-5 text-xl font-bold">Ustaw nowe hasło</h1>
+      <h1 class="mb-5 text-xl font-bold">Ustaw nowe hasło</h1>
 
-        <UForm
-          :schema="schema"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
-        >
-          <div>
-            <UFormField label="Nowe hasło" name="newPassword">
-              <UInput
-                v-model="state.newPassword"
-                placeholder="Wpisz hasło"
-                :color="color"
-                :type="show ? 'text' : 'password'"
-                aria-describedby="password-strength"
-                :ui="{ trailing: 'pe-1' }"
-                class="w-full"
-              >
-                <template #trailing>
-                  <UButton
-                    color="neutral"
-                    variant="link"
-                    size="sm"
-                    :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                    :aria-label="show ? 'Hide password' : 'Show password'"
-                    :aria-pressed="show"
-                    @click="show = !show"
-                  />
-                </template>
-              </UInput>
-
-              <UProgress
-                :color="color"
-                :indicator="text"
-                :model-value="score"
-                :max="4"
-                size="sm"
-              />
-
-              <p id="password-strength" class="text-sm font-medium mt-4 mb-2">
-                {{ text }}. Musi zawierać:
-              </p>
-
-              <ul class="space-y-2" aria-label="Password requirements">
-                <li
-                  v-for="(req, index) in strength"
-                  :key="index"
-                  class="flex items-center gap-0.5"
-                  :class="req.met ? 'text-success' : 'text-muted'"
-                >
-                  <UIcon
-                    :name="
-                      req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
-                    "
-                    class="size-4 shrink-0"
-                  />
-                  <span class="text-xs font-light">
-                    {{ req.text }}
-                    <span class="sr-only">
-                      {{
-                        req.met
-                          ? " - Requirement met"
-                          : " - Requirement not met"
-                      }}
-                    </span>
-                  </span>
-                </li>
-              </ul>
-            </UFormField>
-          </div>
-
-          <UFormField label="Powtórz nowe hasło" name="confirmNewPassword">
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <div>
+          <UFormField label="Nowe hasło" name="newPassword">
             <UInput
-              v-model="state.confirmNewPassword"
-              type="password"
-              placeholder="Wprowadź hasło"
+              v-model="state.newPassword"
+              placeholder="Wpisz hasło"
+              :color="color"
+              :type="show ? 'text' : 'password'"
+              aria-describedby="password-strength"
+              :ui="{ trailing: 'pe-1' }"
               class="w-full"
-            />
-            <UFormMessage />
-          </UFormField>
-
-          <NuxtLink to="/login">
-            <UButton
-              type="button"
-              class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-              >Potwierdzam</UButton
             >
-          </NuxtLink>
-        </UForm>
-      </div>
+              <template #trailing>
+                <UButton
+                  color="neutral"
+                  variant="link"
+                  size="sm"
+                  :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                  :aria-label="show ? 'Hide password' : 'Show password'"
+                  :aria-pressed="show"
+                  @click="show = !show"
+                />
+              </template>
+            </UInput>
+
+            <UProgress
+              :color="color"
+              :indicator="text"
+              :model-value="score"
+              :max="4"
+              size="sm"
+            />
+
+            <p id="password-strength" class="text-sm font-medium mt-4 mb-2">
+              {{ text }}. Musi zawierać:
+            </p>
+
+            <ul class="space-y-2" aria-label="Password requirements">
+              <li
+                v-for="(req, index) in strength"
+                :key="index"
+                class="flex items-center gap-0.5"
+                :class="req.met ? 'text-success' : 'text-muted'"
+              >
+                <UIcon
+                  :name="
+                    req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
+                  "
+                  class="size-4 shrink-0"
+                />
+                <span class="text-xs font-light">
+                  {{ req.text }}
+                  <span class="sr-only">
+                    {{
+                      req.met ? " - Requirement met" : " - Requirement not met"
+                    }}
+                  </span>
+                </span>
+              </li>
+            </ul>
+          </UFormField>
+        </div>
+
+        <UFormField label="Powtórz nowe hasło" name="confirmNewPassword">
+          <UInput
+            v-model="state.confirmNewPassword"
+            type="password"
+            placeholder="Wprowadź hasło"
+            class="w-full"
+          />
+          <UFormMessage />
+        </UFormField>
+
+        <NuxtLink to="/login">
+          <UButton
+            type="button"
+            class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+            >Potwierdzam</UButton
+          >
+        </NuxtLink>
+      </UForm>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script setup lang="ts">

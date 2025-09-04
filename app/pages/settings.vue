@@ -1,178 +1,79 @@
 <template>
-  <div class="min-h-screen bg-[#77e177]">
-    <div class="flex justify-center p-4 bg-[#77e177]">
-      <div
-        class="max-w-3xl bg-white w-full rounded-2xl shadow-lg p-6 space-y-4"
-      >
-        <UContainer class="py-8">
-          <div class="flex items-center justify-between mb-8">
-            <h1 class="text-xl font-bold text-gray-900">Ustawienia</h1>
+  <Layout>
+    <div class="max-w-4xl bg-white w-full rounded-2xl shadow-lg p-6 space-y-4">
+      <UContainer class="py-8">
+        <div class="flex items-center justify-between mb-8">
+          <h1 class="text-xl font-bold text-gray-900">Ustawienia</h1>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="sm:hidden mb-6">
+          <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
+            <UButton
+              v-for="item in navItems"
+              :key="item.key"
+              :icon="item.icon"
+              :color="activeTab === item.key ? undefined : 'neutral'"
+              variant="ghost"
+              size="lg"
+              :class="[
+                'rounded-full',
+                activeTab === item.key
+                  ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                  : '',
+              ]"
+              @click="activeTab = item.key"
+            />
           </div>
+        </div>
 
-          <!-- Mobile Navigation -->
-          <div class="sm:hidden mb-6">
-            <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
-              <UButton
-                v-for="item in navItems"
-                :key="item.key"
-                :icon="item.icon"
-                :color="activeTab === item.key ? undefined : 'neutral'"
-                variant="ghost"
-                size="lg"
-                :class="[
-                  'rounded-full',
-                  activeTab === item.key
-                    ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
-                    : '',
-                ]"
-                @click="activeTab = item.key"
-              />
-            </div>
+        <!-- Desktop Navigation -->
+        <div class="hidden sm:block mb-6">
+          <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm">
+            <UButton
+              v-for="item in navItems"
+              :key="item.key"
+              :icon="item.icon"
+              :label="item.label"
+              :color="activeTab === item.key ? undefined : 'neutral'"
+              variant="ghost"
+              :class="[
+                'flex items-center space-x-2 px-4 py-3',
+                activeTab === item.key
+                  ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+                  : 'hover:bg-gray-100',
+              ]"
+              @click="activeTab = item.key"
+            />
           </div>
+        </div>
 
-          <!-- Desktop Navigation -->
-          <div class="hidden sm:block mb-6">
-            <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm">
-              <UButton
-                v-for="item in navItems"
-                :key="item.key"
-                :icon="item.icon"
-                :label="item.label"
-                :color="activeTab === item.key ? undefined : 'neutral'"
-                variant="ghost"
-                :class="[
-                  'flex items-center space-x-2 px-4 py-3',
-                  activeTab === item.key
-                    ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
-                    : 'hover:bg-gray-100',
-                ]"
-                @click="activeTab = item.key"
-              />
-            </div>
-          </div>
+        <!-- Profile Content -->
+        <div v-if="activeTab === 'profile'" class="space-y-4">
+          <UCard>
+            <template #header>
+              <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
+            </template>
 
-          <!-- Profile Content -->
-          <div v-if="activeTab === 'profile'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
-              </template>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Pupil Section -->
+              <div>
+                <h3 class="text-base font-semibold mb-4">Pupil</h3>
+                <UForm
+                  :schema="profileSchema"
+                  :state="profile"
+                  class="grid gap-4"
+                >
+                  <USelectMenu placeholder="Pies" :items="animals" />
+                  <USelectMenu placeholder="Akita Inu" :items="breeds" />
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Pupil Section -->
-                <div>
-                  <h3 class="text-base font-semibold mb-4">Pupil</h3>
-                  <UForm
-                    :schema="profileSchema"
-                    :state="profile"
-                    class="grid gap-4"
-                  >
-                    <USelectMenu placeholder="Pies" :items="animals" />
-                    <USelectMenu placeholder="Akita Inu" :items="breeds" />
-
-                    <div class="w-full">
-                      <p class="text-sm">Płeć</p>
-                      <URadioGroup
-                        v-model="profile.animal_sex"
-                        orientation="horizontal"
-                        variant="list"
-                        :items="animal_sex"
-                        :ui="{
-                          base: 'ui-radio',
-                          container: 'w-full',
-                          indicator: 'bg-violet-500',
-                          label: 'ui-label',
-                          description: 'ui-description',
-                        }"
-                        class="w-full"
-                      />
-                    </div>
-
-                    <UFormGroup label="Animal_name" name="animal_name">
-                      <p class="text-sm mb-2">Imię</p>
-                      <UInput
-                        v-model="profile.animal_name"
-                        type="text"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Animal_age" name="animal_age">
-                      <p class="text-sm mb-2">Wiek</p>
-                      <UInput
-                        v-model="profile.animal_age"
-                        type="number"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Animal_height" name="animal_height">
-                      <p class="text-sm mb-2">Wzrost</p>
-                      <UInput
-                        v-model="profile.animal_height"
-                        type="number"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Animal_weight" name="animal_weight">
-                      <p class="text-sm mb-2">Waga</p>
-                      <UInput
-                        v-model="profile.animal_weight"
-                        type="number"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Chip" name="chip">
-                      <p class="text-sm mb-2">Nr chipu</p>
-                      <UInput
-                        v-model="profile.chip"
-                        type="text"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-                  </UForm>
-                </div>
-
-                <div>
-                  <div
-                    class="relative w-48 h-48 mx-auto mb-4 group cursor-pointer"
-                  >
-                    <img
-                      src="/images/example-photo.jpg"
-                      class="w-full h-full object-cover rounded-2xl transition duration-300 group-hover:brightness-75"
-                    />
-
-                    <!-- Overlay текст -->
-                    <div
-                      class="absolute inset-0 flex items-center justify-center text-sm text-white font-semibold text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    >
-                      Zmień zdięcie
-                    </div>
-                  </div>
-
-                  <!-- Owner Section -->
-                  <h3 class="text-base font-semibold mb-4">Właściciel</h3>
-                  <UForm
-                    :schema="profileSchema"
-                    :state="profile"
-                    class="grid gap-4"
-                  >
-                    <UFormGroup label="Name" name="name">
-                      <p class="text-sm mb-2">Imię</p>
-                      <UInput
-                        v-model="profile.name"
-                        type="text"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
+                  <div class="w-full">
+                    <p class="text-sm">Płeć</p>
                     <URadioGroup
-                      v-model="profile.sex"
+                      v-model="profile.animal_sex"
                       orientation="horizontal"
                       variant="list"
-                      :items="sex"
+                      :items="animal_sex"
                       :ui="{
                         base: 'ui-radio',
                         container: 'w-full',
@@ -180,242 +81,327 @@
                         label: 'ui-label',
                         description: 'ui-description',
                       }"
+                      class="w-full"
                     />
+                  </div>
 
-                    <UFormGroup label="Birthday" name="birthday">
-                      <p class="text-sm mb-2">Data urodzenia</p>
-                      <UInput
-                        id="birthday"
-                        type="date"
-                        v-model="profile.birthday"
-                        class="w-full"
-                      />
-                    </UFormGroup>
+                  <UFormGroup label="Animal_name" name="animal_name">
+                    <p class="text-sm mb-2">Imię</p>
+                    <UInput
+                      v-model="profile.animal_name"
+                      type="text"
+                      class="w-full"
+                    />
+                  </UFormGroup>
 
-                    <div class="flex justify-end">
-                      <UButton
-                        type="button"
-                        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                      >
-                        Zapisz zmiany
-                      </UButton>
-                    </div>
-                  </UForm>
-                </div>
+                  <UFormGroup label="Animal_age" name="animal_age">
+                    <p class="text-sm mb-2">Wiek</p>
+                    <UInput
+                      v-model="profile.animal_age"
+                      type="number"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup label="Animal_height" name="animal_height">
+                    <p class="text-sm mb-2">Wzrost</p>
+                    <UInput
+                      v-model="profile.animal_height"
+                      type="number"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup label="Animal_weight" name="animal_weight">
+                    <p class="text-sm mb-2">Waga</p>
+                    <UInput
+                      v-model="profile.animal_weight"
+                      type="number"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup label="Chip" name="chip">
+                    <p class="text-sm mb-2">Nr chipu</p>
+                    <UInput v-model="profile.chip" type="text" class="w-full" />
+                  </UFormGroup>
+                </UForm>
               </div>
-            </UCard>
-          </div>
 
-          <!-- Security Content -->
-          <div v-else-if="activeTab === 'security'" class="space-y-4">
-            <UCard class="w-full">
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">
-                  Bezpieczeństwo
-                </h2>
-              </template>
+              <div>
+                <div
+                  class="relative w-48 h-48 mx-auto mb-4 group cursor-pointer"
+                >
+                  <img
+                    src="/images/example-photo.jpg"
+                    class="w-full h-full object-cover rounded-2xl transition duration-300 group-hover:brightness-75"
+                  />
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                <div class="w-full min-w-0">
-                  <UForm
-                    :schema="securitySchema"
-                    :state="security"
-                    class="space-y-4"
+                  <!-- Overlay текст -->
+                  <div
+                    class="absolute inset-0 flex items-center justify-center text-sm text-white font-semibold text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   >
-                    <UFormGroup label="Obecne hasło" name="currentPassword">
-                      <p class="text-sm mb-2">Obecne hasło</p>
-                      <UInput
-                        v-model="security.currentPassword"
-                        type="password"
-                        class="w-full max-w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Nowe hasło" name="newPassword">
-                      <p class="text-sm mb-2">Nowe hasło</p>
-                      <UInput
-                        v-model="security.newPassword"
-                        type="password"
-                        class="w-full max-w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup
-                      label="Potwierdź nowe hasło"
-                      name="confirmPassword"
-                    >
-                      <p class="text-sm mb-2">Potwierdź nowe hasło</p>
-                      <UInput
-                        v-model="security.confirmPassword"
-                        type="password"
-                        class="w-full max-w-full"
-                      />
-                    </UFormGroup>
-
-                    <div class="flex justify-end">
-                      <UButton
-                        type="submit"
-                        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                        :loading="saving"
-                      >
-                        Zmień hasło
-                      </UButton>
-                    </div>
-                  </UForm>
+                    Zmień zdięcie
+                  </div>
                 </div>
 
-                <div class="w-full min-w-0">
-                  <h3 class="text-sm font-medium mb-4">
-                    Uwierzytelnianie dwuskładnikowe
-                  </h3>
-                  <USwitch
-                    v-model="twoFactorEnabled"
-                    label="Włącz 2FA"
-                    class="w-full max-w-full [&_[data-state=checked]]:bg-violet-500 [&_[data-state=checked]_.bg-default]:bg-white"
+                <!-- Owner Section -->
+                <h3 class="text-base font-semibold mb-4">Właściciel</h3>
+                <UForm
+                  :schema="profileSchema"
+                  :state="profile"
+                  class="grid gap-4"
+                >
+                  <UFormGroup label="Name" name="name">
+                    <p class="text-sm mb-2">Imię</p>
+                    <UInput v-model="profile.name" type="text" class="w-full" />
+                  </UFormGroup>
+
+                  <URadioGroup
+                    v-model="profile.sex"
+                    orientation="horizontal"
+                    variant="list"
+                    :items="sex"
+                    :ui="{
+                      base: 'ui-radio',
+                      container: 'w-full',
+                      indicator: 'bg-violet-500',
+                      label: 'ui-label',
+                      description: 'ui-description',
+                    }"
+                  />
+
+                  <UFormGroup label="Birthday" name="birthday">
+                    <p class="text-sm mb-2">Data urodzenia</p>
+                    <UInput
+                      id="birthday"
+                      type="date"
+                      v-model="profile.birthday"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <div class="flex justify-end">
+                    <UButton
+                      type="button"
+                      class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                    >
+                      Zapisz zmiany
+                    </UButton>
+                  </div>
+                </UForm>
+              </div>
+            </div>
+          </UCard>
+        </div>
+
+        <!-- Security Content -->
+        <div v-else-if="activeTab === 'security'" class="space-y-4">
+          <UCard class="w-full">
+            <template #header>
+              <h2 class="text-lg font-semibold text-gray-900">
+                Bezpieczeństwo
+              </h2>
+            </template>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+              <div class="w-full min-w-0">
+                <UForm
+                  :schema="securitySchema"
+                  :state="security"
+                  class="space-y-4"
+                >
+                  <UFormGroup label="Obecne hasło" name="currentPassword">
+                    <p class="text-sm mb-2">Obecne hasło</p>
+                    <UInput
+                      v-model="security.currentPassword"
+                      type="password"
+                      class="w-full max-w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup label="Nowe hasło" name="newPassword">
+                    <p class="text-sm mb-2">Nowe hasło</p>
+                    <UInput
+                      v-model="security.newPassword"
+                      type="password"
+                      class="w-full max-w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup
+                    label="Potwierdź nowe hasło"
+                    name="confirmPassword"
+                  >
+                    <p class="text-sm mb-2">Potwierdź nowe hasło</p>
+                    <UInput
+                      v-model="security.confirmPassword"
+                      type="password"
+                      class="w-full max-w-full"
+                    />
+                  </UFormGroup>
+
+                  <div class="flex justify-end">
+                    <UButton
+                      type="submit"
+                      class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                      :loading="saving"
+                    >
+                      Zmień hasło
+                    </UButton>
+                  </div>
+                </UForm>
+              </div>
+
+              <div class="w-full min-w-0">
+                <h3 class="text-sm font-medium mb-4">
+                  Uwierzytelnianie dwuskładnikowe
+                </h3>
+                <USwitch
+                  v-model="twoFactorEnabled"
+                  label="Włącz 2FA"
+                  class="w-full max-w-full [&_[data-state=checked]]:bg-violet-500 [&_[data-state=checked]_.bg-default]:bg-white"
+                />
+              </div>
+            </div>
+          </UCard>
+        </div>
+
+        <!-- Notifications Content -->
+        <div v-else-if="activeTab === 'notifications'" class="space-y-4">
+          <UCard>
+            <template #header>
+              <h2 class="text-lg font-semibold text-gray-900">Powiadomienia</h2>
+            </template>
+
+            <div class="space-y-4">
+              <UForm :state="notifications">
+                <div class="space-y-4">
+                  <h3 class="text-base font-semibold">Kanały powiadomień</h3>
+
+                  <UCheckbox
+                    v-model="notifications.email"
+                    class="[&_[data-state=checked]]:bg-violet-500"
+                    label="Email"
+                  />
+                  <UCheckbox
+                    v-model="notifications.push"
+                    label="Powiadomienia push"
+                    class="[&_[data-state=checked]]:bg-violet-500"
+                  />
+                  <UCheckbox
+                    v-model="notifications.sms"
+                    class="[&_[data-state=checked]]:bg-violet-500"
+                    label="SMS"
+                  />
+
+                  <UDivider />
+
+                  <h3 class="text-base font-semibold">Typy powiadomień</h3>
+
+                  <UCheckbox
+                    v-model="notifications.news"
+                    label="Aktualności i ogłoszenia"
+                    class="[&_[data-state=checked]]:bg-violet-500"
+                  />
+                  <UCheckbox
+                    v-model="notifications.security"
+                    label="Alerty bezpieczeństwa"
+                    class="[&_[data-state=checked]]:bg-violet-500"
+                  />
+                  <UCheckbox
+                    v-model="notifications.marketing"
+                    label="Oferty marketingowe"
+                    class="[&_[data-state=checked]]:bg-violet-500"
                   />
                 </div>
-              </div>
-            </UCard>
-          </div>
 
-          <!-- Notifications Content -->
-          <div v-else-if="activeTab === 'notifications'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">
-                  Powiadomienia
-                </h2>
-              </template>
-
-              <div class="space-y-4">
-                <UForm :state="notifications">
-                  <div class="space-y-4">
-                    <h3 class="text-base font-semibold">Kanały powiadomień</h3>
-
-                    <UCheckbox
-                      v-model="notifications.email"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                      label="Email"
-                    />
-                    <UCheckbox
-                      v-model="notifications.push"
-                      label="Powiadomienia push"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                    <UCheckbox
-                      v-model="notifications.sms"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                      label="SMS"
-                    />
-
-                    <UDivider />
-
-                    <h3 class="text-base font-semibold">Typy powiadomień</h3>
-
-                    <UCheckbox
-                      v-model="notifications.news"
-                      label="Aktualności i ogłoszenia"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                    <UCheckbox
-                      v-model="notifications.security"
-                      label="Alerty bezpieczeństwa"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                    <UCheckbox
-                      v-model="notifications.marketing"
-                      label="Oferty marketingowe"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                  </div>
-
-                  <UButton
-                    type="submit"
-                    class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-4"
-                    :loading="saving"
-                  >
-                    Zapisz ustawienia
-                  </UButton>
-                </UForm>
-              </div>
-            </UCard>
-          </div>
-
-          <!-- Preferences Content -->
-          <div v-else-if="activeTab === 'preferences'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">Preferencje</h2>
-              </template>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <UForm :state="preferences">
-                  <div class="space-y-4 space-x-4">
-                    <UFormGroup label="Język" name="language" class="space-y-2">
-                      <p class="text-sm">Język</p>
-                      <USelect
-                        v-model="preferences.language"
-                        :items="languageOptions"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup
-                      label="Strefa czasowa"
-                      name="timezone"
-                      class="space-y-2"
-                    >
-                      <p class="text-sm">Strefa czasowa</p>
-                      <USelect
-                        v-model="preferences.timezone"
-                        :items="timezoneOptions"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Motyw" name="theme" class="space-y-2">
-                      <p class="text-sm">Motyw</p>
-                      <USelect
-                        v-model="preferences.theme"
-                        :items="themeOptions"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-                  </div>
-
-                  <UButton
-                    type="submit"
-                    class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                    :loading="saving"
-                  >
-                    Zapisz
-                  </UButton>
-                </UForm>
-              </div>
-            </UCard>
-          </div>
-
-          <!-- QR Content -->
-          <div v-else-if="activeTab === 'qr'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">QR</h2>
-              </template>
-              <div class="w-full flex flex-col items-center">
-                <img src="/images/qr.svg" class="mb-4" />
                 <UButton
-                  type="button"
-                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                  type="submit"
+                  class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-4"
+                  :loading="saving"
                 >
-                  Generuj QR
+                  Zapisz ustawienia
                 </UButton>
-              </div>
-            </UCard>
-          </div>
-        </UContainer>
-      </div>
+              </UForm>
+            </div>
+          </UCard>
+        </div>
+
+        <!-- Preferences Content -->
+        <div v-else-if="activeTab === 'preferences'" class="space-y-4">
+          <UCard>
+            <template #header>
+              <h2 class="text-lg font-semibold text-gray-900">Preferencje</h2>
+            </template>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <UForm :state="preferences">
+                <div class="space-y-4 space-x-4">
+                  <UFormGroup label="Język" name="language" class="space-y-2">
+                    <p class="text-sm">Język</p>
+                    <USelect
+                      v-model="preferences.language"
+                      :items="languageOptions"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup
+                    label="Strefa czasowa"
+                    name="timezone"
+                    class="space-y-2"
+                  >
+                    <p class="text-sm">Strefa czasowa</p>
+                    <USelect
+                      v-model="preferences.timezone"
+                      :items="timezoneOptions"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+
+                  <UFormGroup label="Motyw" name="theme" class="space-y-2">
+                    <p class="text-sm">Motyw</p>
+                    <USelect
+                      v-model="preferences.theme"
+                      :items="themeOptions"
+                      class="w-full"
+                    />
+                  </UFormGroup>
+                </div>
+
+                <UButton
+                  type="submit"
+                  class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+                  :loading="saving"
+                >
+                  Zapisz
+                </UButton>
+              </UForm>
+            </div>
+          </UCard>
+        </div>
+
+        <!-- QR Content -->
+        <div v-else-if="activeTab === 'qr'" class="space-y-4">
+          <UCard>
+            <template #header>
+              <h2 class="text-lg font-semibold text-gray-900">QR</h2>
+            </template>
+            <div class="w-full flex flex-col items-center">
+              <img src="/images/qr.svg" class="mb-4" />
+              <UButton
+                type="button"
+                class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+              >
+                Generuj QR
+              </UButton>
+            </div>
+          </UCard>
+        </div>
+      </UContainer>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script setup lang="ts">

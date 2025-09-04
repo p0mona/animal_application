@@ -1,53 +1,51 @@
 <template>
-  <div class="min-h-screen bg-[#77e177]">
-    <div class="flex justify-center p-4">
-      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
-        <h1 class="mb-5 text-xl font-bold">Zaloguj się</h1>
+  <Layout>
+    <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
+      <h1 class="mb-5 text-xl font-bold">Zaloguj się</h1>
 
-        <UForm
-          :schema="schema"
-          :state="state"
-          class="space-y-4"
-          @submit="onSubmit"
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <UFormField label="Email" name="email" required>
+          <UInput
+            v-model="state.email"
+            placeholder="Wprowadź email"
+            icon="i-lucide-at-sign"
+            class="w-full"
+          />
+          <UFormMessage />
+        </UFormField>
+
+        <UFormField label="Hasło" name="password" required>
+          <UInput
+            v-model="state.password"
+            type="password"
+            placeholder="Wprowadź hasło"
+            class="w-full"
+          />
+          <UFormMessage />
+        </UFormField>
+
+        <UButton
+          type="submit"
+          class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+          >Zaloguj się</UButton
         >
-          <UFormField label="Email" name="email" required>
-            <UInput
-              v-model="state.email"
-              placeholder="Wprowadź email"
-              icon="i-lucide-at-sign"
-              class="w-full"
-            />
-            <UFormMessage />
-          </UFormField>
+      </UForm>
 
-          <UFormField label="Hasło" name="password" required>
-            <UInput
-              v-model="state.password"
-              type="password"
-              placeholder="Wprowadź hasło"
-              class="w-full"
-            />
-            <UFormMessage />
-          </UFormField>
-
-          <UButton
-            type="submit"
-            class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-            >Zaloguj się</UButton
-          >
-        </UForm>
-
-        <p class="mt-3">
-          Nie masz jeszcze konta?
-          <NuxtLink to="/register">Zarejestruj się</NuxtLink>
-        </p>
-        <p class="forget-password-link">
-          Nie pamiętasz hasło?
-          <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
-        </p>
-      </div>
+      <p class="mt-3">
+        Nie masz jeszcze konta?
+        <NuxtLink to="/register">Zarejestruj się</NuxtLink>
+      </p>
+      <p class="forget-password-link">
+        Nie pamiętasz hasło?
+        <NuxtLink to="/forget-password">Zmień hasło</NuxtLink>
+      </p>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script setup lang="ts">

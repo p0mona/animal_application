@@ -1,40 +1,36 @@
 <template>
-  <div class="min-h-screen bg-[#77e177]">
-    <div class="flex justify-center p-4 bg-[#77e177]">
-      <div
-        class="max-w-4xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4"
-      >
-        <!-- Заголовок -->
-        <div class="flex items-center justify-between mb-8">
-          <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
-          <div class="flex justify-end">
-            <NuxtLink to="new_announcement">
-              <UButton
-                type="button"
-                class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-              >
-                Dodaj ogłoszenie
-              </UButton>
-            </NuxtLink>
-          </div>
+  <Layout>
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4">
+      <!-- Заголовок -->
+      <div class="flex items-center justify-between mb-8">
+        <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
+        <div class="flex justify-end">
+          <NuxtLink to="new_announcement">
+            <UButton
+              type="button"
+              class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+            >
+              Dodaj ogłoszenie
+            </UButton>
+          </NuxtLink>
         </div>
-
-        <!-- Сетка карточек -->
-        <section
-          class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <TrainerCard
-            v-for="(announcement, index) in announcements"
-            :key="index"
-            :name="announcement.name"
-            :image="announcement.image"
-            :experience="announcement.experience"
-            :contact="announcement.contact"
-            @click="openModal(announcement)"
-            class="cursor-pointer hover:scale-105 transition-transform"
-          />
-        </section>
       </div>
+
+      <!-- Сетка карточек -->
+      <section
+        class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <TrainerCard
+          v-for="(announcement, index) in announcements"
+          :key="index"
+          :name="announcement.name"
+          :image="announcement.image"
+          :experience="announcement.experience"
+          :contact="announcement.contact"
+          @click="openModal(announcement)"
+          class="cursor-pointer hover:scale-105 transition-transform"
+        />
+      </section>
     </div>
 
     <!-- Модальное окно -->
@@ -78,7 +74,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script setup>

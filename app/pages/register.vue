@@ -1,120 +1,116 @@
 <template>
-  <div class="min-h-screen bg-[#77e177]">
-    <div class="flex justify-center p-4">
-      <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
-        <h1 class="mb-4 text-xl font-bold">Załóż konto</h1>
+  <Layout>
+    <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6">
+      <h1 class="mb-4 text-xl font-bold">Załóż konto</h1>
 
-        <UForm
-          :schema="schema"
-          :state="state"
-          class="space-y-4 w"
-          @submit="onSubmit"
-        >
-          <UFormField label="Email" name="email" required>
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4 w"
+        @submit="onSubmit"
+      >
+        <UFormField label="Email" name="email" required>
+          <UInput
+            v-model="state.email"
+            placeholder="Wprowadź email"
+            icon="i-lucide-at-sign"
+          />
+          <UFormMessage />
+        </UFormField>
+
+        <div class="space-y-2">
+          <UFormField label="Hasło" name="password">
             <UInput
-              v-model="state.email"
-              placeholder="Wprowadź email"
-              icon="i-lucide-at-sign"
-            />
-            <UFormMessage />
-          </UFormField>
-
-          <div class="space-y-2">
-            <UFormField label="Hasło" name="password">
-              <UInput
-                id="password"
-                v-model="state.password"
-                placeholder="Hasło"
-                :color="color"
-                :type="show ? 'text' : 'password'"
-                :aria-invalid="score < 4"
-                aria-describedby="password-strength"
-                :ui="{ trailing: 'pe-1' }"
-                class="w-full"
-              >
-                <template #trailing>
-                  <UButton
-                    color="neutral"
-                    variant="link"
-                    size="sm"
-                    :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                    :aria-label="show ? 'Ukryj hasło' : 'Pokaż hasło'"
-                    :aria-pressed="show"
-                    aria-controls="password"
-                    @click="show = !show"
-                  />
-                </template>
-              </UInput>
-            </UFormField>
-
-            <UProgress
+              id="password"
+              v-model="state.password"
+              placeholder="Hasło"
               :color="color"
-              :indicator="text"
-              :model-value="score"
-              :max="4"
-              size="sm"
-            />
-
-            <p id="password-strength" class="text-sm font-medium">
-              {{ text }}. Musi zawierać:
-            </p>
-
-            <ul class="space-y-2" aria-label="Password requirements">
-              <li
-                v-for="(req, index) in strength"
-                :key="index"
-                class="flex items-center gap-0.5"
-                :class="req.met ? 'text-success' : 'text-muted'"
-              >
-                <UIcon
-                  :name="
-                    req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
-                  "
-                  class="size-4 shrink-0"
+              :type="show ? 'text' : 'password'"
+              :aria-invalid="score < 4"
+              aria-describedby="password-strength"
+              :ui="{ trailing: 'pe-1' }"
+              class="w-full"
+            >
+              <template #trailing>
+                <UButton
+                  color="neutral"
+                  variant="link"
+                  size="sm"
+                  :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                  :aria-label="show ? 'Ukryj hasło' : 'Pokaż hasło'"
+                  :aria-pressed="show"
+                  aria-controls="password"
+                  @click="show = !show"
                 />
-
-                <span class="text-xs font-light">
-                  {{ req.text }}
-                  <span class="sr-only">
-                    {{
-                      req.met ? " - Requirement met" : " - Requirement not met"
-                    }}
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </div>
-
-          <UFormField label="Powtórz hasło" name="confirmPassword">
-            <UInput
-              v-model="state.confirmPassword"
-              type="password"
-              placeholder="Powtórz hasło"
-            />
-            <UFormMessage />
+              </template>
+            </UInput>
           </UFormField>
 
-          <UCheckbox
-            color="neutral"
-            default-value
-            required
-            label="RODO"
-            description="coca cola"
+          <UProgress
+            :color="color"
+            :indicator="text"
+            :model-value="score"
+            :max="4"
+            size="sm"
           />
 
-          <UButton
-            type="submit"
-            class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-            >Zarejestruj się</UButton
-          >
-        </UForm>
+          <p id="password-strength" class="text-sm font-medium">
+            {{ text }}. Musi zawierać:
+          </p>
 
-        <p class="mt-2">
-          Już masz konto? <NuxtLink to="/login">Zaloguj się</NuxtLink>
-        </p>
-      </div>
+          <ul class="space-y-2" aria-label="Password requirements">
+            <li
+              v-for="(req, index) in strength"
+              :key="index"
+              class="flex items-center gap-0.5"
+              :class="req.met ? 'text-success' : 'text-muted'"
+            >
+              <UIcon
+                :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'"
+                class="size-4 shrink-0"
+              />
+
+              <span class="text-xs font-light">
+                {{ req.text }}
+                <span class="sr-only">
+                  {{
+                    req.met ? " - Requirement met" : " - Requirement not met"
+                  }}
+                </span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <UFormField label="Powtórz hasło" name="confirmPassword">
+          <UInput
+            v-model="state.confirmPassword"
+            type="password"
+            placeholder="Powtórz hasło"
+          />
+          <UFormMessage />
+        </UFormField>
+
+        <UCheckbox
+          color="neutral"
+          default-value
+          required
+          label="RODO"
+          description="coca cola"
+        />
+
+        <UButton
+          type="submit"
+          class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
+          >Zarejestruj się</UButton
+        >
+      </UForm>
+
+      <p class="mt-2">
+        Już masz konto? <NuxtLink to="/login">Zaloguj się</NuxtLink>
+      </p>
     </div>
-  </div>
+  </Layout>
 </template>
 
 <script setup lang="ts">
