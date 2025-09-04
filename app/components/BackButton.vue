@@ -13,7 +13,7 @@ import { UButton } from "#components";
 import { defineProps } from "vue";
 
 const props = defineProps({
-  to: { type: String, required: true }
+  to: { type: String, required: true },
 });
 
 const goBack = () => {

@@ -170,5 +170,4 @@ const animal_sex = ref<RadioGroupItem[]>([
   { label: "Samica", value: "K" },
   { label: "Samiec", value: "M" },
 ]);
-
 </script>

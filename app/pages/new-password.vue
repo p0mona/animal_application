@@ -156,5 +156,4 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     color: "success",
   });
 }
-
 </script>

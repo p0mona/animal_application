@@ -53,47 +53,12 @@
       </div>
     </div>
 
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Objawy</h3>
-      <div class="w-full">
-        <UInput v-model="form.symptoms" class="w-full" />
-      </div>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Badanie</h3>
-      <div class="w-full">
-        <UInput v-model="form.tests" class="w-full" />
-      </div>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Diagnoza</h3>
-      <div class="w-full">
-        <UInput v-model="form.diagnosis" class="w-full" />
-      </div>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Plan leczenia</h3>
-      <div class="w-full">
-        <UInput v-model="form.treatment" class="w-full" />
-      </div>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Polecenia</h3>
-      <div class="w-full">
-        <UInput v-model="form.advice" class="w-full" />
-      </div>
-    </div>
-
-    <div>
-      <h3 class="text-sm font-semibold text-gray-900">Dodatkowe uwagi</h3>
-      <div class="w-full">
-        <UInput v-model="form.notes" class="w-full" />
-      </div>
-    </div>
+    <FormVisitSection title="Objawy" v-model="form.symptoms" />
+    <FormVisitSection title="Badanie" v-model="form.tests" />
+    <FormVisitSection title="Diagnoza" v-model="form.diagnosis" />
+    <FormVisitSection title="Plan leczenia" v-model="form.treatment" />
+    <FormVisitSection title="Polecenia" v-model="form.advice" />
+    <FormVisitSection title="Dodatkowe uwagi" v-model="form.notes" />
   </FullWidthLayout>
 </template>
 

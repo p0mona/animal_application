@@ -8,6 +8,6 @@
 <script setup>
 defineProps({
   title: { type: String, required: true },
-  content: { type: String, default: '-----' }
+  content: { type: String, default: "-----" },
 });
 </script>

@@ -20,7 +20,10 @@
     <VisitSection title="Objawy" :content="visit?.symptoms || '-----'" />
     <VisitSection title="Badanie" :content="visit?.exam || '-----'" />
     <VisitSection title="Badanie" :content="visit?.diagnosis || '-----'" />
-    <VisitSection title="Plan leczenia" :content="visit?.treatment || '-----'" />
+    <VisitSection
+      title="Plan leczenia"
+      :content="visit?.treatment || '-----'"
+    />
     <VisitSection title="Polecenia" :content="visit?.advice || '-----'" />
     <VisitSection title="Dodatkowe uwagi" :content="visit?.notes || '-----'" />
 
