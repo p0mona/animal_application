@@ -1,110 +1,106 @@
 <template>
-  <Layout>
-    <div class="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-4">
-      <UButton
-        icon="i-heroicons-arrow-left"
-        variant="ghost"
-        color="neutral"
-        class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
-        @click="goBack"
-      />
+  <FullWidthLayout>
+    <UButton
+      icon="i-heroicons-arrow-left"
+      variant="ghost"
+      color="neutral"
+      class="rounded-full hover:bg-violet-100 active:bg-violet-200 text-violet-500"
+      @click="goBack"
+    />
 
-      <!-- Заголовок -->
-      <div class="flex items-center justify-between mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">Podsumowanie wizyty</h1>
+    <!-- Заголовок -->
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-2xl font-bold text-gray-900">Podsumowanie wizyty</h1>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Podstawowa informacja</h3>
+
+      <div class="w-full">
+        <p class="text-sm mt-2">Imie</p>
+        <UInput v-model="form.name" class="w-full" />
       </div>
 
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">
-          Podstawowa informacja
-        </h3>
-
-        <div class="w-full">
-          <p class="text-sm mt-2">Imie</p>
-          <UInput v-model="form.name" class="w-full" />
-        </div>
-
-        <div class="w-full">
-          <p class="text-sm">Rasa</p>
-          <USelectMenu placeholder="-" :items="breeds" class="w-full" />
-        </div>
-
-        <div class="w-full mt-4 mb-4">
-          <p class="text-sm">Płeć</p>
-          <URadioGroup
-            v-model="form.animal_sex"
-            orientation="horizontal"
-            variant="list"
-            :items="animal_sex"
-            :ui="{
-              base: 'ui-radio',
-              container: 'w-full',
-              indicator: 'bg-violet-500',
-              label: 'ui-label',
-              description: 'ui-description',
-            }"
-            class="w-full mt-2"
-          />
-        </div>
-
-        <div class="w-full">
-          <p class="text-sm">Wpisz wiek</p>
-          <UInput v-model="form.age" type="number" class="w-full" />
-        </div>
-
-        <div class="w-full">
-          <p class="text-sm">Właściciel</p>
-          <UInput v-model="form.owner" class="w-full" />
-        </div>
-        <div class="w-full">
-          <p class="text-sm">Kontakt</p>
-          <UInput v-model="form.contact" class="w-full" />
-        </div>
+      <div class="w-full">
+        <p class="text-sm">Rasa</p>
+        <USelectMenu placeholder="-" :items="breeds" class="w-full" />
       </div>
 
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Objawy</h3>
-        <div class="w-full">
-          <UInput v-model="form.symptoms" class="w-full" />
-        </div>
+      <div class="w-full mt-4 mb-4">
+        <p class="text-sm">Płeć</p>
+        <URadioGroup
+          v-model="form.animal_sex"
+          orientation="horizontal"
+          variant="list"
+          :items="animal_sex"
+          :ui="{
+            base: 'ui-radio',
+            container: 'w-full',
+            indicator: 'bg-violet-500',
+            label: 'ui-label',
+            description: 'ui-description',
+          }"
+          class="w-full mt-2"
+        />
       </div>
 
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Badanie</h3>
-        <div class="w-full">
-          <UInput v-model="form.tests" class="w-full" />
-        </div>
+      <div class="w-full">
+        <p class="text-sm">Wpisz wiek</p>
+        <UInput v-model="form.age" type="number" class="w-full" />
       </div>
 
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Diagnoza</h3>
-        <div class="w-full">
-          <UInput v-model="form.diagnosis" class="w-full" />
-        </div>
+      <div class="w-full">
+        <p class="text-sm">Właściciel</p>
+        <UInput v-model="form.owner" class="w-full" />
       </div>
-
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Plan leczenia</h3>
-        <div class="w-full">
-          <UInput v-model="form.treatment" class="w-full" />
-        </div>
-      </div>
-
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Polecenia</h3>
-        <div class="w-full">
-          <UInput v-model="form.advice" class="w-full" />
-        </div>
-      </div>
-
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Dodatkowe uwagi</h3>
-        <div class="w-full">
-          <UInput v-model="form.notes" class="w-full" />
-        </div>
+      <div class="w-full">
+        <p class="text-sm">Kontakt</p>
+        <UInput v-model="form.contact" class="w-full" />
       </div>
     </div>
-  </Layout>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Objawy</h3>
+      <div class="w-full">
+        <UInput v-model="form.symptoms" class="w-full" />
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Badanie</h3>
+      <div class="w-full">
+        <UInput v-model="form.tests" class="w-full" />
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Diagnoza</h3>
+      <div class="w-full">
+        <UInput v-model="form.diagnosis" class="w-full" />
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Plan leczenia</h3>
+      <div class="w-full">
+        <UInput v-model="form.treatment" class="w-full" />
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Polecenia</h3>
+      <div class="w-full">
+        <UInput v-model="form.advice" class="w-full" />
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Dodatkowe uwagi</h3>
+      <div class="w-full">
+        <UInput v-model="form.notes" class="w-full" />
+      </div>
+    </div>
+  </FullWidthLayout>
 </template>
 
 <script setup lang="ts">

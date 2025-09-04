@@ -1,98 +1,96 @@
 <template>
   <Layout>
-    <div class="max-w-3xl bg-white rounded-2xl shadow-lg p-6 space-y-4">
-      <h1 class="text-xl font-bold text-gray-900">Strona główna</h1>
+    <h1 class="text-xl font-bold text-gray-900">Strona główna</h1>
 
-      <!-- Mobile Navigation -->
-      <div class="sm:hidden mb-6">
-        <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
-          <UButton
-            v-for="item in navItems"
-            :key="item.key"
-            :icon="item.icon"
-            :color="activeTab === item.key ? undefined : 'neutral'"
-            variant="ghost"
-            size="lg"
-            :class="[
-              'rounded-full',
-              activeTab === item.key
-                ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
-                : '',
-            ]"
-            @click="activeTab = item.key"
-          />
-        </div>
+    <!-- Mobile Navigation -->
+    <div class="sm:hidden mb-6">
+      <div class="flex justify-around bg-white rounded-lg p-2 shadow-sm">
+        <UButton
+          v-for="item in navItems"
+          :key="item.key"
+          :icon="item.icon"
+          :color="activeTab === item.key ? undefined : 'neutral'"
+          variant="ghost"
+          size="lg"
+          :class="[
+            'rounded-full',
+            activeTab === item.key
+              ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+              : '',
+          ]"
+          @click="activeTab = item.key"
+        />
       </div>
+    </div>
 
-      <!-- Desktop Navigation -->
-      <div class="hidden sm:block mb-6">
-        <div class="flex space-x-1 bg-white rounded-lg p-2 shadow-sm">
-          <UButton
-            v-for="item in navItems"
-            :key="item.key"
-            :icon="item.icon"
-            :label="item.label"
-            :color="activeTab === item.key ? undefined : 'neutral'"
-            variant="ghost"
-            :class="[
-              'flex items-center space-x-2 px-4 py-3',
-              activeTab === item.key
-                ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
-                : 'hover:bg-gray-100',
-            ]"
-            @click="activeTab = item.key"
-          />
-        </div>
+    <!-- Desktop Navigation -->
+    <div class="hidden sm:block mb-6">
+      <div class="flex space-x-1 bg-white rounded-lg p-2 shadow-sm">
+        <UButton
+          v-for="item in navItems"
+          :key="item.key"
+          :icon="item.icon"
+          :label="item.label"
+          :color="activeTab === item.key ? undefined : 'neutral'"
+          variant="ghost"
+          :class="[
+            'flex items-center space-x-2 px-4 py-3',
+            activeTab === item.key
+              ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+              : 'hover:bg-gray-100',
+          ]"
+          @click="activeTab = item.key"
+        />
       </div>
+    </div>
 
-      <div v-if="activeTab === 'article'" class="space-y-6">
-        <!-- Статьи -->
-        <section
-          class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <ArticleCard
-            v-for="(article, index) in articles"
-            :key="index"
-            :title="article.title"
-            :author="article.author"
-            :date="article.date"
-            :image="article.image"
-            :excerpt="article.excerpt"
-          />
-        </section>
-      </div>
+    <div v-if="activeTab === 'article'" class="space-y-6">
+      <!-- Статьи -->
+      <section
+        class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <ArticleCard
+          v-for="(article, index) in articles"
+          :key="index"
+          :title="article.title"
+          :author="article.author"
+          :date="article.date"
+          :image="article.image"
+          :excerpt="article.excerpt"
+        />
+      </section>
+    </div>
 
-      <div v-if="activeTab === 'abroad'" class="space-y-6">
-        <section
-          class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <ArticleCard
-            v-for="(abroad, index) in abroads"
-            :key="index"
-            :title="abroad.title"
-            :date="abroad.date"
-            :image="abroad.image"
-            :excerpt="abroad.excerpt"
-          />
-        </section>
-      </div>
+    <div v-if="activeTab === 'abroad'" class="space-y-6">
+      <section
+        class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <ArticleCard
+          v-for="(abroad, index) in abroads"
+          :key="index"
+          :title="abroad.title"
+          :date="abroad.date"
+          :image="abroad.image"
+          :excerpt="abroad.excerpt"
+        />
+      </section>
+    </div>
 
-      <div v-if="activeTab === 'advice'" class="space-y-6">
-        <!-- Статьи -->
-        <section
-          class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <ArticleCard
-            v-for="(article, index) in articles"
-            :key="index"
-            :title="article.title"
-            :author="article.author"
-            :date="article.date"
-            :image="article.image"
-            :excerpt="article.excerpt"
-          />
-        </section>
-      </div>
+    <div v-if="activeTab === 'advice'" class="space-y-6">
+      <!-- Статьи -->
+      <section
+        class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        <ArticleCard
+          v-for="(article, index) in articles"
+          :key="index"
+          :title="article.title"
+          :author="article.author"
+          :date="article.date"
+          :image="article.image"
+          :excerpt="article.excerpt"
+        />
+      </section>
     </div>
 
     <!-- Круглая SOS кнопка -->
