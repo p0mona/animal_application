@@ -23,12 +23,12 @@
       <p>Kontakt: -----</p>
     </div>
 
-    <InfoSection title="Objawy" :content="visit?.symptoms || '-----'" />
-    <InfoSection title="Badanie" :content="visit?.exam || '-----'" />
-    <InfoSection title="Badanie" :content="visit?.diagnosis || '-----'" />
-    <InfoSection title="Plan leczenia" :content="visit?.treatment || '-----'" />
-    <InfoSection title="Polecenia" :content="visit?.advice || '-----'" />
-    <InfoSection title="Dodatkowe uwagi" :content="visit?.notes || '-----'" />
+    <VisitSection title="Objawy" :content="visit?.symptoms || '-----'" />
+    <VisitSection title="Badanie" :content="visit?.exam || '-----'" />
+    <VisitSection title="Badanie" :content="visit?.diagnosis || '-----'" />
+    <VisitSection title="Plan leczenia" :content="visit?.treatment || '-----'" />
+    <VisitSection title="Polecenia" :content="visit?.advice || '-----'" />
+    <VisitSection title="Dodatkowe uwagi" :content="visit?.notes || '-----'" />
 
     <NuxtLink to="/details_write">
       <UButton>write</UButton>
