@@ -21,20 +21,7 @@
 
       <div class="w-full mt-4 mb-4">
         <p class="text-sm">Płeć</p>
-        <URadioGroup
-          v-model="form.animal_sex"
-          orientation="horizontal"
-          variant="list"
-          :items="animal_sex"
-          :ui="{
-            base: 'ui-radio',
-            container: 'w-full',
-            indicator: 'bg-violet-500',
-            label: 'ui-label',
-            description: 'ui-description',
-          }"
-          class="w-full mt-2"
-        />
+        <RadioButton :items="animal_sex" v-model="form.animal_sex"/>
       </div>
 
       <BaseInput label="Wpisz wiek" v-model="form.age" type="number" />
@@ -53,6 +40,7 @@
 
 <script setup lang="ts">
 import type { RadioGroupItem } from "@nuxt/ui";
+import RadioButton from "~/components/RadioButton.vue";
 
 const animal_sex = ref<RadioGroupItem[]>([
   { label: "Samica", value: "K" },

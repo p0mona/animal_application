@@ -10,20 +10,7 @@
 
           <div class="w-full">
             <p class="text-sm">Płeć</p>
-            <URadioGroup
-              v-model="form.sex"
-              orientation="horizontal"
-              variant="list"
-              :items="sex"
-              :ui="{
-                base: 'ui-radio',
-                container: 'w-full',
-                indicator: 'bg-violet-500',
-                label: 'ui-label',
-                description: 'ui-description',
-              }"
-              class="w-full"
-            />
+            <RadioButton v-model="form.sex" :items="sex"/>
           </div>
 
           <BaseInput
@@ -38,7 +25,7 @@
         <FileUpload v-model="form.image" />
         <div>
           <div class="flex justify-end">
-            <BaseButton label="Potwierdź" />
+            <BaseButton label="Potwierdź" class="mt-4"/>
           </div>
         </div>
       </div>

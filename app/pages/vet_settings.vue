@@ -26,19 +26,7 @@
                 <BaseInput label="Miejsce pracy" v-model="account.hospital" />
               </UFormGroup>
 
-              <URadioGroup
-                v-model="account.sex"
-                orientation="horizontal"
-                variant="list"
-                :items="sex"
-                :ui="{
-                  base: 'ui-radio',
-                  container: 'w-full',
-                  indicator: 'bg-violet-500',
-                  label: 'ui-label',
-                  description: 'ui-description',
-                }"
-              />
+              <RadioButton v-model="account.sex" :items="sex"/>
 
               <UFormGroup label="Birthday" name="birthday">
                 <BaseInput

@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { UButton } from "#components";
 import { defineProps } from "vue";
 
 const props = defineProps({
