@@ -53,7 +53,7 @@
               </UFormGroup>
 
               <div class="flex justify-start mt-4">
-                <BaseButton v="Zapisz zmiany"/>
+                <BaseButton label="Zapisz zmiany"/>
               </div>
             </div>
 
