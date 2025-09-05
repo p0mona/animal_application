@@ -42,13 +42,13 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h2 class="text-xl font-bold mb-2">{{ selectedTrainer.name }}</h2>
-            <p class="text-gray-600 mb-2">
-              Doświadczenie: {{ selectedTrainer.experience }}
+            <p class="text-gray-600 mb-2 ">
+              <strong>Doświadczenie:</strong> {{ selectedTrainer.experience }}
             </p>
             <p class="text-gray-600 mb-2">
-              Kontakt: {{ selectedTrainer.contact }}
+              <strong>Kontakt:</strong> {{ selectedTrainer.contact }}
             </p>
-            <p class="text-gray-600">Opis:</p>
+            <p class="text-gray-600 font-semibold">Opis:</p>
             <p class="text-gray-600">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

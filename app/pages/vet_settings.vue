@@ -19,7 +19,7 @@
             <!-- Левая колонка -->
             <div class="space-y-4">
               <UFormGroup label="Name" name="name">
-                <BaseInput label="Imię" v-model="account.name" />
+                <BaseInput label="Imię" v-model="account.name" class="mb-2"/>
               </UFormGroup>
 
               <UFormGroup label="hospital" name="hospital">
@@ -88,7 +88,7 @@
         </div>
         <div class="flex justify-end">
           <NuxtLink to="/new_patient">
-            <BaseButton label="Dodać" />
+            <BaseButton label="Dodać" class="mt-4" />
           </NuxtLink>
         </div>
       </template>
