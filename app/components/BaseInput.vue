@@ -7,7 +7,7 @@
       :id="id"
       :type="type"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event)"
+      @input="$emit('update:modelValue', $event.target.value)"
       class="w-full"
     />
   </div>
