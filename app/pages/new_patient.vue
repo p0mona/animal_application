@@ -14,85 +14,12 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- левая колонка -->
       <div>
-        <div class="flex flex-col space-y-4">
-          <h5 class="text-lg font-semibold">Pupil</h5>
-
-          <div class="w-full">
-            <p class="text-sm">Wybierz zwierzę</p>
-            <USelectMenu placeholder="-" :items="animals" class="w-full" />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Płeć</p>
-            <URadioGroup
-              v-model="form.animal_sex"
-              orientation="horizontal"
-              variant="list"
-              :items="animal_sex"
-              :ui="{
-                base: 'ui-radio',
-                container: 'w-full',
-                indicator: 'bg-violet-500',
-                label: 'ui-label',
-                description: 'ui-description',
-              }"
-              class="w-full"
-            />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Wybierz rasę</p>
-            <USelectMenu placeholder="-" :items="breeds" class="w-full" />
-          </div>
-
-          <BaseInput label="Wpisz imię pupila" v-model="form.animal_name" />
-          <BaseInput label="Wpisz wiek" v-model="form.animal_age" />
-          <BaseInput label="Wpisz wzrost" v-model="form.animal_height" />
-          <BaseInput label="Wpisz wagę" v-model="form.animal_weight" />
-          <BaseInput label="Wpisz nr czipu" v-model="form.chip" />
-        </div>
+        <PetForm v-model="form" :animals="animals" :breeds="breeds" :animal_sex="animal_sex" />
       </div>
-
-      <!-- правая колонка -->
+      
       <div>
-        <FileUpload v-model="form.image"/>
-
-        <div class="flex flex-col space-y-4 mt-4">
-          <h5 class="text-lg font-semibold">Właściciel</h5>
-
-          <BaseInput label="Wpisz imię" v-model="form.name" />
-
-          <div class="w-full">
-            <p class="text-sm">Płeć</p>
-            <URadioGroup
-              v-model="form.sex"
-              orientation="horizontal"
-              variant="list"
-              :items="sex"
-              :ui="{
-                base: 'ui-radio',
-                container: 'w-full',
-                indicator: 'bg-violet-500',
-                label: 'ui-label',
-                description: 'ui-description',
-              }"
-              class="w-full"
-            />
-          </div>
-
-          <BaseInput
-            label="Data urodzenia"
-            v-model="form.birthday"
-            id="birthday"
-            type="date"
-          />
-
-          <div class="flex justify-end">
-            <BaseButton label="Potwierdź" />
-          </div>
-        </div>
+        <OwnerForm v-model="form" :sex="sex" />
       </div>
     </div>
   </FullWidthLayout>

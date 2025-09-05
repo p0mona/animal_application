@@ -15,134 +15,37 @@
 
           <!-- Profile Content -->
           <div v-if="activeTab === 'profile'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
-              </template>
+  <UCard>
+    <template #header>
+      <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
+    </template>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Pupil Section -->
-                <div>
-                  <h3 class="text-base font-semibold mb-4">Pupil</h3>
-                  <UForm
-                    :schema="profileSchema"
-                    :state="profile"
-                    class="grid gap-4"
-                  >
-                    <USelectMenu placeholder="Pies" :items="animals" />
-                    <USelectMenu placeholder="Akita Inu" :items="breeds" />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Pupil Section -->
+      <div>
+        
+        <PetForm
+  v-model="profile"
+  :animals="animals"
+  :breeds="breeds"
+  :animal_sex="animal_sex"
+  animal-placeholder="Pies"
+  breed-placeholder="Beagle"
+/>
+      </div>
 
-                    <div class="w-full">
-                      <p class="text-sm">Płeć</p>
-                      <URadioGroup
-                        v-model="profile.animal_sex"
-                        orientation="horizontal"
-                        variant="list"
-                        :items="animal_sex"
-                        :ui="{
-                          base: 'ui-radio',
-                          container: 'w-full',
-                          indicator: 'bg-violet-500',
-                          label: 'ui-label',
-                          description: 'ui-description',
-                        }"
-                        class="w-full"
-                      />
-                    </div>
+      <!-- Owner Section -->
+      <div>
+        <h3 class="text-base font-semibold mb-4">Właściciel</h3>
+        <OwnerForm
+          v-model="profile"
+          :sex="sex"
+        />
+      </div>
+    </div>
+  </UCard>
+</div>
 
-                    <UFormGroup label="Animal_name" name="animal_name">
-                      <BaseInput label="Imię" v-model="profile.animal_name" />
-                    </UFormGroup>
-
-                    <UFormGroup label="Animal_age" name="animal_age">
-                      <BaseInput
-                        label="Wiek"
-                        v-model="profile.animal_age"
-                        type="number"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Animal_height" name="animal_height">
-                      <BaseInput
-                        label="Wzrost"
-                        v-model="profile.animal_height"
-                        type="number"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Animal_weight" name="animal_weight">
-                      <BaseInput
-                        label="Waga"
-                        v-model="profile.animal_weight"
-                        type="number"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Chip" name="chip">
-                      <BaseInput label="Nr chip" v-model="profile.chip" />
-                    </UFormGroup>
-                  </UForm>
-                </div>
-
-                <div>
-                  <div
-                    class="relative w-48 h-48 mx-auto mb-4 group cursor-pointer"
-                  >
-                    <img
-                      src="/images/example-photo.jpg"
-                      class="w-full h-full object-cover rounded-2xl transition duration-300 group-hover:brightness-75"
-                    />
-
-                    <!-- Overlay текст -->
-                    <div
-                      class="absolute inset-0 flex items-center justify-center text-sm text-white font-semibold text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    >
-                      Zmień zdjęcie
-                    </div>
-                  </div>
-
-                  <!-- Owner Section -->
-                  <h3 class="text-base font-semibold mb-4">Właściciel</h3>
-                  <UForm
-                    :schema="profileSchema"
-                    :state="profile"
-                    class="grid gap-4"
-                  >
-                    <UFormGroup label="Name" name="name">
-                      <BaseInput label="Imię" v-model="profile.name" />
-                    </UFormGroup>
-
-                    <URadioGroup
-                      v-model="profile.sex"
-                      orientation="horizontal"
-                      variant="list"
-                      :items="sex"
-                      :ui="{
-                        base: 'ui-radio',
-                        container: 'w-full',
-                        indicator: 'bg-violet-500',
-                        label: 'ui-label',
-                        description: 'ui-description',
-                      }"
-                    />
-
-                    <UFormGroup label="Birthday" name="birthday">
-                      <BaseInput
-                        label="Data urodzenia"
-                        id="birthday"
-                        type="date"
-                        v-model="profile.birthday"
-                      />
-                    </UFormGroup>
-
-                    <div class="flex justify-end">
-                      <BaseButton label="Zapisz zmiany" />
-                    </div>
-                  </UForm>
-                </div>
-              </div>
-            </UCard>
-          </div>
 
           <!-- Security Content -->
           <div v-else-if="activeTab === 'security'" class="space-y-4">
