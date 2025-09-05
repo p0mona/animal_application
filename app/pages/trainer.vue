@@ -42,7 +42,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h2 class="text-xl font-bold mb-2">{{ selectedTrainer.name }}</h2>
-            <p class="text-gray-600 mb-2 ">
+            <p class="text-gray-600 mb-2">
               <strong>Doświadczenie:</strong> {{ selectedTrainer.experience }}
             </p>
             <p class="text-gray-600 mb-2">

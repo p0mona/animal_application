@@ -40,25 +40,25 @@
 </template>
 
 <script setup>
-import BaseInput from '@/components/BaseInput.vue';
-import FileUpload from '@/components/FileUpload.vue';
-import BaseButton from '@/components/BaseButton.vue';
-import { reactive, watch } from 'vue';
+import BaseInput from "@/components/BaseInput.vue";
+import FileUpload from "@/components/FileUpload.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import { reactive, watch } from "vue";
 
 const props = defineProps({
   modelValue: Object,
   sex: Array,
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const localForm = reactive({ ...props.modelValue });
 
 watch(
   localForm,
   (val) => {
-    emit('update:modelValue', val);
+    emit("update:modelValue", val);
   },
-  { deep: true }
+  { deep: true },
 );
 </script>

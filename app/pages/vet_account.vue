@@ -35,7 +35,7 @@
         </div>
       </div>
       <div>
-        <FileUpload v-model="form.image"/>
+        <FileUpload v-model="form.image" />
         <div>
           <div class="flex justify-end">
             <BaseButton label="Potwierdź" />

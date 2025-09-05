@@ -19,7 +19,7 @@
             <!-- Левая колонка -->
             <div class="space-y-4">
               <UFormGroup label="Name" name="name">
-                <BaseInput label="Imię" v-model="account.name" class="mb-2"/>
+                <BaseInput label="Imię" v-model="account.name" class="mb-2" />
               </UFormGroup>
 
               <UFormGroup label="hospital" name="hospital">

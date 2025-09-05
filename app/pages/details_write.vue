@@ -8,7 +8,9 @@
     </div>
 
     <div>
-      <h3 class="text-sm font-semibold text-gray-900 mb-4">Podstawowa informacja</h3>
+      <h3 class="text-sm font-semibold text-gray-900 mb-4">
+        Podstawowa informacja
+      </h3>
 
       <BaseInput label="Imię" v-model="form.name" />
 

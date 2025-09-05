@@ -20,7 +20,7 @@
       </div>
 
       <div>
-        <FileUpload v-model="form.image"/>
+        <FileUpload v-model="form.image" />
       </div>
     </div>
   </FullWidthLayout>

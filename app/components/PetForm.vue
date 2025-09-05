@@ -33,11 +33,11 @@
     <div class="w-full">
       <p class="text-sm">Wybierz rasę</p>
       <USelectMenu
-  :placeholder="breedPlaceholder"
-  :items="breeds"
-  v-model="localForm.breed"
-  class="w-full h-8"
-/>
+        :placeholder="breedPlaceholder"
+        :items="breeds"
+        v-model="localForm.breed"
+        class="w-full h-8"
+      />
     </div>
 
     <BaseInput label="Wpisz imię pupila" v-model="localForm.animal_name" />
@@ -49,33 +49,32 @@
 </template>
 
 <script setup>
-import BaseInput from '@/components/BaseInput.vue';
-import { reactive } from 'vue';
+import BaseInput from "@/components/BaseInput.vue";
+import { reactive } from "vue";
 
 const props = defineProps({
   modelValue: Object,
   animals: Array,
   breeds: Array,
   animal_sex: Array,
-  animalPlaceholder: { type: String, default: '-' },
-  breedPlaceholder: { type: String, default: '-' },
+  animalPlaceholder: { type: String, default: "-" },
+  breedPlaceholder: { type: String, default: "-" },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 // Локальная копия формы, чтобы двусторонняя привязка работала корректно
-const localForm = reactive({ 
+const localForm = reactive({
   ...props.modelValue,
   breed: props.modelValue.breed || "",
   animal: props.modelValue.animal || "",
 });
 
-
 watch(
   localForm,
   (val) => {
-    emit('update:modelValue', val);
+    emit("update:modelValue", val);
   },
-  { deep: true }
+  { deep: true },
 );
 </script>

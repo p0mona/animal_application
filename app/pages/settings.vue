@@ -15,37 +15,32 @@
 
           <!-- Profile Content -->
           <div v-if="activeTab === 'profile'" class="space-y-4">
-  <UCard>
-    <template #header>
-      <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
-    </template>
+            <UCard>
+              <template #header>
+                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
+              </template>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Pupil Section -->
-      <div>
-        
-        <PetForm
-  v-model="profile"
-  :animals="animals"
-  :breeds="breeds"
-  :animal_sex="animal_sex"
-  animal-placeholder="Pies"
-  breed-placeholder="Beagle"
-/>
-      </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Pupil Section -->
+                <div>
+                  <PetForm
+                    v-model="profile"
+                    :animals="animals"
+                    :breeds="breeds"
+                    :animal_sex="animal_sex"
+                    animal-placeholder="Pies"
+                    breed-placeholder="Beagle"
+                  />
+                </div>
 
-      <!-- Owner Section -->
-      <div>
-        <h3 class="text-base font-semibold mb-4">Właściciel</h3>
-        <OwnerForm
-          v-model="profile"
-          :sex="sex"
-        />
-      </div>
-    </div>
-  </UCard>
-</div>
-
+                <!-- Owner Section -->
+                <div>
+                  <h3 class="text-base font-semibold mb-4">Właściciel</h3>
+                  <OwnerForm v-model="profile" :sex="sex" />
+                </div>
+              </div>
+            </UCard>
+          </div>
 
           <!-- Security Content -->
           <div v-else-if="activeTab === 'security'" class="space-y-4">

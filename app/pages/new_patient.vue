@@ -15,9 +15,14 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <PetForm v-model="form" :animals="animals" :breeds="breeds" :animal_sex="animal_sex" />
+        <PetForm
+          v-model="form"
+          :animals="animals"
+          :breeds="breeds"
+          :animal_sex="animal_sex"
+        />
       </div>
-      
+
       <div>
         <OwnerForm v-model="form" :sex="sex" />
       </div>
