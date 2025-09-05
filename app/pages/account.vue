@@ -110,11 +110,7 @@
           </div>
 
           <div class="flex justify-end">
-            <UButton
-              type="button"
-              class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-              >Potwierdź</UButton
-            >
+            <BaseButton text="Potwierdź"/>
           </div>
         </div>
       </div>

@@ -10,12 +10,7 @@
     </div>
 
     <NuxtLink to="/details_read">
-      <UButton
-        type="button"
-        class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-      >
-        Szczególy
-      </UButton>
+      <BaseButton text="Szczegóły"/>
     </NuxtLink>
   </div>
 </template>

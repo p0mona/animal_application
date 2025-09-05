@@ -155,12 +155,7 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <UButton
-                        type="button"
-                        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                      >
-                        Zapisz zmiany
-                      </UButton>
+                      <BaseButton text="Zapisz zmiany"/>
                     </div>
                   </UForm>
                 </div>
@@ -215,13 +210,7 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <UButton
-                        type="submit"
-                        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                        :loading="saving"
-                      >
-                        Zmień hasło
-                      </UButton>
+                      <BaseButton text="Zmień hasło"/>
                     </div>
                   </UForm>
                 </div>
@@ -291,13 +280,7 @@
                     />
                   </div>
 
-                  <UButton
-                    type="submit"
-                    class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-4"
-                    :loading="saving"
-                  >
-                    Zapisz ustawienia
-                  </UButton>
+                  <BaseButton text="Zapisz ustawienia"/>
                 </UForm>
               </div>
             </UCard>
@@ -345,13 +328,7 @@
                     </UFormGroup>
                   </div>
 
-                  <UButton
-                    type="submit"
-                    class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                    :loading="saving"
-                  >
-                    Zapisz
-                  </UButton>
+                  <BaseButton text="Zapisz"/>
                 </UForm>
               </div>
             </UCard>
@@ -365,12 +342,7 @@
               </template>
               <div class="w-full flex flex-col items-center">
                 <img src="/images/qr.svg" class="mb-4" />
-                <UButton
-                  type="button"
-                  class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                >
-                  Generuj QR
-                </UButton>
+                <BaseButton text="Generuj QR"/>
               </div>
             </UCard>
           </div>

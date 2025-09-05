@@ -28,11 +28,11 @@
     <VisitSection title="Dodatkowe uwagi" :content="visit?.notes || '-----'" />
 
     <NuxtLink to="/details_write">
-      <UButton>write</UButton>
+      <BaseButton text="Write version"/>
     </NuxtLink>
   </FullWidthLayout>
 </template>
 
 <script setup>
-import { NuxtLink, UButton } from "#components";
+import { NuxtLink } from "#components";
 </script>

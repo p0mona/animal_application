@@ -15,11 +15,7 @@
       </UFormField>
 
       <NuxtLink to="/new-password">
-        <UButton
-          type="button"
-          class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-          >Wyślij kod</UButton
-        >
+        <BaseButton text="Wyślij kod"/>
       </NuxtLink>
     </UForm>
   </Layout>

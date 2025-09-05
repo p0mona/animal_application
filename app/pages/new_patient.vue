@@ -8,12 +8,9 @@
     </div>
 
     <div>
-      <UButton
-        class="flex items-center gap-2 text-sm font-semibold bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-      >
-        Zeskanuj QR
+      <BaseButton text="Zeskanuj QR">
         <UIcon name="heroicons:camera" class="w-4 h-4 text-white" />
-      </UButton>
+      </BaseButton>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -128,11 +125,7 @@
           </div>
 
           <div class="flex justify-end">
-            <UButton
-              type="button"
-              class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-              >Potwierdź</UButton
-            >
+            <BaseButton text="Potwierdź"/>
           </div>
         </div>
       </div>

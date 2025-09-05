@@ -5,12 +5,7 @@
       <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
       <div class="flex justify-end">
         <NuxtLink to="new_announcement">
-          <UButton
-            type="button"
-            class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-          >
-            Dodaj ogłoszenie
-          </UButton>
+          <BaseButton text="Dodaj ogłoszenie"/>
         </NuxtLink>
       </div>
     </div>

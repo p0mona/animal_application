@@ -21,13 +21,7 @@
         <UInput v-model="form.object" type="string" class="w-full" />
       </div>
 
-      <UButton
-        type="submit"
-        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-        :loading="saving"
-      >
-        Zapisz
-      </UButton>
+      <BaseButton text="Zapisz"/>
     </div>
   </Layout>
 </template>

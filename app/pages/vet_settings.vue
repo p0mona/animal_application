@@ -53,12 +53,7 @@
               </UFormGroup>
 
               <div class="flex justify-start mt-4">
-                <UButton
-                  type="button"
-                  class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-                >
-                  Zapisz zmiany
-                </UButton>
+                <BaseButton text="Zapisz zmiany"/>
               </div>
             </div>
 
@@ -96,12 +91,7 @@
         </div>
         <div class="flex justify-end">
           <NuxtLink to="/new_patient">
-            <UButton
-              type="button"
-              class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 mt-6 mr-4"
-            >
-              Dodać
-            </UButton>
+            <BaseButton text="Dodać"/>
           </NuxtLink>
         </div>
       </template>

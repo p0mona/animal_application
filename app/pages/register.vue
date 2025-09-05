@@ -96,11 +96,7 @@
         description="coca cola"
       />
 
-      <UButton
-        type="submit"
-        class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-        >Zarejestruj się</UButton
-      >
+      <BaseButton text="Zarejestruj się"/>
     </UForm>
 
     <p class="mt-2">

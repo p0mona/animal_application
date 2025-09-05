@@ -50,11 +50,7 @@
             required
           />
         </div>
-        <UButton
-          type="submit"
-          class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-          >Dodaj</UButton
-        >
+        <BaseButton text="Dodaj"/>
       </form>
 
       <!-- История записей -->

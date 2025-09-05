@@ -9,12 +9,7 @@
       <p class="text-sm text-gray-500">{{ reason }}</p>
     </div>
 
-    <UButton
-      type="button"
-      class="md:w-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700"
-    >
-      Odwołać
-    </UButton>
+    <BaseButton text="Odwołać"/>
   </div>
 </template>
 
