@@ -119,41 +119,17 @@
                   <div class="space-y-4">
                     <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
-                    <UCheckbox
-                      v-model="notifications.email"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                      label="Email"
-                    />
-                    <UCheckbox
-                      v-model="notifications.push"
-                      label="Powiadomienia push"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                    <UCheckbox
-                      v-model="notifications.sms"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                      label="SMS"
-                    />
+                    <BaseCheckbox v-model="notifications.email" label="Email"/>
+                    <BaseCheckbox v-model="notifications.push" label="Powiadomienia push"/>
+                    <BaseCheckbox v-model="notifications.sms" label="SMS"/>
 
                     <UDivider />
 
                     <h3 class="text-base font-semibold">Typy powiadomień</h3>
 
-                    <UCheckbox
-                      v-model="notifications.news"
-                      label="Aktualności i ogłoszenia"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                    <UCheckbox
-                      v-model="notifications.security"
-                      label="Alerty bezpieczeństwa"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
-                    <UCheckbox
-                      v-model="notifications.marketing"
-                      label="Oferty marketingowe"
-                      class="[&_[data-state=checked]]:bg-violet-500"
-                    />
+                    <BaseCheckbox v-model="notifications.news" label="Aktualności i ogłoszenia"/>
+                    <BaseCheckbox v-model="notifications.security" label="Alerty bezpieczeństwa"/>
+                    <BaseCheckbox v-model="notifications.marketing" label="Oferty marketingowe"/>
                   </div>
 
                   <BaseButton label="Zapisz ustawienia" class="mt-4" />
@@ -231,6 +207,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
+import BaseCheckbox from "~/components/BaseCheckbox.vue";
 
 const activeTab = ref("profile");
 const saving = ref(false);
