@@ -83,45 +83,25 @@
       v-if="activeTab === 'vaccination'"
       class="grid grid-cols-1 md:grid-cols-2 gap-6"
     >
-      <!-- Obowiązkowe szczepionki -->
-      <div class="bg-white p-4 space-y-2">
-        <h3 class="text-base font-semibold mb-2">Obowiązkowe szczepionki</h3>
-        <UCheckbox
-          v-model="vac.nasal"
-          class="[&_[data-state=checked]]:bg-violet-500"
-          label="Nosówka"
-        />
-        <UCheckbox
-          v-model="vac.parvovirus"
-          class="[&_[data-state=checked]]:bg-violet-500"
-          label="Parwowiroza"
-        />
-        <UCheckbox
-          v-model="vac.rubarths_disease"
-          class="[&_[data-state=checked]]:bg-violet-500"
-          label="Choroba Rubartha"
-        />
-        <UCheckbox
-          v-model="vac.rabies"
-          class="[&_[data-state=checked]]:bg-violet-500"
-          label="Wścieklizna"
-        />
-      </div>
+      <VaccinationGroup
+        title="Obowiązkowe szczepionki"
+        :vaccines="[
+          { key: 'nasal', label: 'Nosówka' },
+          { key: 'parvovirus', label: 'Parwowiroza' },
+          { key: 'rubarths_disease', label: 'Choroba Rubartha' },
+          { key: 'rabies', label: 'Wścieklizna' }
+        ]"
+        :model="vac"
+      />
 
-      <!-- Niobowiązkowe szczepionki -->
-      <div class="bg-white p-4 space-y-2">
-        <h3 class="text-base font-semibold mb-2">Nieobowiązkowe szczepionki</h3>
-        <UCheckbox
-          v-model="vac.kennel_cough"
-          class="[&_[data-state=checked]]:bg-violet-500"
-          label="Kaszel kenelow"
-        />
-        <UCheckbox
-          v-model="vac.leptospirosis"
-          class="[&_[data-state=checked]]:bg-violet-500"
-          label="Leptospiroza"
-        />
-      </div>
+      <VaccinationGroup
+        title="Nieobowiązkowe szczepionki"
+        :vaccines="[
+          { key: 'kennel_cough', label: 'Kaszel kenelow' },
+          { key: 'leptospirosis', label: 'Leptospiroza' }
+        ]"
+        :model="vac"
+      />
     </div>
   </FullWidthLayout>
 </template>
