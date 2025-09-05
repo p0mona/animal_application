@@ -204,7 +204,7 @@
                     </UFormGroup>
                   </div>
 
-                  <BaseButton label="Zapisz" class="mt-2"/>
+                  <BaseButton label="Zapisz" class="mt-2" />
                 </UForm>
               </div>
             </UCard>

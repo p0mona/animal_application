@@ -10,7 +10,7 @@
 
           <div class="w-full">
             <p class="text-sm">Płeć</p>
-            <RadioButton v-model="form.sex" :items="sex"/>
+            <RadioButton v-model="form.sex" :items="sex" />
           </div>
 
           <BaseInput
@@ -25,7 +25,7 @@
         <FileUpload v-model="form.image" />
         <div>
           <div class="flex justify-end">
-            <BaseButton label="Potwierdź" class="mt-4"/>
+            <BaseButton label="Potwierdź" class="mt-4" />
           </div>
         </div>
       </div>

@@ -18,11 +18,10 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Левая колонка -->
             <div>
-              
-              <BaseInput label="Imię" v-model="account.name"/>
-              <BaseInput label="Miejsce pracy" v-model="account.hospital"/>
-            
-              <RadioButton v-model="account.sex" :items="sex"/>
+              <BaseInput label="Imię" v-model="account.name" />
+              <BaseInput label="Miejsce pracy" v-model="account.hospital" />
+
+              <RadioButton v-model="account.sex" :items="sex" />
 
               <BaseInput
                 label="Data urodzenia"
@@ -30,7 +29,6 @@
                 type="date"
                 v-model="account.birthday"
               />
-              
 
               <div class="flex justify-start mt-4">
                 <BaseButton label="Zapisz zmiany" />

@@ -17,28 +17,28 @@
 </template>
 
 <script setup lang="ts">
-import type { RadioGroupItem } from '#ui/types'
+import type { RadioGroupItem } from "#ui/types";
 
 const props = defineProps<{
-  modelValue: RadioGroupItem | null
-  items?: RadioGroupItem[]
-}>()
+  modelValue: RadioGroupItem | null;
+  items?: RadioGroupItem[];
+}>();
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: RadioGroupItem | null): void
-}>()
+  (e: "update:modelValue", value: RadioGroupItem | null): void;
+}>();
 
-const localForm = ref(props.modelValue)
+const localForm = ref(props.modelValue);
 
 watch(
   () => props.modelValue,
   (val) => {
-    localForm.value = val
-  }
-)
+    localForm.value = val;
+  },
+);
 
 function onUpdate(val: RadioGroupItem) {
-  localForm.value = val
-  emit("update:modelValue", val)
+  localForm.value = val;
+  emit("update:modelValue", val);
 }
 </script>

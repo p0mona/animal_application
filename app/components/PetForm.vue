@@ -40,11 +40,11 @@
       />
     </div>
 
-    <BaseInput label="Wpisz imię pupila" v-model="localForm.animal_name"/>
-    <BaseInput label="Wpisz wiek" v-model="localForm.animal_age"/>
-    <BaseInput label="Wpisz wzrost" v-model="localForm.animal_height"/>
-    <BaseInput label="Wpisz wagę" v-model="localForm.animal_weight"/>
-    <BaseInput label="Wpisz nr czipu" v-model="localForm.chip"/>
+    <BaseInput label="Wpisz imię pupila" v-model="localForm.animal_name" />
+    <BaseInput label="Wpisz wiek" v-model="localForm.animal_age" />
+    <BaseInput label="Wpisz wzrost" v-model="localForm.animal_height" />
+    <BaseInput label="Wpisz wagę" v-model="localForm.animal_weight" />
+    <BaseInput label="Wpisz nr czipu" v-model="localForm.chip" />
   </div>
 </template>
 

@@ -21,7 +21,7 @@
 
       <div class="w-full mt-4 mb-4">
         <p class="text-sm">Płeć</p>
-        <RadioButton :items="animal_sex" v-model="form.animal_sex"/>
+        <RadioButton :items="animal_sex" v-model="form.animal_sex" />
       </div>
 
       <BaseInput label="Wpisz wiek" v-model="form.age" type="number" />
