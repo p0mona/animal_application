@@ -5,19 +5,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="mt-4">
-          <UCalendar
-            multiple
-            :ui="{
-              cellTrigger: `
-                      w-8 h-8 rounded-full
-                      bg-transparent
-                      [&:hover:not([data-selected])]:bg-violet-100 [&:hover:not([data-selected])]:text-violet-600
-                      [&[data-selected]]:bg-violet-500 [&[data-selected]]:text-white
-                      [&[data-today]:not([data-selected])]:text-violet-500 [&[data-today]:not([data-selected])]:font-bold
-                    `,
-            }"
-            class="[&_thead_th]:text-violet-600 [&_tr_th]:text-violet-600"
-          />
+          <Calendar/>
         </div>
         <div class="space-y-2 mt-4 ml-4">
           <h5 class="font-semibold">Najbliższe szczepienie:</h5>
@@ -34,4 +22,7 @@
   </FullWidthLayout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Calendar from '~/components/Calendar.vue';
+
+</script>
