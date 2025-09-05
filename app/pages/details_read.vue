@@ -7,7 +7,7 @@
       <h1 class="text-2xl font-bold text-gray-900">Szczególy wizyty</h1>
     </div>
 
-    <div>
+    <div class="space-y-2">
       <h3 class="text-sm font-semibold text-gray-900">Podstawowa informacja</h3>
       <p>Imie: -----</p>
       <p>Rasa: -----</p>

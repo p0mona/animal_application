@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full space-y-2" >
     <label v-if="id" :for="id" class="text-sm mb-2 block">{{ label }}</label>
     <p v-else class="text-sm">{{ label }}</p>
 

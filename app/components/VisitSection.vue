@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-2">
     <h3 class="text-sm font-semibold text-gray-900">{{ title }}</h3>
     <p>{{ content }}</p>
   </div>

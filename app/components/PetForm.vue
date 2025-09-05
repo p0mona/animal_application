@@ -2,7 +2,7 @@
   <div class="flex flex-col space-y-4">
     <h5 class="text-lg font-semibold">Pupil</h5>
 
-    <div class="w-full">
+    <div class="w-full space-y-2">
       <p class="text-sm">Wybierz zwierzę</p>
       <USelectMenu
         :placeholder="animalPlaceholder"
@@ -12,7 +12,7 @@
       />
     </div>
 
-    <div class="w-full">
+    <div class="w-full space-y-2">
       <p class="text-sm">Płeć</p>
       <URadioGroup
         v-model="localForm.animal_sex"
@@ -30,7 +30,7 @@
       />
     </div>
 
-    <div class="w-full">
+    <div class="w-full space-y-2">
       <p class="text-sm">Wybierz rasę</p>
       <USelectMenu
         :placeholder="breedPlaceholder"
@@ -40,11 +40,11 @@
       />
     </div>
 
-    <BaseInput label="Wpisz imię pupila" v-model="localForm.animal_name" />
-    <BaseInput label="Wpisz wiek" v-model="localForm.animal_age" />
-    <BaseInput label="Wpisz wzrost" v-model="localForm.animal_height" />
-    <BaseInput label="Wpisz wagę" v-model="localForm.animal_weight" />
-    <BaseInput label="Wpisz nr czipu" v-model="localForm.chip" />
+    <BaseInput label="Wpisz imię pupila" v-model="localForm.animal_name"/>
+    <BaseInput label="Wpisz wiek" v-model="localForm.animal_age"/>
+    <BaseInput label="Wpisz wzrost" v-model="localForm.animal_height"/>
+    <BaseInput label="Wpisz wagę" v-model="localForm.animal_weight"/>
+    <BaseInput label="Wpisz nr czipu" v-model="localForm.chip"/>
   </div>
 </template>
 

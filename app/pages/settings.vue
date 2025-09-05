@@ -86,7 +86,7 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <BaseButton label="Zmień hasło" />
+                      <BaseButton label="Zmień hasło" class="mt-2" />
                     </div>
                   </UForm>
                 </div>
@@ -156,7 +156,7 @@
                     />
                   </div>
 
-                  <BaseButton label="Zapisz ustawienia" />
+                  <BaseButton label="Zapisz ustawienia" class="mt-4" />
                 </UForm>
               </div>
             </UCard>
@@ -204,7 +204,7 @@
                     </UFormGroup>
                   </div>
 
-                  <BaseButton label="Zapisz" />
+                  <BaseButton label="Zapisz" class="mt-2"/>
                 </UForm>
               </div>
             </UCard>

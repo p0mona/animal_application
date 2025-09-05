@@ -17,25 +17,20 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Левая колонка -->
-            <div class="space-y-4">
-              <UFormGroup label="Name" name="name">
-                <BaseInput label="Imię" v-model="account.name" class="mb-2" />
-              </UFormGroup>
-
-              <UFormGroup label="hospital" name="hospital">
-                <BaseInput label="Miejsce pracy" v-model="account.hospital" />
-              </UFormGroup>
-
+            <div>
+              
+              <BaseInput label="Imię" v-model="account.name"/>
+              <BaseInput label="Miejsce pracy" v-model="account.hospital"/>
+            
               <RadioButton v-model="account.sex" :items="sex"/>
 
-              <UFormGroup label="Birthday" name="birthday">
-                <BaseInput
-                  label="Data urodzenia"
-                  id="birthday"
-                  type="date"
-                  v-model="account.birthday"
-                />
-              </UFormGroup>
+              <BaseInput
+                label="Data urodzenia"
+                id="birthday"
+                type="date"
+                v-model="account.birthday"
+              />
+              
 
               <div class="flex justify-start mt-4">
                 <BaseButton label="Zapisz zmiany" />

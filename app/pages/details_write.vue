@@ -14,7 +14,7 @@
 
       <BaseInput label="Imię" v-model="form.name" />
 
-      <div class="w-full">
+      <div class="w-full space-y-2">
         <p class="text-sm">Rasa</p>
         <USelectMenu placeholder="-" :items="breeds" class="w-full" />
       </div>

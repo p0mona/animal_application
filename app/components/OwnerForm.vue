@@ -5,9 +5,9 @@
     <div class="flex flex-col space-y-4 mt-4">
       <h5 class="text-lg font-semibold">Właściciel</h5>
 
-      <BaseInput label="Wpisz imię" v-model="localForm.name" />
+      <BaseInput label="Wpisz imię" v-model="localForm.name"/>
 
-      <div class="w-full">
+      <div class="w-full space-y-1">
         <p class="text-sm">Płeć</p>
         <URadioGroup
           v-model="localForm.sex"
