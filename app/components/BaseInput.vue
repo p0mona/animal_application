@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <label v-if="id" :for="id" class="text-sm block">{{ label }}</label>
+    <label v-if="id" :for="id" class="text-sm mb-2 block">{{ label }}</label>
     <p v-else class="text-sm">{{ label }}</p>
 
     <UInput
@@ -15,13 +15,13 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  label: string
-  modelValue: string
-  type?: string
-  id?: string
-}>()
+  label: string;
+  modelValue: string | number;
+  type?: string;
+  id?: string;
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
+  (e: "update:modelValue", value: string): void;
+}>();
 </script>

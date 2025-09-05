@@ -34,30 +34,11 @@
             <USelectMenu placeholder="-" :items="breeds" class="w-full" />
           </div>
 
-          <div class="w-full">
-            <p class="text-sm">Wpisz imię pupila</p>
-            <UInput v-model="form.animal_name" class="w-full" />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Wpisz wiek</p>
-            <UInput v-model="form.animal_age" class="w-full" />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Wpisz wzrost</p>
-            <UInput v-model="form.animal_height" class="w-full" />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Wpisz wagę</p>
-            <UInput v-model="form.animal_weight" class="w-full" />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Wprowadź nr czipu</p>
-            <UInput v-model="form.chip" class="w-full" />
-          </div>
+          <BaseInput label="Wpisz imię pupila" v-model="form.animal_name" />
+          <BaseInput label="Wpisz wiek" v-model="form.animal_age" />
+          <BaseInput label="Wpisz wzrost" v-model="form.animal_height" />
+          <BaseInput label="Wpisz wagę" v-model="form.animal_weight" />
+          <BaseInput label="Wpisz nr czipu" v-model="form.chip" />
         </div>
       </div>
       <div>
@@ -76,10 +57,7 @@
         <div class="flex flex-col space-y-4 mt-4">
           <h5 class="text-lg font-semibold">Właściciel</h5>
 
-          <div class="w-full">
-            <p class="text-sm">Wpisz imię</p>
-            <UInput v-model="form.name" class="w-full" />
-          </div>
+          <BaseInput label="Wpisz imię" v-model="form.name" />
 
           <div class="w-full">
             <p class="text-sm">Płeć</p>
@@ -99,18 +77,15 @@
             />
           </div>
 
-          <div class="w-full">
-            <label for="birthday" class="text-sm block">Data urodzenia</label>
-            <UInput
-              id="birthday"
-              type="date"
-              v-model="form.birthday"
-              class="w-full"
-            />
-          </div>
+          <BaseInput
+            label="Data urodzenia"
+            v-model="form.birthday"
+            id="birthday"
+            type="date"
+          />
 
           <div class="flex justify-end">
-            <BaseButton label="Potwierdź"/>
+            <BaseButton label="Potwierdź" />
           </div>
         </div>
       </div>

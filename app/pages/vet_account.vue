@@ -5,15 +5,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
         <div class="flex flex-col space-y-4 mt-4">
-          <div class="w-full">
-            <p class="text-sm">Wpisz imię</p>
-            <UInput v-model="form.name" class="w-full" />
-          </div>
-
-          <div class="w-full">
-            <p class="text-sm">Wpisz miejsce pracy</p>
-            <UInput v-model="form.hospital" class="w-full" />
-          </div>
+          <BaseInput label="Wpisz imię" v-model="form.name" />
+          <BaseInput label="Wpisz miejsce pracy" v-model="form.hospital" />
 
           <div class="w-full">
             <p class="text-sm">Płeć</p>
@@ -33,15 +26,12 @@
             />
           </div>
 
-          <div class="w-full">
-            <label for="birthday" class="text-sm block">Data urodzenia</label>
-            <UInput
-              id="birthday"
-              type="date"
-              v-model="form.birthday"
-              class="w-full"
-            />
-          </div>
+          <BaseInput
+            label="Data urodzenia"
+            id="birthday"
+            type="date"
+            v-model="form.birthday"
+          />
         </div>
       </div>
       <div>
@@ -58,7 +48,7 @@
         </div>
         <div>
           <div class="flex justify-end">
-            <BaseButton label="Potwierdź"/>
+            <BaseButton label="Potwierdź" />
           </div>
         </div>
       </div>

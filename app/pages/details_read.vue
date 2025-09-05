@@ -28,7 +28,7 @@
     <VisitSection title="Dodatkowe uwagi" :content="visit?.notes || '-----'" />
 
     <NuxtLink to="/details_write">
-      <BaseButton label="Write version"/>
+      <BaseButton label="Write version" />
     </NuxtLink>
   </FullWidthLayout>
 </template>

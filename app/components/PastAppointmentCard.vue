@@ -10,7 +10,7 @@
     </div>
 
     <NuxtLink to="/details_read">
-      <BaseButton label="Szczegóły"/>
+      <BaseButton label="Szczegóły" />
     </NuxtLink>
   </div>
 </template>

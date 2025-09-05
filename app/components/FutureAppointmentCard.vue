@@ -9,7 +9,7 @@
       <p class="text-sm text-gray-500">{{ reason }}</p>
     </div>
 
-    <BaseButton label="Odwołać"/>
+    <BaseButton label="Odwołać" />
   </div>
 </template>
 

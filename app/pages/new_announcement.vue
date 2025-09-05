@@ -9,25 +9,14 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="space-y-2">
-        <div class="w-full">
-          <p class="text-sm">Wpisz imię</p>
-          <UInput v-model="form.name" class="w-full" />
-        </div>
-
-        <div class="w-full">
-          <p class="text-sm">Wpisz doświadczenie</p>
-          <UInput v-model="form.experience" class="w-full" type="number" />
-        </div>
-
-        <div class="w-full">
-          <p class="text-sm">Wpisz kontakt</p>
-          <UInput v-model="form.contact" class="w-full" />
-        </div>
-
-        <div class="w-full">
-          <p class="text-sm">Dodaj opis</p>
-          <UInput v-model="form.discription" class="w-full" />
-        </div>
+        <BaseInput label="Wpisz imię" v-model="form.name" />
+        <BaseInput
+          label="Wpisz doświadczenie"
+          v-model="form.experience"
+          type="number"
+        />
+        <BaseInput label="Wpisz kontakt" v-model="form.contact" />
+        <BaseInput label="Dodaj opis" v-model="form.discription" />
       </div>
 
       <div>

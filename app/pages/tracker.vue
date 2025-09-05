@@ -50,7 +50,7 @@
             required
           />
         </div>
-        <BaseButton label="Dodaj"/>
+        <BaseButton label="Dodaj" />
       </form>
 
       <!-- История записей -->

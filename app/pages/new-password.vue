@@ -76,7 +76,7 @@
       </UFormField>
 
       <NuxtLink to="/login">
-        <BaseButton label="Potwierdzam"/>
+        <BaseButton label="Potwierdzam" />
       </NuxtLink>
     </UForm>
   </Layout>

@@ -10,10 +10,7 @@
     <div>
       <h3 class="text-sm font-semibold text-gray-900">Podstawowa informacja</h3>
 
-      <div class="w-full">
-        <p class="text-sm mt-2">Imie</p>
-        <UInput v-model="form.name" class="w-full" />
-      </div>
+      <BaseInput label="Imię" v-model="form.name" />
 
       <div class="w-full">
         <p class="text-sm">Rasa</p>
@@ -38,19 +35,9 @@
         />
       </div>
 
-      <div class="w-full">
-        <p class="text-sm">Wpisz wiek</p>
-        <UInput v-model="form.age" type="number" class="w-full" />
-      </div>
-
-      <div class="w-full">
-        <p class="text-sm">Właściciel</p>
-        <UInput v-model="form.owner" class="w-full" />
-      </div>
-      <div class="w-full">
-        <p class="text-sm">Kontakt</p>
-        <UInput v-model="form.contact" class="w-full" />
-      </div>
+      <BaseInput label="Wpisz wiek" v-model="form.age" type="number" />
+      <BaseInput label="Właściciel" v-model="form.owner" />
+      <BaseInput label="Kontakt" v-model="form.contact" />
     </div>
 
     <FormVisitSection title="Objawy" v-model="form.symptoms" />

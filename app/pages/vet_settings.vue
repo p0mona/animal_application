@@ -19,13 +19,11 @@
             <!-- Левая колонка -->
             <div class="space-y-4">
               <UFormGroup label="Name" name="name">
-                <p class="text-sm mb-2">Imię</p>
-                <UInput v-model="account.name" type="text" class="w-full" />
+                <BaseInput label="Imię" v-model="account.name" />
               </UFormGroup>
 
               <UFormGroup label="hospital" name="hospital">
-                <p class="text-sm mb-2 mt-2">Miejsce pracy</p>
-                <UInput v-model="account.hospital" type="text" class="w-full" />
+                <BaseInput label="Miejsce pracy" v-model="account.hospital" />
               </UFormGroup>
 
               <URadioGroup
@@ -43,17 +41,16 @@
               />
 
               <UFormGroup label="Birthday" name="birthday">
-                <p class="text-sm mb-2">Data urodzenia</p>
-                <UInput
+                <BaseInput
+                  label="Data urodzenia"
                   id="birthday"
                   type="date"
                   v-model="account.birthday"
-                  class="w-full"
                 />
               </UFormGroup>
 
               <div class="flex justify-start mt-4">
-                <BaseButton label="Zapisz zmiany"/>
+                <BaseButton label="Zapisz zmiany" />
               </div>
             </div>
 
@@ -91,7 +88,7 @@
         </div>
         <div class="flex justify-end">
           <NuxtLink to="/new_patient">
-            <BaseButton label="Dodać"/>
+            <BaseButton label="Dodać" />
           </NuxtLink>
         </div>
       </template>

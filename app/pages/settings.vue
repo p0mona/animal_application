@@ -51,48 +51,35 @@
                     </div>
 
                     <UFormGroup label="Animal_name" name="animal_name">
-                      <p class="text-sm mb-2">Imię</p>
-                      <UInput
-                        v-model="profile.animal_name"
-                        type="text"
-                        class="w-full"
-                      />
+                      <BaseInput label="Imię" v-model="profile.animal_name" />
                     </UFormGroup>
 
                     <UFormGroup label="Animal_age" name="animal_age">
-                      <p class="text-sm mb-2">Wiek</p>
-                      <UInput
+                      <BaseInput
+                        label="Wiek"
                         v-model="profile.animal_age"
                         type="number"
-                        class="w-full"
                       />
                     </UFormGroup>
 
                     <UFormGroup label="Animal_height" name="animal_height">
-                      <p class="text-sm mb-2">Wzrost</p>
-                      <UInput
+                      <BaseInput
+                        label="Wzrost"
                         v-model="profile.animal_height"
                         type="number"
-                        class="w-full"
                       />
                     </UFormGroup>
 
                     <UFormGroup label="Animal_weight" name="animal_weight">
-                      <p class="text-sm mb-2">Waga</p>
-                      <UInput
+                      <BaseInput
+                        label="Waga"
                         v-model="profile.animal_weight"
                         type="number"
-                        class="w-full"
                       />
                     </UFormGroup>
 
                     <UFormGroup label="Chip" name="chip">
-                      <p class="text-sm mb-2">Nr chipu</p>
-                      <UInput
-                        v-model="profile.chip"
-                        type="text"
-                        class="w-full"
-                      />
+                      <BaseInput label="Nr chip" v-model="profile.chip" />
                     </UFormGroup>
                   </UForm>
                 </div>
@@ -122,12 +109,7 @@
                     class="grid gap-4"
                   >
                     <UFormGroup label="Name" name="name">
-                      <p class="text-sm mb-2">Imię</p>
-                      <UInput
-                        v-model="profile.name"
-                        type="text"
-                        class="w-full"
-                      />
+                      <BaseInput label="Imię" v-model="profile.name" />
                     </UFormGroup>
 
                     <URadioGroup
@@ -145,17 +127,16 @@
                     />
 
                     <UFormGroup label="Birthday" name="birthday">
-                      <p class="text-sm mb-2">Data urodzenia</p>
-                      <UInput
+                      <BaseInput
+                        label="Data urodzenia"
                         id="birthday"
                         type="date"
                         v-model="profile.birthday"
-                        class="w-full"
                       />
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <BaseButton label="Zapisz zmiany"/>
+                      <BaseButton label="Zapisz zmiany" />
                     </div>
                   </UForm>
                 </div>
@@ -180,20 +161,18 @@
                     class="space-y-4"
                   >
                     <UFormGroup label="Obecne hasło" name="currentPassword">
-                      <p class="text-sm mb-2">Obecne hasło</p>
-                      <UInput
+                      <BaseInput
+                        label="Obecne hasło"
                         v-model="security.currentPassword"
                         type="password"
-                        class="w-full max-w-full"
                       />
                     </UFormGroup>
 
                     <UFormGroup label="Nowe hasło" name="newPassword">
-                      <p class="text-sm mb-2">Nowe hasło</p>
-                      <UInput
+                      <BaseInput
+                        label="Nowe hasło"
                         v-model="security.newPassword"
                         type="password"
-                        class="w-full max-w-full"
                       />
                     </UFormGroup>
 
@@ -201,16 +180,15 @@
                       label="Potwierdź nowe hasło"
                       name="confirmPassword"
                     >
-                      <p class="text-sm mb-2">Potwierdź nowe hasło</p>
-                      <UInput
+                      <BaseInput
+                        label="Potwierdź nowe hasło"
                         v-model="security.confirmPassword"
                         type="password"
-                        class="w-full max-w-full"
                       />
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <BaseButton label="Zmień hasło"/>
+                      <BaseButton label="Zmień hasło" />
                     </div>
                   </UForm>
                 </div>
@@ -280,7 +258,7 @@
                     />
                   </div>
 
-                  <BaseButton label="Zapisz ustawienia"/>
+                  <BaseButton label="Zapisz ustawienia" />
                 </UForm>
               </div>
             </UCard>
@@ -328,7 +306,7 @@
                     </UFormGroup>
                   </div>
 
-                  <BaseButton label="Zapisz"/>
+                  <BaseButton label="Zapisz" />
                 </UForm>
               </div>
             </UCard>
@@ -342,7 +320,7 @@
               </template>
               <div class="w-full flex flex-col items-center">
                 <img src="/images/qr.svg" class="mb-4" />
-                <BaseButton label="Generuj QR"/>
+                <BaseButton label="Generuj QR" />
               </div>
             </UCard>
           </div>

@@ -5,7 +5,7 @@
       <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
       <div class="flex justify-end">
         <NuxtLink to="new_announcement">
-          <BaseButton label="Dodaj ogłoszenie"/>
+          <BaseButton label="Dodaj ogłoszenie" />
         </NuxtLink>
       </div>
     </div>
