@@ -35,17 +35,7 @@
         </div>
       </div>
       <div>
-        <div class="w-full">
-          <UFileUpload
-            v-model="form.image"
-            color="neutral"
-            highlight
-            label="Przeciągnij zdięcie tutaj "
-            description="SVG, PNG, JPG or GIF (maks. 2MB)"
-            class="w-full min-h-54 mb-4"
-            :dropzone="true"
-          />
-        </div>
+        <FileUpload v-model="form.image"/>
         <div>
           <div class="flex justify-end">
             <BaseButton label="Potwierdź" />
