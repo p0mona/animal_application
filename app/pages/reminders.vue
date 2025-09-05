@@ -5,7 +5,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="mt-4">
-          <Calendar/>
+          <Calendar />
         </div>
         <div class="space-y-2 mt-4 ml-4">
           <h5 class="font-semibold">Najbliższe szczepienie:</h5>
@@ -23,6 +23,5 @@
 </template>
 
 <script setup lang="ts">
-import Calendar from '~/components/Calendar.vue';
-
+import Calendar from "~/components/Calendar.vue";
 </script>

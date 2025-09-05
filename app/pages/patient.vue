@@ -89,7 +89,7 @@
           { key: 'nasal', label: 'Nosówka' },
           { key: 'parvovirus', label: 'Parwowiroza' },
           { key: 'rubarths_disease', label: 'Choroba Rubartha' },
-          { key: 'rabies', label: 'Wścieklizna' }
+          { key: 'rabies', label: 'Wścieklizna' },
         ]"
         :model="vac"
       />
@@ -98,7 +98,7 @@
         title="Nieobowiązkowe szczepionki"
         :vaccines="[
           { key: 'kennel_cough', label: 'Kaszel kenelow' },
-          { key: 'leptospirosis', label: 'Leptospiroza' }
+          { key: 'leptospirosis', label: 'Leptospiroza' },
         ]"
         :model="vac"
       />

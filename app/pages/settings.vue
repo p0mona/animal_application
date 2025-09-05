@@ -119,17 +119,29 @@
                   <div class="space-y-4">
                     <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
-                    <BaseCheckbox v-model="notifications.email" label="Email"/>
-                    <BaseCheckbox v-model="notifications.push" label="Powiadomienia push"/>
-                    <BaseCheckbox v-model="notifications.sms" label="SMS"/>
+                    <BaseCheckbox v-model="notifications.email" label="Email" />
+                    <BaseCheckbox
+                      v-model="notifications.push"
+                      label="Powiadomienia push"
+                    />
+                    <BaseCheckbox v-model="notifications.sms" label="SMS" />
 
                     <UDivider />
 
                     <h3 class="text-base font-semibold">Typy powiadomień</h3>
 
-                    <BaseCheckbox v-model="notifications.news" label="Aktualności i ogłoszenia"/>
-                    <BaseCheckbox v-model="notifications.security" label="Alerty bezpieczeństwa"/>
-                    <BaseCheckbox v-model="notifications.marketing" label="Oferty marketingowe"/>
+                    <BaseCheckbox
+                      v-model="notifications.news"
+                      label="Aktualności i ogłoszenia"
+                    />
+                    <BaseCheckbox
+                      v-model="notifications.security"
+                      label="Alerty bezpieczeństwa"
+                    />
+                    <BaseCheckbox
+                      v-model="notifications.marketing"
+                      label="Oferty marketingowe"
+                    />
                   </div>
 
                   <BaseButton label="Zapisz ustawienia" class="mt-4" />
