@@ -155,7 +155,7 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <BaseButton text="Zapisz zmiany"/>
+                      <BaseButton label="Zapisz zmiany"/>
                     </div>
                   </UForm>
                 </div>
@@ -210,7 +210,7 @@
                     </UFormGroup>
 
                     <div class="flex justify-end">
-                      <BaseButton text="Zmień hasło"/>
+                      <BaseButton label="Zmień hasło"/>
                     </div>
                   </UForm>
                 </div>
@@ -280,7 +280,7 @@
                     />
                   </div>
 
-                  <BaseButton text="Zapisz ustawienia"/>
+                  <BaseButton label="Zapisz ustawienia"/>
                 </UForm>
               </div>
             </UCard>
@@ -328,7 +328,7 @@
                     </UFormGroup>
                   </div>
 
-                  <BaseButton text="Zapisz"/>
+                  <BaseButton label="Zapisz"/>
                 </UForm>
               </div>
             </UCard>
@@ -342,7 +342,7 @@
               </template>
               <div class="w-full flex flex-col items-center">
                 <img src="/images/qr.svg" class="mb-4" />
-                <BaseButton text="Generuj QR"/>
+                <BaseButton label="Generuj QR"/>
               </div>
             </UCard>
           </div>

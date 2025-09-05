@@ -8,7 +8,7 @@
     </div>
 
     <div>
-      <BaseButton text="Zeskanuj QR">
+      <BaseButton label="Zeskanuj QR">
         <UIcon name="heroicons:camera" class="w-4 h-4 text-white" />
       </BaseButton>
     </div>
@@ -125,7 +125,7 @@
           </div>
 
           <div class="flex justify-end">
-            <BaseButton text="Potwierdź"/>
+            <BaseButton label="Potwierdź"/>
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@
         <UInput v-model="form.object" type="string" class="w-full" />
       </div>
 
-      <BaseButton text="Zapisz"/>
+      <BaseButton label="Zapisz"/>
     </div>
   </Layout>
 </template>

@@ -23,7 +23,7 @@
         <UFormMessage />
       </UFormField>
 
-      <BaseButton text="Zaloguj się"/>
+      <BaseButton label="Zaloguj się"/>
     </UForm>
 
     <p class="mt-3">

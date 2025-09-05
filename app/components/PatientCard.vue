@@ -13,7 +13,7 @@
 
     <!-- Кнопка справа -->
     <NuxtLink to="/patient">
-      <BaseButton text="Przejdź"/>
+      <BaseButton label="Przejdź"/>
     </NuxtLink>
   </div>
 </template>

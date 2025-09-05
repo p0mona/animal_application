@@ -96,7 +96,7 @@
         description="coca cola"
       />
 
-      <BaseButton text="Zarejestruj się"/>
+      <BaseButton label="Zarejestruj się"/>
     </UForm>
 
     <p class="mt-2">

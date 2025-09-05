@@ -15,7 +15,7 @@
       </UFormField>
 
       <NuxtLink to="/new-password">
-        <BaseButton text="Wyślij kod"/>
+        <BaseButton label="Wyślij kod"/>
       </NuxtLink>
     </UForm>
   </Layout>

@@ -58,7 +58,7 @@
         </div>
         <div>
           <div class="flex justify-end">
-            <BaseButton text="Potwierdź"/>
+            <BaseButton label="Potwierdź"/>
           </div>
         </div>
       </div>

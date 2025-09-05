@@ -53,7 +53,7 @@
               </UFormGroup>
 
               <div class="flex justify-start mt-4">
-                <BaseButton text="Zapisz zmiany"/>
+                <BaseButton v="Zapisz zmiany"/>
               </div>
             </div>
 
@@ -91,7 +91,7 @@
         </div>
         <div class="flex justify-end">
           <NuxtLink to="/new_patient">
-            <BaseButton text="Dodać"/>
+            <BaseButton label="Dodać"/>
           </NuxtLink>
         </div>
       </template>
