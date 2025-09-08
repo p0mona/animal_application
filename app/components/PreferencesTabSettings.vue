@@ -16,11 +16,7 @@
             />
           </UFormGroup>
 
-          <UFormGroup
-            label="Strefa czasowa"
-            name="timezone"
-            class="space-y-2"
-          >
+          <UFormGroup label="Strefa czasowa" name="timezone" class="space-y-2">
             <p class="text-sm">Strefa czasowa</p>
             <USelect
               v-model="localPreferences.timezone"
@@ -45,26 +41,25 @@
   </UCard>
 </template>
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed } from "vue";
 
 const props = defineProps<{
   preferences: {
-    language: string,
-    timezone: string,
-    theme: string,
-  }
-  languageOptions: { value: string; label: string }[],
-  timezoneOptions: { value: string; label: string }[],
-  themeOptions: { value: string; label: string }[]
-}>()
+    language: string;
+    timezone: string;
+    theme: string;
+  };
+  languageOptions: { value: string; label: string }[];
+  timezoneOptions: { value: string; label: string }[];
+  themeOptions: { value: string; label: string }[];
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:preferences', value: typeof props.preferences): void
-}>()
-
+  (e: "update:preferences", value: typeof props.preferences): void;
+}>();
 
 const localPreferences = computed({
   get: () => props.preferences,
-  set: (val) => emit('update:preferences', val),
-})
+  set: (val) => emit("update:preferences", val),
+});
 </script>

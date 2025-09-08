@@ -30,20 +30,20 @@
 import { computed } from "vue";
 
 const props = defineProps<{
-  profile: any,
-  animals: string[],
-  breeds: string[],
-  sex: any[],
-  animal_sex: any[],
-}>()
+  profile: any;
+  animals: string[];
+  breeds: string[];
+  sex: any[];
+  animal_sex: any[];
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:profile', value: any): void
-}>()
+  (e: "update:profile", value: any): void;
+}>();
 
 // "прокси"-свойство, которое можно использовать в v-model
 const localProfile = computed({
   get: () => props.profile,
-  set: (val) => emit('update:profile', val),
-})
+  set: (val) => emit("update:profile", val),
+});
 </script>

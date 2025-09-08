@@ -15,7 +15,7 @@
 
           <!-- Profile Content -->
           <div v-if="activeTab === 'profile'">
-            <ProfileTabSettings 
+            <ProfileTabSettings
               v-model:profile="profile"
               :animals="animals"
               :breeds="breeds"
@@ -26,7 +26,7 @@
 
           <!-- Security Content -->
           <div v-if="activeTab === 'security'">
-            <SecurityTabSettings 
+            <SecurityTabSettings
               v-model:security="security"
               v-model:twoFactorEnabled="twoFactorEnabled"
               :securitySchema="securitySchema"
@@ -35,9 +35,7 @@
 
           <!-- Notifications Content -->
           <div v-if="activeTab === 'notifications'">
-            <NotificationsTabSettings
-              v-model:notifications="notifications"
-            />
+            <NotificationsTabSettings v-model:notifications="notifications" />
           </div>
 
           <!-- Preferences Content -->
@@ -52,7 +50,7 @@
 
           <!-- QR Content -->
           <div v-if="activeTab === 'qr'">
-            <QRTabSettings/>
+            <QRTabSettings />
           </div>
         </UContainer>
       </div>

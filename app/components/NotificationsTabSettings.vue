@@ -1,9 +1,7 @@
 <template>
   <UCard>
     <template #header>
-      <h2 class="text-lg font-semibold text-gray-900">
-        Powiadomienia
-      </h2>
+      <h2 class="text-lg font-semibold text-gray-900">Powiadomienia</h2>
     </template>
 
     <div class="space-y-4">
@@ -43,26 +41,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed } from "vue";
 
 const props = defineProps<{
   notifications: {
-    email: boolean,
-    push: boolean,
-    sms: boolean,
-    news: boolean,
-    security: boolean,
-    marketing: boolean
-  }
-}>()
+    email: boolean;
+    push: boolean;
+    sms: boolean;
+    news: boolean;
+    security: boolean;
+    marketing: boolean;
+  };
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:notifications', value: typeof props.notifications): void
-}>()
-
+  (e: "update:notifications", value: typeof props.notifications): void;
+}>();
 
 const localNotifications = computed({
   get: () => props.notifications,
-  set: (val) => emit('update:notifications', val),
-})
+  set: (val) => emit("update:notifications", val),
+});
 </script>

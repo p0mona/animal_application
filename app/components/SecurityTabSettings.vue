@@ -1,9 +1,7 @@
 <template>
   <UCard class="w-full">
     <template #header>
-      <h2 class="text-lg font-semibold text-gray-900">
-        Bezpieczeństwo
-      </h2>
+      <h2 class="text-lg font-semibold text-gray-900">Bezpieczeństwo</h2>
     </template>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
       <div class="w-full min-w-0">
@@ -28,10 +26,7 @@
             />
           </UFormGroup>
 
-          <UFormGroup
-            label="Potwierdź nowe hasło"
-            name="confirmPassword"
-          >
+          <UFormGroup label="Potwierdź nowe hasło" name="confirmPassword">
             <BaseInput
               label="Potwierdź nowe hasło"
               v-model="localSecurity.confirmPassword"
@@ -63,27 +58,27 @@ import { computed } from "vue";
 
 const props = defineProps<{
   security: {
-    currentPassword: string,
-    newPassword: string,
-    confirmPassword: string,
-  },
-  twoFactorEnabled: boolean,
-  securitySchema: any,
-}>()
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  };
+  twoFactorEnabled: boolean;
+  securitySchema: any;
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:security', value: typeof props.security): void,
-  (e: 'update:twoFactorEnabled', value: boolean): void,
-}>()
+  (e: "update:security", value: typeof props.security): void;
+  (e: "update:twoFactorEnabled", value: boolean): void;
+}>();
 
 // "прокси"-свойство, которое можно использовать в v-model
 const localSecurity = computed({
   get: () => props.security,
-  set: (val) => emit('update:security', val),
-})
+  set: (val) => emit("update:security", val),
+});
 
 const localTwoFactor = computed({
   get: () => props.twoFactorEnabled,
-  set: (val) => emit('update:twoFactorEnabled', val),
-})
+  set: (val) => emit("update:twoFactorEnabled", val),
+});
 </script>
