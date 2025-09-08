@@ -14,201 +14,45 @@
           <Navigation :items="navItems" v-model="activeTab" />
 
           <!-- Profile Content -->
-          <div v-if="activeTab === 'profile'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
-              </template>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Pupil Section -->
-                <div>
-                  <PetForm
-                    v-model="profile"
-                    :animals="animals"
-                    :breeds="breeds"
-                    :animal_sex="animal_sex"
-                    animal-placeholder="Pies"
-                    breed-placeholder="Beagle"
-                  />
-                </div>
-
-                <!-- Owner Section -->
-                <div>
-                  <h3 class="text-base font-semibold mb-4">Właściciel</h3>
-                  <OwnerForm v-model="profile" :sex="sex" />
-                </div>
-              </div>
-            </UCard>
+          <div v-if="activeTab === 'profile'">
+            <ProfileTabSettings 
+              v-model:profile="profile"
+              :animals="animals"
+              :breeds="breeds"
+              :sex="sex"
+              :animal_sex="animal_sex"
+            />
           </div>
 
           <!-- Security Content -->
-          <div v-else-if="activeTab === 'security'" class="space-y-4">
-            <UCard class="w-full">
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">
-                  Bezpieczeństwo
-                </h2>
-              </template>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                <div class="w-full min-w-0">
-                  <UForm
-                    :schema="securitySchema"
-                    :state="security"
-                    class="space-y-4"
-                  >
-                    <UFormGroup label="Obecne hasło" name="currentPassword">
-                      <BaseInput
-                        label="Obecne hasło"
-                        v-model="security.currentPassword"
-                        type="password"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Nowe hasło" name="newPassword">
-                      <BaseInput
-                        label="Nowe hasło"
-                        v-model="security.newPassword"
-                        type="password"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup
-                      label="Potwierdź nowe hasło"
-                      name="confirmPassword"
-                    >
-                      <BaseInput
-                        label="Potwierdź nowe hasło"
-                        v-model="security.confirmPassword"
-                        type="password"
-                      />
-                    </UFormGroup>
-
-                    <div class="flex justify-end">
-                      <BaseButton label="Zmień hasło" class="mt-2" />
-                    </div>
-                  </UForm>
-                </div>
-
-                <div class="w-full min-w-0">
-                  <h3 class="text-sm font-medium mb-4">
-                    Uwierzytelnianie dwuskładnikowe
-                  </h3>
-                  <USwitch
-                    v-model="twoFactorEnabled"
-                    label="Włącz 2FA"
-                    class="w-full max-w-full [&_[data-state=checked]]:bg-violet-500 [&_[data-state=checked]_.bg-default]:bg-white"
-                  />
-                </div>
-              </div>
-            </UCard>
+          <div v-if="activeTab === 'security'">
+            <SecurityTabSettings 
+              v-model:security="security"
+              v-model:twoFactorEnabled="twoFactorEnabled"
+              :securitySchema="securitySchema"
+            />
           </div>
 
           <!-- Notifications Content -->
-          <div v-else-if="activeTab === 'notifications'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">
-                  Powiadomienia
-                </h2>
-              </template>
-
-              <div class="space-y-4">
-                <UForm :state="notifications">
-                  <div class="space-y-4">
-                    <h3 class="text-base font-semibold">Kanały powiadomień</h3>
-
-                    <BaseCheckbox v-model="notifications.email" label="Email" />
-                    <BaseCheckbox
-                      v-model="notifications.push"
-                      label="Powiadomienia push"
-                    />
-                    <BaseCheckbox v-model="notifications.sms" label="SMS" />
-
-                    <UDivider />
-
-                    <h3 class="text-base font-semibold">Typy powiadomień</h3>
-
-                    <BaseCheckbox
-                      v-model="notifications.news"
-                      label="Aktualności i ogłoszenia"
-                    />
-                    <BaseCheckbox
-                      v-model="notifications.security"
-                      label="Alerty bezpieczeństwa"
-                    />
-                    <BaseCheckbox
-                      v-model="notifications.marketing"
-                      label="Oferty marketingowe"
-                    />
-                  </div>
-
-                  <BaseButton label="Zapisz ustawienia" class="mt-4" />
-                </UForm>
-              </div>
-            </UCard>
+          <div v-if="activeTab === 'notifications'">
+            <NotificationsTabSettings
+              v-model:notifications="notifications"
+            />
           </div>
 
           <!-- Preferences Content -->
-          <div v-else-if="activeTab === 'preferences'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">Preferencje</h2>
-              </template>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <UForm :state="preferences">
-                  <div class="space-y-4 space-x-4">
-                    <UFormGroup label="Język" name="language" class="space-y-2">
-                      <p class="text-sm">Język</p>
-                      <USelect
-                        v-model="preferences.language"
-                        :items="languageOptions"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup
-                      label="Strefa czasowa"
-                      name="timezone"
-                      class="space-y-2"
-                    >
-                      <p class="text-sm">Strefa czasowa</p>
-                      <USelect
-                        v-model="preferences.timezone"
-                        :items="timezoneOptions"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-
-                    <UFormGroup label="Motyw" name="theme" class="space-y-2">
-                      <p class="text-sm">Motyw</p>
-                      <USelect
-                        v-model="preferences.theme"
-                        :items="themeOptions"
-                        class="w-full"
-                      />
-                    </UFormGroup>
-                  </div>
-
-                  <BaseButton label="Zapisz" class="mt-2" />
-                </UForm>
-              </div>
-            </UCard>
+          <div v-if="activeTab === 'preferences'">
+            <PreferencesTabSettings
+              v-model:preferences="preferences"
+              :languageOptions="languageOptions"
+              :timezoneOptions="timezoneOptions"
+              :themeOptions="themeOptions"
+            />
           </div>
 
           <!-- QR Content -->
-          <div v-else-if="activeTab === 'qr'" class="space-y-4">
-            <UCard>
-              <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">QR</h2>
-              </template>
-              <div class="w-full flex flex-col items-center">
-                <img src="/images/qr.svg" class="mb-4" />
-                <BaseButton label="Generuj QR" />
-              </div>
-            </UCard>
+          <div v-if="activeTab === 'qr'">
+            <QRTabSettings/>
           </div>
         </UContainer>
       </div>
@@ -219,10 +63,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
-import BaseCheckbox from "~/components/BaseCheckbox.vue";
 
 const activeTab = ref("profile");
-const saving = ref(false);
 
 const navItems = [
   { key: "profile", label: "Profil", icon: "i-heroicons-user" },
@@ -284,15 +126,6 @@ const themeOptions = [
   { value: "dark", label: "Ciemny" },
   { value: "system", label: "Systemowy" },
 ];
-
-const profileSchema = {
-  firstName: (value: string) =>
-    value.length >= 2 || "Imię musi mieć co najmniej 2 znaki",
-  lastName: (value: string) =>
-    value.length >= 2 || "Nazwisko musi mieć co najmniej 2 znaki",
-  email: (value: string) =>
-    /.+@.+\..+/.test(value) || "Podaj poprawny adres email",
-};
 
 const securitySchema = {
   newPassword: (value: string) =>
