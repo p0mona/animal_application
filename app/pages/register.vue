@@ -96,7 +96,7 @@
         description="coca cola"
       />
 
-      <BaseButton label="Zarejestruj się" />
+      <BaseButton label="Zarejestruj się" type="submit" />
     </UForm>
 
     <p class="mt-2">
@@ -130,11 +130,30 @@ const state = reactive<Schema>({
 const toast = useToast();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: "Sukces",
-    description: "Użytkownik został zarejestrowany.",
-    color: "success",
-  });
+  try {
+    const res = (await $fetch("http://localhost:3001/auth/registration", {
+  method: "POST",
+  body: {
+    email: state.email,
+    password: state.password,
+  },
+})) as { message: string };
+
+    toast.add({
+      title: "Sukces",
+      description: res.message || "Użytkownik został zarejestrowany.",
+      color: "success",
+    });
+
+    navigateTo("/login");
+
+  } catch (error: any) {
+    toast.add({
+      title: "Błąd",
+      description: error?.data?.message || "Nie udało się zarejestrować.",
+      color: "error",
+    }); 
+  }
 }
 
 const show = ref(false);
