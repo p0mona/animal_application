@@ -23,7 +23,7 @@
         <UFormMessage />
       </UFormField>
 
-      <BaseButton label="Zaloguj się" />
+      <BaseButton label="Zaloguj się" type="submit"/>
     </UForm>
 
     <p class="mt-3">
@@ -57,10 +57,29 @@ const state = reactive<Schema>({
 const toast = useToast();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: "Sukces",
-    description: "Formularz został wysłany.",
-    color: "success",
-  });
+  try {
+    const res = (await $fetch("http://localhost:3001/auth/login", {
+  method: "POST",
+  body: {
+    email: state.email,
+    password: state.password,
+  },
+})) as { message: string };
+
+    toast.add({
+      title: "Sukces",
+      description: res.message || "Użytkownik został zalogowany.",
+      color: "success",
+    });
+
+    navigateTo("/");
+
+  } catch (error: any) {
+    toast.add({
+      title: "Błąd",
+      description: error?.data?.message || "Nie udało się zalogować.",
+      color: "error",
+    }); 
+  }
 }
 </script>
