@@ -18,26 +18,26 @@
       </UFormField>
 
       <!-- Rola: Właściciel / Weterynarz с иконками -->
-<div class="w-full space-y-1">
-        <p class="text-sm font-medium">Kim jesteś?</p>
-        <URadioGroup
-          v-model="selectedWhoIAm"
-          orientation="horizontal"
-          variant="list"
-          :items="optionsWhoIAm"
-          :ui="{
-            base: 'ui-radio',
-            container: 'w-full',
-            indicator: 'bg-violet-500',
-            label: 'ui-label text-sm font-normal',
-            description: 'ui-description',
-          }"
-          class="w-full"
-        />
-      </div>
+      <UFormField label="Kim jesteś?" name="whoiam" required>
+      <URadioGroup
+        v-model="selectedWhoIAm"
+        orientation="horizontal"
+        variant="list"
+        :items="optionsWhoIAm"
+        :ui="{
+          base: 'ui-radio',
+          container: 'w-full',
+          indicator: 'bg-violet-500',
+          label: 'ui-label text-sm font-normal',
+          description: 'ui-description',
+        }"
+        class="w-full"
+      />
+      <UFormMessage />
+    </UFormField>
 
       <div class="space-y-2">
-        <UFormField label="Hasło" name="password">
+        <UFormField label="Hasło" name="password" required>
           <UInput
             id="password"
             v-model="state.password"
