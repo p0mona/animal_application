@@ -17,13 +17,22 @@
         <UFormMessage />
       </UFormField>
 
-      <div class="w-full space-y-2">
-        <p class="text-sm">Kim jesteś?</p>
-        <USelectMenu
-          :placeholder='whoiamPlaceholder'
-          :items="optionsWhoIAm"
+      <!-- Rola: Właściciel / Weterynarz с иконками -->
+<div class="w-full space-y-1">
+        <p class="text-sm font-medium">Kim jesteś?</p>
+        <URadioGroup
           v-model="selectedWhoIAm"
-          class="w-full h-8"
+          orientation="horizontal"
+          variant="list"
+          :items="optionsWhoIAm"
+          :ui="{
+            base: 'ui-radio',
+            container: 'w-full',
+            indicator: 'bg-violet-500',
+            label: 'ui-label text-sm font-normal',
+            description: 'ui-description',
+          }"
+          class="w-full"
         />
       </div>
 
