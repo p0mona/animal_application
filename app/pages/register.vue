@@ -5,17 +5,27 @@
     <UForm
       :schema="schema"
       :state="state"
-      class="space-y-4 w"
+      class="space-y-4"
       @submit="onSubmit"
     >
       <UFormField label="Email" name="email" required>
         <UInput
           v-model="state.email"
-          placeholder="Wprowadź email"
+          placeholder="Wpisz email"
           icon="i-lucide-at-sign"
         />
         <UFormMessage />
       </UFormField>
+
+      <div class="w-full space-y-2">
+        <p class="text-sm">Kim jesteś?</p>
+        <USelectMenu
+          :placeholder='whoiamPlaceholder'
+          :items="optionsWhoIAm"
+          v-model="selectedWhoIAm"
+          class="w-full h-8"
+        />
+      </div>
 
       <div class="space-y-2">
         <UFormField label="Hasło" name="password">
@@ -83,7 +93,7 @@
         <UInput
           v-model="state.confirmPassword"
           type="password"
-          placeholder="Powtórz hasło"
+          placeholder="Wpisz hasło"
         />
         <UFormMessage />
       </UFormField>
@@ -110,6 +120,9 @@ import { reactive, computed, ref } from "vue";
 import * as v from "valibot";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
+const selectedWhoIAm = ref("");
+const whoiamPlaceholder = ref("-");
+
 const schema = v.object({
   email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
   password: v.pipe(
@@ -119,6 +132,7 @@ const schema = v.object({
   confirmPassword: v.pipe(v.string()),
 });
 
+const optionsWhoIAm = ref(["Właściciel", "Weterynarz"]);
 type Schema = v.InferOutput<typeof schema>;
 
 const state = reactive<Schema>({
