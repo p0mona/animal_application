@@ -45,7 +45,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       {
         method: "POST",
         body: { email: state.email },
-      }
+      },
     );
 
     toast.add({

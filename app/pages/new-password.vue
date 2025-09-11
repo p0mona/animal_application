@@ -138,7 +138,7 @@ const text = computed(() => {
 // Получаем токен из URL
 let token = "";
 onMounted(() => {
-  token = route.query.token as string || "";
+  token = (route.query.token as string) || "";
   if (!token) {
     toast.add({
       title: "Błąd",

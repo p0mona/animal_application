@@ -132,12 +132,12 @@ const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     const res = (await $fetch("http://localhost:3001/auth/registration", {
-  method: "POST",
-  body: {
-    email: state.email,
-    password: state.password,
-  },
-})) as { message: string };
+      method: "POST",
+      body: {
+        email: state.email,
+        password: state.password,
+      },
+    })) as { message: string };
 
     toast.add({
       title: "Sukces",
@@ -146,13 +146,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     });
 
     navigateTo("/login");
-
   } catch (error: any) {
     toast.add({
       title: "Błąd",
       description: error?.data?.message || "Nie udało się zarejestrować.",
       color: "error",
-    }); 
+    });
   }
 }
 
