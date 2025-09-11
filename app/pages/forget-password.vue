@@ -14,9 +14,7 @@
         />
       </UFormField>
 
-      <NuxtLink to="/new-password">
-        <BaseButton label="Wyślij kod" />
-      </NuxtLink>
+      <BaseButton label="Wyślij kod" type="submit" />
     </UForm>
   </Layout>
 </template>
@@ -41,10 +39,31 @@ const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!event.data) return;
 
-  toast.add({
-    title: "Sukces",
-    description: "Kod został wysłany na email.",
-    color: "success",
-  });
+  try {
+    const res = await $fetch<{ message: string; resetLink?: string }>(
+      "http://localhost:3001/auth/forgot-password",
+      {
+        method: "POST",
+        body: { email: state.email },
+      }
+    );
+
+    toast.add({
+      title: "Sukces",
+      description: res.message,
+      color: "success",
+    });
+
+    if (res.resetLink) {
+      console.log("Reset link:", res.resetLink);
+      window.location.href = res.resetLink;
+    }
+  } catch (err: any) {
+    toast.add({
+      title: "Błąd",
+      description: err.data?.message || "Nie udało się wysłać kod",
+      color: "error",
+    });
+  }
 }
 </script>

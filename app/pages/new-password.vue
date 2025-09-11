@@ -75,17 +75,16 @@
         <UFormMessage />
       </UFormField>
 
-      <NuxtLink to="/login">
-        <BaseButton label="Potwierdzam" />
-      </NuxtLink>
+      <BaseButton label="Potwierdzam" type="submit" />
     </UForm>
   </Layout>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, onMounted } from "vue";
 import * as v from "valibot";
 import type { FormSubmitEvent } from "@nuxt/ui";
+import { useRoute, navigateTo } from "#imports";
 
 const schema = v.object({
   newPassword: v.pipe(
@@ -104,6 +103,7 @@ const state = reactive<Schema>({
 
 const show = ref(false);
 const toast = useToast();
+const route = useRoute();
 
 function checkStrength(str: string) {
   const requirements = [
@@ -128,12 +128,26 @@ const color = computed(() => {
   if (score.value === 3) return "warning";
   return "success";
 });
-
 const text = computed(() => {
   if (score.value === 0) return "Wprowadź hasło";
   if (score.value <= 2) return "Słabe hasło";
   if (score.value === 3) return "Średnie hasło";
   return "Silne hasło";
+});
+
+// Получаем токен из URL
+let token = "";
+onMounted(() => {
+  token = route.query.token as string || "";
+  if (!token) {
+    toast.add({
+      title: "Błąd",
+      description: "Brak tokenu resetu w linku",
+      color: "error",
+    });
+  } else {
+    console.log("Reset token:", token);
+  }
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -146,10 +160,30 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     return;
   }
 
-  toast.add({
-    title: "Sukces",
-    description: "Hasło zostało zmienione.",
-    color: "success",
-  });
+  if (!token) return;
+
+  try {
+    const res = await $fetch("http://localhost:3001/auth/reset-password", {
+      method: "POST",
+      body: {
+        token,
+        newPassword: state.newPassword,
+      },
+    });
+
+    toast.add({
+      title: "Sukces",
+      description: "Hasło zostało zmienione",
+      color: "success",
+    });
+
+    navigateTo("/login");
+  } catch (err: any) {
+    toast.add({
+      title: "Błąd",
+      description: err.data?.message || "Nie udało się zmienić hasła",
+      color: "error",
+    });
+  }
 }
 </script>
