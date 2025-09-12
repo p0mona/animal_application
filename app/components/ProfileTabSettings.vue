@@ -9,6 +9,7 @@
         <div class="flex justify-end">
           <UButton
             type="button"
+            @click="deleteAccount"
             class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white"
           >
             Usuń konto
@@ -54,9 +55,39 @@ const emit = defineEmits<{
   (e: "update:profile", value: any): void;
 }>();
 
-// "прокси"-свойство, которое можно использовать в v-model
 const localProfile = computed({
   get: () => props.profile,
   set: (val) => emit("update:profile", val),
 });
+
+const profile = computed(() => localProfile.value);
+const toast = useToast();
+
+async function deleteAccount() {
+  console.log("Profile ID:", profile.value?._id);
+  if (!profile.value?._id) return;
+
+  const confirmed = confirm("Czy na pewno chcesz usunąć konto?");
+  if (!confirmed) return;
+
+  try {
+    await $fetch(`http://localhost:3001/auth/user/${profile.value._id}`, {
+      method: "DELETE",
+    });
+
+    toast.add({
+      title: "Sukces",
+      description: "Konto zostało usunięte",
+      color: "success",
+    });
+
+    navigateTo("/login");
+  } catch (err: any) {
+    toast.add({
+      title: "Błąd",
+      description: err.data?.message || "Nie udało się usunąć konta",
+      color: "error",
+    });
+  }
+}
 </script>
