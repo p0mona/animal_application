@@ -121,9 +121,7 @@
             >
           </li>
           <li>
-            <NuxtLink to="" @click="isOpen = false"
-              >Wyloguj się</NuxtLink
-            >
+            <NuxtLink to="" @click="isOpen = false">Wyloguj się</NuxtLink>
           </li>
         </ul>
       </nav>

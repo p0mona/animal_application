@@ -2,12 +2,7 @@
   <Layout>
     <h1 class="mb-4 text-2xl font-bold">Załóż konto</h1>
 
-    <UForm
-      :schema="schema"
-      :state="state"
-      class="space-y-4"
-      @submit="onSubmit"
-    >
+    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" required>
         <UInput
           v-model="state.email"
@@ -19,22 +14,22 @@
 
       <!-- Rola: Właściciel / Weterynarz с иконками -->
       <UFormField label="Kim jesteś?" name="whoiam" required>
-      <URadioGroup
-        v-model="selectedWhoIAm"
-        orientation="horizontal"
-        variant="list"
-        :items="optionsWhoIAm"
-        :ui="{
-          base: 'ui-radio',
-          container: 'w-full',
-          indicator: 'bg-violet-500',
-          label: 'ui-label text-sm font-normal',
-          description: 'ui-description',
-        }"
-        class="w-full"
-      />
-      <UFormMessage />
-    </UFormField>
+        <URadioGroup
+          v-model="selectedWhoIAm"
+          orientation="horizontal"
+          variant="list"
+          :items="optionsWhoIAm"
+          :ui="{
+            base: 'ui-radio',
+            container: 'w-full',
+            indicator: 'bg-violet-500',
+            label: 'ui-label text-sm font-normal',
+            description: 'ui-description',
+          }"
+          class="w-full"
+        />
+        <UFormMessage />
+      </UFormField>
 
       <div class="space-y-2">
         <UFormField label="Hasło" name="password" required>

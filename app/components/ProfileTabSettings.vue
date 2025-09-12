@@ -6,7 +6,7 @@
           <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
         </div>
 
-        <div class = "flex justify-end">
+        <div class="flex justify-end">
           <UButton
             type="button"
             class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white"
