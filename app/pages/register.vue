@@ -15,10 +15,10 @@
       <!--Właściciel / Weterynarz-->
       <UFormField label="Kim jesteś?" name="userType" required>
         <URadioGroup
-          v-model="selectedWhoIAm"
+          v-model="state.userType"
           orientation="horizontal"
           variant="list"
-          :items="optionsWhoIAm"
+          :items="userTypeOptions"
           :ui="{
             base: 'ui-radio',
             container: 'w-full',
@@ -124,11 +124,9 @@ import { reactive, computed, ref } from "vue";
 import * as v from "valibot";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
-const selectedWhoIAm = ref("");
-const whoiamPlaceholder = ref("-");
-
 const schema = v.object({
   email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
+  userType: v.pipe(v.string(), v.nonEmpty("Wybierz kim jesteś")),
   password: v.pipe(
     v.string(),
     v.minLength(8, "Hasło musi mieć co najmniej 8 znaków"),
@@ -136,14 +134,19 @@ const schema = v.object({
   confirmPassword: v.pipe(v.string()),
 });
 
-const optionsWhoIAm = ref(["Właściciel", "Weterynarz"]);
 type Schema = v.InferOutput<typeof schema>;
 
 const state = reactive<Schema>({
   email: "",
+  userType: "",
   password: "",
   confirmPassword: "",
 });
+
+const userTypeOptions = [
+  { value: "OWNER", label: "Właściciel" },
+  { value: "VET", label: "Weterynarz" }
+];
 
 const toast = useToast();
 
@@ -164,6 +167,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       body: {
         email: state.email,
         password: state.password,
+        userType: state.userType // отправляем выбранный тип пользователя
       },
     })) as { message: string };
 
