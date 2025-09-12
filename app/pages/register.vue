@@ -220,4 +220,9 @@ const text = computed(() => {
   if (score.value === 3) return "Średnie hasło";
   return "Silne hasło";
 });
+
+localStorage.setItem('user', JSON.stringify({
+  email: state.email,
+  userType: state.userType
+}));
 </script>
