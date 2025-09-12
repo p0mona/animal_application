@@ -120,6 +120,11 @@
               >Behawiorysta</NuxtLink
             >
           </li>
+          <li>
+            <NuxtLink to="" @click="isOpen = false"
+              >Wyloguj się</NuxtLink
+            >
+          </li>
         </ul>
       </nav>
     </div>
