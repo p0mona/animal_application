@@ -12,8 +12,8 @@
         <UFormMessage />
       </UFormField>
 
-      <!-- Rola: Właściciel / Weterynarz с иконками -->
-      <UFormField label="Kim jesteś?" name="whoiam" required>
+      <!--Właściciel / Weterynarz-->
+      <UFormField label="Kim jesteś?" name="userType" required>
         <URadioGroup
           v-model="selectedWhoIAm"
           orientation="horizontal"
@@ -149,6 +149,16 @@ const toast = useToast();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
+    // Валидация совпадения паролей
+    if (state.password !== state.confirmPassword) {
+      toast.add({
+        title: "Błąd",
+        description: "Hasła nie są identyczne",
+        color: "error",
+      });
+      return;
+    }
+
     const res = (await $fetch("http://localhost:3001/auth/registration", {
       method: "POST",
       body: {
