@@ -62,66 +62,11 @@
         >
           ✕
         </button>
+
+        <!-- Список ссылок -->
         <ul style="display: flex; flex-direction: column; gap: 15px">
-          <li>
-            <NuxtLink to="/" @click="isOpen = false">Strona główna</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/register" @click="isOpen = false"
-              >Załóż konto</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/login" @click="isOpen = false">Zaloguj się</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/account" @click="isOpen = false">Konto</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/settings" @click="isOpen = false"
-              >Ustawienia</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/reminders" @click="isOpen = false"
-              >Przypomnienia</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/documents" @click="isOpen = false"
-              >Dokumenty</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/vet_clinic" @click="isOpen = false"
-              >Klinika weterynaryjna</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/tracker" @click="isOpen = false">Tracker</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/shelter" @click="isOpen = false"
-              >Schronisko</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/vet_settings" @click="isOpen = false"
-              >Weterynarz</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/vet_account" @click="isOpen = false"
-              >Vet Konto</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="/trainer" @click="isOpen = false"
-              >Behawiorysta</NuxtLink
-            >
-          </li>
-          <li>
-            <NuxtLink to="" @click="isOpen = false">Wyloguj się</NuxtLink>
+          <li v-for="link in links" :key="link.to">
+            <NuxtLink :to="link.to" @click="isOpen = false">{{ link.label }}</NuxtLink>
           </li>
         </ul>
       </nav>
@@ -131,5 +76,36 @@
 
 <script setup>
 import { ref } from "vue";
+
 const isOpen = ref(false);
+
+// Получаем тип пользователя из localStorage
+const user = JSON.parse(localStorage.getItem('user') || '{}');
+const userType = user.userType;
+
+// Динамический массив ссылок
+const links = [
+  { label: "Strona główna", to: "/" },
+  { label: "Załóż konto", to: "/register" },
+  { label: "Zaloguj się", to: "/login" },
+  ...(userType === 'OWNER'
+    ? [
+        { label: "Konto", to: "/account" },
+        { label: "Ustawienia", to: "/settings" },
+        { label: "Przypomnienia", to: "/reminders" },
+        { label: "Dokumenty", to: "/documents" },
+        { label: "Tracker", to: "/tracker" },
+      ]
+    : []),
+  ...(userType === 'VET'
+    ? [
+        { label: "Klinika weterynaryjna", to: "/vet_clinic" },
+        { label: "Weterynarz", to: "/vet_settings" },
+        { label: "Vet Konto", to: "/vet_account" },
+      ]
+    : []),
+  { label: "Schronisko", to: "/shelter" },
+  { label: "Behawiorysta", to: "/trainer" },
+  { label: "Wyloguj się", to: "" },
+];
 </script>
