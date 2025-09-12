@@ -63,6 +63,7 @@ const localProfile = computed({
 const profile = computed(() => localProfile.value);
 const toast = useToast();
 
+// закончить подвязку к кнопке (id пользователя?????)
 async function deleteAccount() {
   console.log("Profile ID:", profile.value?._id);
   if (!profile.value?._id) return;
