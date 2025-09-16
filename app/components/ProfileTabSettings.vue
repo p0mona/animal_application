@@ -10,7 +10,7 @@
           <UButton
             type="button"
             @click="deleteAccount"
-            class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white"
+            class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
           >
             Usuń konto
           </UButton>
@@ -42,6 +42,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useUserStore } from "~/stores/user";
 
 const props = defineProps<{
   profile: any;
@@ -63,16 +64,17 @@ const localProfile = computed({
 const profile = computed(() => localProfile.value);
 const toast = useToast();
 
-// закончить подвязку к кнопке (id пользователя?????)
+const userStore = useUserStore();
+
 async function deleteAccount() {
-  console.log("Profile ID:", profile.value?._id);
-  if (!profile.value?._id) return;
+  const profileId = userStore.user?.id;
+  if (!profileId) return;
 
   const confirmed = confirm("Czy na pewno chcesz usunąć konto?");
   if (!confirmed) return;
 
   try {
-    await $fetch(`http://localhost:3001/auth/user/${profile.value._id}`, {
+    await $fetch(`http://localhost:3001/auth/user/${profileId}`, {
       method: "DELETE",
     });
 
@@ -82,6 +84,7 @@ async function deleteAccount() {
       color: "success",
     });
 
+    userStore.clearUser(); // очищаем Pinia и localStorage
     navigateTo("/login");
   } catch (err: any) {
     toast.add({

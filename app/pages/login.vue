@@ -55,13 +55,19 @@ const nuxt = useNuxtApp();
 
 async function onSubmit() {
   try {
-    const res = (await $fetch("http://localhost:3001/auth/login", {
+    // делаем запрос на сервер, $fetch возвращает уже объект
+    const res = await $fetch("http://localhost:3001/auth/login", {
       method: "POST",
       body: { email: state.email, password: state.password },
-    })) as { token: string; user: { userType: string; avatar?: string } };
+    }) as { token: string; user: { id: string; userType: string; avatar?: string } };
 
+    // сохраняем токен и пользователя
     localStorage.setItem("token", res.token);
-    userStore.setUser(res.user);
+    userStore.setUser({
+      id: res.user.id,
+      userType: res.user.userType,
+      avatar: res.user.avatar,
+    });
 
     if (nuxt.$toast) {
       (nuxt.$toast as any).success("Użytkownik został zalogowany");

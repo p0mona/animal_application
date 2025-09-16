@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
 export const useUserStore = defineStore("user", () => {
-  const user = ref<{ userType: string; avatar?: string } | null>(null);
+  const user = ref<{ id: string; userType: string; avatar?: string } | null>(null);
 
   // Инициализация на клиенте
   if (process.client) {
@@ -12,7 +12,7 @@ export const useUserStore = defineStore("user", () => {
 
   const isLoggedIn = computed(() => !!user.value);
 
-  function setUser(newUser: { userType: string; avatar?: string }) {
+  function setUser(newUser: { id: string; userType: string; avatar?: string }) {
     user.value = newUser;
     if (process.client) localStorage.setItem("user", JSON.stringify(newUser));
   }
