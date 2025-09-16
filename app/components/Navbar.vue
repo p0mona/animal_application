@@ -1,113 +1,93 @@
 <template>
-  <div class="bg-[#77e177]">
-    <div class="p-4 bg-[#77e177]">
-      <header
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 10px;
-        "
-      >
-        <NuxtLink to="/" class="inline-block">
-          <img src="/images/logo.svg" alt="Logo" class="w-16 h-16" />
-        </NuxtLink>
+  <div class="bg-[#77e177] p-4">
+    <header class="flex justify-between items-center p-2">
+      <NuxtLink to="/">
+        <img src="/images/logo.svg" alt="Logo" class="w-16 h-16" />
+      </NuxtLink>
 
-        <div style="display: flex; align-items: center; gap: 10px">
-          <UAvatar
-            @click="isOpen = true"
-            src="/images/example-photo.jpg"
-            size="3xl"
-            class="shadow-lg"
-          />
-        </div>
-      </header>
+      <UAvatar
+        @click="isOpen = true"
+        :src="user?.avatar || '/images/example-photo.jpg'"
+        size="3xl"
+        class="shadow-lg"
+      />
+    </header>
 
-      <!-- Затемнение фона -->
-      <div
-        v-if="isOpen"
-        @click="isOpen = false"
-        style="
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.5);
-          z-index: 50;
-        "
-      ></div>
+    <!-- Затемнение -->
+    <div v-if="isOpen" @click="isOpen = false" class="fixed inset-0 bg-black/50 z-50"></div>
 
-      <!-- Боковое меню -->
-      <nav
-        :style="{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          height: '100%',
-          width: '250px',
-          background: '#fff',
-          padding: '20px',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.3s ease',
-          zIndex: 100,
-        }"
-      >
-        <button
-          @click="isOpen = false"
-          style="
-            background: none;
-            border: none;
-            font-size: 24px;
-            margin-bottom: 20px;
-            cursor: pointer;
-          "
-        >
-          ✕
-        </button>
-
-        <!-- Список ссылок -->
-        <ul style="display: flex; flex-direction: column; gap: 15px">
-          <li v-for="link in links" :key="link.to">
+    <!-- Боковое меню -->
+    <nav
+      :class="['fixed top-0 right-0 h-full w-64 bg-white p-5 transition-transform z-100', isOpen ? 'translate-x-0' : 'translate-x-full']"
+    >
+      <button @click="isOpen = false" class="text-2xl mb-5 cursor-pointer">✕</button>
+      <ul class="flex flex-col gap-4">
+        <li v-for="link in menuLinks" :key="link.label">
+          <template v-if="link.action === 'logout'">
+            <button @click="logout" class="text-left w-full cursor-pointer">{{ link.label }}</button>
+          </template>
+          <template v-else>
             <NuxtLink :to="link.to" @click="isOpen = false">{{ link.label }}</NuxtLink>
-          </li>
-        </ul>
-      </nav>
-    </div>
+          </template>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useUserStore } from '~/stores/user';
+import { navigateTo } from '#app';
 
 const isOpen = ref(false);
-const links = ref([]);
+const userStore = useUserStore();
 
-// Генерация ссылок после загрузки клиента
-onMounted(() => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const userType = user.userType;
+const user = computed(() => userStore.user);
 
-  links.value = [
-    { label: "Strona główna", to: "/" },
-    { label: "Załóż konto", to: "/register" },
-    { label: "Zaloguj się", to: "/login" },
-    ...(userType === "OWNER"
-      ? [
-          { label: "Konto", to: "/account" },
-          { label: "Ustawienia", to: "/settings" },
-          { label: "Przypomnienia", to: "/reminders" },
-          { label: "Dokumenty", to: "/documents" },
-          { label: "Tracker", to: "/tracker" },
-        ]
-      : []),
-    ...(userType === "VET"
-      ? [
-          { label: "Klinika weterynaryjna", to: "/vet_clinic" },
-          { label: "Weterynarz", to: "/vet_settings" },
-          { label: "Vet Konto", to: "/vet_account" },
-        ]
-      : []),
-    { label: "Schronisko", to: "/shelter" },
-    { label: "Behawiorysta", to: "/trainer" },
-    { label: "Wyloguj się", to: "" },
-  ];
+// Меню динамически в зависимости от userType
+const menuLinks = computed(() => {
+  if (!userStore.isLoggedIn) {
+    return [
+      { label: 'Strona główna', to: '/' },
+      { label: 'Schronisko', to: '/shelter' },
+      { label: 'Behawiorysta', to: '/trainer' },
+      { label: 'Zaloguj się', to: '/login' },
+      { label: 'Załóż konto', to: '/register' },
+    ];
+  }
+
+  if (user.value?.userType === 'OWNER') {
+    return [
+      { label: 'Konto', to: '/account' },
+      { label: 'Ustawienia', to: '/settings' },
+      { label: 'Przypomnienia', to: '/reminders' },
+      { label: 'Dokumenty', to: '/documents' },
+      { label: 'Tracker', to: '/tracker' },
+      { label: 'Schronisko', to: '/shelter' },
+      { label: 'Behawiorysta', to: '/trainer' },
+      { label: 'Wyloguj się', action: 'logout' },
+    ];
+  }
+
+  if (user.value?.userType === 'VET') {
+    return [
+      { label: 'Klinika weterynaryjna', to: '/vet_clinic' },
+      { label: 'Weterynarz', to: '/vet_settings' },
+      { label: 'Vet Konto', to: '/vet_account' },
+      { label: 'Schronisko', to: '/shelter' },
+      { label: 'Behawiorysta', to: '/trainer' },
+      { label: 'Wyloguj się', action: 'logout' },
+    ];
+  }
+
+  return [];
 });
+
+// Функция выхода
+function logout() {
+  userStore.clearUser();
+  isOpen.value = false;
+  navigateTo('/');
+}
 </script>
