@@ -1,12 +1,12 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
 
-export const useUserStore = defineStore('user', () => {
+export const useUserStore = defineStore("user", () => {
   const user = ref<{ userType: string; avatar?: string } | null>(null);
 
   // Инициализация на клиенте
   if (process.client) {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) user.value = JSON.parse(storedUser);
   }
 
@@ -14,14 +14,14 @@ export const useUserStore = defineStore('user', () => {
 
   function setUser(newUser: { userType: string; avatar?: string }) {
     user.value = newUser;
-    if (process.client) localStorage.setItem('user', JSON.stringify(newUser));
+    if (process.client) localStorage.setItem("user", JSON.stringify(newUser));
   }
 
   function clearUser() {
     user.value = null;
     if (process.client) {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
     }
   }
 

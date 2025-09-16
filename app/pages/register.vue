@@ -145,7 +145,7 @@ const state = reactive<Schema>({
 
 const userTypeOptions = [
   { value: "OWNER", label: "Właściciel" },
-  { value: "VET", label: "Weterynarz" }
+  { value: "VET", label: "Weterynarz" },
 ];
 
 const toast = useToast();
@@ -167,7 +167,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       body: {
         email: state.email,
         password: state.password,
-        userType: state.userType // отправляем выбранный тип пользователя
+        userType: state.userType, // отправляем выбранный тип пользователя
       },
     })) as { message: string };
 
@@ -221,8 +221,11 @@ const text = computed(() => {
   return "Silne hasło";
 });
 
-localStorage.setItem('user', JSON.stringify({
-  email: state.email,
-  userType: state.userType
-}));
+localStorage.setItem(
+  "user",
+  JSON.stringify({
+    email: state.email,
+    userType: state.userType,
+  }),
+);
 </script>

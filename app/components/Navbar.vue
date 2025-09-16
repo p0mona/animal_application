@@ -14,20 +14,33 @@
     </header>
 
     <!-- Затемнение -->
-    <div v-if="isOpen" @click="isOpen = false" class="fixed inset-0 bg-black/50 z-50"></div>
+    <div
+      v-if="isOpen"
+      @click="isOpen = false"
+      class="fixed inset-0 bg-black/50 z-50"
+    ></div>
 
     <!-- Боковое меню -->
     <nav
-      :class="['fixed top-0 right-0 h-full w-64 bg-white p-5 transition-transform z-100', isOpen ? 'translate-x-0' : 'translate-x-full']"
+      :class="[
+        'fixed top-0 right-0 h-full w-64 bg-white p-5 transition-transform z-100',
+        isOpen ? 'translate-x-0' : 'translate-x-full',
+      ]"
     >
-      <button @click="isOpen = false" class="text-2xl mb-5 cursor-pointer">✕</button>
+      <button @click="isOpen = false" class="text-2xl mb-5 cursor-pointer">
+        ✕
+      </button>
       <ul class="flex flex-col gap-4">
         <li v-for="link in menuLinks" :key="link.label">
           <template v-if="link.action === 'logout'">
-            <button @click="logout" class="text-left w-full cursor-pointer">{{ link.label }}</button>
+            <button @click="logout" class="text-left w-full cursor-pointer">
+              {{ link.label }}
+            </button>
           </template>
           <template v-else>
-            <NuxtLink :to="link.to" @click="isOpen = false">{{ link.label }}</NuxtLink>
+            <NuxtLink :to="link.to" @click="isOpen = false">{{
+              link.label
+            }}</NuxtLink>
           </template>
         </li>
       </ul>
@@ -36,9 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useUserStore } from '~/stores/user';
-import { navigateTo } from '#app';
+import { ref, computed } from "vue";
+import { useUserStore } from "~/stores/user";
+import { navigateTo } from "#app";
 
 const isOpen = ref(false);
 const userStore = useUserStore();
@@ -49,35 +62,35 @@ const user = computed(() => userStore.user);
 const menuLinks = computed(() => {
   if (!userStore.isLoggedIn) {
     return [
-      { label: 'Strona główna', to: '/' },
-      { label: 'Schronisko', to: '/shelter' },
-      { label: 'Behawiorysta', to: '/trainer' },
-      { label: 'Zaloguj się', to: '/login' },
-      { label: 'Załóż konto', to: '/register' },
+      { label: "Strona główna", to: "/" },
+      { label: "Schronisko", to: "/shelter" },
+      { label: "Behawiorysta", to: "/trainer" },
+      { label: "Zaloguj się", to: "/login" },
+      { label: "Załóż konto", to: "/register" },
     ];
   }
 
-  if (user.value?.userType === 'OWNER') {
+  if (user.value?.userType === "OWNER") {
     return [
-      { label: 'Konto', to: '/account' },
-      { label: 'Ustawienia', to: '/settings' },
-      { label: 'Przypomnienia', to: '/reminders' },
-      { label: 'Dokumenty', to: '/documents' },
-      { label: 'Tracker', to: '/tracker' },
-      { label: 'Schronisko', to: '/shelter' },
-      { label: 'Behawiorysta', to: '/trainer' },
-      { label: 'Wyloguj się', action: 'logout' },
+      { label: "Konto", to: "/account" },
+      { label: "Ustawienia", to: "/settings" },
+      { label: "Przypomnienia", to: "/reminders" },
+      { label: "Dokumenty", to: "/documents" },
+      { label: "Tracker", to: "/tracker" },
+      { label: "Schronisko", to: "/shelter" },
+      { label: "Behawiorysta", to: "/trainer" },
+      { label: "Wyloguj się", action: "logout" },
     ];
   }
 
-  if (user.value?.userType === 'VET') {
+  if (user.value?.userType === "VET") {
     return [
-      { label: 'Klinika weterynaryjna', to: '/vet_clinic' },
-      { label: 'Weterynarz', to: '/vet_settings' },
-      { label: 'Vet Konto', to: '/vet_account' },
-      { label: 'Schronisko', to: '/shelter' },
-      { label: 'Behawiorysta', to: '/trainer' },
-      { label: 'Wyloguj się', action: 'logout' },
+      { label: "Klinika weterynaryjna", to: "/vet_clinic" },
+      { label: "Weterynarz", to: "/vet_settings" },
+      { label: "Vet Konto", to: "/vet_account" },
+      { label: "Schronisko", to: "/shelter" },
+      { label: "Behawiorysta", to: "/trainer" },
+      { label: "Wyloguj się", action: "logout" },
     ];
   }
 
@@ -88,6 +101,6 @@ const menuLinks = computed(() => {
 function logout() {
   userStore.clearUser();
   isOpen.value = false;
-  navigateTo('/');
+  navigateTo("/");
 }
 </script>

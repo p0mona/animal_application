@@ -4,7 +4,11 @@
 
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
       <UFormField label="Email" name="email" required>
-        <UInput v-model="state.email" placeholder="Wprowadź email" class="w-full" />
+        <UInput
+          v-model="state.email"
+          placeholder="Wprowadź email"
+          class="w-full"
+        />
         <UFormMessage />
       </UFormField>
 
@@ -33,10 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import * as v from 'valibot';
-import { useUserStore } from '~/stores/user';
-import { useNuxtApp, navigateTo } from '#app';
+import { reactive } from "vue";
+import * as v from "valibot";
+import { useUserStore } from "~/stores/user";
+import { useNuxtApp, navigateTo } from "#app";
 
 const schema = v.object({
   email: v.pipe(v.string(), v.email("Nieprawidłowy email")),
@@ -45,27 +49,27 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>;
 
-const state = reactive<Schema>({ email: '', password: '' });
+const state = reactive<Schema>({ email: "", password: "" });
 const userStore = useUserStore();
 const nuxt = useNuxtApp();
 
 async function onSubmit() {
   try {
-    const res = await $fetch('http://localhost:3001/auth/login', {
-      method: 'POST',
+    const res = (await $fetch("http://localhost:3001/auth/login", {
+      method: "POST",
       body: { email: state.email, password: state.password },
-    }) as { token: string; user: { userType: string; avatar?: string } };
+    })) as { token: string; user: { userType: string; avatar?: string } };
 
     // Сохраняем токен и пользователя в Pinia + localStorage
-    localStorage.setItem('token', res.token);
+    localStorage.setItem("token", res.token);
     userStore.setUser(res.user);
 
     // Показываем уведомление
-    (nuxt.$toast as any).success('Użytkownik został zalogowany');
+    (nuxt.$toast as any).success("Użytkownik został zalogowany");
 
-    navigateTo('/');
+    navigateTo("/");
   } catch (err: any) {
-    (nuxt.$toast as any).error(err?.data?.message || 'Nie udało się zalogować');
+    (nuxt.$toast as any).error(err?.data?.message || "Nie udało się zalogować");
   }
 }
 </script>
