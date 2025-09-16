@@ -60,16 +60,18 @@ async function onSubmit() {
       body: { email: state.email, password: state.password },
     })) as { token: string; user: { userType: string; avatar?: string } };
 
-    // Сохраняем токен и пользователя в Pinia + localStorage
     localStorage.setItem("token", res.token);
     userStore.setUser(res.user);
 
-    // Показываем уведомление
-    (nuxt.$toast as any).success("Użytkownik został zalogowany");
+    if (nuxt.$toast) {
+      (nuxt.$toast as any).success("Użytkownik został zalogowany");
+    }
 
     navigateTo("/");
   } catch (err: any) {
-    (nuxt.$toast as any).error(err?.data?.message || "Nie udało się zalogować");
+    if (nuxt.$toast) {
+      (nuxt.$toast as any).error(err?.data?.message || "Nie udało się zalogować");
+    }
   }
 }
 </script>
