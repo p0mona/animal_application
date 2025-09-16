@@ -23,10 +23,6 @@ const emit = defineEmits<{
 }>();
 
 const onUpdate = (val: unknown) => {
-  if (val instanceof File || val === null) {
-    emit("update:modelValue", val);
-  } else {
-    console.warn("UFileUpload emitted a value that is not File or null:", val);
-  }
+  emit("update:modelValue", val instanceof File ? val : null);
 };
 </script>
