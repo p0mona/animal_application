@@ -7,7 +7,7 @@
 
       <UAvatar
         @click="isOpen = true"
-        :src="user?.avatar || '/images/example-photo.jpg'"
+        :src="avatarSrc"
         size="3xl"
         class="shadow-lg"
       />
@@ -103,4 +103,21 @@ function logout() {
   isOpen.value = false;
   navigateTo("/");
 }
+
+// Динамическая аватарка
+const avatarSrc = computed(() => {
+  if (!user.value) {
+    // Гость
+    return "/images/guest.jpg";
+  }
+
+  if (user.value.userType === "OWNER") {
+    return user.value.avatar || "/images/example-photo.jpg";
+  }
+
+  if (user.value.userType === "VET") {
+    return user.value.avatar || "/images/doctor.jpg";
+  }
+
+});
 </script>
