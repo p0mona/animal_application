@@ -118,6 +118,5 @@ const avatarSrc = computed(() => {
   if (user.value.userType === "VET") {
     return user.value.avatar || "/images/doctor.jpg";
   }
-
 });
 </script>
