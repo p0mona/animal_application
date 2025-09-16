@@ -75,37 +75,39 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const isOpen = ref(false);
+const links = ref([]);
 
-// Получаем тип пользователя из localStorage
-const user = JSON.parse(localStorage.getItem('user') || '{}');
-const userType = user.userType;
+// Генерация ссылок после загрузки клиента
+onMounted(() => {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const userType = user.userType;
 
-// Динамический массив ссылок
-const links = [
-  { label: "Strona główna", to: "/" },
-  { label: "Załóż konto", to: "/register" },
-  { label: "Zaloguj się", to: "/login" },
-  ...(userType === 'OWNER'
-    ? [
-        { label: "Konto", to: "/account" },
-        { label: "Ustawienia", to: "/settings" },
-        { label: "Przypomnienia", to: "/reminders" },
-        { label: "Dokumenty", to: "/documents" },
-        { label: "Tracker", to: "/tracker" },
-      ]
-    : []),
-  ...(userType === 'VET'
-    ? [
-        { label: "Klinika weterynaryjna", to: "/vet_clinic" },
-        { label: "Weterynarz", to: "/vet_settings" },
-        { label: "Vet Konto", to: "/vet_account" },
-      ]
-    : []),
-  { label: "Schronisko", to: "/shelter" },
-  { label: "Behawiorysta", to: "/trainer" },
-  { label: "Wyloguj się", to: "" },
-];
+  links.value = [
+    { label: "Strona główna", to: "/" },
+    { label: "Załóż konto", to: "/register" },
+    { label: "Zaloguj się", to: "/login" },
+    ...(userType === "OWNER"
+      ? [
+          { label: "Konto", to: "/account" },
+          { label: "Ustawienia", to: "/settings" },
+          { label: "Przypomnienia", to: "/reminders" },
+          { label: "Dokumenty", to: "/documents" },
+          { label: "Tracker", to: "/tracker" },
+        ]
+      : []),
+    ...(userType === "VET"
+      ? [
+          { label: "Klinika weterynaryjna", to: "/vet_clinic" },
+          { label: "Weterynarz", to: "/vet_settings" },
+          { label: "Vet Konto", to: "/vet_account" },
+        ]
+      : []),
+    { label: "Schronisko", to: "/shelter" },
+    { label: "Behawiorysta", to: "/trainer" },
+    { label: "Wyloguj się", to: "" },
+  ];
+});
 </script>
