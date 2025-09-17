@@ -2,7 +2,9 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
 export const useUserStore = defineStore("user", () => {
-  const user = ref<{ id: string; userType: string; avatar?: string } | null>(null);
+  const user = ref<{ id: string; userType: string; avatar?: string } | null>(
+    null,
+  );
   const isLoading = ref(true); // Добавляем состояние загрузки
 
   const isLoggedIn = computed(() => !!user.value);

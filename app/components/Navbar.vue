@@ -5,7 +5,10 @@
         <img src="/images/logo.svg" alt="Logo" class="w-16 h-16" />
       </NuxtLink>
 
-      <div v-if="userStore.isLoading" class="w-12 h-12 rounded-full bg-gray-200 animate-pulse"></div>
+      <div
+        v-if="userStore.isLoading"
+        class="w-12 h-12 rounded-full bg-gray-200 animate-pulse"
+      ></div>
       <UAvatar
         v-else
         @click="isOpen = true"
