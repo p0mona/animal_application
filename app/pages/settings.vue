@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#77e177]">
     <div class="flex justify-center p-4 bg-[#77e177]">
       <div
-        class="max-w-4xl bg-white w-full rounded-2xl shadow-lg p-6 space-y-4"
+        class="max-w-[930px] bg-white w-full rounded-2xl shadow-lg p-6 space-y-4"
       >
         <UContainer class="py-8">
           <!-- Заголовок -->
@@ -52,6 +52,11 @@
           <div v-if="activeTab === 'qr'">
             <QRTabSettings />
           </div>
+
+          <!-- SOS Content -->
+          <div v-if="activeTab === 'sos'">
+            <SosTabSettings />
+          </div>
         </UContainer>
       </div>
     </div>
@@ -71,6 +76,7 @@ const navItems = [
   { key: "security", label: "Bezpieczeństwo", icon: "i-heroicons-lock-closed" },
   { key: "notifications", label: "Powiadomienia", icon: "i-heroicons-bell" },
   { key: "preferences", label: "Preferencje", icon: "i-heroicons-cog-6-tooth" },
+  { key: "sos", label: "Sos", icon: "heroicons:megaphone-16-solid" },
 ];
 
 const profile = ref({
