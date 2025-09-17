@@ -33,7 +33,7 @@
       />
 
       <div class="flex justify-end">
-        <BaseButton label="Potwierdź" />
+        <BaseButton label="Potwierdź" @click="saveForm" />
       </div>
     </div>
   </div>
@@ -44,6 +44,7 @@ import BaseInput from "@/components/BaseInput.vue";
 import FileUpload from "@/components/FileUpload.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { reactive, watch } from "vue";
+import { useUserStore } from "@/stores/user";
 
 const props = defineProps({
   modelValue: Object,
@@ -61,4 +62,19 @@ watch(
   },
   { deep: true },
 );
+
+const userStore = useUserStore();
+
+function saveForm() {
+  if (localForm.image) {
+    const imageUrl = URL.createObjectURL(localForm.image);
+
+    userStore.setUser({
+      ...userStore.user,
+      avatar: imageUrl,
+    });
+  }
+
+  console.log("Form saved", localForm);
+}
 </script>
