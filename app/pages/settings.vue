@@ -61,6 +61,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
+import animalsList from "~/assets/data/animals.json";
 
 const activeTab = ref("profile");
 
@@ -132,7 +133,7 @@ const securitySchema = {
     value === security.value.newPassword || "Hasła muszą być identyczne",
 };
 
-const animals = ref(["Pies", "Kot", "Chomik"]);
+const animals = ref(animalsList);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
 
 const sex = ref<RadioGroupItem[]>([
