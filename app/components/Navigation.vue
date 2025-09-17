@@ -13,7 +13,7 @@
           :class="[
             'rounded-full',
             modelValue === item.key
-              ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+              ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100 active:bg-violet-200'
               : '',
           ]"
           @click="$emit('update:modelValue', item.key)"
@@ -34,7 +34,7 @@
           :class="[
             'flex items-center space-x-2 px-4 py-3',
             modelValue === item.key
-              ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100'
+              ? 'bg-violet-50 text-violet-500 hover:text-violet-600 hover:bg-violet-100 active:bg-violet-200'
               : 'hover:bg-gray-100',
           ]"
           @click="$emit('update:modelValue', item.key)"
