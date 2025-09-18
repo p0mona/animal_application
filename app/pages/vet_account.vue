@@ -4,29 +4,27 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <div class="flex flex-col space-y-4 mt-4">
-          <BaseInput label="Wpisz imię" v-model="form.name" />
-          <BaseInput label="Wpisz miejsce pracy" v-model="form.hospital" />
+        <BaseInput label="Wpisz imię" v-model="form.name" />
+        <BaseInput label="Wpisz miejsce pracy" v-model="form.vet.hospital" />
 
-          <div class="w-full">
-            <p class="text-sm">Płeć</p>
-            <RadioButton v-model="form.sex" :items="sex" />
-          </div>
-
-          <BaseInput
-            label="Data urodzenia"
-            id="birthday"
-            type="date"
-            v-model="form.birthday"
-          />
+        <div class="w-full mt-2">
+          <p class="text-sm">Płeć</p>
+          <RadioButton v-model="form.sex" :items="sexOptions" />
         </div>
+
+        <BaseInput label="Data urodzenia" type="date" v-model="form.birthday" />
       </div>
+
       <div>
-        <FileUpload v-model="form.image" />
-        <div>
-          <div class="flex justify-end">
-            <BaseButton label="Potwierdź" class="mt-4" />
-          </div>
+        <div v-if="form.imageUrl" class="mb-2">
+          <img :src="form.imageUrl" alt="avatar" class="w-32 h-32 object-cover rounded-full" />
+        </div>
+
+        <input type="file" @change="handleFileUpload" accept="image/*" />
+        <div class="flex justify-end">
+          <button @click="saveProfile" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+    Potwierdź
+  </button>
         </div>
       </div>
     </div>
@@ -34,19 +32,50 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import type { RadioGroupItem } from "@nuxt/ui";
+import { reactive, onMounted } from "vue";
+import { useUserStore } from "~/stores/user";
+
+const userStore = useUserStore();
 
 const form = reactive({
   name: "",
   birthday: "",
   sex: "K",
-  hospital: "",
   image: null as File | null,
+  imageUrl: "",
+  vet: { hospital: "" },
 });
 
-const sex = ref<RadioGroupItem[]>([
+const sexOptions = [
   { label: "Kobieta", value: "K" },
   { label: "Mężczyzna", value: "M" },
-]);
+];
+
+function handleFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files[0]) {
+    form.image = target.files[0];
+    form.imageUrl = URL.createObjectURL(target.files[0]);
+  }
+}
+
+onMounted(async () => {
+  await userStore.getProfile();
+  if (userStore.user) {
+    form.name = userStore.user.name || "";
+    form.birthday = userStore.user.birthday || "";
+    form.sex = userStore.user.sex || "K";
+    form.vet.hospital = userStore.user.vet?.hospital || "";
+    form.imageUrl = userStore.user.image ? `http://localhost:3001${userStore.user.image}` : "";
+  }
+});
+
+async function saveProfile() {
+  try {
+    await userStore.updateProfile(form);
+    alert("Profil został zapisany!");
+  } catch (error) {
+    console.error("Save error:", error);
+  }
+}
 </script>
