@@ -22,9 +22,13 @@
 
         <input type="file" @change="handleFileUpload" accept="image/*" />
         <div class="flex justify-end">
-          <button @click="saveProfile" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-    Potwierdź
-  </button>
+          <UButton
+            type="button"
+            @click="saveProfile"
+            class="md:w-auto mt-4 bg-violet-500 hover:bg-violet-600 active:bg-violet-70 cursor-pointer"
+          >
+            Potwierdź
+          </UButton>
         </div>
       </div>
     </div>
