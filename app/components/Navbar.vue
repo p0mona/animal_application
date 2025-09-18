@@ -116,13 +116,13 @@ const avatarSrc = computed(() => {
   }
 
   if (user.value.userType === "OWNER") {
-    return user.value.image 
+    return user.value.image
       ? `http://localhost:3001${user.value.image}`
       : "/images/example-photo.jpg";
   }
 
   if (user.value.userType === "VET") {
-    return user.value.image 
+    return user.value.image
       ? `http://localhost:3001${user.value.image}`
       : "/images/doctor.jpg";
   }

@@ -62,7 +62,7 @@ onMounted(async () => {
 
 function updateFormFromStore() {
   if (!userStore.user) return;
-  
+
   form.name = userStore.user.name || "";
   form.birthday = userStore.user.birthday || "";
   form.sex = userStore.user.sex || "K";
@@ -71,7 +71,7 @@ function updateFormFromStore() {
 
 async function saveProfile() {
   loading.value = true;
-  
+
   try {
     await userStore.updateProfile(form);
     alert("Profil został zapisany!");

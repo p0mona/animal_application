@@ -29,56 +29,55 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function updateProfile(profileData: any) {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
 
-    const formData = new FormData();
-    formData.append("name", profileData.name);
-    formData.append("birthday", profileData.birthday);
-    formData.append("sex", profileData.sex);
-    
-    if (user.value?.userType === "VET") {
-      formData.append("vet", JSON.stringify(profileData.vet));
-    }
-    
-    if (user.value?.userType === "OWNER") {
-      formData.append("owner", JSON.stringify(profileData.owner || {}));
-    }
+      const formData = new FormData();
+      formData.append("name", profileData.name);
+      formData.append("birthday", profileData.birthday);
+      formData.append("sex", profileData.sex);
 
-    if (profileData.image instanceof File) {
-      formData.append("image", profileData.image);
-    }
+      if (user.value?.userType === "VET") {
+        formData.append("vet", JSON.stringify(profileData.vet));
+      }
 
-    const res = await fetch("http://localhost:3001/auth/update-profile", {
-      method: "PUT",
-      headers: { 
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+      if (user.value?.userType === "OWNER") {
+        formData.append("owner", JSON.stringify(profileData.owner || {}));
+      }
+
+      if (profileData.image instanceof File) {
+        formData.append("image", profileData.image);
+      }
+
+      const res = await fetch("http://localhost:3001/auth/update-profile", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       if (!res.ok) throw new Error(await res.text());
 
       const data = await res.json();
-      setUser(data.user); 
+      setUser(data.user);
       return data;
-      
     } catch (error) {
       console.error("Error updating profile:", error);
       throw error;
     }
   }
 
-async function getProfile() {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  async function getProfile() {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
 
       const res = await fetch("http://localhost:3001/auth/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      
+
       if (res.ok) {
         const userData = await res.json();
         setUser(userData); // Используем существующую функцию

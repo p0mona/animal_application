@@ -60,9 +60,9 @@ async function onSubmit() {
       body: { email: state.email, password: state.password },
     })) as {
       token: string;
-      user: { 
-        id: string; 
-        userType: string; 
+      user: {
+        id: string;
+        userType: string;
         name: string;
         image: string;
         vet: any;
