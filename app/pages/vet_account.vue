@@ -16,11 +16,8 @@
       </div>
 
       <div>
-        <div v-if="form.imageUrl" class="mb-2">
-          <img :src="form.imageUrl" alt="avatar" class="w-32 h-32 object-cover rounded-full" />
-        </div>
+        <FileUpload v-model="form.image" />
 
-        <input type="file" @change="handleFileUpload" accept="image/*" />
         <div class="flex justify-end">
           <UButton
             type="button"
@@ -37,6 +34,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted } from "vue";
+import FileUpload from "~/components/FileUpload.vue";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
@@ -46,7 +44,6 @@ const form = reactive({
   birthday: "",
   sex: "K",
   image: null as File | null,
-  imageUrl: "",
   vet: { hospital: "" },
 });
 
@@ -55,14 +52,6 @@ const sexOptions = [
   { label: "Mężczyzna", value: "M" },
 ];
 
-function handleFileUpload(event: Event) {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files[0]) {
-    form.image = target.files[0];
-    form.imageUrl = URL.createObjectURL(target.files[0]);
-  }
-}
-
 onMounted(async () => {
   await userStore.getProfile();
   if (userStore.user) {
@@ -70,7 +59,6 @@ onMounted(async () => {
     form.birthday = userStore.user.birthday || "";
     form.sex = userStore.user.sex || "K";
     form.vet.hospital = userStore.user.vet?.hospital || "";
-    form.imageUrl = userStore.user.image ? `http://localhost:3001${userStore.user.image}` : "";
   }
 });
 
@@ -78,6 +66,9 @@ async function saveProfile() {
   try {
     await userStore.updateProfile(form);
     alert("Profil został zapisany!");
+    
+    // Принудительно обновляем данные пользователя в store
+    await userStore.getProfile();
   } catch (error) {
     console.error("Save error:", error);
   }

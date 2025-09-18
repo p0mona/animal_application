@@ -112,16 +112,21 @@ function logout() {
 // Динамическая аватарка
 const avatarSrc = computed(() => {
   if (!user.value) {
-    // Гость
     return "/images/guest.jpg";
   }
 
   if (user.value.userType === "OWNER") {
-    return user.value.avatar || "/images/example-photo.jpg";
+    return user.value.image 
+      ? `http://localhost:3001${user.value.image}`
+      : "/images/example-photo.jpg";
   }
 
   if (user.value.userType === "VET") {
-    return user.value.avatar || "/images/doctor.jpg";
+    return user.value.image 
+      ? `http://localhost:3001${user.value.image}`
+      : "/images/doctor.jpg";
   }
+
+  return "/images/guest.jpg";
 });
 </script>

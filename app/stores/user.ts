@@ -28,34 +28,28 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  async function getProfile() {
+  async function updateProfile(profileData: any) {
+  try {
     const token = localStorage.getItem("token");
     if (!token) return;
-
-    const res = await fetch("http://localhost:3001/auth/profile", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) user.value = await res.json();
-  }
-
-  async function updateProfile(profileData: any) {
-  try {  
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("Token not found");
-      return;
-    }
 
     const formData = new FormData();
     formData.append("name", profileData.name);
     formData.append("birthday", profileData.birthday);
     formData.append("sex", profileData.sex);
-    formData.append("vet", JSON.stringify(profileData.vet));
+    
+    if (user.value?.userType === "VET") {
+      formData.append("vet", JSON.stringify(profileData.vet));
+    }
+    
+    if (user.value?.userType === "OWNER") {
+      formData.append("owner", JSON.stringify(profileData.owner || {}));
+    }
 
     if (profileData.image instanceof File) {
       formData.append("image", profileData.image);
     }
-    
+
     const res = await fetch("http://localhost:3001/auth/update-profile", {
       method: "PUT",
       headers: { 
@@ -66,16 +60,42 @@ export const useUserStore = defineStore("user", () => {
 
     if (res.ok) {
       const data = await res.json();
+      // Обновляем пользователя в store
       user.value = data.user;
       if (process.client) {
         localStorage.setItem("user", JSON.stringify(data.user));
       }
+      return data;
     } else {
-      console.error("Server error:", await res.text());
+      const errorText = await res.text();
+      throw new Error(errorText);
     }
   } catch (error) {
-    console.error("Error in updateProfile:", error);
+    console.error("Error updating profile:", error);
+    throw error;
   }
+}
+
+async function getProfile() {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const res = await fetch("http://localhost:3001/auth/profile", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    
+    if (res.ok) {
+      const userData = await res.json();
+      user.value = userData;
+      if (process.client) {
+        localStorage.setItem("user", JSON.stringify(userData));
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+  }
+
 }
 
   return {
