@@ -58,45 +58,35 @@ export const useUserStore = defineStore("user", () => {
       body: formData,
     });
 
-    if (res.ok) {
+      if (!res.ok) throw new Error(await res.text());
+
       const data = await res.json();
-      // Обновляем пользователя в store
-      user.value = data.user;
-      if (process.client) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-      }
+      setUser(data.user); 
       return data;
-    } else {
-      const errorText = await res.text();
-      throw new Error(errorText);
+      
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
     }
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    throw error;
   }
-}
 
 async function getProfile() {
   try {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    const res = await fetch("http://localhost:3001/auth/profile", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    
-    if (res.ok) {
-      const userData = await res.json();
-      user.value = userData;
-      if (process.client) {
-        localStorage.setItem("user", JSON.stringify(userData));
+      const res = await fetch("http://localhost:3001/auth/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (res.ok) {
+        const userData = await res.json();
+        setUser(userData); // Используем существующую функцию
       }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
     }
-  } catch (error) {
-    console.error("Error fetching profile:", error);
   }
-
-}
 
   return {
     user,

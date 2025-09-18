@@ -33,18 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import FileUpload from "~/components/FileUpload.vue";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
+const loading = ref(false);
 
 const form = reactive({
-  name: "",
-  birthday: "",
-  sex: "K",
+  name: userStore.user?.name || "",
+  birthday: userStore.user?.birthday || "",
+  sex: userStore.user?.sex || "K",
   image: null as File | null,
-  vet: { hospital: "" },
+  vet: { hospital: userStore.user?.vet?.hospital || "" },
 });
 
 const sexOptions = [
@@ -53,24 +54,32 @@ const sexOptions = [
 ];
 
 onMounted(async () => {
-  await userStore.getProfile();
-  if (userStore.user) {
-    form.name = userStore.user.name || "";
-    form.birthday = userStore.user.birthday || "";
-    form.sex = userStore.user.sex || "K";
-    form.vet.hospital = userStore.user.vet?.hospital || "";
+  if (!userStore.user) {
+    await userStore.getProfile();
   }
+  updateFormFromStore();
 });
 
+function updateFormFromStore() {
+  if (!userStore.user) return;
+  
+  form.name = userStore.user.name || "";
+  form.birthday = userStore.user.birthday || "";
+  form.sex = userStore.user.sex || "K";
+  form.vet.hospital = userStore.user.vet?.hospital || "";
+}
+
 async function saveProfile() {
+  loading.value = true;
+  
   try {
     await userStore.updateProfile(form);
     alert("Profil został zapisany!");
-    
-    // Принудительно обновляем данные пользователя в store
-    await userStore.getProfile();
   } catch (error) {
     console.error("Save error:", error);
+    alert("Błąd podczas zapisywania profilu!");
+  } finally {
+    loading.value = false;
   }
 }
 </script>
