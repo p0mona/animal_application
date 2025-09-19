@@ -37,8 +37,17 @@
 
             <!-- Правая колонка: фото -->
             <div class="flex justify-center items-start">
-              <div class="relative group cursor-pointer">
+              <div class="relative group cursor-pointe ">
                 <FileUpload v-model="form.image" />
+                <div class="flex justify-end">
+                <UButton
+                  type="button"
+                  @click="deleteAccount"
+                  class="md:w-auto border mt-4 border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
+                >
+                  Usuń konto
+                </UButton>
+              </div>
               </div>
             </div>
           </div>
@@ -111,6 +120,7 @@ const patients = [
 
 const userStore = useUserStore();
 const loading = ref(false);
+const toast = useToast();
 
 const form = reactive({
   name: userStore.user?.name || "",
@@ -152,6 +162,35 @@ async function saveProfile() {
     alert("Błąd podczas zapisywania profilu!");
   } finally {
     loading.value = false;
+  }
+}
+
+async function deleteAccount() {
+  const profileId = userStore.user?.id;
+  if (!profileId) return;
+
+  const confirmed = confirm("Czy na pewno chcesz usunąć konto?");
+  if (!confirmed) return;
+
+  try {
+    await $fetch(`http://localhost:3001/auth/user/${profileId}`, {
+      method: "DELETE",
+    });
+
+    toast.add({
+      title: "Sukces",
+      description: "Konto zostało usunięte",
+      color: "success",
+    });
+
+    userStore.clearUser(); // очищаем Pinia и localStorage
+    navigateTo("/login");
+  } catch (err: any) {
+    toast.add({
+      title: "Błąd",
+      description: err.data?.message || "Nie udało się usunąć konta",
+      color: "error",
+    });
   }
 }
 </script>
