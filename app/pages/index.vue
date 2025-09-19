@@ -55,6 +55,7 @@
 
     <!-- Круглая SOS кнопка -->
     <UButton
+      v-if="userStore.user?.userType === 'OWNER'"
       class="fixed bottom-6 right-6 cursor-pointer bg-[#FF2400] hover:bg-[#e62000] active:bg-[#c9260d] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
       :loading="saving"
     >
@@ -65,6 +66,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useUserStore } from "~/stores/user";
+
+const userStore = useUserStore();
 
 const navItems = [
   { key: "article", label: "Artykuły", icon: "heroicons:book-open" },
