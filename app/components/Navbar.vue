@@ -77,7 +77,6 @@ const menuLinks = computed(() => {
 
   if (user.value?.userType === "OWNER") {
     return [
-      { label: "Konto", to: "/account" },
       { label: "Ustawienia", to: "/settings" },
       { label: "Przypomnienia", to: "/reminders" },
       { label: "Dokumenty", to: "/documents" },
