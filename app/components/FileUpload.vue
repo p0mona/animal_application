@@ -7,7 +7,7 @@
       highlight
       label="Przeciągnij zdjęcie tutaj"
       description="SVG, PNG, JPG or GIF (maks. 2MB)"
-      class="w-full min-h-54"
+      class="w-full min-h-50"
       :dropzone="true"
     />
   </div>
