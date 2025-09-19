@@ -37,7 +37,6 @@
         <div class="flex justify-end">
           <UButton
             @click="saveProfile"
-            :loading="loading"
             class="bg-violet-500 hover:bg-violet-600 mt-4 active:bg-violet-700"
           >
             Potwierdź
@@ -52,7 +51,6 @@
 import { ref, onMounted } from "vue";
 import { useUserStore } from "~/stores/user";
 
-const loading = ref(false);
 const userStore = useUserStore();
 const toast = useToast();
 
@@ -118,7 +116,6 @@ function updateLocalProfileFromStore() {
 }
 
 async function saveProfile() {
-  loading.value = true;
 
   try {
     await userStore.updateProfile(localProfile.value);
@@ -140,8 +137,6 @@ async function saveProfile() {
       color: 'error'
     });
     
-  } finally {
-    loading.value = false;
   }
 }
 

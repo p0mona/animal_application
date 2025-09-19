@@ -124,7 +124,6 @@ const patients = [
 
 
 const userStore = useUserStore();
-const loading = ref(false);
 const toast = useToast();
 
 const form = reactive({
@@ -157,16 +156,12 @@ function updateFormFromStore() {
 }
 
 async function saveProfile() {
-  loading.value = true;
-
   try {
     await userStore.updateProfile(form);
     alert("Profil został zapisany!");
   } catch (error) {
     console.error("Save error:", error);
     alert("Błąd podczas zapisywania profilu!");
-  } finally {
-    loading.value = false;
   }
 }
 
