@@ -7,7 +7,7 @@
       <USelectMenu
         :placeholder="animalPlaceholder"
         :items="animals"
-        v-model="localForm.animal"
+        v-model="form.owner.pet.animal"
         class="w-full h-8"
       />
     </div>
@@ -15,7 +15,7 @@
     <div class="w-full space-y-2">
       <p class="text-sm">Płeć</p>
       <URadioGroup
-        v-model="localForm.animal_sex"
+        v-model="form.owner.pet.animal_sex"
         orientation="horizontal"
         variant="list"
         :items="animal_sex"
@@ -35,22 +35,22 @@
       <USelectMenu
         :placeholder="breedPlaceholder"
         :items="breeds"
-        v-model="localForm.breed"
+        v-model="form.owner.pet.breed"
         class="w-full h-8"
       />
     </div>
 
-    <BaseInput label="Wpisz imię pupila" v-model="localForm.animal_name" />
-    <BaseInput label="Wpisz wiek" v-model="localForm.animal_age" />
-    <BaseInput label="Wpisz wzrost" v-model="localForm.animal_height" />
-    <BaseInput label="Wpisz wagę" v-model="localForm.animal_weight" />
-    <BaseInput label="Wpisz nr czipu" v-model="localForm.chip" />
+    <BaseInput label="Wpisz imię pupila" v-model="form.owner.pet.animal_name" />
+    <BaseInput label="Wpisz wiek" v-model="form.owner.pet.animal_age" />
+    <BaseInput label="Wpisz wzrost" v-model="form.owner.pet.animal_height" />
+    <BaseInput label="Wpisz wagę" v-model="form.owner.pet.animal_weight" />
+    <BaseInput label="Wpisz nr czipu" v-model="form.owner.pet.chip" />
   </div>
 </template>
 
 <script setup>
 import BaseInput from "@/components/BaseInput.vue";
-import { reactive } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   modelValue: Object,
@@ -61,20 +61,11 @@ const props = defineProps({
   breedPlaceholder: { type: String, default: "-" },
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 
-// Локальная копия формы, чтобы двусторонняя привязка работала корректно
-const localForm = reactive({
-  ...props.modelValue,
-  breed: props.modelValue.breed || "",
-  animal: props.modelValue.animal || "",
+// Синхронизация с родителем через v-model
+const form = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
 });
-
-watch(
-  localForm,
-  (val) => {
-    emit("update:modelValue", val);
-  },
-  { deep: true },
-);
 </script>

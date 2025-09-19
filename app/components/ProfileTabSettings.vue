@@ -49,30 +49,101 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from "~/stores/user";
 
-const props = defineProps<{
-  profile: any;
-  animals: string[];
-  breeds: string[];
-  sex: any[];
-  animal_sex: any[];
-}>();
-
-const emit = defineEmits<{
-  (e: "update:profile", value: any): void;
-}>();
-
-const localProfile = computed({
-  get: () => props.profile,
-  set: (val) => emit("update:profile", val),
-});
-
-const profile = computed(() => localProfile.value);
+const loading = ref(false);
+const userStore = useUserStore();
 const toast = useToast();
 
-const userStore = useUserStore();
+const animals = ref(['Pies', 'Kot', 'Królik', 'Chomik', 'Ptak']);
+const breeds = ref(['Beagle', 'Labrador', 'Owczarek', 'Perski', 'Syjamski']);
+const sex = ref([
+  { label: "Kobieta", value: "K" },
+  { label: "Mężczyzna", value: "M" }
+]);
+const animal_sex = ref([
+  { label: "Samica", value: "K" },
+  { label: "Samiec", value: "M" }
+]);
+
+const localProfile = ref({
+  name: "",
+  birthday: "",
+  sex: "K",
+  image: null,
+  owner: {
+    pet: {
+      animal: "",
+      animal_sex: "F",
+      breed: "",
+      animal_name: "",
+      animal_age: "",
+      animal_height: "",
+      animal_weight: "",
+      chip: "",
+    }
+  }
+});
+
+// Загружаем данные при монтировании
+onMounted(async () => {
+  if (!userStore.user) {
+    await userStore.getProfile();
+  }
+  updateLocalProfileFromStore();
+});
+
+function updateLocalProfileFromStore() {
+  if (!userStore.user) return;
+
+  localProfile.value = {
+    name: userStore.user.name || "",
+    birthday: userStore.user.birthday || "",
+    sex: userStore.user.sex || "K",
+    image: null,
+    owner: {
+      pet: userStore.user.owner?.pet || {
+        animal: "",
+        animal_sex: "K",
+        breed: "",
+        animal_name: "",
+        animal_age: "",
+        animal_height: "",
+        animal_weight: "",
+        chip: "",
+      }
+    }
+  };
+}
+
+async function saveProfile() {
+  loading.value = true;
+
+  try {
+    await userStore.updateProfile(localProfile.value);
+    
+    toast.add({
+      title: 'Sukces!',
+      description: 'Profil został zapisany',
+      icon: 'i-heroicons-check-circle',
+      color: 'primary'
+    });
+    
+  } catch (error) {
+    console.error("Save error:", error);
+    
+    toast.add({
+      title: 'Błąd',
+      description: 'Błąd podczas zapisywania profilu',
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'error'
+    });
+    
+  } finally {
+    loading.value = false;
+  }
+}
 
 async function deleteAccount() {
   const profileId = userStore.user?.id;
