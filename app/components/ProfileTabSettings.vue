@@ -33,7 +33,6 @@
 
       <!-- Owner Section -->
       <div>
-        <h3 class="text-base font-semibold mb-4">Właściciel</h3>
         <OwnerForm v-model="localProfile" :sex="sex" />
       </div>
     </div>
