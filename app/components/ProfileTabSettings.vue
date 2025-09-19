@@ -73,7 +73,7 @@ const localProfile = ref({
   owner: {
     pet: {
       animal: "",
-      animal_sex: "F",
+      animal_sex: "K",
       breed: "",
       animal_name: "",
       animal_age: "",
