@@ -30,6 +30,8 @@
         v-model="form.birthday"
         type="date"
       />
+
+       <BaseInput label="Numer telefonu" v-model="form.owner.phone" />
     </div>
   </div>
 </template>

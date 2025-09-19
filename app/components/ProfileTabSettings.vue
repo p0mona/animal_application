@@ -71,6 +71,7 @@ const localProfile = ref({
   sex: "K",
   image: null,
   owner: {
+    phone: "",
     pet: {
       animal: "",
       animal_sex: "K",
@@ -101,6 +102,7 @@ function updateLocalProfileFromStore() {
     sex: userStore.user.sex || "K",
     image: null,
     owner: {
+      phone: userStore.user.phone || "",
       pet: userStore.user.owner?.pet || {
         animal: "",
         animal_sex: "K",
