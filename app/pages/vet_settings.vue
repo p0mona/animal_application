@@ -18,37 +18,27 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Левая колонка -->
             <div>
-              <BaseInput label="Imię" v-model="account.name" />
-              <BaseInput label="Miejsce pracy" v-model="account.hospital" />
+              <BaseInput label="Imię" v-model="form.name" />
+              <BaseInput label="Miejsce pracy" v-model="form.vet.hospital" />
 
-              <RadioButton v-model="account.sex" :items="sex" />
+              <RadioButton v-model="form.sex" :items="sex" />
 
               <BaseInput
                 label="Data urodzenia"
                 id="birthday"
                 type="date"
-                v-model="account.birthday"
+                v-model="form.birthday"
               />
 
               <div class="flex justify-start mt-4">
-                <BaseButton label="Zapisz zmiany" />
+                <BaseButton label="Zapisz zmiany" @click="saveProfile"/>
               </div>
             </div>
 
             <!-- Правая колонка: фото -->
             <div class="flex justify-center items-start">
-              <div class="relative w-56 h-56 group cursor-pointer">
-                <img
-                  src="/images/vet.jpg"
-                  class="w-full h-full object-cover rounded-2xl transition duration-300 group-hover:brightness-75"
-                />
-
-                <!-- Overlay текст -->
-                <div
-                  class="absolute inset-0 flex items-center justify-center text-sm text-white font-semibold text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                >
-                  Zmień zdjęcie
-                </div>
+              <div class="relative group cursor-pointer">
+                <FileUpload v-model="form.image" />
               </div>
             </div>
           </div>
@@ -78,7 +68,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, onMounted, ref } from "vue";
+import FileUpload from "~/components/FileUpload.vue";
+import { useUserStore } from "~/stores/user";
 import type { RadioGroupItem } from "@nuxt/ui";
 import PatientCard from "~/components/PatientCard.vue";
 
@@ -94,12 +86,6 @@ const sex = ref<RadioGroupItem[]>([
   { label: "Mężczyzna", value: "M" },
 ]);
 
-const account = ref({
-  name: "Beata",
-  sex: "K",
-  birthday: "",
-  hospital: "",
-});
 
 const patients = [
   {
@@ -121,6 +107,53 @@ const patients = [
     sex: "Samica",
   },
 ];
+
+
+const userStore = useUserStore();
+const loading = ref(false);
+
+const form = reactive({
+  name: userStore.user?.name || "",
+  birthday: userStore.user?.birthday || "",
+  sex: userStore.user?.sex || "K",
+  image: null as File | null,
+  vet: { hospital: userStore.user?.vet?.hospital || "" },
+});
+
+const sexOptions = [
+  { label: "Kobieta", value: "K" },
+  { label: "Mężczyzna", value: "M" },
+];
+
+onMounted(async () => {
+  if (!userStore.user) {
+    await userStore.getProfile();
+  }
+  updateFormFromStore();
+});
+
+function updateFormFromStore() {
+  if (!userStore.user) return;
+
+  form.name = userStore.user.name || "";
+  form.birthday = userStore.user.birthday || "";
+  form.sex = userStore.user.sex || "K";
+  form.vet.hospital = userStore.user.vet?.hospital || "";
+}
+
+async function saveProfile() {
+  loading.value = true;
+
+  try {
+    await userStore.updateProfile(form);
+    alert("Profil został zapisany!");
+  } catch (error) {
+    console.error("Save error:", error);
+    alert("Błąd podczas zapisywania profilu!");
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <style scoped>

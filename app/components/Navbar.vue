@@ -92,7 +92,6 @@ const menuLinks = computed(() => {
     return [
       { label: "Klinika weterynaryjna", to: "/vet_clinic" },
       { label: "Weterynarz", to: "/vet_settings" },
-      { label: "Vet Konto", to: "/vet_account" },
       { label: "Schronisko", to: "/shelter" },
       { label: "Behawiorysta", to: "/trainer" },
       { label: "Wyloguj się", action: "logout" },
