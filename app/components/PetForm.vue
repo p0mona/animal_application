@@ -61,11 +61,11 @@ const props = defineProps({
   breedPlaceholder: { type: String, default: "-" },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 // Синхронизация с родителем через v-model
 const form = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: (value) => emit("update:modelValue", value),
 });
 </script>

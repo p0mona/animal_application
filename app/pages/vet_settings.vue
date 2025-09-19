@@ -45,13 +45,13 @@
               />
 
               <div class="flex justify-start mt-4">
-                <BaseButton label="Zapisz zmiany" @click="saveProfile"/>
+                <BaseButton label="Zapisz zmiany" @click="saveProfile" />
               </div>
             </div>
 
             <!-- Правая колонка: фото -->
             <div class="flex justify-center items-start">
-              <div class="relative group cursor-pointe ">
+              <div class="relative group cursor-pointe">
                 <FileUpload v-model="form.image" />
               </div>
             </div>
@@ -100,7 +100,6 @@ const sex = ref<RadioGroupItem[]>([
   { label: "Mężczyzna", value: "M" },
 ]);
 
-
 const patients = [
   {
     name: "Agata",
@@ -121,7 +120,6 @@ const patients = [
     sex: "Samica",
   },
 ];
-
 
 const userStore = useUserStore();
 const toast = useToast();

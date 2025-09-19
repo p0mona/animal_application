@@ -25,13 +25,9 @@
         />
       </div>
 
-      <BaseInput
-        label="Data urodzenia"
-        v-model="form.birthday"
-        type="date"
-      />
+      <BaseInput label="Data urodzenia" v-model="form.birthday" type="date" />
 
-       <BaseInput label="Numer telefonu" v-model="form.owner.phone" />
+      <BaseInput label="Numer telefonu" v-model="form.owner.phone" />
     </div>
   </div>
 </template>
@@ -46,7 +42,7 @@ const props = defineProps({
   sex: Array,
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const sexOptions = props.sex || [
   { label: "Kobieta", value: "K" },
@@ -56,6 +52,6 @@ const sexOptions = props.sex || [
 // Синхронизация с родителем через v-model
 const form = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: (value) => emit("update:modelValue", value),
 });
 </script>

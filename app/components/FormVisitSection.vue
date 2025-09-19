@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps({
   title: { type: String, required: true },
   modelValue: { type: [String, Number], default: "" },

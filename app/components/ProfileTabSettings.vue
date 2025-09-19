@@ -54,15 +54,15 @@ import { useUserStore } from "~/stores/user";
 const userStore = useUserStore();
 const toast = useToast();
 
-const animals = ref(['Pies', 'Kot', 'Królik', 'Chomik', 'Ptak']);
-const breeds = ref(['Beagle', 'Labrador', 'Owczarek', 'Perski', 'Syjamski']);
+const animals = ref(["Pies", "Kot", "Królik", "Chomik", "Ptak"]);
+const breeds = ref(["Beagle", "Labrador", "Owczarek", "Perski", "Syjamski"]);
 const sex = ref([
   { label: "Kobieta", value: "K" },
-  { label: "Mężczyzna", value: "M" }
+  { label: "Mężczyzna", value: "M" },
 ]);
 const animal_sex = ref([
   { label: "Samica", value: "K" },
-  { label: "Samiec", value: "M" }
+  { label: "Samiec", value: "M" },
 ]);
 
 const localProfile = ref({
@@ -81,8 +81,8 @@ const localProfile = ref({
       animal_height: "",
       animal_weight: "",
       chip: "",
-    }
-  }
+    },
+  },
 });
 
 // Загружаем данные при монтировании
@@ -112,21 +112,18 @@ function updateLocalProfileFromStore() {
         animal_height: "",
         animal_weight: "",
         chip: "",
-      }
-    }
+      },
+    },
   };
 }
 
 async function saveProfile() {
-
   try {
     await userStore.updateProfile(localProfile.value);
     alert("Profil został zapisany!");
-    
   } catch (error) {
     console.error("Save error:", error);
     alert("Błąd podczas zapisywania profilu!");
-    
   }
 }
 

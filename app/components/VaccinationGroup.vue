@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-
 interface Vaccine {
   key: string;
   label: string;
