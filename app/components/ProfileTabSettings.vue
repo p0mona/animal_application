@@ -34,6 +34,15 @@
       <!-- Owner Section -->
       <div>
         <OwnerForm v-model="localProfile" :sex="sex" />
+        <div class="flex justify-end">
+          <UButton
+            @click="saveProfile"
+            :loading="loading"
+            class="bg-violet-500 hover:bg-violet-600 mt-4 active:bg-violet-700"
+          >
+            Potwierdź
+          </UButton>
+        </div>
       </div>
     </div>
   </UCard>
