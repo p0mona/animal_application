@@ -119,23 +119,11 @@ async function saveProfile() {
 
   try {
     await userStore.updateProfile(localProfile.value);
-    
-    toast.add({
-      title: 'Sukces!',
-      description: 'Profil został zapisany',
-      icon: 'i-heroicons-check-circle',
-      color: 'primary'
-    });
+    alert("Profil został zapisany!");
     
   } catch (error) {
     console.error("Save error:", error);
-    
-    toast.add({
-      title: 'Błąd',
-      description: 'Błąd podczas zapisywania profilu',
-      icon: 'i-heroicons-exclamation-circle',
-      color: 'error'
-    });
+    alert("Błąd podczas zapisywania profilu!");
     
   }
 }
