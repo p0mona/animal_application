@@ -23,7 +23,7 @@
 
     <!-- Desktop Navigation -->
     <div class="hidden sm:block mb-6">
-      <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm">
+      <div class="flex space-x-2 bg-white rounded-lg p-2 shadow-sm overflow-x-auto">
         <UButton
           v-for="item in items"
           :key="item.key"
