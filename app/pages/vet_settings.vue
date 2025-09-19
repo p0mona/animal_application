@@ -12,7 +12,21 @@
       <div v-if="activeTab === 'account'">
         <UCard>
           <template #header>
-            <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
+              </div>
+
+              <div class="flex justify-end">
+                <UButton
+                  type="button"
+                  @click="deleteAccount"
+                  class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
+                >
+                  Usuń konto
+                </UButton>
+              </div>
+            </div>
           </template>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -39,15 +53,6 @@
             <div class="flex justify-center items-start">
               <div class="relative group cursor-pointe ">
                 <FileUpload v-model="form.image" />
-                <div class="flex justify-end">
-                <UButton
-                  type="button"
-                  @click="deleteAccount"
-                  class="md:w-auto border mt-4 border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
-                >
-                  Usuń konto
-                </UButton>
-              </div>
               </div>
             </div>
           </div>
