@@ -86,6 +86,32 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  async function changePassword(passwordData: { currentPassword: string; newPassword: string }) {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found");
+
+      const response = await fetch("http://localhost:3001/auth/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(passwordData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error changing password");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error changing password:", error);
+      throw error;
+    }
+  }
+
   return {
     user,
     isLoggedIn,
@@ -95,5 +121,6 @@ export const useUserStore = defineStore("user", () => {
     clearUser,
     getProfile,
     updateProfile,
+    changePassword,
   };
 });
