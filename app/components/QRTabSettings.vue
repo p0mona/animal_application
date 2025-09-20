@@ -4,12 +4,22 @@
       <h2 class="text-lg font-semibold text-gray-900">QR</h2>
     </template>
     <div class="w-full flex flex-col items-center">
-      <img src="/images/qr.svg" class="mb-4" />
+      <!-- Показываем QR код только после генерации -->
+      <div v-if="qrImageUrl" class="mb-4 p-4 bg-white rounded-lg">
+        <img :src="qrImageUrl" alt="QR Code" class="w-48 h-48 mx-auto" />
+      </div>
       <dev class="space-x-4">
-        <BaseButton label="Generuj QR" />
         <UButton
-          type="button"
-          class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
+          @click="generateQR"
+          :loading="isGenerating"
+          class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 text-white"
+        >
+          Generuj QR
+        </UButton>
+        <UButton
+           @click="downloadQR"
+          :disabled="!qrImageUrl"
+          class="md:w-auto border border-violet-500 disabled:bg-white bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
         >
           Pobrać
         </UButton>
@@ -17,4 +27,84 @@
     </div>
   </UCard>
 </template>
-<script setup lang="ts"></script>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import QRCode from 'qrcode';
+import { useUserStore } from '~/stores/user';
+
+const userStore = useUserStore();
+const isGenerating = ref(false);
+const qrImageUrl = ref<string | null>(null);
+
+// Получаем данные пользователя
+const userData = computed(() => userStore.user);
+const ownerInfo = computed(() => {
+  if (!userData.value) return null;
+  
+  return {
+    name: userData.value.name || '',
+    phone: userData.value.phone || '',
+  };
+});
+
+// Генерация QR кода
+const generateQR = async () => {
+  if (!ownerInfo.value) {
+    alert('Brak danych użytkownika. Proszę uzupełnić profil.');
+    return;
+  }
+
+  if (!ownerInfo.value.name || !ownerInfo.value.phone) {
+    alert('Proszę uzupełnić imię i numer telefonu w profilu.');
+    return;
+  }
+
+  isGenerating.value = true;
+  
+  try {
+    // Формируем данные для QR кода
+    const qrData = JSON.stringify({
+      type: 'pet_owner',
+      name: ownerInfo.value.name,
+      phone: ownerInfo.value.phone,
+      timestamp: new Date().toISOString()
+    });
+
+    // Генерируем QR код как Data URL
+    const url = await QRCode.toDataURL(qrData, {
+      width: 300,
+      margin: 2,
+      color: {
+        dark: '#000000',
+        light: '#FFFFFF'
+      }
+    });
+
+    qrImageUrl.value = url;
+    
+  } catch (error) {
+    console.error('Błąd generowania QR:', error);
+    alert('Wystąpił błąd podczas generowania QR kodu.');
+  } finally {
+    isGenerating.value = false;
+  }
+};
+
+// Скачивание QR кода
+const downloadQR = () => {
+  if (!qrImageUrl.value) return;
+
+  try {
+    const link = document.createElement('a');
+    link.download = `qr-code-${ownerInfo.value?.name || 'owner'}.png`;
+    link.href = qrImageUrl.value;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error('Błąd podczas pobierania QR:', error);
+    alert('Wystąpił błąd podczas pobierania QR kodu.');
+  }
+};
+</script>
