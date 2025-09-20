@@ -10,29 +10,33 @@
           :state="localSecurity"
           class="space-y-4"
         >
-          <UFormGroup label="Obecne hasło" name="currentPassword">
-            <BaseInput
-              label="Obecne hasło"
-              v-model="localSecurity.currentPassword"
-              type="password"
-            />
-          </UFormGroup>
+        
+        <UFormField label="Obecne hasło" name="password">
+          <UInput
+            v-model="localSecurity.currentPassword"
+            type="password"
+            class="w-full"
+          />
+          <UFormMessage />
+        </UFormField>
 
-          <UFormGroup label="Nowe hasło" name="newPassword">
-            <BaseInput
-              label="Nowe hasło"
-              v-model="localSecurity.newPassword"
-              type="password"
-            />
-          </UFormGroup>
+        <UFormField label="Nowe hasło" name="password">
+          <UInput
+            v-model="localSecurity.currentPassword"
+            type="password"
+            class="w-full"
+          />
+          <UFormMessage />
+        </UFormField>
 
-          <UFormGroup label="Potwierdź nowe hasło" name="confirmPassword">
-            <BaseInput
-              label="Potwierdź nowe hasło"
-              v-model="localSecurity.confirmPassword"
-              type="password"
-            />
-          </UFormGroup>
+        <UFormField label="Potwierdź nowe hasło" name="password">
+          <UInput
+            v-model="localSecurity.confirmPassword"
+            type="password"
+            class="w-full"
+          />
+          <UFormMessage />
+        </UFormField>
 
           <div class="flex justify-end">
             <BaseButton label="Zmień hasło" class="mt-2" />
