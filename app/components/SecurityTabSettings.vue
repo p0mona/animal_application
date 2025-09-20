@@ -11,94 +11,98 @@
           class="space-y-4"
           @submit="changePassword"
         >
-        
-        <UFormField label="Obecne hasło" name="currentPassword" required>
-          <UInput
-            v-model="localSecurity.currentPassword"
-            type="password"
-            class="w-full"
-          />
-          <UFormMessage />
-        </UFormField>
-
-        <div class="space-y-2">
-          <UFormField label="Nowe hasło" name="newPassword" required>
+          <UFormField label="Obecne hasło" name="currentPassword" required>
             <UInput
-              id="newPassword"
-              v-model="localSecurity.newPassword"
-              :color="color"
-              :type="show ? 'text' : 'password'"
-              :aria-invalid="score < 4"
-              aria-describedby="password-strength"
-              :ui="{ trailing: 'pe-1' }"
+              v-model="localSecurity.currentPassword"
+              type="password"
               class="w-full"
-              @input="updatePasswordStrength"
-            >
-              <template #trailing>
-                <UButton
-                  color="neutral"
-                  variant="link"
-                  size="sm"
-                  :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                  :aria-label="show ? 'Ukryj hasło' : 'Pokaż hasło'"
-                  :aria-pressed="show"
-                  aria-controls="newPassword"
-                  @click="show = !show"
-                />
-              </template>
-            </UInput>
+            />
+            <UFormMessage />
           </UFormField>
 
-          <UProgress
-            :color="color"
-            :indicator="text"
-            :model-value="score"
-            :max="4"
-            size="sm"
-          />
+          <div class="space-y-2">
+            <UFormField label="Nowe hasło" name="newPassword" required>
+              <UInput
+                id="newPassword"
+                v-model="localSecurity.newPassword"
+                :color="color"
+                :type="show ? 'text' : 'password'"
+                :aria-invalid="score < 4"
+                aria-describedby="password-strength"
+                :ui="{ trailing: 'pe-1' }"
+                class="w-full"
+                @input="updatePasswordStrength"
+              >
+                <template #trailing>
+                  <UButton
+                    color="neutral"
+                    variant="link"
+                    size="sm"
+                    :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                    :aria-label="show ? 'Ukryj hasło' : 'Pokaż hasło'"
+                    :aria-pressed="show"
+                    aria-controls="newPassword"
+                    @click="show = !show"
+                  />
+                </template>
+              </UInput>
+            </UFormField>
 
-          <p id="password-strength" class="text-sm font-medium">
-            {{ text }}. Musi zawierać:
-          </p>
+            <UProgress
+              :color="color"
+              :indicator="text"
+              :model-value="score"
+              :max="4"
+              size="sm"
+            />
 
-          <ul class="space-y-2" aria-label="Password requirements">
-            <li
-              v-for="(req, index) in strength"
-              :key="index"
-              class="flex items-center gap-0.5"
-              :class="req.met ? 'text-success' : 'text-muted'"
-            >
-              <UIcon
-                :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'"
-                class="size-4 shrink-0"
-              />
+            <p id="password-strength" class="text-sm font-medium">
+              {{ text }}. Musi zawierać:
+            </p>
 
-              <span class="text-xs font-light">
-                {{ req.text }}
-                <span class="sr-only">
-                  {{ req.met ? " - Requirement met" : " - Requirement not met" }}
+            <ul class="space-y-2" aria-label="Password requirements">
+              <li
+                v-for="(req, index) in strength"
+                :key="index"
+                class="flex items-center gap-0.5"
+                :class="req.met ? 'text-success' : 'text-muted'"
+              >
+                <UIcon
+                  :name="
+                    req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'
+                  "
+                  class="size-4 shrink-0"
+                />
+
+                <span class="text-xs font-light">
+                  {{ req.text }}
+                  <span class="sr-only">
+                    {{
+                      req.met ? " - Requirement met" : " - Requirement not met"
+                    }}
+                  </span>
                 </span>
-              </span>
-            </li>
-          </ul>
-        </div>
+              </li>
+            </ul>
+          </div>
 
-        <UFormField label="Powtórz hasło" name="confirmPassword" required>
-          <UInput
-            v-model="localSecurity.confirmPassword"
-            type="password"
-            class="w-full"
-          />
-          <UFormMessage />
-        </UFormField>
+          <UFormField label="Powtórz hasło" name="confirmPassword" required>
+            <UInput
+              v-model="localSecurity.confirmPassword"
+              type="password"
+              class="w-full"
+            />
+            <UFormMessage />
+          </UFormField>
 
           <div class="flex justify-end">
-            <BaseButton 
+            <BaseButton
               label="Zmień hasło"
-              class="mt-2" 
+              class="mt-2"
               type="submit"
               :loading="isChangingPassword"
-              :disabled="!isPasswordStrong"/>
+              :disabled="!isPasswordStrong"
+            />
           </div>
         </UForm>
       </div>
@@ -140,7 +144,9 @@ function checkStrength(str: string) {
   }));
 }
 
-const strength = computed(() => checkStrength(localSecurity.value.newPassword || ""));
+const strength = computed(() =>
+  checkStrength(localSecurity.value.newPassword || ""),
+);
 const score = computed(() => strength.value.filter((req) => req.met).length);
 
 const color = computed(() => {
@@ -167,14 +173,16 @@ const updatePasswordStrength = () => {
   score.value;
 };
 
-const securitySchema = z.object({
-  currentPassword: z.string().min(1, "Obecne hasło jest wymagane"),
-  newPassword: z.string().min(1, "Nowe hasło jest wymagane"),
-  confirmPassword: z.string().min(1, "Potwierdzenie hasła jest wymagane"),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Hasła nie są identyczne",
-  path: ["confirmPassword"],
-});
+const securitySchema = z
+  .object({
+    currentPassword: z.string().min(1, "Obecne hasło jest wymagane"),
+    newPassword: z.string().min(1, "Nowe hasło jest wymagane"),
+    confirmPassword: z.string().min(1, "Potwierdzenie hasła jest wymagane"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Hasła nie są identyczne",
+    path: ["confirmPassword"],
+  });
 
 const props = defineProps<{
   security: {
@@ -225,17 +233,20 @@ const changePassword = async () => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Brak tokenu autoryzacji");
 
-    const response = await $fetch("http://localhost:3001/auth/change-password", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+    const response = await $fetch(
+      "http://localhost:3001/auth/change-password",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: {
+          currentPassword: localSecurity.value.currentPassword,
+          newPassword: localSecurity.value.newPassword,
+        },
       },
-      body: {
-        currentPassword: localSecurity.value.currentPassword,
-        newPassword: localSecurity.value.newPassword,
-      },
-    });
+    );
 
     toast.add({
       title: "Sukces",
@@ -249,12 +260,11 @@ const changePassword = async () => {
       newPassword: "",
       confirmPassword: "",
     };
-    
   } catch (error: any) {
     console.error("Error changing password:", error);
-    
+
     let errorMessage = "Wystąpił błąd podczas zmiany hasła";
-    
+
     if (error.data?.errors) {
       const firstError = error.data.errors[0];
       errorMessage = firstError.msg;

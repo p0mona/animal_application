@@ -40,9 +40,12 @@ export const useUserStore = defineStore("user", () => {
       formData.append("phone", profileData.phone || "");
 
       if (user.value?.userType === "OWNER") {
-        formData.append("owner", JSON.stringify({
-          pet: profileData.owner?.pet || {}
-        }));
+        formData.append(
+          "owner",
+          JSON.stringify({
+            pet: profileData.owner?.pet || {},
+          }),
+        );
       }
 
       if (profileData.image instanceof File) {
@@ -86,19 +89,25 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  async function changePassword(passwordData: { currentPassword: string; newPassword: string }) {
+  async function changePassword(passwordData: {
+    currentPassword: string;
+    newPassword: string;
+  }) {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found");
 
-      const response = await fetch("http://localhost:3001/auth/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        "http://localhost:3001/auth/change-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(passwordData),
         },
-        body: JSON.stringify(passwordData),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

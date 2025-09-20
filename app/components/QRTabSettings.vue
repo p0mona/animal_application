@@ -17,7 +17,7 @@
           Generuj QR
         </UButton>
         <UButton
-           @click="downloadQR"
+          @click="downloadQR"
           :disabled="!qrImageUrl"
           class="md:w-auto border border-violet-500 disabled:bg-white bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
         >
@@ -29,9 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import QRCode from 'qrcode';
-import { useUserStore } from '~/stores/user';
+import { ref, computed } from "vue";
+import QRCode from "qrcode";
+import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
 const isGenerating = ref(false);
@@ -41,47 +41,46 @@ const qrImageUrl = ref<string | null>(null);
 const userData = computed(() => userStore.user);
 const ownerInfo = computed(() => {
   if (!userData.value) return null;
-  
+
   return {
-    name: userData.value.name || '',
-    phone: userData.value.phone || '',
+    name: userData.value.name || "",
+    phone: userData.value.phone || "",
   };
 });
 
 // Генерация QR кода
 const generateQR = async () => {
   if (!ownerInfo.value) {
-    alert('Brak danych użytkownika. Proszę uzupełnić profil.');
+    alert("Brak danych użytkownika. Proszę uzupełnić profil.");
     return;
   }
 
   if (!ownerInfo.value.name || !ownerInfo.value.phone) {
-    alert('Proszę uzupełnić imię i numer telefonu w profilu.');
+    alert("Proszę uzupełnić imię i numer telefonu w profilu.");
     return;
   }
 
   isGenerating.value = true;
-  
+
   try {
-    const cleanPhone = ownerInfo.value.phone.replace(/[\s\-\(\)]/g, '');
+    const cleanPhone = ownerInfo.value.phone.replace(/[\s\-\(\)]/g, "");
     // Создаем текст для QR кода в формате tel: для звонка
     const callLink = `tel:${cleanPhone}`;
-    
+
     // Генерируем QR код с ссылкой для звонка
     const url = await QRCode.toDataURL(callLink, {
       width: 300,
       margin: 2,
       color: {
-        dark: '#000000',
-        light: '#FFFFFF'
-      }
+        dark: "#000000",
+        light: "#FFFFFF",
+      },
     });
 
     qrImageUrl.value = url;
-    
   } catch (error) {
-    console.error('Błąd generowania QR:', error);
-    alert('Wystąpił błąd podczas generowania QR kodu.');
+    console.error("Błąd generowania QR:", error);
+    alert("Wystąpił błąd podczas generowania QR kodu.");
   } finally {
     isGenerating.value = false;
   }
@@ -92,15 +91,15 @@ const downloadQR = () => {
   if (!qrImageUrl.value) return;
 
   try {
-    const link = document.createElement('a');
-    link.download = `qr-code-${ownerInfo.value?.name || 'owner'}.png`;
+    const link = document.createElement("a");
+    link.download = `qr-code-${ownerInfo.value?.name || "owner"}.png`;
     link.href = qrImageUrl.value;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   } catch (error) {
-    console.error('Błąd podczas pobierania QR:', error);
-    alert('Wystąpił błąd podczas pobierania QR kodu.');
+    console.error("Błąd podczas pobierania QR:", error);
+    alert("Wystąpił błąd podczas pobierania QR kodu.");
   }
 };
 </script>
