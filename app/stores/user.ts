@@ -34,16 +34,15 @@ export const useUserStore = defineStore("user", () => {
       if (!token) return;
 
       const formData = new FormData();
-      formData.append("name", profileData.name);
-      formData.append("birthday", profileData.birthday);
-      formData.append("sex", profileData.sex);
-
-      if (user.value?.userType === "VET") {
-        formData.append("vet", JSON.stringify(profileData.vet));
-      }
+      formData.append("name", profileData.name || "");
+      formData.append("birthday", profileData.birthday || "");
+      formData.append("sex", profileData.sex || "K");
+      formData.append("phone", profileData.phone || "");
 
       if (user.value?.userType === "OWNER") {
-        formData.append("owner", JSON.stringify(profileData.owner || {}));
+        formData.append("owner", JSON.stringify({
+          pet: profileData.owner?.pet || {}
+        }));
       }
 
       if (profileData.image instanceof File) {
