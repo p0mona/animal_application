@@ -63,16 +63,12 @@ const generateQR = async () => {
   isGenerating.value = true;
   
   try {
-    // Формируем данные для QR кода
-    const qrData = JSON.stringify({
-      type: 'pet_owner',
-      name: ownerInfo.value.name,
-      phone: ownerInfo.value.phone,
-      timestamp: new Date().toISOString()
-    });
-
-    // Генерируем QR код как Data URL
-    const url = await QRCode.toDataURL(qrData, {
+    const cleanPhone = ownerInfo.value.phone.replace(/[\s\-\(\)]/g, '');
+    // Создаем текст для QR кода в формате tel: для звонка
+    const callLink = `tel:${cleanPhone}`;
+    
+    // Генерируем QR код с ссылкой для звонка
+    const url = await QRCode.toDataURL(callLink, {
       width: 300,
       margin: 2,
       color: {
