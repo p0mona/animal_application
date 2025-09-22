@@ -17,11 +17,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { useUserStore } from '~/stores/user';
+import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
-const sosPhone = ref('');
-const error = ref('');
+const sosPhone = ref("");
+const error = ref("");
 
 onMounted(() => {
   if (userStore.user?.owner?.sos_phone) {
@@ -31,15 +31,15 @@ onMounted(() => {
 
 const saveSosPhone = async () => {
   if (!sosPhone.value.trim()) {
-    error.value = 'Proszę wpisać numer telefonu';
+    error.value = "Proszę wpisać numer telefonu";
     return;
   }
 
   // Базовая валидация номера телефона
-  const digitsOnly = sosPhone.value.replace(/[\s-]/g, '');
+  const digitsOnly = sosPhone.value.replace(/[\s-]/g, "");
   const phoneRegex = /^\d{9}$/;
   if (!phoneRegex.test(digitsOnly)) {
-    error.value = 'Numer telefonu musi składać się z 9 cyfr';
+    error.value = "Numer telefonu musi składać się z 9 cyfr";
     return;
   }
 
@@ -48,17 +48,17 @@ const saveSosPhone = async () => {
       ...userStore.user,
       owner: {
         ...userStore.user?.owner,
-        sos_phone: sosPhone.value.trim()
-      }
+        sos_phone: sosPhone.value.trim(),
+      },
     });
   } catch (err: any) {
-    error.value = err.message || 'Wystąpił błąd podczas zapisywania numeru SOS';
+    error.value = err.message || "Wystąpił błąd podczas zapisywania numeru SOS";
   }
 };
 
 watch(sosPhone, () => {
   if (error.value) {
-    error.value = '';
+    error.value = "";
   }
 });
 </script>

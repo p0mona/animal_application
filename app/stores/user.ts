@@ -44,7 +44,7 @@ export const useUserStore = defineStore("user", () => {
           "owner",
           JSON.stringify({
             pet: profileData.owner?.pet || {},
-            sos_phone: profileData.owner?.sos_phone || ""
+            sos_phone: profileData.owner?.sos_phone || "",
           }),
         );
       }

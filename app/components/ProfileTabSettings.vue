@@ -7,7 +7,7 @@
         </div>
 
         <div class="flex justify-end">
-          <BorderButton label="Usuń konto" @click="deleteAccount"/>
+          <BorderButton label="Usuń konto" @click="deleteAccount" />
         </div>
       </div>
     </template>

@@ -35,7 +35,7 @@ watch(
   () => props.modelValue,
   (val) => {
     innerValue.value = val;
-  }
+  },
 );
 
 const updateValue = (val: any) => {

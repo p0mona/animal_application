@@ -15,9 +15,9 @@
             <!-- <BaseInput label="Wpisz tytuł przypomnienia" v-model="form.title"/> -->
 
             <div class="flex justify-end space-x-2">
-              <BorderButton @click="closeModal" label="Anuluj"/>
+              <BorderButton @click="closeModal" label="Anuluj" />
 
-              <BaseButton label="Zapisz" @click="saveEvent"/>
+              <BaseButton label="Zapisz" @click="saveEvent" />
             </div>
           </div>
         </div>
@@ -59,11 +59,10 @@ onUnmounted(() => {
   isMounted.value = false;
 });
 
-
 const form = ref({
   title: "",
   type: "",
-  details: ""
+  details: "",
 });
 
 watch(selectedDate, (newDate) => {
@@ -73,21 +72,21 @@ watch(selectedDate, (newDate) => {
 });
 
 const formatDate = (date: any) => {
-  if (!date) return '---';
-  
-  if (typeof date === 'string') {
+  if (!date) return "---";
+
+  if (typeof date === "string") {
     try {
-      return new Date(date).toLocaleDateString('pl-PL');
+      return new Date(date).toLocaleDateString("pl-PL");
     } catch {
-      return '---';
+      return "---";
     }
   }
-  
-  if (date && typeof date === 'object' && 'year' in date) {
-    return `${date.day.toString().padStart(2, '0')}.${date.month.toString().padStart(2, '0')}.${date.year}`;
+
+  if (date && typeof date === "object" && "year" in date) {
+    return `${date.day.toString().padStart(2, "0")}.${date.month.toString().padStart(2, "0")}.${date.year}`;
   }
-  
-  return '---';
+
+  return "---";
 };
 
 const closeModal = () => {
@@ -100,7 +99,7 @@ const closeModal = () => {
 const saveEvent = () => {
   console.log("Saved:", {
     date: selectedDate.value,
-    ...form.value
+    ...form.value,
   });
   closeModal();
 };

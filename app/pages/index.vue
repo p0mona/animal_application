@@ -78,27 +78,31 @@ const activeTab = ref("article");
 
 // Получаем сохраненный номер SOS из store
 const sosPhone = computed(() => {
-  return userStore.user?.owner?.sos_phone || '';
+  return userStore.user?.owner?.sos_phone || "";
 });
 
 const formatPhone = (phone: string) => {
-  if (!phone) return '';
-  const cleaned = phone.replace(/\D/g, '');
+  if (!phone) return "";
+  const cleaned = phone.replace(/\D/g, "");
   if (cleaned.length === 9) {
-    return cleaned.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+    return cleaned.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3");
   }
   return phone;
 };
 
 const handleSosCall = () => {
   if (!sosPhone.value) {
-    alert('Nie ustawiono numeru SOS. Proszę dodać numer telefonu w zakładce profilu.');
+    alert(
+      "Nie ustawiono numeru SOS. Proszę dodać numer telefonu w zakładce profilu.",
+    );
     return;
   }
-  
+
   // Подтверждение звонка
-  const confirmed = confirm(`Czy chcesz zadzwonić pod numer awaryjny?\n${formatPhone(sosPhone.value)}`);
-  
+  const confirmed = confirm(
+    `Czy chcesz zadzwonić pod numer awaryjny?\n${formatPhone(sosPhone.value)}`,
+  );
+
   if (confirmed) {
     makeSosCall();
   }
@@ -106,16 +110,17 @@ const handleSosCall = () => {
 
 const makeSosCall = () => {
   try {
-    const phoneNumber = sosPhone.value.replace(/(?!^\+)\D/g, '');
+    const phoneNumber = sosPhone.value.replace(/(?!^\+)\D/g, "");
     const telLink = `tel:${phoneNumber}`;
-    
+
     // Пытаемся открыть приложение телефона
     window.location.href = telLink;
-    
   } catch (error) {
-    console.error('Błąd podczas inicjowania połączenia:', error);
-    
-    alert(`Nie można zainicjować połączenia. Proszę zadzwonić ręcznie pod numer: ${formatPhone(sosPhone.value)}`);
+    console.error("Błąd podczas inicjowania połączenia:", error);
+
+    alert(
+      `Nie można zainicjować połączenia. Proszę zadzwonić ręcznie pod numer: ${formatPhone(sosPhone.value)}`,
+    );
   }
 };
 

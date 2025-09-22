@@ -16,7 +16,11 @@
         >
           Generuj QR
         </UButton>
-        <BorderButton @click="downloadQR" :disabled="!qrImageUrl" label="Pobrać"/>
+        <BorderButton
+          @click="downloadQR"
+          :disabled="!qrImageUrl"
+          label="Pobrać"
+        />
       </dev>
     </div>
   </UCard>
