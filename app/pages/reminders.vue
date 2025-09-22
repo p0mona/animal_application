@@ -48,15 +48,69 @@
 </template>
 
 <script setup lang="ts">
+import type { RadioGroupItem } from "@nuxt/ui/runtime/components/RadioGroup.vue.js";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import Calendar from "~/components/Calendar.vue";
 import RadioButton from "~/components/RadioButton.vue";
 
 const selectedDate = ref<any>(null);
+const isOpen = ref(false);
+const isMounted = ref(false);
+
+onMounted(() => {
+  isMounted.value = true;
+});
+
+onUnmounted(() => {
+  isMounted.value = false;
+});
+
+
 const form = ref({
   title: "",
   type: "",
   details: ""
 });
+
+watch(selectedDate, (newDate) => {
+  if (newDate && isMounted.value) {
+    isOpen.value = true;
+  }
+});
+
+const formatDate = (date: any) => {
+  if (!date) return '---';
+  
+  if (typeof date === 'string') {
+    try {
+      return new Date(date).toLocaleDateString('pl-PL');
+    } catch {
+      return '---';
+    }
+  }
+  
+  if (date && typeof date === 'object' && 'year' in date) {
+    return `${date.day.toString().padStart(2, '0')}.${date.month.toString().padStart(2, '0')}.${date.year}`;
+  }
+  
+  return '---';
+};
+
+const closeModal = () => {
+  if (isMounted.value) {
+    isOpen.value = false;
+    form.value = { title: "", type: "", details: "" };
+  }
+};
+
+const saveEvent = () => {
+  console.log("Saved:", {
+    date: selectedDate.value,
+    ...form.value
+  });
+  closeModal();
+};
+
 const types = ref<RadioGroupItem[]>([
   { label: "Szczepionka", value: "vaccination" },
   { label: "Terapia przeciwpasożytnicza", value: "therapy" },
