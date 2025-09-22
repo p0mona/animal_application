@@ -5,7 +5,6 @@
     <Navigation :items="navItems" v-model="activeTab" />
 
     <div v-if="activeTab === 'article'" class="space-y-6">
-      <!-- Статьи -->
       <section
         class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
       >
@@ -37,7 +36,6 @@
     </div>
 
     <div v-if="activeTab === 'advice'" class="space-y-6">
-      <!-- Статьи -->
       <section
         class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
       >
@@ -57,7 +55,7 @@
     <UButton
       v-if="userStore.user?.userType === 'OWNER'"
       class="fixed bottom-6 right-6 cursor-pointer bg-[#FF2400] hover:bg-[#e62000] active:bg-[#c9260d] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
-      :loading="saving"
+      @click="handleSosCall"
     >
       SOS
     </UButton>
@@ -65,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed } from "vue";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
@@ -78,7 +76,48 @@ const navItems = [
 
 const activeTab = ref("article");
 
-const saving = ref(false);
+// Получаем сохраненный номер SOS из store
+const sosPhone = computed(() => {
+  return userStore.user?.owner?.sos_phone || '';
+});
+
+const formatPhone = (phone: string) => {
+  if (!phone) return '';
+  const cleaned = phone.replace(/\D/g, '');
+  if (cleaned.length === 9) {
+    return cleaned.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+  }
+  return phone;
+};
+
+const handleSosCall = () => {
+  if (!sosPhone.value) {
+    alert('Nie ustawiono numeru SOS. Proszę dodać numer telefonu w zakładce profilu.');
+    return;
+  }
+  
+  // Подтверждение звонка
+  const confirmed = confirm(`Czy chcesz zadzwonić pod numer awaryjny?\n${formatPhone(sosPhone.value)}`);
+  
+  if (confirmed) {
+    makeSosCall();
+  }
+};
+
+const makeSosCall = () => {
+  try {
+    const phoneNumber = sosPhone.value.replace(/(?!^\+)\D/g, '');
+    const telLink = `tel:${phoneNumber}`;
+    
+    // Пытаемся открыть приложение телефона
+    window.location.href = telLink;
+    
+  } catch (error) {
+    console.error('Błąd podczas inicjowania połączenia:', error);
+    
+    alert(`Nie można zainicjować połączenia. Proszę zadzwonić ręcznie pod numer: ${formatPhone(sosPhone.value)}`);
+  }
+};
 
 const articles = [
   {
