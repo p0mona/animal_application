@@ -16,6 +16,10 @@
           <h5 class="font-semibold">Najbliższa terapia przeciwpasożytnicza:</h5>
           <p>Termin: -----</p>
           <p>Lek: -----</p>
+
+          <h5 class="font-semibold">Wizyta:</h5>
+          <p>Termin: -----</p>
+          <p>Adres: -----</p>
         </div>
       </div>
     </div>
