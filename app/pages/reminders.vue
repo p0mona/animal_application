@@ -15,13 +15,7 @@
             <!-- <BaseInput label="Wpisz tytuł przypomnienia" v-model="form.title"/> -->
 
             <div class="flex justify-end space-x-2">
-              <UButton
-                type="button"
-                @click="closeModal"
-                class="md:w-auto border border-violet-500 bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
-              >
-                Anuluj
-              </UButton>
+              <BorderButton @click="closeModal" label="Anuluj"/>
 
               <BaseButton label="Zapisz" @click="saveEvent"/>
             </div>

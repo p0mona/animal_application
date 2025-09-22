@@ -16,13 +16,7 @@
         >
           Generuj QR
         </UButton>
-        <UButton
-          @click="downloadQR"
-          :disabled="!qrImageUrl"
-          class="md:w-auto border border-violet-500 disabled:bg-white bg-white text-violet-500 hover:border-violet-600 active:border-violet-700 hover:text-violet-600 active:text-violet-700 hover:bg-white active:bg-white cursor-pointer"
-        >
-          Pobrać
-        </UButton>
+        <BorderButton @click="downloadQR" :disabled="!qrImageUrl" label="Pobrać"/>
       </dev>
     </div>
   </UCard>
