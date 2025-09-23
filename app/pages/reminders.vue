@@ -81,7 +81,6 @@ onUnmounted(() => {
 
 const form = ref({
   type: "",
-  title: "",
   address: "",
   vaccinationName: "",
   medicineName: "",
@@ -132,7 +131,6 @@ const closeModal = () => {
     isOpen.value = false;
     form.value = { 
       type: "", 
-      title: "", 
       vaccinationName: "", 
       address: "", 
       doctor: "", 
