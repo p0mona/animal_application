@@ -179,7 +179,7 @@ const securitySchema = z
     newPassword: z.string().min(1, "Nowe hasło jest wymagane"),
     confirmPassword: z.string().min(1, "Potwierdzenie hasła jest wymagane"),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
+  .refine((data: { newPassword: any; confirmPassword: any; }) => data.newPassword === data.confirmPassword, {
     message: "Hasła nie są identyczne",
     path: ["confirmPassword"],
   });
