@@ -17,7 +17,12 @@
             <div class="flex justify-end space-x-2">
               <BorderButton @click="closeModal" label="Anuluj" />
 
-              <BaseButton label="Zapisz" @click="saveEvent" />
+              <BaseButton 
+                label="Zapisz" 
+                @click="saveEvent" 
+                :disabled="!canSave"
+                class="disabled:bg-violet-300"
+              />
             </div>
           </div>
         </div>
