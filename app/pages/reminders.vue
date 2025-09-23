@@ -111,7 +111,7 @@ const saveEvent = () => {
 
 const types = ref<RadioGroupItem[]>([
   { label: "Szczepionka", value: "vaccination" },
-  { label: "Terapia przeciwpasożytnicza", value: "therapy" },
+  { label: "Pasożyty", value: "therapy" },
   { label: "Wizyta", value: "visit" },
 ]);
 </script>
