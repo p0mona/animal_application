@@ -53,7 +53,7 @@ export const useUserStore = defineStore("user", () => {
         formData.append("image", profileData.image);
       }
 
-      const res = await fetch("http://localhost:3001/auth/update-profile", {
+      const res = await fetch("http://localhost:3001/profile/update-profile", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ export const useUserStore = defineStore("user", () => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await fetch("http://localhost:3001/auth/profile", {
+      const res = await fetch("http://localhost:3001/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -99,7 +99,7 @@ export const useUserStore = defineStore("user", () => {
       if (!token) throw new Error("No token found");
 
       const response = await fetch(
-        "http://localhost:3001/auth/change-password",
+        "http://localhost:3001/profile/change-password",
         {
           method: "POST",
           headers: {

@@ -165,7 +165,7 @@ async function deleteAccount() {
   if (!confirmed) return;
 
   try {
-    await $fetch(`http://localhost:3001/auth/user/${profileId}`, {
+    await $fetch(`http://localhost:3001/profile/user/${profileId}`, {
       method: "DELETE",
     });
 

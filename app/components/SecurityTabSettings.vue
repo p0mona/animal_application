@@ -234,7 +234,7 @@ const changePassword = async () => {
     if (!token) throw new Error("Brak tokenu autoryzacji");
 
     const response = await $fetch(
-      "http://localhost:3001/auth/change-password",
+      "http://localhost:3001/profile/change-password",
       {
         method: "POST",
         headers: {
