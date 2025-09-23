@@ -25,15 +25,15 @@
         <div class="space-y-2 mt-4 ml-4">
           <h5 class="font-semibold">Najbliższe szczepienie:</h5>
           <p>Termin: -----</p>
-          <p>Adres: -----</p>
           <p>Nazwa szczepienia: -----</p>
-
+          <p>Adres: -----</p>
           <h5 class="font-semibold">Najbliższa terapia przeciwpasożytnicza:</h5>
           <p>Termin: -----</p>
-          <p>Lek: -----</p>
-
+          <p>Nazwa leku: -----</p>
+          <p>Adres: -----</p>
           <h5 class="font-semibold">Wizyta:</h5>
           <p>Termin: -----</p>
+          <p>Lekarz: -----</p>
           <p>Adres: -----</p>
         </div>
       </div>
