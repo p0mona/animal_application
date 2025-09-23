@@ -20,6 +20,7 @@
           @click="downloadQR"
           :disabled="!qrImageUrl"
           label="Pobrać"
+          class="disabled:bg-white"
         />
       </dev>
     </div>
