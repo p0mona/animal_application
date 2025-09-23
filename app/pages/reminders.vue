@@ -12,7 +12,22 @@
 
             <RadioButton :items="types" v-model="form.type" />
 
-            <!-- <BaseInput label="Wpisz tytuł przypomnienia" v-model="form.title"/> -->
+            <div v-if="form.type" class="space-y-4 mt-4">
+              <div v-if="form.type === 'vaccination'" class="space-y-3">
+                <BaseInput label="Nazwa szczepienia" v-model="form.vaccinationName" />
+                <BaseInput label="Adres" v-model="form.address" />
+              </div>
+
+              <div v-else-if="form.type === 'therapy'" class="space-y-3">
+                <BaseInput label="Nazwa leku" v-model="form.medicineName" />
+                <BaseInput label="Adres" v-model="form.address" />
+              </div>
+
+              <div v-else-if="form.type === 'visit'" class="space-y-3">
+                <BaseInput label="Lekarz" v-model="form.doctor" />
+                <BaseInput label="Adres" v-model="form.address" />
+              </div>
+            </div>
 
             <div class="flex justify-end space-x-2">
               <BorderButton @click="closeModal" label="Anuluj" />
@@ -48,7 +63,7 @@
 
 <script setup lang="ts">
 import type { RadioGroupItem } from "@nuxt/ui/runtime/components/RadioGroup.vue.js";
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted, computed } from "vue";
 import Calendar from "~/components/Calendar.vue";
 import RadioButton from "~/components/RadioButton.vue";
 
@@ -65,9 +80,27 @@ onUnmounted(() => {
 });
 
 const form = ref({
-  title: "",
   type: "",
-  details: "",
+  title: "",
+  address: "",
+  vaccinationName: "",
+  medicineName: "",
+  doctor: "",
+});
+
+const canSave = computed(() => {
+  if (!form.value.type || !selectedDate.value) return false;
+  
+  switch (form.value.type) {
+    case 'vaccination':
+      return !!(form.value.vaccinationName);
+    case 'therapy':
+      return !!(form.value.medicineName);
+    case 'visit':
+      return !!(form.value.doctor);
+    default:
+      return false;
+  }
 });
 
 watch(selectedDate, (newDate) => {
@@ -97,7 +130,14 @@ const formatDate = (date: any) => {
 const closeModal = () => {
   if (isMounted.value) {
     isOpen.value = false;
-    form.value = { title: "", type: "", details: "" };
+    form.value = { 
+      type: "", 
+      title: "", 
+      vaccinationName: "", 
+      address: "", 
+      doctor: "", 
+      medicineName: "",
+    };
   }
 };
 
