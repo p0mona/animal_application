@@ -14,7 +14,10 @@
 
             <div v-if="form.type" class="space-y-4 mt-4">
               <div v-if="form.type === 'vaccination'" class="space-y-3">
-                <BaseInput label="Nazwa szczepienia" v-model="form.vaccinationName" />
+                <BaseInput
+                  label="Nazwa szczepienia"
+                  v-model="form.vaccinationName"
+                />
                 <BaseInput label="Adres" v-model="form.address" />
               </div>
 
@@ -32,9 +35,9 @@
             <div class="flex justify-end space-x-2">
               <BorderButton @click="closeModal" label="Anuluj" />
 
-              <BaseButton 
-                label="Zapisz" 
-                @click="saveEvent" 
+              <BaseButton
+                label="Zapisz"
+                @click="saveEvent"
                 :disabled="!canSave"
                 class="disabled:bg-violet-300"
               />
@@ -89,14 +92,14 @@ const form = ref({
 
 const canSave = computed(() => {
   if (!form.value.type || !selectedDate.value) return false;
-  
+
   switch (form.value.type) {
-    case 'vaccination':
-      return !!(form.value.vaccinationName);
-    case 'therapy':
-      return !!(form.value.medicineName);
-    case 'visit':
-      return !!(form.value.doctor);
+    case "vaccination":
+      return !!form.value.vaccinationName;
+    case "therapy":
+      return !!form.value.medicineName;
+    case "visit":
+      return !!form.value.doctor;
     default:
       return false;
   }
@@ -129,11 +132,11 @@ const formatDate = (date: any) => {
 const closeModal = () => {
   if (isMounted.value) {
     isOpen.value = false;
-    form.value = { 
-      type: "", 
-      vaccinationName: "", 
-      address: "", 
-      doctor: "", 
+    form.value = {
+      type: "",
+      vaccinationName: "",
+      address: "",
+      doctor: "",
       medicineName: "",
     };
   }
