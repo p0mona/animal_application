@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 import type { RadioGroupItem } from "@nuxt/ui/runtime/components/RadioGroup.vue.js";
-import { ref, watch, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Calendar from "~/components/Calendar.vue";
 import RadioButton from "~/components/RadioButton.vue";
 
@@ -87,11 +87,7 @@ const selectedDate = ref<any>(null);
 const reminders = ref<any[]>([]);
 
 onMounted(() => {
-  isMounted.value = true;
-});
-
-onUnmounted(() => {
-  isMounted.value = false;
+  loadReminders();
 });
 
 const form = ref({
@@ -156,15 +152,13 @@ const getTypeLabel = (type: string) => {
 };
 
 const closeModal = () => {
-  if (isMounted.value) {
-    isOpen.value = false;
-    form.value = {
-      type: "",
-      vaccinationName: "",
-      address: "",
-      doctor: "",
-      medicineName: "",
-    };
+  form.value = {
+    type: "",
+    vaccinationName: "",
+    address: "",
+    doctor: "",
+    medicineName: "",
+  };
   selectedDate.value = null;
 };
 
