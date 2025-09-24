@@ -140,6 +140,14 @@ const formatDateForBackend = (date: any) => {
   return null;
 };
 
+const getTypeLabel = (type: string) => {
+  const map: Record<string, string> = {
+    vaccination: "Szczepionka",
+    therapy: "Terapia",
+    visit: "Wizyta",
+  };
+  return map[type] || type;
+};
 
 const closeModal = () => {
   if (isMounted.value) {
