@@ -84,8 +84,7 @@ import Calendar from "~/components/Calendar.vue";
 import RadioButton from "~/components/RadioButton.vue";
 
 const selectedDate = ref<any>(null);
-const isOpen = ref(false);
-const isMounted = ref(false);
+const reminders = ref<any[]>([]);
 
 onMounted(() => {
   isMounted.value = true;
@@ -155,17 +154,67 @@ const closeModal = () => {
   }
 };
 
-const saveEvent = () => {
-  console.log("Saved:", {
-    date: selectedDate.value,
-    ...form.value,
-  });
-  closeModal();
+const saveEvent = async () => {
+  if (!canSave.value) return;
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const formattedDate = formatDateForBackend(selectedDate.value);
+    if (!formattedDate) return;
+
+    const requestData = {
+      date: formattedDate,
+      type: form.value.type,
+      address: form.value.address,
+      ...(form.value.type === "vaccination" && { vaccinationName: form.value.vaccinationName }),
+      ...(form.value.type === "therapy" && { medicineName: form.value.medicineName }),
+      ...(form.value.type === "visit" && { doctor: form.value.doctor }),
+    };
+
+    const response = await fetch("http://localhost:3001/reminders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(requestData),
+    });
+
+    if (response.ok) {
+      await response.json();
+      closeModal();
+      loadReminders();
+    }
+  } catch (err) {
+    console.error("Błąd podczas zapisywania:", err);
+  }
 };
 
-const types = ref<RadioGroupItem[]>([
-  { label: "Szczepionka", value: "vaccination" },
-  { label: "Pasożyty", value: "therapy" },
-  { label: "Wizyta", value: "visit" },
-]);
+const loadReminders = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const response = await fetch("http://localhost:3001/reminders", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      reminders.value = Array.isArray(data) ? data : (data.reminders || []);
+    }
+  } catch (err) {
+    console.error("Błąd podczas ładowania:", err);
+  }
+};
+
+const deleteReminder = async (id: string) => {
+  if (!confirm("Czy na pewno chcesz usunąć to przypomnienie?")) return;
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const response = await fetch(`http://localhost:3001/reminders/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.ok) loadReminders();
+  } catch (err) {
+    console.error("Błąd podczas usuwania:", err);
+  }
+};
 </script>
