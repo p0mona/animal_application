@@ -46,10 +46,12 @@
         </div>
 
         <div class="mt-8">
-          <h3 class="text-lg font-semibold mb-4 flex justify-center">Zapisane przypomnienia</h3>
+          <h3 class="text-lg font-semibold mb-4 flex justify-center">
+            Zapisane przypomnienia
+          </h3>
           <div>
-            <div 
-              v-for="reminder in reminders" 
+            <div
+              v-for="reminder in reminders"
               :key="reminder._id || reminder.id"
               class="border rounded-lg p-4 bg-white shadow-sm"
             >
@@ -57,18 +59,28 @@
                 <span class="font-semibold capitalize">
                   {{ getTypeLabel(reminder.type) }}
                 </span>
-                <button 
+                <button
                   @click="deleteReminder(reminder._id || reminder.id)"
                   class="text-red-500 hover:text-red-700 text-sm"
                 >
                   Usuń
                 </button>
               </div>
-              <p class="text-sm text-gray-600">Data: {{ formatDate(reminder.date) }}</p>
-              <p class="text-sm" v-if="reminder.vaccinationName">Szczepienie: {{ reminder.vaccinationName }}</p>
-              <p class="text-sm" v-if="reminder.medicineName">Lek: {{ reminder.medicineName }}</p>
-              <p class="text-sm" v-if="reminder.doctor">Lekarz: {{ reminder.doctor }}</p>
-              <p class="text-sm" v-if="reminder.address">Adres: {{ reminder.address }}</p>
+              <p class="text-sm text-gray-600">
+                Data: {{ formatDate(reminder.date) }}
+              </p>
+              <p class="text-sm" v-if="reminder.vaccinationName">
+                Szczepienie: {{ reminder.vaccinationName }}
+              </p>
+              <p class="text-sm" v-if="reminder.medicineName">
+                Lek: {{ reminder.medicineName }}
+              </p>
+              <p class="text-sm" v-if="reminder.doctor">
+                Lekarz: {{ reminder.doctor }}
+              </p>
+              <p class="text-sm" v-if="reminder.address">
+                Adres: {{ reminder.address }}
+              </p>
             </div>
           </div>
         </div>
@@ -108,10 +120,14 @@ const canSave = computed(() => {
   if (!form.value.type || !selectedDate.value) return false;
 
   switch (form.value.type) {
-    case "vaccination": return !!form.value.vaccinationName && !!form.value.address;
-    case "therapy": return !!form.value.medicineName && !!form.value.address;
-    case "visit": return !!form.value.doctor && !!form.value.address;
-    default: return false;
+    case "vaccination":
+      return !!form.value.vaccinationName && !!form.value.address;
+    case "therapy":
+      return !!form.value.medicineName && !!form.value.address;
+    case "visit":
+      return !!form.value.doctor && !!form.value.address;
+    default:
+      return false;
   }
 });
 
@@ -174,14 +190,21 @@ const saveEvent = async () => {
       date: formattedDate,
       type: form.value.type,
       address: form.value.address,
-      ...(form.value.type === "vaccination" && { vaccinationName: form.value.vaccinationName }),
-      ...(form.value.type === "therapy" && { medicineName: form.value.medicineName }),
+      ...(form.value.type === "vaccination" && {
+        vaccinationName: form.value.vaccinationName,
+      }),
+      ...(form.value.type === "therapy" && {
+        medicineName: form.value.medicineName,
+      }),
       ...(form.value.type === "visit" && { doctor: form.value.doctor }),
     };
 
     const response = await fetch("http://localhost:3001/reminders", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(requestData),
     });
 
@@ -204,7 +227,7 @@ const loadReminders = async () => {
     });
     if (response.ok) {
       const data = await response.json();
-      reminders.value = Array.isArray(data) ? data : (data.reminders || []);
+      reminders.value = Array.isArray(data) ? data : data.reminders || [];
     }
   } catch (err) {
     console.error("Błąd podczas ładowania:", err);
