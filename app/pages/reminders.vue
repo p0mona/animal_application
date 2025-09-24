@@ -159,7 +159,7 @@ const closeModal = () => {
       doctor: "",
       medicineName: "",
     };
-  }
+  selectedDate.value = null;
 };
 
 const saveEvent = async () => {
