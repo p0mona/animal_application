@@ -131,6 +131,16 @@ const formatDate = (date: any) => {
   return "---";
 };
 
+const formatDateForBackend = (date: any) => {
+  if (!date) return null;
+  if (typeof date === "string") return date;
+  if (date && typeof date === "object" && "year" in date) {
+    return new Date(date.year, date.month - 1, date.day).toISOString();
+  }
+  return null;
+};
+
+
 const closeModal = () => {
   if (isMounted.value) {
     isOpen.value = false;
