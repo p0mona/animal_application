@@ -102,6 +102,12 @@ const form = ref({
   doctor: "",
 });
 
+const types = ref<RadioGroupItem[]>([
+  { label: "Szczepionka", value: "vaccination" },
+  { label: "Pasożyty", value: "therapy" },
+  { label: "Wizyta", value: "visit" },
+]);
+
 const canSave = computed(() => {
   if (!form.value.type || !selectedDate.value) return false;
 
