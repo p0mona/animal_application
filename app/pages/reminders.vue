@@ -106,20 +106,10 @@ const canSave = computed(() => {
   if (!form.value.type || !selectedDate.value) return false;
 
   switch (form.value.type) {
-    case "vaccination":
-      return !!form.value.vaccinationName;
-    case "therapy":
-      return !!form.value.medicineName;
-    case "visit":
-      return !!form.value.doctor;
-    default:
-      return false;
-  }
-});
-
-watch(selectedDate, (newDate) => {
-  if (newDate && isMounted.value) {
-    isOpen.value = true;
+    case "vaccination": return !!form.value.vaccinationName && !!form.value.address;
+    case "therapy": return !!form.value.medicineName && !!form.value.address;
+    case "visit": return !!form.value.doctor && !!form.value.address;
+    default: return false;
   }
 });
 
