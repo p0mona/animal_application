@@ -45,19 +45,32 @@
           </div>
         </div>
 
-        <div class="space-y-2 mt-4 ml-4">
-          <h5 class="font-semibold">Najbliższe szczepienie:</h5>
-          <p>Termin: -----</p>
-          <p>Nazwa szczepienia: -----</p>
-          <p>Adres: -----</p>
-          <h5 class="font-semibold">Najbliższa terapia przeciwpasożytnicza:</h5>
-          <p>Termin: -----</p>
-          <p>Nazwa leku: -----</p>
-          <p>Adres: -----</p>
-          <h5 class="font-semibold">Wizyta:</h5>
-          <p>Termin: -----</p>
-          <p>Lekarz: -----</p>
-          <p>Adres: -----</p>
+        <div class="mt-8">
+          <h3 class="text-lg font-semibold mb-4 flex justify-center">Zapisane przypomnienia</h3>
+          <div>
+            <div 
+              v-for="reminder in reminders" 
+              :key="reminder._id || reminder.id"
+              class="border rounded-lg p-4 bg-white shadow-sm"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="font-semibold capitalize">
+                  {{ getTypeLabel(reminder.type) }}
+                </span>
+                <button 
+                  @click="deleteReminder(reminder._id || reminder.id)"
+                  class="text-red-500 hover:text-red-700 text-sm"
+                >
+                  Usuń
+                </button>
+              </div>
+              <p class="text-sm text-gray-600">Data: {{ formatDate(reminder.date) }}</p>
+              <p class="text-sm" v-if="reminder.vaccinationName">Szczepienie: {{ reminder.vaccinationName }}</p>
+              <p class="text-sm" v-if="reminder.medicineName">Lek: {{ reminder.medicineName }}</p>
+              <p class="text-sm" v-if="reminder.doctor">Lekarz: {{ reminder.doctor }}</p>
+              <p class="text-sm" v-if="reminder.address">Adres: {{ reminder.address }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
