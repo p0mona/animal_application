@@ -49,7 +49,7 @@
           <h3 class="text-lg font-semibold mb-4 flex justify-center">
             Zapisane przypomnienia
           </h3>
-          <div>
+          <div class="space-y-2">
             <div v-if="reminders.length === 0" class="text-center py-8">
               <p class="text-gray-400 text-sm">Brak zapisanych przypomnień</p>
             </div>
