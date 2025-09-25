@@ -50,6 +50,9 @@
             Zapisane przypomnienia
           </h3>
           <div>
+            <div v-if="reminders.length === 0" class="text-center py-8">
+              <p class="text-gray-400 text-sm">Brak zapisanych przypomnień</p>
+            </div>
             <div
               v-for="reminder in reminders"
               :key="reminder._id || reminder.id"
