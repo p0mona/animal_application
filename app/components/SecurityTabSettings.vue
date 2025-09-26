@@ -98,7 +98,7 @@
           <div class="flex justify-end">
             <BaseButton
               label="Zmień hasło"
-              class="mt-2"
+              class="mt-2 disabled:bg-violet-300"
               type="submit"
               :loading="isChangingPassword"
               :disabled="!isPasswordStrong"
