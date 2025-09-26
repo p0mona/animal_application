@@ -1,5 +1,12 @@
 <template>
   <FullWidthLayout>
+    <Notification
+      v-if="notification.visible"
+      :message="notification.message"
+      :type="notification.type"
+      :duration="3000"
+      @close="notification.visible = false"
+    />
     <div class="space-y-4">
       <h1 class="text-2xl font-bold text-gray-900">Przypomnienia</h1>
 
@@ -100,6 +107,13 @@ import RadioButton from "~/components/RadioButton.vue";
 
 const selectedDate = ref<any>(null);
 const reminders = ref<any[]>([]);
+
+const notification = ref({
+  visible: false,
+  message: '',
+  type: 'success' as 'success' | 'error'
+});
+
 
 onMounted(() => {
   loadReminders();
