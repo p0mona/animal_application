@@ -118,15 +118,31 @@
         />
       </div>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </UCard>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useToast } from "#imports";
 import { z } from "zod";
 
-const toast = useToast();
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+};
+
 const isChangingPassword = ref(false);
 const show = ref(false);
 
@@ -214,20 +230,12 @@ const localTwoFactor = computed({
 
 const changePassword = async () => {
   if (!isPasswordStrong.value) {
-    toast.add({
-      title: "Błąd",
-      description: "Hasło nie spełnia wszystkich wymagań bezpieczeństwa",
-      color: "error",
-    });
+    showNotify("Hasło nie spełnia wszystkich wymagań bezpieczeństwa", "error");
     return;
   }
 
   if (localSecurity.value.newPassword !== localSecurity.value.confirmPassword) {
-    toast.add({
-      title: "Błąd",
-      description: "Nowe hasła nie są identyczne",
-      color: "error",
-    });
+    showNotify("Nowe hasła nie są identyczne", "error");
     return;
   }
 
@@ -252,11 +260,7 @@ const changePassword = async () => {
       },
     );
 
-    toast.add({
-      title: "Sukces",
-      description: "Hasło zostało zmienione",
-      color: "success",
-    });
+    showNotify("Hasło zostało zmienione pomyślnie", "success");
 
     // Reset form
     localSecurity.value = {
@@ -276,11 +280,7 @@ const changePassword = async () => {
       errorMessage = error.data.message;
     }
 
-    toast.add({
-      title: "Błąd",
-      description: errorMessage,
-      color: "error",
-    });
+    showNotify(errorMessage, "error");
   } finally {
     isChangingPassword.value = false;
   }
