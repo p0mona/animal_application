@@ -55,9 +55,13 @@ const nuxt = useNuxtApp();
 
 async function onSubmit() {
   try {
+    const normalizedEmail = state.email.toLowerCase().trim();
     const res = (await $fetch("http://localhost:3001/auth/login", {
       method: "POST",
-      body: { email: state.email, password: state.password },
+      body: { 
+        email: normalizedEmail, 
+        password: state.password 
+      },
     })) as {
       token: string;
       user: {
