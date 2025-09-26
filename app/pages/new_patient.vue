@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Nowy pacjent</h1>
       <div>
-        <BaseButton label="Zeskanuj QR"/>
+        <BaseButton label="Zeskanuj QR" />
       </div>
     </div>
 
@@ -45,9 +45,9 @@ const form = reactive({
       animal_age: "",
       animal_height: "",
       animal_weight: "",
-      chip: ""
-    }
-  }
+      chip: "",
+    },
+  },
 });
 const animals = ref(["Pies", "Kot", "Chomik"]);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);

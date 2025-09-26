@@ -79,7 +79,7 @@ const localProfile = ref({
   image: null,
   vet: {
     hospital: "",
-  }
+  },
 });
 
 // Загружаем данные при монтировании
@@ -100,8 +100,8 @@ function updateLocalProfileFromStore() {
     image: null,
     vet: {
       hospital: userStore.user.vet?.hospital || "",
-    }
-  }
+    },
+  };
 }
 
 async function saveProfile() {
@@ -126,10 +126,13 @@ async function deleteAccount() {
 
   try {
     console.log("Deleting profile with ID:", profileId);
-    
-    const response = await $fetch(`http://localhost:3001/profile/user/${profileId}`, {
-      method: "DELETE",
-    });
+
+    const response = await $fetch(
+      `http://localhost:3001/profile/user/${profileId}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     console.log("Delete response:", response);
 
@@ -139,10 +142,12 @@ async function deleteAccount() {
       userStore.clearUser();
       router.push("/login");
     }, 1000);
-    
   } catch (err: any) {
     console.error("Delete error:", err);
-    showNotify(err.data?.message || err.message || "Nie udało się usunąć konta", "error");
+    showNotify(
+      err.data?.message || err.message || "Nie udało się usunąć konta",
+      "error",
+    );
   }
 }
 </script>

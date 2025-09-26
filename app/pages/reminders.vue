@@ -110,15 +110,18 @@ const reminders = ref<any[]>([]);
 
 const notification = ref({
   visible: false,
-  message: '',
-  type: 'success' as 'success' | 'error'
+  message: "",
+  type: "success" as "success" | "error",
 });
 
-const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+const showNotification = (
+  message: string,
+  type: "success" | "error" = "success",
+) => {
   notification.value = {
     visible: true,
     message,
-    type
+    type,
   };
 };
 
@@ -185,10 +188,10 @@ const formatDateForBackend = (date: any) => {
 const isFutureDate = (date: any) => {
   const formattedDate = formatDateForBackend(date);
   if (!formattedDate) return false;
-  
+
   const selectedDateTime = new Date(formattedDate).getTime();
   const currentDateTime = new Date().getTime();
-  
+
   return selectedDateTime > currentDateTime;
 };
 
@@ -214,22 +217,22 @@ const closeModal = () => {
 
 const saveEvent = async () => {
   if (!canSave.value) return;
-  
+
   // Проверка на будущую дату
   if (!isFutureDate(selectedDate.value)) {
-    showNotification('Data przypomnienia musi być w przyszłości', 'error');
+    showNotification("Data przypomnienia musi być w przyszłości", "error");
     return;
   }
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-      showNotification('Brak autoryzacji. Zaloguj się ponownie.', 'error');
+      showNotification("Brak autoryzacji. Zaloguj się ponownie.", "error");
       return;
     }
-    
+
     const formattedDate = formatDateForBackend(selectedDate.value);
     if (!formattedDate) {
-      showNotification('Nieprawidłowa data', 'error');
+      showNotification("Nieprawidłowa data", "error");
       return;
     }
 
@@ -258,15 +261,21 @@ const saveEvent = async () => {
     const responseData = await response.json();
 
     if (response.ok) {
-      showNotification('Przypomnienie zostało zapisane pomyślnie!', 'success');
+      showNotification("Przypomnienie zostało zapisane pomyślnie!", "success");
       closeModal();
       await loadReminders();
     } else {
-      showNotification(`Błąd: ${responseData.message || 'Nie udało się zapisać przypomnienia'}`, 'error');
+      showNotification(
+        `Błąd: ${responseData.message || "Nie udało się zapisać przypomnienia"}`,
+        "error",
+      );
     }
   } catch (err) {
     console.error("Error while saving:", err);
-    showNotification('Wystąpił błąd podczas zapisywania przypomnienia', 'error');
+    showNotification(
+      "Wystąpił błąd podczas zapisywania przypomnienia",
+      "error",
+    );
   }
 };
 
@@ -281,11 +290,11 @@ const loadReminders = async () => {
       const data = await response.json();
       reminders.value = Array.isArray(data) ? data : data.reminders || [];
     } else {
-      showNotification('Błąd podczas ładowania przypomnień', 'error');
+      showNotification("Błąd podczas ładowania przypomnień", "error");
     }
   } catch (err) {
     console.error("Error while loading:", err);
-    showNotification('Wystąpił błąd podczas ładowania przypomnień', 'error');
+    showNotification("Wystąpił błąd podczas ładowania przypomnień", "error");
   }
 };
 
@@ -294,7 +303,7 @@ const deleteReminder = async (id: string) => {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-      showNotification('Brak autoryzacji. Zaloguj się ponownie.', 'error');
+      showNotification("Brak autoryzacji. Zaloguj się ponownie.", "error");
       return;
     }
     const response = await fetch(`http://localhost:3001/reminders/${id}`, {
@@ -302,15 +311,18 @@ const deleteReminder = async (id: string) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (response.ok) {
-      showNotification('Przypomnienie zostało usunięte pomyślnie!', 'success');
+      showNotification("Przypomnienie zostało usunięte pomyślnie!", "success");
       await loadReminders();
     } else {
       const errorData = await response.json();
-      showNotification(`Błąd: ${errorData.message || 'Nie udało się usunąć przypomnienia'}`, 'error');
+      showNotification(
+        `Błąd: ${errorData.message || "Nie udało się usunąć przypomnienia"}`,
+        "error",
+      );
     }
   } catch (err) {
     console.error("Error while deleting:", err);
-    showNotification('Wystąpił błąd podczas usuwania przypomnienia', 'error');
+    showNotification("Wystąpił błąd podczas usuwania przypomnienia", "error");
   }
 };
 </script>

@@ -9,9 +9,9 @@
 
     <!-- Profile Content -->
     <div v-if="activeTab === 'profile'">
-      <VetProfileTabSettings/>
+      <VetProfileTabSettings />
     </div>
-    
+
     <!-- Security Content -->
     <div v-if="activeTab === 'security'">
       <SecurityTabSettings

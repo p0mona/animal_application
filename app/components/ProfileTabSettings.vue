@@ -31,7 +31,7 @@
           <OwnerForm v-model="localProfile" :sex="sex" />
         </div>
         <div class="flex justify-between mt-4">
-          <BorderButton label="Generuj QR"/>
+          <BorderButton label="Generuj QR" />
           <BaseButton label="Potwierdź" @click="saveProfile" />
         </div>
       </div>
@@ -149,10 +149,13 @@ async function deleteAccount() {
 
   try {
     console.log("Deleting profile with ID:", profileId);
-    
-    const response = await $fetch(`http://localhost:3001/profile/user/${profileId}`, {
-      method: "DELETE",
-    });
+
+    const response = await $fetch(
+      `http://localhost:3001/profile/user/${profileId}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     console.log("Delete response:", response);
 
@@ -162,10 +165,12 @@ async function deleteAccount() {
       userStore.clearUser();
       router.push("/login");
     }, 1000);
-    
   } catch (err: any) {
     console.error("Delete error:", err);
-    showNotify(err.data?.message || err.message || "Nie udało się usunąć konta", "error");
+    showNotify(
+      err.data?.message || err.message || "Nie udało się usunąć konta",
+      "error",
+    );
   }
 }
 </script>

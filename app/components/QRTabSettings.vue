@@ -5,7 +5,11 @@
     </template>
     <div class="w-full flex flex-col items-center">
       <!-- Показываем QR код только после генерации -->
-       <p class="text-center mb-4">Wygeneruj kod QR z imieniem właściciela i numerem telefonu. Można go umieścić na obroży, aby w razie zaginięcia pupila łatwo się z Tobą skontaktować</p>
+      <p class="text-center mb-4">
+        Wygeneruj kod QR z imieniem właściciela i numerem telefonu. Można go
+        umieścić na obroży, aby w razie zaginięcia pupila łatwo się z Tobą
+        skontaktować
+      </p>
       <div v-if="qrImageUrl" class="mb-4 p-4 bg-white rounded-lg">
         <img :src="qrImageUrl" alt="QR Code" class="w-48 h-48 mx-auto" />
       </div>
