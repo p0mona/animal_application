@@ -12,7 +12,9 @@
       <h1 class="text-2xl font-bold text-gray-900">Konto</h1>
     </div>
 
-    <div>
+    <Navigation :items="navItems" v-model="activeTab" />
+
+    <div v-if="activeTab === 'profile'">
       <UCard>
         <template #header>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -55,6 +57,29 @@
         </div>
       </UCard>
     </div>
+     <!-- Security Content -->
+    <div v-if="activeTab === 'security'">
+      <SecurityTabSettings
+        v-model:security="security"
+        v-model:twoFactorEnabled="twoFactorEnabled"
+        :securitySchema="securitySchema"
+      />
+    </div>
+
+    <!-- Notifications Content -->
+    <div v-if="activeTab === 'notifications'">
+      <NotificationsTabSettings v-model:notifications="notifications" />
+    </div>
+
+    <!-- Preferences Content -->
+    <div v-if="activeTab === 'preferences'">
+      <PreferencesTabSettings
+        v-model:preferences="preferences"
+        :languageOptions="languageOptions"
+        :timezoneOptions="timezoneOptions"
+        :themeOptions="themeOptions"
+      />
+    </div>
   </FullWidthLayout>
 </template>
 
@@ -82,7 +107,63 @@ const sex = ref<RadioGroupItem[]>([
 ]);
 
 const userStore = useUserStore();
-const toast = useToast();
+
+const activeTab = ref("profile");
+
+const navItems = [
+  { key: "profile", label: "Profil", icon: "i-heroicons-user" },
+  { key: "security", label: "Bezpieczeństwo", icon: "i-heroicons-lock-closed" },
+  { key: "notifications", label: "Powiadomienia", icon: "i-heroicons-bell" },
+  { key: "preferences", label: "Preferencje", icon: "i-heroicons-cog-6-tooth" },
+];
+
+const security = ref({
+  currentPassword: "",
+  newPassword: "",
+  confirmPassword: "",
+});
+
+const notifications = ref({
+  email: true,
+  push: false,
+  sms: false,
+  news: true,
+  security: true,
+  marketing: false,
+});
+
+const preferences = ref({
+  language: "pl",
+  timezone: "Europe/Warsaw",
+  theme: "system",
+});
+
+const twoFactorEnabled = ref(false);
+
+const languageOptions = [
+  { value: "pl", label: "Polski" },
+  { value: "en", label: "English" },
+  { value: "ru", label: "Русский" },
+];
+
+const timezoneOptions = [
+  { value: "Europe/Warsaw", label: "Warszawa (UTC+1)" },
+  { value: "Europe/London", label: "Londyn (UTC+0)" },
+  { value: "Europe/Berlin", label: "Moskwa (UTC+2)" },
+];
+
+const themeOptions = [
+  { value: "light", label: "Jasny" },
+  { value: "dark", label: "Ciemny" },
+  { value: "system", label: "Systemowy" },
+];
+
+const securitySchema = {
+  newPassword: (value: string) =>
+    value.length >= 8 || "Hasło musi mieć co najmniej 8 znaków",
+  confirmPassword: (value: string) =>
+    value === security.value.newPassword || "Hasła muszą być identyczne",
+};
 
 const form = reactive({
   name: userStore.user?.name || "",
