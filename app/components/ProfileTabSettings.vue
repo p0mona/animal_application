@@ -54,10 +54,17 @@ import { ref, onMounted } from "vue";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
+const router = useRouter();
+
 const showNotification = ref(false);
 const notificationMessage = ref("");
 const notificationType = ref<"success" | "error">("success");
 
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+};
 
 const animals = ref(["Pies", "Kot", "Królik", "Chomik", "Ptak"]);
 const breeds = ref(["Beagle", "Labrador", "Owczarek", "Perski", "Syjamski"]);
@@ -125,39 +132,42 @@ function updateLocalProfileFromStore() {
 async function saveProfile() {
   try {
     await userStore.updateProfile(localProfile.value);
-    alert("Profil został zapisany!");
+    showNotify("Profil został zapisany!", "success");
   } catch (error) {
     console.error("Save error:", error);
-    alert("Błąd podczas zapisywania profilu!");
+    showNotify("Błąd podczas zapisywania profilu!", "error");
   }
 }
 
 async function deleteAccount() {
   const profileId = userStore.user?.id;
-  if (!profileId) return;
+  if (!profileId) {
+    showNotify("Nie znaleziono ID użytkownika", "error");
+    return;
+  }
 
   const confirmed = confirm("Czy na pewno chcesz usunąć konto?");
   if (!confirmed) return;
 
   try {
-    await $fetch(`http://localhost:3001/profile/user/${profileId}`, {
+    console.log("Deleting profile with ID:", profileId);
+    
+    const response = await $fetch(`http://localhost:3001/profile/user/${profileId}`, {
       method: "DELETE",
     });
 
-    toast.add({
-      title: "Sukces",
-      description: "Konto zostało usunięte",
-      color: "success",
-    });
+    console.log("Delete response:", response);
 
-    userStore.clearUser(); // очищаем Pinia и localStorage
-    navigateTo("/login");
+    showNotify("Konto zostało usunięte", "success");
+
+    setTimeout(() => {
+      userStore.clearUser();
+      router.push("/login");
+    }, 1000);
+    
   } catch (err: any) {
-    toast.add({
-      title: "Błąd",
-      description: err.data?.message || "Nie udało się usunąć konta",
-      color: "error",
-    });
+    console.error("Delete error:", err);
+    showNotify(err.data?.message || err.message || "Nie udało się usunąć konta", "error");
   }
 }
 </script>
