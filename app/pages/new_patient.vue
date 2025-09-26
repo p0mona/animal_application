@@ -35,18 +35,22 @@ import { reactive, ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 
 const form = reactive({
-  animal_type: "",
-  breed: "",
-  animal_name: "",
-  animal_age: "",
-  animal_height: "",
-  animal_weight: "",
-  chip: "",
-  name: "",
-  birthday: "",
-  sex: "K",
-  animal_sex: "K",
-  image: null as File | null,
+  owner: {
+    name: "",
+    birthday: "",
+    sex: "K",
+    image: null as File | null,
+    pet: {
+      animal: "",
+      animal_sex: "K",
+      breed: "",
+      animal_name: "",
+      animal_age: "",
+      animal_height: "",
+      animal_weight: "",
+      chip: ""
+    }
+  }
 });
 const animals = ref(["Pies", "Kot", "Chomik"]);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
