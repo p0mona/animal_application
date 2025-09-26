@@ -5,9 +5,6 @@
       <h1 class="text-2xl font-bold text-gray-900">Konto</h1>
     </div>
 
-    <Navigation :items="navItems" v-model="activeTab" />
-
-    <!-- Profil -->
     <div>
       <div v-if="activeTab === 'account'">
         <UCard>
@@ -30,6 +27,7 @@
               <BaseInput label="Miejsce pracy" v-model="form.vet.hospital" />
 
               <RadioButton v-model="form.sex" :items="sex" />
+
               <BaseInput
                 label="Data urodzenia"
                 id="birthday"
@@ -51,25 +49,6 @@
           </div>
         </UCard>
       </div>
-
-      <!-- Пациенты -->
-      <template v-if="activeTab === 'patients'">
-        <div class="space-y-4">
-          <PatientCard
-            v-for="(patient, index) in patients"
-            :key="index"
-            :name="patient.name"
-            :breed="patient.breed"
-            :image="patient.image"
-            :sex="patient.sex"
-          />
-        </div>
-        <div class="flex justify-end">
-          <NuxtLink to="/new_patient">
-            <BaseButton label="Dodać" class="mt-4" />
-          </NuxtLink>
-        </div>
-      </template>
     </div>
   </FullWidthLayout>
 </template>
@@ -79,40 +58,13 @@ import { reactive, onMounted, ref } from "vue";
 import FileUpload from "~/components/FileUpload.vue";
 import { useUserStore } from "~/stores/user";
 import type { RadioGroupItem } from "@nuxt/ui";
-import PatientCard from "~/components/PatientCard.vue";
 
 const activeTab = ref("account");
-
-const navItems = [
-  { key: "account", label: "Profil", icon: "i-heroicons-user" },
-  { key: "patients", label: "Pacjenci", icon: "heroicons:identification" },
-];
 
 const sex = ref<RadioGroupItem[]>([
   { label: "Kobieta", value: "K" },
   { label: "Mężczyzna", value: "M" },
 ]);
-
-const patients = [
-  {
-    name: "Agata",
-    breed: "Pudel",
-    image: "/images/parrot-article3.jpg",
-    sex: "Samica",
-  },
-  {
-    name: "Burek",
-    breed: "Labrador",
-    image: "/images/dog-article1.jpg",
-    sex: "Samiec",
-  },
-  {
-    name: "Mila",
-    breed: "Kot Perski",
-    image: "/images/cat-article2.jpg",
-    sex: "Samica",
-  },
-];
 
 const userStore = useUserStore();
 const toast = useToast();

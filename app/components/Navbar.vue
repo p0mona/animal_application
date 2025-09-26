@@ -93,6 +93,7 @@ const menuLinks = computed(() => {
       { label: "Weterynarz", to: "/vet_settings" },
       { label: "Schronisko", to: "/shelter" },
       { label: "Behawiorysta", to: "/trainer" },
+      { label: "Pacjenci", to: "/patientsSettings" },
       { label: "Wyloguj się", action: "logout" },
     ];
   }
