@@ -38,6 +38,14 @@
         </div>
       </div>
     </div>
+    <!-- Notification Component -->
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </UCard>
 </template>
 
@@ -46,7 +54,10 @@ import { ref, onMounted } from "vue";
 import { useUserStore } from "~/stores/user";
 
 const userStore = useUserStore();
-const toast = useToast();
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
 
 const animals = ref(["Pies", "Kot", "Królik", "Chomik", "Ptak"]);
 const breeds = ref(["Beagle", "Labrador", "Owczarek", "Perski", "Syjamski"]);
