@@ -161,6 +161,16 @@ const formatDateForBackend = (date: any) => {
   return null;
 };
 
+const isFutureDate = (date: any) => {
+  const formattedDate = formatDateForBackend(date);
+  if (!formattedDate) return false;
+  
+  const selectedDateTime = new Date(formattedDate).getTime();
+  const currentDateTime = new Date().getTime();
+  
+  return selectedDateTime > currentDateTime;
+};
+
 const getTypeLabel = (type: string) => {
   const map: Record<string, string> = {
     vaccination: "Szczepionka",
@@ -183,6 +193,12 @@ const closeModal = () => {
 
 const saveEvent = async () => {
   if (!canSave.value) return;
+  
+  // Проверка на будущую дату
+  if (!isFutureDate(selectedDate.value)) {
+    showNotification('Data przypomnienia musi być w przyszłości', 'error');
+    return;
+  }
   try {
     const token = localStorage.getItem("token");
     if (!token) return;
