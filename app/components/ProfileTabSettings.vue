@@ -27,14 +27,12 @@
 
       <!-- Owner Section -->
       <div>
-        <OwnerForm v-model="localProfile" :sex="sex" />
-        <div class="flex justify-end">
-          <UButton
-            @click="saveProfile"
-            class="bg-violet-500 hover:bg-violet-600 mt-4 active:bg-violet-700"
-          >
-            Potwierdź
-          </UButton>
+        <div>
+          <OwnerForm v-model="localProfile" :sex="sex" />
+        </div>
+        <div class="flex justify-between mt-4">
+          <BorderButton label="Generuj QR"/>
+          <BaseButton label="Potwierdź" @click="saveProfile" />
         </div>
       </div>
     </div>
