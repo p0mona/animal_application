@@ -116,7 +116,7 @@ const makeSosCall = () => {
     // Пытаемся открыть приложение телефона
     window.location.href = telLink;
   } catch (error) {
-    console.error("Błąd podczas inicjowania połączenia:", error);
+    console.error("Error while initializing connection:", error);
 
     alert(
       `Nie można zainicjować połączenia. Proszę zadzwonić ręcznie pod numer: ${formatPhone(sosPhone.value)}`,

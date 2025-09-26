@@ -79,7 +79,7 @@ const generateQR = async () => {
 
     qrImageUrl.value = url;
   } catch (error) {
-    console.error("Błąd generowania QR:", error);
+    console.error("QR generation error:", error);
     alert("Wystąpił błąd podczas generowania QR kodu.");
   } finally {
     isGenerating.value = false;
@@ -98,7 +98,7 @@ const downloadQR = () => {
     link.click();
     document.body.removeChild(link);
   } catch (error) {
-    console.error("Błąd podczas pobierania QR:", error);
+    console.error("Error while fetching QR:", error);
     alert("Wystąpił błąd podczas pobierania QR kodu.");
   }
 };

@@ -265,7 +265,7 @@ const saveEvent = async () => {
       showNotification(`Błąd: ${responseData.message || 'Nie udało się zapisać przypomnienia'}`, 'error');
     }
   } catch (err) {
-    console.error("Błąd podczas zapisywania:", err);
+    console.error("Error while saving:", err);
     showNotification('Wystąpił błąd podczas zapisywania przypomnienia', 'error');
   }
 };
@@ -284,7 +284,7 @@ const loadReminders = async () => {
       showNotification('Błąd podczas ładowania przypomnień', 'error');
     }
   } catch (err) {
-    console.error("Błąd podczas ładowania:", err);
+    console.error("Error while loading:", err);
     showNotification('Wystąpił błąd podczas ładowania przypomnień', 'error');
   }
 };
@@ -309,7 +309,7 @@ const deleteReminder = async (id: string) => {
       showNotification(`Błąd: ${errorData.message || 'Nie udało się usunąć przypomnienia'}`, 'error');
     }
   } catch (err) {
-    console.error("Błąd podczas usuwania:", err);
+    console.error("Error while deleting:", err);
     showNotification('Wystąpił błąd podczas usuwania przypomnienia', 'error');
   }
 };
