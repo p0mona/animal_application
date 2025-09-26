@@ -6,49 +6,47 @@
     </div>
 
     <div>
-      <div v-if="activeTab === 'account'">
-        <UCard>
-          <template #header>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
-              </div>
-
-              <div class="flex justify-end">
-                <BorderButton @click="deleteAccount" label="Usuń konto" />
-              </div>
-            </div>
-          </template>
-
+      <UCard>
+        <template #header>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Левая колонка -->
             <div>
-              <BaseInput label="Imię" v-model="form.name" />
-              <BaseInput label="Miejsce pracy" v-model="form.vet.hospital" />
-
-              <RadioButton v-model="form.sex" :items="sex" />
-
-              <BaseInput
-                label="Data urodzenia"
-                id="birthday"
-                type="date"
-                v-model="form.birthday"
-              />
-
-              <div class="flex justify-start mt-4">
-                <BaseButton label="Zapisz zmiany" @click="saveProfile" />
-              </div>
+              <h2 class="text-lg font-semibold text-gray-900">Profil</h2>
             </div>
 
-            <!-- Правая колонка: фото -->
-            <div class="flex justify-center items-start">
-              <div class="relative group cursor-pointer">
-                <FileUpload v-model="form.image" />
-              </div>
+            <div class="flex justify-end">
+              <BorderButton @click="deleteAccount" label="Usuń konto" />
             </div>
           </div>
-        </UCard>
-      </div>
+        </template>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Левая колонка -->
+          <div>
+            <BaseInput label="Imię" v-model="form.name" />
+            <BaseInput label="Miejsce pracy" v-model="form.vet.hospital" />
+
+            <RadioButton v-model="form.sex" :items="sex" />
+
+            <BaseInput
+              label="Data urodzenia"
+              id="birthday"
+              type="date"
+              v-model="form.birthday"
+            />
+
+            <div class="flex justify-start mt-4">
+              <BaseButton label="Zapisz zmiany" @click="saveProfile" />
+            </div>
+          </div>
+
+          <!-- Правая колонка: фото -->
+          <div class="flex justify-center items-start">
+            <div class="relative group cursor-pointer">
+              <FileUpload v-model="form.image" />
+            </div>
+          </div>
+        </div>
+      </UCard>
     </div>
   </FullWidthLayout>
 </template>
