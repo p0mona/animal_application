@@ -30,7 +30,6 @@
               <BaseInput label="Miejsce pracy" v-model="form.vet.hospital" />
 
               <RadioButton v-model="form.sex" :items="sex" />
-
               <BaseInput
                 label="Data urodzenia"
                 id="birthday"
@@ -45,7 +44,7 @@
 
             <!-- Правая колонка: фото -->
             <div class="flex justify-center items-start">
-              <div class="relative group cursor-pointe">
+              <div class="relative group cursor-pointer">
                 <FileUpload v-model="form.image" />
               </div>
             </div>
