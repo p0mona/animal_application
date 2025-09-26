@@ -90,7 +90,7 @@ const menuLinks = computed(() => {
   if (user.value?.userType === "VET") {
     return [
       { label: "Klinika weterynaryjna", to: "/vet_clinic" },
-      { label: "Weterynarz", to: "/vet_settings" },
+      { label: "Ustawienia", to: "/vet_settings" },
       { label: "Schronisko", to: "/shelter" },
       { label: "Behawiorysta", to: "/trainer" },
       { label: "Pacjenci", to: "/patientsSettings" },
