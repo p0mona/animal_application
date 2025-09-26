@@ -5,12 +5,9 @@
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Nowy pacjent</h1>
-    </div>
-
-    <div>
-      <BaseButton label="Zeskanuj QR">
-        <UIcon name="heroicons:camera" class="w-4 h-4 text-white" />
-      </BaseButton>
+      <div>
+        <BaseButton label="Zeskanuj QR"/>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
