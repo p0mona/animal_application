@@ -16,7 +16,7 @@
           type="number"
         />
         <BaseInput label="Wpisz kontakt" v-model="form.contact" />
-        <BaseInput label="Dodaj opis" v-model="form.discription" />
+        <BaseInput label="Dodaj opis" v-model="form.description" />
       </div>
 
       <div>
