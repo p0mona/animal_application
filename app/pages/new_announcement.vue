@@ -35,6 +35,6 @@ const form = reactive({
   experience: "",
   contact: "",
   image: null as File | null,
-  discription: "",
+  description: "",
 });
 </script>
