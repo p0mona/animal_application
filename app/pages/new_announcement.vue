@@ -37,4 +37,6 @@ const form = reactive({
   image: null as File | null,
   description: "",
 });
+    formData.append('description', form.description)
+    
 </script>
