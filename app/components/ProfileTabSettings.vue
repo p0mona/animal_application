@@ -31,7 +31,7 @@
           <OwnerForm v-model="localProfile" :sex="sex" />
         </div>
         <div class="flex justify-between mt-4">
-          <BorderButton label="Generuj QR" />
+          <BorderButton label="Generuj QR" @click="generateQR" />
           <BaseButton label="Potwierdź" @click="saveProfile" />
         </div>
       </div>
@@ -44,12 +44,34 @@
       :duration="3000"
       @close="showNotification = false"
     />
+
+    <!-- Modal QR -->
+    <div
+      v-if="showQRModal"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white p-6 rounded-2xl shadow-xl relative">
+        <button
+          @click="showQRModal = false"
+          class="absolute top-2 right-2 text-gray-600 hover:text-black"
+        >
+          ✖
+        </button>
+
+        <h3 class="text-lg font-semibold mb-4 text-center">QR Kod</h3>
+
+        <div class="flex justify-center">
+          <img :src="qrCodeData" alt="QR Code" v-if="qrCodeData" />
+        </div>
+      </div>
+    </div>
   </UCard>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useUserStore } from "~/stores/user";
+import QRCode from "qrcode";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -95,7 +117,9 @@ const localProfile = ref({
   },
 });
 
-// Загружаем данные при монтировании
+const showQRModal = ref(false);
+const qrCodeData = ref("");
+
 onMounted(async () => {
   if (!userStore.user) {
     await userStore.getProfile();
@@ -171,6 +195,24 @@ async function deleteAccount() {
       err.data?.message || err.message || "Nie udało się usunąć konta",
       "error",
     );
+  }
+}
+
+async function generateQR() {
+  const data = {
+    owner: {
+      name: localProfile.value.name,
+      phone: localProfile.value.phone,
+    },
+    pet: localProfile.value.owner.pet,
+  };
+
+  try {
+    qrCodeData.value = await QRCode.toDataURL(JSON.stringify(data));
+    showQRModal.value = true;
+  } catch (err) {
+    console.error("QR generation error:", err);
+    showNotify("Błąd podczas generowania QR", "error");
   }
 }
 </script>
