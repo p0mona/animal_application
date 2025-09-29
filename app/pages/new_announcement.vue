@@ -11,7 +11,7 @@
       <div class="space-y-2">
         <BaseInput label="Wpisz imię" v-model="form.name" />
         <BaseInput
-          label="Wpisz doświadczenie"
+          label="Doświadczenie (w latach)"
           v-model="form.experience"
           type="number"
         />
