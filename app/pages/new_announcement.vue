@@ -20,7 +20,10 @@
       </div>
 
       <div>
-        <FileUpload v-model="form.image" />
+        <FileUpload v-model="form.image" class="mt-4" />
+        <div class="flex justify-end mt-4">
+          <BaseButton label="Dodaj"/>
+        </div>
       </div>
     </div>
   </FullWidthLayout>
