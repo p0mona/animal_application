@@ -36,6 +36,11 @@
       />
     </section>
 
+    <!-- Сообщение если нет объявлений -->
+    <div v-if="!loading && announcements.length === 0" class="text-center py-8">
+      <p class="text-gray-500">Brak ogłoszeń. Dodaj pierwsze ogłoszenie!</p>
+    </div>
+
     <!-- Модальное окно -->
     <div
       v-if="selectedTrainer"
