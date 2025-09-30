@@ -10,8 +10,18 @@
       </div>
     </div>
 
+    <!-- Сообщения о загрузке и ошибках -->
+    <div v-if="loading" class="text-center py-8">
+      <p class="text-gray-600">Ładowanie ogłoszeń...</p>
+    </div>
+    
+    <div v-if="errorMessage" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+      {{ errorMessage }}
+    </div>
+
     <!-- Сетка карточек -->
     <section
+      v-if="!loading && announcements.length > 0"
       class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
     >
       <TrainerCard
