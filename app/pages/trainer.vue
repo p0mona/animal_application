@@ -1,5 +1,14 @@
 <template>
   <FullWidthLayout>
+    <!-- Компонент уведомлений -->
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
+
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
@@ -76,7 +85,7 @@
               class="w-full rounded-xl mb-4"
             />
             <div class="flex justify-end">
-              <BorderButton label="Usuń" class="border-red-600 text-red-600"/>
+              <BorderButton label="Usuń" class="border-red-600 text-red-600" @click="deleteAnnouncement"/>
             </div>
           </div>
         </div>
@@ -92,7 +101,12 @@ import TrainerCard from "~/components/TrainerCard.vue";
 const announcements = ref([]);
 const selectedTrainer = ref(null);
 const loading = ref(false);
+const deleting = ref(false);
 const errorMessage = ref("");
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref("success");
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return '/images/default-trainer.jpg';
@@ -104,6 +118,12 @@ const getImageUrl = (imagePath) => {
   }
   
   return imagePath;
+};
+
+const showNotificationMessage = (message, type = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
 };
 
 const loadAnnouncements = async () => {
@@ -124,6 +144,7 @@ const loadAnnouncements = async () => {
   } catch (error) {
     console.error('Error loading announcements:', error);
     errorMessage.value = "Wystąpił błąd podczas ładowania ogłoszeń";
+    showNotificationMessage("Wystąpił błąd podczas ładowania ogłoszeń", "error");
   } finally {
     loading.value = false;
   }
@@ -140,4 +161,42 @@ function closeModal() {
 onMounted(() => {
   loadAnnouncements();
 });
+
+async function deleteAnnouncement() {
+  if (!selectedTrainer.value) return;
+
+  const confirmDelete = confirm("Czy na pewno chcesz usunąć to ogłoszenie?");
+  if (!confirmDelete) return;
+
+  deleting.value = true;
+  errorMessage.value = "";
+
+  try {
+    const response = await fetch(`http://localhost:3001/announcement/${selectedTrainer.value._id}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Delete result:', result);
+
+    announcements.value = announcements.value.filter(
+      announcement => announcement._id !== selectedTrainer.value._id
+    );
+
+    closeModal();
+
+    showNotificationMessage("Ogłoszenie zostało pomyślnie usunięte", "success");
+
+  } catch (error) {
+    console.error('Error deleting announcement:', error);
+    errorMessage.value = "Wystąpił błąd podczas usuwania ogłoszenia";
+    showNotificationMessage("Wystąpił błąd podczas usuwania ogłoszenia", "error");
+  } finally {
+    deleting.value = false;
+  }
+}
 </script>
