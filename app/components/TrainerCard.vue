@@ -9,7 +9,7 @@
     />
     <div class="p-4">
       <h2 class="text-xl font-bold text-gray-900 mb-2">Imię: {{ name }}</h2>
-      <p class="text-sm text-gray-500 mb-2">Doświadczenie: {{ experience }}</p>
+      <p class="text-sm text-gray-500 mb-2">Doświadczenie: {{ experience }} lat</p>
       <p class="text-gray-700 leading-relaxed">
         {{ contact }}
       </p>
