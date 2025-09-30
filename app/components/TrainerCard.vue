@@ -3,7 +3,7 @@
     class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
   >
     <img
-      :src="image"
+      :src="getImageUrl(image)"
       class="w-full h-48 object-cover"
       style="object-position: 30% 10%"
     />
@@ -32,4 +32,16 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
   delete: [id: string];
 }>();
+
+const getImageUrl = (imagePath: string) => {
+  if (!imagePath) return '/images/default-trainer.jpg';
+  
+  if (imagePath.startsWith('http')) return imagePath;
+  
+  if (imagePath.startsWith('/uploads')) {
+    return `http://localhost:3001${imagePath}`;
+  }
+  
+  return imagePath;
+};
 </script>
