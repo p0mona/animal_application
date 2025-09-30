@@ -18,10 +18,18 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+interface Props {
+  id?: string;
   name: string;
   image: string;
-  experience: string;
+  experience: string | number;
   contact: string;
+  showDelete?: boolean;
+}
+
+const props = defineProps<Props>();
+
+const emit = defineEmits<{
+  delete: [id: string];
 }>();
 </script>
