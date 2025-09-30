@@ -22,7 +22,11 @@
       <div>
         <FileUpload v-model="form.image" class="mt-4" />
         <div class="flex justify-end mt-4">
-          <BaseButton label="Dodaj"/>
+          <BaseButton 
+            label="Dodaj" 
+            :loading="loading"
+            @click="submitForm"
+          />
         </div>
       </div>
     </div>
@@ -30,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, ref } from 'vue'
+
 const form = reactive({
   name: "",
   experience: "",
@@ -37,6 +43,92 @@ const form = reactive({
   image: null as File | null,
   description: "",
 });
-    formData.append('description', form.description)
+
+const loading = ref(false)
+const errorMessage = ref("")
+const successMessage = ref("")
+
+const submitForm = async () => {
+  if (!form.name.trim()) {
+    errorMessage.value = "Imię jest wymagane"
+    return
+  }
+
+  if (!form.experience || parseInt(form.experience) < 0) {
+    errorMessage.value = "Doświadczenie jest wymagane i musi być liczbą dodatnią"
+    return
+  }
+
+  if (!form.contact.trim()) {
+    errorMessage.value = "Kontakt jest wymagany"
+    return
+  }
+
+  if (!form.description.trim()) {
+    errorMessage.value = "Opis jest wymagany"
+    return
+  }
+
+  if (form.description.length < 10) {
+    errorMessage.value = "Opis musi mieć co najmniej 10 znaków"
+    return
+  }
+
+  if (!form.image) {
+    errorMessage.value = "Zdjęcie jest wymagane"
+    return
+  }
+
+  loading.value = true
+  errorMessage.value = ""
+  successMessage.value = ""
+
+  try {
+    const formData = new FormData()
     
+    // Добавляем поля как строки
+    formData.append('name', form.name.trim())
+    formData.append('experience', form.experience.toString())
+    formData.append('contact', form.contact.trim())
+    formData.append('description', form.description.trim())
+    
+    if (form.image) {
+      formData.append('image', form.image)
+    }
+
+    const API_URL = 'http://localhost:3001/announcement';
+    console.log('Sending to:', API_URL);
+
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: formData,
+    })
+
+    console.log('Response status:', response.status)
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const result = await response.json()
+    console.log('Response data:', result)
+
+    successMessage.value = result.message || "Ogłoszenie zostało pomyślnie dodane!"
+    resetForm()
+    
+  } catch (error: any) {
+    console.error('Fetch error:', error)
+    errorMessage.value = error.message || "Wystąpił błąd podczas dodawania ogłoszenia"
+  } finally {
+    loading.value = false
+  }
+}
+
+const resetForm = () => {
+  form.name = ""
+  form.experience = ""
+  form.contact = ""
+  form.image = null
+  form.description = ""
+}
 </script>
