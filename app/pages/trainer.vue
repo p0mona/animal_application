@@ -71,49 +71,48 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import TrainerCard from "~/components/TrainerCard.vue";
 
-const announcements = [
-  {
-    name: "Kasia",
-    image: "/images/trainer1.jpg",
-    experience: "2 lata",
-    contact: "123-456-789",
-  },
-  {
-    name: "Artur",
-    image: "/images/trainer3.jpg",
-    experience: "1 rok",
-    contact: "123-456-789",
-  },
-  {
-    name: "Julia",
-    image: "/images/trainer2.jpg",
-    experience: "4 lata",
-    contact: "123-456-789",
-  },
-  {
-    name: "David",
-    image: "/images/trainer4.jpg",
-    experience: "10 lat",
-    contact: "123-456-789",
-  },
-  {
-    name: "Zofia",
-    image: "/images/trainer5.jpg",
-    experience: "5 lat",
-    contact: "123-456-789",
-  },
-  {
-    name: "Beata",
-    image: "/images/trainer6.jpg",
-    experience: "7 rok",
-    contact: "123-456-789",
-  },
-];
-
+const announcements = ref([]);
 const selectedTrainer = ref(null);
+const loading = ref(false);
+const errorMessage = ref("");
+
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return '/images/default-trainer.jpg';
+  
+  if (imagePath.startsWith('http')) return imagePath;
+  
+  if (imagePath.startsWith('/uploads')) {
+    return `http://localhost:3001${imagePath}`;
+  }
+  
+  return imagePath;
+};
+
+const loadAnnouncements = async () => {
+  loading.value = true;
+  errorMessage.value = "";
+  
+  try {
+    const response = await fetch('http://localhost:3001/announcement');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    announcements.value = data;
+    console.log('Loaded announcements:', data);
+    
+  } catch (error) {
+    console.error('Error loading announcements:', error);
+    errorMessage.value = "Wystąpił błąd podczas ładowania ogłoszeń";
+  } finally {
+    loading.value = false;
+  }
+};
 
 function openModal(trainer) {
   selectedTrainer.value = trainer;
@@ -122,4 +121,8 @@ function openModal(trainer) {
 function closeModal() {
   selectedTrainer.value = null;
 }
+
+onMounted(() => {
+  loadAnnouncements();
+});
 </script>
