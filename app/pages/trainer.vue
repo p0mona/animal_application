@@ -75,6 +75,9 @@
               :alt="selectedTrainer.name"
               class="w-full rounded-xl mb-4"
             />
+            <div class="flex justify-end">
+              <BorderButton label="Usuń" class="border-red-600 text-red-600"/>
+            </div>
           </div>
         </div>
       </div>
