@@ -26,7 +26,7 @@
     >
       <TrainerCard
         v-for="(announcement, index) in announcements"
-        :key="index"
+        :key="announcement._id || index"
         :name="announcement.name"
         :image="announcement.image"
         :experience="announcement.experience"
@@ -58,23 +58,20 @@
           <div>
             <h2 class="text-xl font-bold mb-2">{{ selectedTrainer.name }}</h2>
             <p class="text-gray-600 mb-2">
-              <strong>Doświadczenie:</strong> {{ selectedTrainer.experience }}
+              <strong>Doświadczenie:</strong> {{ selectedTrainer.experience }} lat
             </p>
             <p class="text-gray-600 mb-2">
               <strong>Kontakt:</strong> {{ selectedTrainer.contact }}
             </p>
             <p class="text-gray-600 font-semibold">Opis:</p>
             <p class="text-gray-600">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat."
+              {{ selectedTrainer.description }}
             </p>
           </div>
 
           <div>
             <img
-              :src="selectedTrainer.image"
+              :src="getImageUrl(selectedTrainer.image)"
               :alt="selectedTrainer.name"
               class="w-full rounded-xl mb-4"
             />
