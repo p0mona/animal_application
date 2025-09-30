@@ -7,15 +7,14 @@
       <h1 class="text-2xl font-bold text-gray-900">Ogłoszenie</h1>
     </div>
 
-    <!-- Уведомления -->
-     
-    <div v-if="errorMessage" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-      {{ errorMessage }}
-    </div>
-    
-    <div v-if="successMessage" class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-      {{ successMessage }}
-    </div>
+    <!-- Notifications -->
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="space-y-2">
@@ -44,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from "vue";
 
 const form = reactive({
   name: "",
@@ -54,44 +53,36 @@ const form = reactive({
   description: "",
 });
 
-const loading = ref(false)
-const errorMessage = ref("")
-const successMessage = ref("")
+const loading = ref(false);
+
+// Notifications
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const notificationClass = computed(() => {
+  return {
+    success: "bg-green-100 border border-green-400 text-green-700",
+    error: "bg-red-100 border border-red-400 text-red-700",
+  }[notificationType.value];
+});
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+};
 
 const submitForm = async () => {
-  if (!form.name.trim()) {
-    errorMessage.value = "Imię jest wymagane"
-    return
-  }
+  if (!form.name.trim()) return showNotify("Imię jest wymagane", "error");
+  if (!form.experience || parseInt(form.experience) < 0) return showNotify("Doświadczenie jest wymagane i musi być liczbą dodatnią", "error");
+  if (!form.contact.trim()) return showNotify("Kontakt jest wymagany", "error");
+  if (!form.description.trim()) return showNotify("Opis jest wymagany", "error");
+  if (form.description.length < 10) return showNotify("Opis musi mieć co najmniej 10 znaków", "error");
+  if (!form.image) return showNotify("Zdjęcie jest wymagane", "error");
 
-  if (!form.experience || parseInt(form.experience) < 0) {
-    errorMessage.value = "Doświadczenie jest wymagane i musi być liczbą dodatnią"
-    return
-  }
-
-  if (!form.contact.trim()) {
-    errorMessage.value = "Kontakt jest wymagany"
-    return
-  }
-
-  if (!form.description.trim()) {
-    errorMessage.value = "Opis jest wymagany"
-    return
-  }
-
-  if (form.description.length < 10) {
-    errorMessage.value = "Opis musi mieć co najmniej 10 znaków"
-    return
-  }
-
-  if (!form.image) {
-    errorMessage.value = "Zdjęcie jest wymagane"
-    return
-  }
-
-  loading.value = true
-  errorMessage.value = ""
-  successMessage.value = ""
+  loading.value = true;
+  showNotification.value = false;
 
   try {
     const formData = new FormData()
@@ -106,39 +97,26 @@ const submitForm = async () => {
       formData.append('image', form.image)
     }
 
-    const API_URL = 'http://localhost:3001/announcement';
-    console.log('Sending to:', API_URL);
+    const API_URL = "http://localhost:3001/announcement";
+    const response = await fetch(API_URL, { method: "POST", body: formData });
 
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      body: formData,
-    })
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const result = await response.json();
 
-    console.log('Response status:', response.status)
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
+    showNotify(result.message || "Ogłoszenie zostało pomyślnie dodane!", "success");
 
-    const result = await response.json()
-    console.log('Response data:', result)
+    // reset form
+    form.name = "";
+    form.experience = "";
+    form.contact = "";
+    form.description = "";
+    form.image = null;
 
-    successMessage.value = result.message || "Ogłoszenie zostało pomyślnie dodane!"
-    resetForm()
-    
   } catch (error: any) {
-    console.error('Fetch error:', error)
-    errorMessage.value = error.message || "Wystąpił błąd podczas dodawania ogłoszenia"
+    console.error(error);
+    showNotify(error.message || "Wystąpił błąd podczas dodawania ogłoszenia", "error");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-
-const resetForm = () => {
-  form.name = ""
-  form.experience = ""
-  form.contact = ""
-  form.image = null
-  form.description = ""
-}
+};
 </script>
