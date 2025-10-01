@@ -14,7 +14,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Левая колонка -->
-      <div>
+      <div class="space-y-4">
         <BaseInput label="Imię" v-model="localProfile.name" />
         <BaseInput label="Miejsce pracy" v-model="localProfile.vet.hospital" />
 
