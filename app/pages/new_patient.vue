@@ -1,6 +1,6 @@
 <template>
   <FullWidthLayout>
-    <BackButton to="/vet_settings" />
+    <BackButton to="/patientsSettings" />
 
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
