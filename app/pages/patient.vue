@@ -5,6 +5,9 @@
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Pacjent</h1>
+      <div class="flex justify-end">
+        <BorderButton label="Usuń pacjenta" />
+      </div>
     </div>
 
     <Navigation :items="navItems" v-model="activeTab" />
