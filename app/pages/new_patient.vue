@@ -13,7 +13,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
         <PetForm
-          v-model="form"
+          v-model="form.owner.pet"
           :animals="animals"
           :breeds="breeds"
           :animal_sex="animal_sex"
@@ -21,8 +21,12 @@
       </div>
 
       <div>
-        <OwnerForm v-model="form" :sex="sex" />
+        <OwnerForm v-model="form.owner" :sex="sex" />
       </div>
+    </div>
+
+    <div class="flex justify-end">
+      <BaseButton label="Dodaj" @click="savePatient" />
     </div>
   </FullWidthLayout>
 </template>
@@ -31,12 +35,37 @@
 import { reactive, ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 
-const form = reactive({
+const router = useRouter();
+
+interface OwnerForm {
+  name: string;
+  birthday: string;
+  sex: string;
+  phone: string;
+  image: File | null;
+  pet: {
+    animal: string;
+    animal_sex: string;
+    breed: string;
+    animal_name: string;
+    animal_age: string;
+    animal_height: string;
+    animal_weight: string;
+    chip: string;
+  };
+}
+
+interface PatientForm {
+  owner: OwnerForm;
+}
+
+const form = reactive<PatientForm>({
   owner: {
     name: "",
     birthday: "",
     sex: "K",
-    image: null as File | null,
+    phone: "",
+    image: null,
     pet: {
       animal: "",
       animal_sex: "K",
@@ -46,9 +75,10 @@ const form = reactive({
       animal_height: "",
       animal_weight: "",
       chip: "",
-    },
-  },
+    }
+  }
 });
+
 const animals = ref(["Pies", "Kot", "Chomik"]);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
 
