@@ -12,12 +12,16 @@
     <div class="space-y-4">
       <PatientCard
         v-for="(patient, index) in patients"
-        :key="index"
+        :key="patient._id || index"
         :name="patient.name"
         :breed="patient.breed"
-        :image="patient.image"
+        :image="patient.image || '/images/example-photo.jpg'"
         :sex="patient.sex"
       />
+      
+      <div v-if="patients.length === 0" class="text-center py-8 text-gray-500">
+        <p>Brak pacjentów w bazie danych. Dodaj pierwszego pacjenta.</p>
+      </div>
     </div>
   </FullWidthLayout>
 </template>
