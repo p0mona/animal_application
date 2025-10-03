@@ -108,33 +108,27 @@ const savePatient = async () => {
       return;
     }
 
-    const patientData = {
-      name: form.owner.pet.animal_name,
-      breed: form.owner.pet.breed,
-      image: "/images/example-photo.jpg",
-      sex: form.owner.pet.animal_sex,
-      animal: form.owner.pet.animal,
-      animal_age: form.owner.pet.animal_age,
-      animal_height: form.owner.pet.animal_height,
-      animal_weight: form.owner.pet.animal_weight,
-      chip: form.owner.pet.chip,
-      owner: {
-        name: form.owner.name,
-        birthday: form.owner.birthday,
-        sex: form.owner.sex,
-        phone: form.owner.phone,
-      }
-    };
-
-    console.log('Sending patient data:', patientData);
+    const formData = new FormData();
+    
+    formData.append('name', form.owner.pet.animal_name);
+    formData.append('breed', form.owner.pet.breed);
+    formData.append('sex', form.owner.pet.animal_sex);
+    formData.append('animal', form.owner.pet.animal);
+    formData.append('animal_age', form.owner.pet.animal_age);
+    formData.append('animal_height', form.owner.pet.animal_height);
+    formData.append('animal_weight', form.owner.pet.animal_weight);
+    formData.append('chip', form.owner.pet.chip);
+    
+    if (form.owner.image) {
+      formData.append('image', form.owner.image);
+    }
 
     const response = await $fetch('http://localhost:3001/patients', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(patientData)
+      body: formData
     });
 
     message.value = "Pacjent został pomyślnie zapisany!";
@@ -143,7 +137,6 @@ const savePatient = async () => {
     setTimeout(() => {
       router.push('/patients_settings');
     }, 2000);
-    resetForm();
 
   } catch (error: any) {
     console.error('Error saving patient:', error);
@@ -152,21 +145,5 @@ const savePatient = async () => {
   } finally {
     saving.value = false;
   }
-};
-
-const resetForm = () => {
-  form.owner.name = "";
-  form.owner.birthday = "";
-  form.owner.sex = "K";
-  form.owner.phone = "";
-  form.owner.image = null;
-  form.owner.pet.animal = "";
-  form.owner.pet.animal_sex = "Samica";
-  form.owner.pet.breed = "";
-  form.owner.pet.animal_name = "";
-  form.owner.pet.animal_age = "";
-  form.owner.pet.animal_height = "";
-  form.owner.pet.animal_weight = "";
-  form.owner.pet.chip = "";
 };
 </script>
