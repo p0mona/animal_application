@@ -7,7 +7,7 @@
       <USelectMenu
         :placeholder="animalPlaceholder"
         :items="animals"
-        v-model="form.owner.pet.animal"
+        v-model="animal"
         class="w-full h-8"
       />
     </div>
@@ -15,7 +15,7 @@
     <div class="w-full space-y-2">
       <p class="text-sm">Płeć</p>
       <URadioGroup
-        v-model="form.owner.pet.animal_sex"
+        v-model="animalSex"
         orientation="horizontal"
         variant="list"
         :items="animal_sex"
@@ -35,16 +35,16 @@
       <USelectMenu
         :placeholder="breedPlaceholder"
         :items="breeds"
-        v-model="form.owner.pet.breed"
+        v-model="breed"
         class="w-full h-8"
       />
     </div>
 
-    <BaseInput label="Wpisz imię pupila" v-model="form.owner.pet.animal_name" />
-    <BaseInput label="Wpisz wiek" v-model="form.owner.pet.animal_age" />
-    <BaseInput label="Wpisz wzrost" v-model="form.owner.pet.animal_height" />
-    <BaseInput label="Wpisz wagę" v-model="form.owner.pet.animal_weight" />
-    <BaseInput label="Wpisz nr czipu" v-model="form.owner.pet.chip" />
+    <BaseInput label="Wpisz imię pupila" v-model="animal_name" />
+    <BaseInput label="Wpisz wiek" v-model="animal_age" />
+    <BaseInput label="Wpisz wzrost" v-model="animal_height" />
+    <BaseInput label="Wpisz wagę" v-model="animal_weight" />
+    <BaseInput label="Wpisz nr czipu" v-model="chip" />
   </div>
 </template>
 
@@ -63,9 +63,44 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
-// Синхронизация с родителем через v-model
-const form = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
+// КАСТЫЛЬ / workaround
+const animal = computed({
+  get: () => props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "",
+  set: (value) => updateNestedValue('animal', value)
+});
+
+const animal_sex = computed({
+  get: () => props.modelValue?.animal_sex || props.modelValue?.sex || props.modelValue?.owner?.pet?.animal_sex || "",
+  set: (value) => updateNestedValue('animal_sex', value)
+});
+
+const breed = computed({
+  get: () => props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "",
+  set: (value) => updateNestedValue('breed', value)
+});
+
+const animal_name = computed({
+  get: () => props.modelValue?.animal_name || props.modelValue?.name || props.modelValue?.owner?.pet?.animal_name || "",
+  set: (value) => updateNestedValue('animal_name', value)
+});
+
+const animal_age = computed({
+  get: () => props.modelValue?.animal_age || props.modelValue?.owner?.pet?.animal_age || "",
+  set: (value) => updateNestedValue('animal_age', value)
+});
+
+const animal_height = computed({
+  get: () => props.modelValue?.animal_height || props.modelValue?.owner?.pet?.animal_height || "",
+  set: (value) => updateNestedValue('animal_height', value)
+});
+
+const animal_weight = computed({
+  get: () => props.modelValue?.animal_weight || props.modelValue?.owner?.pet?.animal_weight || "",
+  set: (value) => updateNestedValue('animal_weight', value)
+});
+
+const chip = computed({
+  get: () => props.modelValue?.chip || props.modelValue?.owner?.pet?.chip || "",
+  set: (value) => updateNestedValue('chip', value)
 });
 </script>
