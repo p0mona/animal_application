@@ -7,7 +7,7 @@
       <USelectMenu
         :placeholder="animalPlaceholder"
         :items="animals"
-        v-model="animal"
+        v-model="animalValue"
         class="w-full h-8"
       />
     </div>
@@ -15,10 +15,10 @@
     <div class="w-full space-y-2">
       <p class="text-sm">Płeć</p>
       <URadioGroup
-        v-model="animalSex"
+        v-model="animalSexValue"
         orientation="horizontal"
         variant="list"
-        :items="animal_sex"
+        :items="animal_sex" 
         :ui="{
           base: 'ui-radio',
           container: 'w-full',
@@ -35,16 +35,16 @@
       <USelectMenu
         :placeholder="breedPlaceholder"
         :items="breeds"
-        v-model="breed"
+        v-model="breedValue"
         class="w-full h-8"
       />
     </div>
 
-    <BaseInput label="Wpisz imię pupila" v-model="animal_name" />
-    <BaseInput label="Wpisz wiek" v-model="animal_age" />
-    <BaseInput label="Wpisz wzrost" v-model="animal_height" />
-    <BaseInput label="Wpisz wagę" v-model="animal_weight" />
-    <BaseInput label="Wpisz nr czipu" v-model="chip" />
+    <BaseInput label="Wpisz imię pupila" v-model="animalNameValue" />
+    <BaseInput label="Wpisz wiek" v-model="animalAgeValue" />
+    <BaseInput label="Wpisz wzrost" v-model="animalHeightValue" />
+    <BaseInput label="Wpisz wagę" v-model="animalWeightValue" />
+    <BaseInput label="Wpisz nr czipu" v-model="chipValue" />
   </div>
 </template>
 
@@ -63,43 +63,42 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
-// КАСТЫЛЬ / workaround
-const animal = computed({
+const animalValue = computed({
   get: () => props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "",
   set: (value) => updateNestedValue('animal', value)
 });
 
-const animal_sex = computed({
+const animalSexValue = computed({
   get: () => props.modelValue?.animal_sex || props.modelValue?.sex || props.modelValue?.owner?.pet?.animal_sex || "",
   set: (value) => updateNestedValue('animal_sex', value)
 });
 
-const breed = computed({
+const breedValue = computed({
   get: () => props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "",
   set: (value) => updateNestedValue('breed', value)
 });
 
-const animal_name = computed({
+const animalNameValue = computed({
   get: () => props.modelValue?.animal_name || props.modelValue?.name || props.modelValue?.owner?.pet?.animal_name || "",
   set: (value) => updateNestedValue('animal_name', value)
 });
 
-const animal_age = computed({
+const animalAgeValue = computed({
   get: () => props.modelValue?.animal_age || props.modelValue?.owner?.pet?.animal_age || "",
   set: (value) => updateNestedValue('animal_age', value)
 });
 
-const animal_height = computed({
+const animalHeightValue = computed({
   get: () => props.modelValue?.animal_height || props.modelValue?.owner?.pet?.animal_height || "",
   set: (value) => updateNestedValue('animal_height', value)
 });
 
-const animal_weight = computed({
+const animalWeightValue = computed({
   get: () => props.modelValue?.animal_weight || props.modelValue?.owner?.pet?.animal_weight || "",
   set: (value) => updateNestedValue('animal_weight', value)
 });
 
-const chip = computed({
+const chipValue = computed({
   get: () => props.modelValue?.chip || props.modelValue?.owner?.pet?.chip || "",
   set: (value) => updateNestedValue('chip', value)
 });
