@@ -20,13 +20,12 @@
         />
       </div>
 
-      <div>
+      <div class="mt-8">
         <OwnerForm v-model="form.owner" :sex="sex" />
+        <div class="mt-8 flex justify-end">
+          <BaseButton label="Dodaj" @click="savePatient" />
+        </div>
       </div>
-    </div>
-
-    <div class="flex justify-end">
-      <BaseButton label="Dodaj" @click="savePatient" />
     </div>
   </FullWidthLayout>
 </template>
