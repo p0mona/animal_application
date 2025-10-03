@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FileUpload v-model="form.image" />
+    <FileUpload v-model="form.image" @file-selected="handleFileSelected" />
 
     <div class="flex flex-col space-y-4 mt-4">
       <h5 class="text-lg font-semibold">Właściciel</h5>
@@ -54,4 +54,8 @@ const form = computed({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),
 });
+
+const handleFileSelected = (file) => {
+  form.value.image = file;
+};
 </script>
