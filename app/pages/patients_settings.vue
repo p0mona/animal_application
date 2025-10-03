@@ -29,24 +29,58 @@
 <script setup lang="ts">
 import PatientCard from "~/components/PatientCard.vue";
 
-const patients = [
-  {
-    name: "Agata",
-    breed: "Pudel",
-    image: "/images/parrot-article3.jpg",
-    sex: "Samica",
-  },
-  {
-    name: "Burek",
-    breed: "Labrador",
-    image: "/images/dog-article1.jpg",
-    sex: "Samiec",
-  },
-  {
-    name: "Mila",
-    breed: "Kot Perski",
-    image: "/images/cat-article2.jpg",
-    sex: "Samica",
-  },
-];
+interface Patient {
+  _id: string;
+  name: string;
+  breed: string;
+  image: string;
+  sex: string;
+  animal?: string;
+  animal_age?: string;
+  animal_height?: string;
+  animal_weight?: string;
+  chip?: string;
+  owner?: {
+    name: string;
+    birthday: string;
+    sex: string;
+    phone: string;
+    image?: string;
+  };
+}
+
+const patients = ref<Patient[]>([]);
+const error = ref("");
+
+const loadPatients = async () => {
+  try {
+    error.value = "";
+    
+    const token = localStorage.getItem('token');
+    if (!token) {
+      error.value = "Nie jesteś zalogowany";
+      return;
+    }
+
+    const response = await $fetch('http://localhost:3001/patients', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }) as Patient[];
+    
+    patients.value = response;
+    
+  } catch (err: any) {
+    console.error('Error loading patients:', err);
+    error.value = 'Błąd podczas ładowania pacjentów';
+  }
+};
+
+onMounted(() => {
+  loadPatients();
+});
+
+onActivated(() => {
+  loadPatients();
+});
 </script>
