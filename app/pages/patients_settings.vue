@@ -15,7 +15,7 @@
         :key="patient._id || index"
         :name="patient.name"
         :breed="patient.breed"
-        :image="patient.image || '/images/example-photo.jpg'"
+        :image="patient.image"
         :sex="patient.sex"
       />
       
