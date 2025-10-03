@@ -9,7 +9,9 @@
     />
     <div class="p-4">
       <h2 class="text-xl font-bold text-gray-900 mb-2">Imię: {{ name }}</h2>
-      <p class="text-sm text-gray-500 mb-2">Doświadczenie: {{ experience }} lat</p>
+      <p class="text-sm text-gray-500 mb-2">
+        Doświadczenie: {{ experience }} lat
+      </p>
       <p class="text-gray-700 leading-relaxed">
         {{ contact }}
       </p>
@@ -34,14 +36,14 @@ const emit = defineEmits<{
 }>();
 
 const getImageUrl = (imagePath: string) => {
-  if (!imagePath) return '/images/default-trainer.jpg';
-  
-  if (imagePath.startsWith('http')) return imagePath;
-  
-  if (imagePath.startsWith('/uploads')) {
+  if (!imagePath) return "/images/default-trainer.jpg";
+
+  if (imagePath.startsWith("http")) return imagePath;
+
+  if (imagePath.startsWith("/uploads")) {
     return `http://localhost:3001${imagePath}`;
   }
-  
+
   return imagePath;
 };
 </script>

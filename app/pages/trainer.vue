@@ -23,8 +23,11 @@
     <div v-if="loading" class="text-center py-8">
       <p class="text-gray-600">Ładowanie ogłoszeń...</p>
     </div>
-    
-    <div v-if="errorMessage" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+
+    <div
+      v-if="errorMessage"
+      class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded"
+    >
       {{ errorMessage }}
     </div>
 
@@ -67,7 +70,8 @@
           <div>
             <h2 class="text-xl font-bold mb-2">{{ selectedTrainer.name }}</h2>
             <p class="text-gray-600 mb-2">
-              <strong>Doświadczenie:</strong> {{ selectedTrainer.experience }} lat
+              <strong>Doświadczenie:</strong>
+              {{ selectedTrainer.experience }} lat
             </p>
             <p class="text-gray-600 mb-2">
               <strong>Kontakt:</strong> {{ selectedTrainer.contact }}
@@ -85,7 +89,11 @@
               class="w-full rounded-xl mb-4"
             />
             <div class="flex justify-end">
-              <BorderButton label="Usuń" class="border-red-600 text-red-600" @click="deleteAnnouncement"/>
+              <BorderButton
+                label="Usuń"
+                class="border-red-600 text-red-600"
+                @click="deleteAnnouncement"
+              />
             </div>
           </div>
         </div>
@@ -109,14 +117,14 @@ const notificationMessage = ref("");
 const notificationType = ref("success");
 
 const getImageUrl = (imagePath) => {
-  if (!imagePath) return '/images/default-trainer.jpg';
-  
-  if (imagePath.startsWith('http')) return imagePath;
-  
-  if (imagePath.startsWith('/uploads')) {
+  if (!imagePath) return "/images/default-trainer.jpg";
+
+  if (imagePath.startsWith("http")) return imagePath;
+
+  if (imagePath.startsWith("/uploads")) {
     return `http://localhost:3001${imagePath}`;
   }
-  
+
   return imagePath;
 };
 
@@ -129,22 +137,24 @@ const showNotificationMessage = (message, type = "success") => {
 const loadAnnouncements = async () => {
   loading.value = true;
   errorMessage.value = "";
-  
+
   try {
-    const response = await fetch('http://localhost:3001/announcement');
-    
+    const response = await fetch("http://localhost:3001/announcement");
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const data = await response.json();
     announcements.value = data;
-    console.log('Loaded announcements:', data);
-    
+    console.log("Loaded announcements:", data);
   } catch (error) {
-    console.error('Error loading announcements:', error);
+    console.error("Error loading announcements:", error);
     errorMessage.value = "Wystąpił błąd podczas ładowania ogłoszeń";
-    showNotificationMessage("Wystąpił błąd podczas ładowania ogłoszeń", "error");
+    showNotificationMessage(
+      "Wystąpił błąd podczas ładowania ogłoszeń",
+      "error",
+    );
   } finally {
     loading.value = false;
   }
@@ -172,29 +182,34 @@ async function deleteAnnouncement() {
   errorMessage.value = "";
 
   try {
-    const response = await fetch(`http://localhost:3001/announcement/${selectedTrainer.value._id}`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `http://localhost:3001/announcement/${selectedTrainer.value._id}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const result = await response.json();
-    console.log('Delete result:', result);
+    console.log("Delete result:", result);
 
     announcements.value = announcements.value.filter(
-      announcement => announcement._id !== selectedTrainer.value._id
+      (announcement) => announcement._id !== selectedTrainer.value._id,
     );
 
     closeModal();
 
     showNotificationMessage("Ogłoszenie zostało pomyślnie usunięte", "success");
-
   } catch (error) {
-    console.error('Error deleting announcement:', error);
+    console.error("Error deleting announcement:", error);
     errorMessage.value = "Wystąpił błąd podczas usuwania ogłoszenia";
-    showNotificationMessage("Wystąpił błąd podczas usuwania ogłoszenia", "error");
+    showNotificationMessage(
+      "Wystąpił błąd podczas usuwania ogłoszenia",
+      "error",
+    );
   } finally {
     deleting.value = false;
   }

@@ -18,7 +18,7 @@
         :image="patient.image"
         :sex="patient.sex"
       />
-      
+
       <div v-if="patients.length === 0" class="text-center py-8 text-gray-500">
         <p>Brak pacjentów w bazie danych. Dodaj pierwszego pacjenta.</p>
       </div>
@@ -55,24 +55,23 @@ const error = ref("");
 const loadPatients = async () => {
   try {
     error.value = "";
-    
-    const token = localStorage.getItem('token');
+
+    const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
       return;
     }
 
-    const response = await $fetch('http://localhost:3001/patients', {
+    const response = (await $fetch("http://localhost:3001/patients", {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }) as Patient[];
-    
+        Authorization: `Bearer ${token}`,
+      },
+    })) as Patient[];
+
     patients.value = response;
-    
   } catch (err: any) {
-    console.error('Error loading patients:', err);
-    error.value = 'Błąd podczas ładowania pacjentów';
+    console.error("Error loading patients:", err);
+    error.value = "Błąd podczas ładowania pacjentów";
   }
 };
 

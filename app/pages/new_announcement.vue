@@ -31,11 +31,7 @@
       <div>
         <FileUpload v-model="form.image" class="mt-4" />
         <div class="flex justify-end mt-4">
-          <BaseButton 
-            label="Dodaj" 
-            :loading="loading"
-            @click="submitForm"
-          />
+          <BaseButton label="Dodaj" :loading="loading" @click="submitForm" />
         </div>
       </div>
     </div>
@@ -75,26 +71,32 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
 
 const submitForm = async () => {
   if (!form.name.trim()) return showNotify("Imię jest wymagane", "error");
-  if (!form.experience || parseInt(form.experience) < 0) return showNotify("Doświadczenie jest wymagane i musi być liczbą dodatnią", "error");
+  if (!form.experience || parseInt(form.experience) < 0)
+    return showNotify(
+      "Doświadczenie jest wymagane i musi być liczbą dodatnią",
+      "error",
+    );
   if (!form.contact.trim()) return showNotify("Kontakt jest wymagany", "error");
-  if (!form.description.trim()) return showNotify("Opis jest wymagany", "error");
-  if (form.description.length < 10) return showNotify("Opis musi mieć co najmniej 10 znaków", "error");
+  if (!form.description.trim())
+    return showNotify("Opis jest wymagany", "error");
+  if (form.description.length < 10)
+    return showNotify("Opis musi mieć co najmniej 10 znaków", "error");
   if (!form.image) return showNotify("Zdjęcie jest wymagane", "error");
 
   loading.value = true;
   showNotification.value = false;
 
   try {
-    const formData = new FormData()
-    
+    const formData = new FormData();
+
     // Добавляем поля как строки
-    formData.append('name', form.name.trim())
-    formData.append('experience', form.experience.toString())
-    formData.append('contact', form.contact.trim())
-    formData.append('description', form.description.trim())
-    
+    formData.append("name", form.name.trim());
+    formData.append("experience", form.experience.toString());
+    formData.append("contact", form.contact.trim());
+    formData.append("description", form.description.trim());
+
     if (form.image) {
-      formData.append('image', form.image)
+      formData.append("image", form.image);
     }
 
     const API_URL = "http://localhost:3001/announcement";
@@ -103,7 +105,10 @@ const submitForm = async () => {
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const result = await response.json();
 
-    showNotify(result.message || "Ogłoszenie zostało pomyślnie dodane!", "success");
+    showNotify(
+      result.message || "Ogłoszenie zostało pomyślnie dodane!",
+      "success",
+    );
 
     // reset form
     form.name = "";
@@ -111,10 +116,12 @@ const submitForm = async () => {
     form.contact = "";
     form.description = "";
     form.image = null;
-
   } catch (error: any) {
     console.error(error);
-    showNotify(error.message || "Wystąpił błąd podczas dodawania ogłoszenia", "error");
+    showNotify(
+      error.message || "Wystąpił błąd podczas dodawania ogłoszenia",
+      "error",
+    );
   } finally {
     loading.value = false;
   }

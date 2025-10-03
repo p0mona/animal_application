@@ -74,8 +74,8 @@ const form = reactive<PatientForm>({
       animal_height: "",
       animal_weight: "",
       chip: "",
-    }
-  }
+    },
+  },
 });
 
 const animals = ref(["Pies", "Kot", "Chomik"]);
@@ -100,7 +100,7 @@ const savePatient = async () => {
     saving.value = true;
     message.value = "";
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       message.value = "Nie jesteś zalogowany";
       messageType.value = "error";
@@ -109,37 +109,36 @@ const savePatient = async () => {
     }
 
     const formData = new FormData();
-    
-    formData.append('name', form.owner.pet.animal_name);
-    formData.append('breed', form.owner.pet.breed);
-    formData.append('sex', form.owner.pet.animal_sex);
-    formData.append('animal', form.owner.pet.animal);
-    formData.append('animal_age', form.owner.pet.animal_age);
-    formData.append('animal_height', form.owner.pet.animal_height);
-    formData.append('animal_weight', form.owner.pet.animal_weight);
-    formData.append('chip', form.owner.pet.chip);
-    
+
+    formData.append("name", form.owner.pet.animal_name);
+    formData.append("breed", form.owner.pet.breed);
+    formData.append("sex", form.owner.pet.animal_sex);
+    formData.append("animal", form.owner.pet.animal);
+    formData.append("animal_age", form.owner.pet.animal_age);
+    formData.append("animal_height", form.owner.pet.animal_height);
+    formData.append("animal_weight", form.owner.pet.animal_weight);
+    formData.append("chip", form.owner.pet.chip);
+
     if (form.owner.image) {
-      formData.append('image', form.owner.image);
+      formData.append("image", form.owner.image);
     }
 
-    const response = await $fetch('http://localhost:3001/patients', {
-      method: 'POST',
+    const response = await $fetch("http://localhost:3001/patients", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: formData
+      body: formData,
     });
 
     message.value = "Pacjent został pomyślnie zapisany!";
     messageType.value = "success";
-    
-    setTimeout(() => {
-      router.push('/patients_settings');
-    }, 2000);
 
+    setTimeout(() => {
+      router.push("/patients_settings");
+    }, 2000);
   } catch (error: any) {
-    console.error('Error saving patient:', error);
+    console.error("Error saving patient:", error);
     message.value = error.data?.message || "Błąd podczas zapisywania pacjenta";
     messageType.value = "error";
   } finally {

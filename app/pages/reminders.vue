@@ -283,10 +283,10 @@ const loadReminders = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) return;
-    
+
     // Сначала очищаем прошедшие напоминания
     await cleanupPastReminders();
-    
+
     // Затем загружаем актуальные
     const response = await fetch("http://localhost:3001/reminders", {
       headers: { Authorization: `Bearer ${token}` },
@@ -307,12 +307,15 @@ const cleanupPastReminders = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) return;
-    
-    const response = await fetch("http://localhost:3001/reminders/cleanup/past", {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    
+
+    const response = await fetch(
+      "http://localhost:3001/reminders/cleanup/past",
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
     if (response.ok) {
       const result = await response.json();
       console.log(`Usunięto ${result.deletedCount} przestarzałych przypomnień`);

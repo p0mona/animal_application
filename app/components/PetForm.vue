@@ -18,7 +18,7 @@
         v-model="animalSexValue"
         orientation="horizontal"
         variant="list"
-        :items="animal_sex" 
+        :items="animal_sex"
         :ui="{
           base: 'ui-radio',
           container: 'w-full',
@@ -64,48 +64,67 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 const animalValue = computed({
-  get: () => props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "",
-  set: (value) => updateNestedValue('animal', value)
+  get: () =>
+    props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "",
+  set: (value) => updateNestedValue("animal", value),
 });
 
 const animalSexValue = computed({
-  get: () => props.modelValue?.animal_sex || props.modelValue?.sex || props.modelValue?.owner?.pet?.animal_sex || "",
-  set: (value) => updateNestedValue('animal_sex', value)
+  get: () =>
+    props.modelValue?.animal_sex ||
+    props.modelValue?.sex ||
+    props.modelValue?.owner?.pet?.animal_sex ||
+    "",
+  set: (value) => updateNestedValue("animal_sex", value),
 });
 
 const breedValue = computed({
-  get: () => props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "",
-  set: (value) => updateNestedValue('breed', value)
+  get: () =>
+    props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "",
+  set: (value) => updateNestedValue("breed", value),
 });
 
 const animalNameValue = computed({
-  get: () => props.modelValue?.animal_name || props.modelValue?.name || props.modelValue?.owner?.pet?.animal_name || "",
-  set: (value) => updateNestedValue('animal_name', value)
+  get: () =>
+    props.modelValue?.animal_name ||
+    props.modelValue?.name ||
+    props.modelValue?.owner?.pet?.animal_name ||
+    "",
+  set: (value) => updateNestedValue("animal_name", value),
 });
 
 const animalAgeValue = computed({
-  get: () => props.modelValue?.animal_age || props.modelValue?.owner?.pet?.animal_age || "",
-  set: (value) => updateNestedValue('animal_age', value)
+  get: () =>
+    props.modelValue?.animal_age ||
+    props.modelValue?.owner?.pet?.animal_age ||
+    "",
+  set: (value) => updateNestedValue("animal_age", value),
 });
 
 const animalHeightValue = computed({
-  get: () => props.modelValue?.animal_height || props.modelValue?.owner?.pet?.animal_height || "",
-  set: (value) => updateNestedValue('animal_height', value)
+  get: () =>
+    props.modelValue?.animal_height ||
+    props.modelValue?.owner?.pet?.animal_height ||
+    "",
+  set: (value) => updateNestedValue("animal_height", value),
 });
 
 const animalWeightValue = computed({
-  get: () => props.modelValue?.animal_weight || props.modelValue?.owner?.pet?.animal_weight || "",
-  set: (value) => updateNestedValue('animal_weight', value)
+  get: () =>
+    props.modelValue?.animal_weight ||
+    props.modelValue?.owner?.pet?.animal_weight ||
+    "",
+  set: (value) => updateNestedValue("animal_weight", value),
 });
 
 const chipValue = computed({
   get: () => props.modelValue?.chip || props.modelValue?.owner?.pet?.chip || "",
-  set: (value) => updateNestedValue('chip', value)
+  set: (value) => updateNestedValue("chip", value),
 });
 
 const updateNestedValue = (field, value) => {
   const currentValue = { ...props.modelValue };
-  
+
   if (currentValue.owner?.pet) {
     if (!currentValue.owner.pet) currentValue.owner.pet = {};
     currentValue.owner.pet[field] = value;
@@ -114,7 +133,7 @@ const updateNestedValue = (field, value) => {
   } else {
     currentValue[field] = value;
   }
-  
+
   emit("update:modelValue", currentValue);
 };
 </script>
