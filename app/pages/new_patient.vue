@@ -1,5 +1,13 @@
 <template>
   <FullWidthLayout>
+    <!-- Notification Component -->
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
     <BackButton to="/patients_settings" />
 
     <!-- Заголовок -->
@@ -35,6 +43,16 @@ import { reactive, ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 
 const router = useRouter();
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+};
 
 interface OwnerForm {
   name: string;
@@ -92,19 +110,14 @@ const animal_sex = ref<RadioGroupItem[]>([
 ]);
 
 const saving = ref(false);
-const message = ref("");
-const messageType = ref<"success" | "error">("success");
 
 const savePatient = async () => {
   try {
     saving.value = true;
-    message.value = "";
 
     const token = localStorage.getItem("token");
     if (!token) {
-      message.value = "Nie jesteś zalogowany";
-      messageType.value = "error";
-      saving.value = false;
+      showNotify("Nie jesteś zalogowany", "error");
       return;
     }
 
@@ -123,7 +136,7 @@ const savePatient = async () => {
       formData.append("image", form.owner.image);
     }
 
-    const response = await $fetch("http://localhost:3001/patients", {
+    await $fetch("http://localhost:3001/patients", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -131,16 +144,14 @@ const savePatient = async () => {
       body: formData,
     });
 
-    message.value = "Pacjent został pomyślnie zapisany!";
-    messageType.value = "success";
+    showNotify("Pacjent został pomyślnie zapisany!", "success");
 
     setTimeout(() => {
       router.push("/patients_settings");
     }, 2000);
   } catch (error: any) {
     console.error("Error saving patient:", error);
-    message.value = error.data?.message || "Błąd podczas zapisywania pacjenta";
-    messageType.value = "error";
+    showNotify(error.data?.message || "Błąd podczas zapisywania pacjenta", "error");
   } finally {
     saving.value = false;
   }
