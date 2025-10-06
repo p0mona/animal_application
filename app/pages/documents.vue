@@ -1,6 +1,6 @@
 <template>
-  <Layout>
-    <h1 class="text-2xl font-bold text-gray-900">Dokumenty</h1>
+  <FullWidthLayout>
+    <h1 class="text-xl font-semibold mb-4">Dokumenty</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <ul class="list-disc list-inside underline cursor-pointer">
         <li>Książka zdrowia</li>
@@ -14,6 +14,6 @@
         />
       </div>
     </div>
-  </Layout>
+  </FullWidthLayout>
 </template>
 <script></script>
