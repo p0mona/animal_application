@@ -22,7 +22,7 @@
             </div>
             <div
               v-if="documents.length === 0"
-              class="text-gray-500 text-center py-4"
+              class="text-gray-400 text-sm text-center py-4"
             >
               Brak dokumentów
             </div>
