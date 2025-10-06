@@ -287,6 +287,19 @@ const closeModal = () => {
   documentError.value = "";
   loadingDocument.value = false;
 };
+
+const FileIcon = {
+  props: ['fileType', 'class'],
+  setup(props) {
+    const icon = computed(() => {
+      if (props.fileType === 'application/pdf') return '📄';
+      if (props.fileType?.startsWith('image/')) return '🖼️';
+      if (props.fileType?.includes('word') || props.fileType?.includes('document')) return '📝';
+      return '📎';
+    });
+
+    return () => h('span', { class: props.class }, icon.value);
+  }
 };
 
 const loadDocuments = async () => {
@@ -398,11 +411,16 @@ const resetForm = () => {
 // }
 
 const formatFileSize = (bytes) => {
-  if (bytes === 0) return "0 B";
+  if (!bytes) return "0 B";
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  return new Date(dateString).toLocaleDateString('pl-PL');
 };
 
 onMounted(() => {
