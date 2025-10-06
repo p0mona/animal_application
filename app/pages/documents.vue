@@ -19,11 +19,7 @@
                   <p class="text-sm">{{ doc.name }}</p>
                   <p class="text-xs text-gray-500">
                     {{ formatFileSize(doc.fileSize) }} • {{ formatDate(doc.createdAt) }}
-              <div>
-                <p class="text-sm">{{ doc.name }}</p>
-                <p class="text-sm text-gray-400">
-                  {{ formatFileSize(doc.fileSize) }}
-                </p>
+                  </p>
                 </div>
               </div>
               <BorderButton 
@@ -171,7 +167,6 @@
 <script setup>
 const documents = ref([]);
 const documentName = ref("");
-const selectedCategory = ref("health");
 const uploading = ref(false);
 const error = ref("");
 const selectedFile = ref(null);
@@ -304,10 +299,13 @@ const FileIcon = {
 
 const loadDocuments = async () => {
   try {
-    const headers = getAuthHeaders();
+    const token = getAuthToken();
     const response = await $fetch("http://localhost:3001/documents", {
       method: "GET",
-      headers: headers,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     });
     documents.value = response;
   } catch (error) {
@@ -363,52 +361,72 @@ const uploadDocument = async () => {
   }
 };
 
+const downloadDocument = async (id) => {
+  try {
+    const token = getAuthToken();
+    const response = await fetch(`http://localhost:3001/documents/${id}/download`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+
+      const doc = documents.value.find(d => d._id === id);
+      a.download = doc?.originalName || 'document';
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } else {
+      throw new Error('Download failed');
+    }
+
+  } catch (error) {
+    console.error('Błąd download:', error);
+    alert('Błąd podczas pobierania dokumentu: ' + (error.message || 'Sprawdź autoryzację'));
+  }
+};
+
+const deleteDocument = async (id) => {
+  if (!confirm('Czy na pewno chcesz usunąć ten dokument?')) {
+    return;
+  }
+
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      alert('Błąd autoryzacji. Zaloguj się ponownie.');
+      return;
+    }
+
+    await $fetch(`http://localhost:3001/documents/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    closeModal();
+    await loadDocuments();
+    
+  } catch (error) {
+    console.error('Błąd usuwania:', error);
+    alert('Błąd podczas usuwania dokumentu: ' + (error.data?.message || 'Spróbuj ponownie'));
+  }
+};
+
 const resetForm = () => {
   documentName.value = "";
-  selectedCategory.value = "health";
   selectedFile.value = null;
   if (fileInput.value) fileInput.value.value = "";
 };
-
-// const downloadDocument = async (id) => {
-//   try {
-//     const token = getAuthToken()
-//     if (!token) {
-//       alert('Błąd autoryzacji. Zaloguj się ponownie.')
-//       return
-//     }
-
-//     const downloadUrl = `http://localhost:3001/documents/${id}/download`
-
-//     const response = await fetch(downloadUrl, {
-//       method: 'GET',
-//       headers: {
-//         'Authorization': `Bearer ${token}`
-//       }
-//     })
-
-//     if (response.ok) {
-//       const blob = await response.blob()
-//       const url = window.URL.createObjectURL(blob)
-//       const a = document.createElement('a')
-//       a.href = url
-
-//       const doc = documents.value.find(d => d._id === id)
-//       a.download = doc?.originalName || 'document'
-
-//       document.body.appendChild(a)
-//       a.click()
-//       document.body.removeChild(a)
-//       window.URL.revokeObjectURL(url)
-//     } else {
-//       throw new Error('Download failed')
-//     }
-
-//   } catch (error) {
-//     console.error('Błąd download:', error)
-//     alert('Błąd podczas pobierania dokumentu: ' + (error.message || 'Sprawdź autoryzację'))
-//   }
-// }
 
 const formatFileSize = (bytes) => {
   if (!bytes) return "0 B";
@@ -425,5 +443,10 @@ const formatDate = (dateString) => {
 
 onMounted(() => {
   loadDocuments();
+});
+
+onUnmounted(() => {
+  if (pdfObjectUrl.value) URL.revokeObjectURL(pdfObjectUrl.value);
+  if (imageObjectUrl.value) URL.revokeObjectURL(imageObjectUrl.value);
 });
 </script>
