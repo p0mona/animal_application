@@ -72,6 +72,7 @@
 import { ref, onMounted } from "vue";
 import { useUserStore } from "~/stores/user";
 import QRCode from "qrcode";
+import animalsData from '~/assets/data/animals.json';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -86,7 +87,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   showNotification.value = true;
 };
 
-const animals = ref(["Pies", "Kot", "Królik", "Chomik", "Ptak"]);
+const animals = ref(animalsData);
 const breeds = ref(["Beagle", "Labrador", "Owczarek", "Perski", "Syjamski"]);
 const sex = ref([
   { label: "Kobieta", value: "K" },

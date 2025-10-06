@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
+import animalsData from '~/assets/data/animals.json';
 
 const router = useRouter();
 
@@ -96,7 +97,7 @@ const form = reactive<PatientForm>({
   },
 });
 
-const animals = ref(["Pies", "Kot", "Chomik"]);
+const animals = ref(animalsData);
 const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
 
 const sex = ref<RadioGroupItem[]>([
