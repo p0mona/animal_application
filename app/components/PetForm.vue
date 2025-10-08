@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import BaseInput from "@/components/BaseInput.vue";
-import { computed, watch, ref } from "vue";
+import { computed, watch, ref, onMounted } from "vue";
 
 interface SelectItem {
   label: string;
@@ -103,9 +103,11 @@ const emit = defineEmits<{
   'update:modelValue': [value: ModelValue]
 }>();
 
+// Реактивные переменные для загрузки пород
 const breedsList = ref<SelectItem[]>([]);
 const breedsLoading = ref(false);
 
+// Для животных - работаем с объектом {label, value}
 const animalObject = computed({
   get: () => {
     const animalValue = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "";
@@ -117,6 +119,7 @@ const animalObject = computed({
   }
 });
 
+// Для пород - работаем с объектом {label, value}
 const breedObject = computed({
   get: () => {
     const breedValue = props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "";
@@ -128,6 +131,7 @@ const breedObject = computed({
   }
 });
 
+// Остальные computed properties остаются с строковыми значениями
 const animalSexValue = computed({
   get: () => {
     return (
@@ -233,10 +237,18 @@ watch(animalObject, (newAnimal, oldAnimal) => {
   breedObject.value = undefined;
 });
 
-const initialAnimal = animalObject.value?.value;
-if (initialAnimal) {
-  loadBreeds(initialAnimal);
-}
+watch(() => props.modelValue?.animal || props.modelValue?.owner?.pet?.animal, (newAnimal, oldAnimal) => {
+  if (newAnimal && newAnimal !== oldAnimal) {
+    loadBreeds(newAnimal);
+  }
+}, { immediate: true });
+
+onMounted(() => {
+  const initialAnimal = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal;
+  if (initialAnimal) {
+    loadBreeds(initialAnimal);
+  }
+});
 
 const updateNestedValue = (field: keyof PetData, value: string) => {
   const currentValue: ModelValue = { ...props.modelValue };

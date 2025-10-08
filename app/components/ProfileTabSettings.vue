@@ -20,7 +20,7 @@
           :animals="animals"
           :animal_sex="animal_sex"
           animal-placeholder="Pies"
-          breed-placeholder="Beagle"
+          breed-placeholder="-"
         />
       </div>
 
@@ -68,11 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useUserStore } from "~/stores/user";
 import QRCode from "qrcode";
 import animalsData from '~/assets/data/animals.json';
-
 
 interface SelectItem {
   label: string;
@@ -158,6 +157,10 @@ onMounted(async () => {
   updateLocalProfileFromStore();
 });
 
+watch(() => userStore.user, () => {
+  updateLocalProfileFromStore();
+}, { deep: true });
+
 function updateLocalProfileFromStore() {
   if (!userStore.user) return;
 
@@ -168,16 +171,17 @@ function updateLocalProfileFromStore() {
     image: null,
     phone: userStore.user.phone || "",
     owner: {
-      pet: userStore.user.owner?.pet || {
-        animal: "",
-        animal_sex: "K",
-        breed: "",
-        animal_name: "",
-        animal_age: "",
-        animal_height: "",
-        animal_weight: "",
-        chip: "",
+      pet: {
+        animal: userStore.user.owner?.pet?.animal || "",
+        animal_sex: userStore.user.owner?.pet?.animal_sex || "K",
+        breed: userStore.user.owner?.pet?.breed || "",
+        animal_name: userStore.user.owner?.pet?.animal_name || "",
+        animal_age: userStore.user.owner?.pet?.animal_age || "",
+        animal_height: userStore.user.owner?.pet?.animal_height || "",
+        animal_weight: userStore.user.owner?.pet?.animal_weight || "",
+        chip: userStore.user.owner?.pet?.chip || "",
       },
+      sos_phone: userStore.user.owner?.sos_phone || "",
     },
   };
 }
