@@ -15,7 +15,7 @@
     <div class="w-full space-y-2">
       <p class="text-sm">Płeć</p>
       <URadioGroup
-        v-model="animalSexValue"
+        v-model="localAnimalSex"
         orientation="horizontal"
         variant="list"
         :items="animal_sex"
@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import BaseInput from "@/components/BaseInput.vue";
-import { computed, watch, ref, onMounted } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 import type { SelectItem } from '~/types/pet';
 
 
@@ -97,168 +97,95 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [value: ModelValue]
+  "update:modelValue": [value: ModelValue];
 }>();
 
-// Реактивные переменные для загрузки пород
 const breedsList = ref<SelectItem[]>([]);
 const breedsLoading = ref(false);
 
-// Для животных - работаем с объектом {label, value}
 const animalObject = computed({
   get: () => {
-    const animalValue = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "";
-    return props.animals.find(animal => animal.value === animalValue) || undefined;
+    const val = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "";
+    return props.animals.find(a => a.value === val);
   },
-  set: (value: SelectItem | undefined) => {
-    const animalValue = value?.value || "";
-    updateNestedValue("animal", animalValue);
-  }
+  set: (val: SelectItem | undefined) => {
+    updateNestedValue("animal", val?.value || "");
+  },
 });
 
-// Для пород - работаем с объектом {label, value}
 const breedObject = computed({
   get: () => {
-    const breedValue = props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "";
-    return breedsList.value.find(breed => breed.value === breedValue) || undefined;
+    const val = props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "";
+    return breedsList.value.find(b => b.value === val);
   },
-  set: (value: SelectItem | undefined) => {
-    const breedValue = value?.value || "";
-    updateNestedValue("breed", breedValue);
-  }
-});
-
-// Остальные computed properties остаются с строковыми значениями
-const animalSexValue = computed({
-  get: () => {
-    return (
-      props.modelValue?.animal_sex ||
-      props.modelValue?.owner?.pet?.animal_sex ||
-      ""
-    );
+  set: (val: SelectItem | undefined) => {
+    updateNestedValue("breed", val?.value || "");
   },
-  set: (value: string) => updateNestedValue("animal_sex", value),
 });
 
 const animalNameValue = computed({
-  get: () => {
-    return (
-      props.modelValue?.animal_name ||
-      props.modelValue?.owner?.pet?.animal_name ||
-      ""
-    );
-  },
-  set: (value: string) => updateNestedValue("animal_name", value),
+  get: () => props.modelValue?.animal_name || props.modelValue?.owner?.pet?.animal_name || "",
+  set: val => updateNestedValue("animal_name", val),
 });
-
 const animalAgeValue = computed({
-  get: () => {
-    return (
-      props.modelValue?.animal_age ||
-      props.modelValue?.owner?.pet?.animal_age ||
-      ""
-    );
-  },
-  set: (value: string) => updateNestedValue("animal_age", value),
+  get: () => String(props.modelValue?.animal_age || props.modelValue?.owner?.pet?.animal_age || ""),
+  set: val => updateNestedValue("animal_age", val),
 });
-
 const animalHeightValue = computed({
-  get: () => {
-    return (
-      props.modelValue?.animal_height ||
-      props.modelValue?.owner?.pet?.animal_height ||
-      ""
-    );
-  },
-  set: (value: string) => updateNestedValue("animal_height", value),
+  get: () => String(props.modelValue?.animal_height || props.modelValue?.owner?.pet?.animal_height || ""),
+  set: val => updateNestedValue("animal_height", val),
 });
-
 const animalWeightValue = computed({
-  get: () => {
-    return (
-      props.modelValue?.animal_weight ||
-      props.modelValue?.owner?.pet?.animal_weight ||
-      ""
-    );
-  },
-  set: (value: string) => updateNestedValue("animal_weight", value),
+  get: () => String(props.modelValue?.animal_weight || props.modelValue?.owner?.pet?.animal_weight || ""),
+  set: val => updateNestedValue("animal_weight", val),
 });
-
 const chipValue = computed({
-  get: () => {
-    return (
-      props.modelValue?.chip ||
-      props.modelValue?.owner?.pet?.chip ||
-      ""
-    );
-  },
-  set: (value: string) => updateNestedValue("chip", value),
+  get: () => props.modelValue?.chip || props.modelValue?.owner?.pet?.chip || "",
+  set: val => updateNestedValue("chip", val),
 });
 
-// Проверяем, есть ли породы для выбранного животного
-const hasBreeds = computed(() => {
-  return breedsList.value.length > 0;
+const localAnimalSex = ref(props.modelValue?.animal_sex || "K");
+watch(localAnimalSex, (val) => {
+  updateNestedValue("animal_sex", val);
 });
+
+const hasBreeds = computed(() => breedsList.value.length > 0);
 
 const loadBreeds = async (animalType: string) => {
   breedsLoading.value = true;
   breedsList.value = [];
-  
   try {
-    if (animalType === 'dog') {
-      const dogBreeds = await import('~/assets/data/dog_breeds.json');
+    if (animalType === "dog") {
+      const dogBreeds = await import("~/assets/data/dog_breeds.json");
       breedsList.value = dogBreeds.default || dogBreeds;
-    } else if (animalType === 'cat') {
-      const catBreeds = await import('~/assets/data/cat_breeds.json');
+    } else if (animalType === "cat") {
+      const catBreeds = await import("~/assets/data/cat_breeds.json");
       breedsList.value = catBreeds.default || catBreeds;
     }
-    // For other animal breeds there is no - leave an empty array
-  } catch (error) {
-    console.error('Error loading breeds:', error);
-    breedsList.value = [];
+  } catch (err) {
+    console.error("Error loading breeds:", err);
   } finally {
     breedsLoading.value = false;
   }
 };
 
-// We monitor the animal's changes and load the corresponding breeds
-watch(animalObject, (newAnimal, oldAnimal) => {
-  const animalValue = newAnimal?.value;
-  
-  if (animalValue && animalValue !== oldAnimal?.value) {
-    loadBreeds(animalValue);
-  } else if (!animalValue) {
-    breedsList.value = [];
-  }
-
+watch(animalObject, (newVal, oldVal) => {
+  if (newVal?.value && newVal.value !== oldVal?.value) loadBreeds(newVal.value);
+  if (!newVal) breedsList.value = [];
   breedObject.value = undefined;
 });
 
-watch(() => props.modelValue?.animal || props.modelValue?.owner?.pet?.animal, (newAnimal, oldAnimal) => {
-  if (newAnimal && newAnimal !== oldAnimal) {
-    loadBreeds(newAnimal);
-  }
-}, { immediate: true });
-
 onMounted(() => {
-  const initialAnimal = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal;
-  if (initialAnimal) {
-    loadBreeds(initialAnimal);
-  }
+  const initial = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal;
+  if (initial) loadBreeds(initial);
 });
 
-const updateNestedValue = (field: keyof PetData, value: string) => {
-  const currentValue: ModelValue = { ...props.modelValue };
-
-  if (!currentValue.owner) {
-    currentValue.owner = {};
-  }
-  if (!currentValue.owner.pet) {
-    currentValue.owner.pet = {};
-  }
-
-  currentValue.owner.pet[field] = value;
-
-  emit("update:modelValue", currentValue);
+// --- Функция обновления modelValue ---
+const updateNestedValue = (field: keyof PetData, value: string | number) => {
+  const current: ModelValue = { ...props.modelValue };
+  if (!current.owner) current.owner = {};
+  if (!current.owner.pet) current.owner.pet = {};
+  current.owner.pet[field] = String(value); // конвертируем в string
+  emit("update:modelValue", current);
 };
 </script>
