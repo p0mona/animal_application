@@ -48,20 +48,59 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import BaseInput from "@/components/BaseInput.vue";
-import { computed } from "vue";
+import { computed, watch, ref } from "vue";
 
-const props = defineProps({
-  modelValue: Object,
-  animals: Array,
-  breeds: Array,
-  animal_sex: Array,
-  animalPlaceholder: { type: String, default: "-" },
-  breedPlaceholder: { type: String, default: "-" },
+interface SelectItem {
+  label: string;
+  value: string;
+}
+
+interface PetData {
+  animal?: string;
+  breed?: string;
+  animal_sex?: string;
+  animal_name?: string;
+  animal_age?: string | number;
+  animal_height?: string | number;
+  animal_weight?: string | number;
+  chip?: string;
+}
+
+interface OwnerData {
+  pet?: PetData;
+}
+
+interface ModelValue {
+  animal?: string;
+  breed?: string;
+  animal_sex?: string;
+  animal_name?: string;
+  animal_age?: string | number;
+  animal_height?: string | number;
+  animal_weight?: string | number;
+  chip?: string;
+  owner?: OwnerData;
+  [key: string]: any;
+}
+
+interface Props {
+  modelValue: ModelValue;
+  animals: SelectItem[];
+  animal_sex: SelectItem[];
+  animalPlaceholder?: string;
+  breedPlaceholder?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  animalPlaceholder: "-",
+  breedPlaceholder: "-",
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  'update:modelValue': [value: ModelValue]
+}>();
 
 const animalValue = computed({
   get: () =>
