@@ -178,17 +178,17 @@ const chipValue = computed({
   set: (value) => updateNestedValue("chip", value),
 });
 
-const updateNestedValue = (field, value) => {
-  const currentValue = { ...props.modelValue };
+const updateNestedValue = (field: keyof PetData, value: string) => {
+  const currentValue: ModelValue = { ...props.modelValue };
 
-  if (currentValue.owner?.pet) {
-    if (!currentValue.owner.pet) currentValue.owner.pet = {};
-    currentValue.owner.pet[field] = value;
-  } else if (currentValue.owner) {
-    currentValue.owner[field] = value;
-  } else {
-    currentValue[field] = value;
+  if (!currentValue.owner) {
+    currentValue.owner = {};
   }
+  if (!currentValue.owner.pet) {
+    currentValue.owner.pet = {};
+  }
+
+  currentValue.owner.pet[field] = value;
 
   emit("update:modelValue", currentValue);
 };
