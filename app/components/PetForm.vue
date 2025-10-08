@@ -37,7 +37,7 @@
         :items="breedsList"
         v-model="breedObject"
         class="w-full h-8"
-:loading="breedsLoading"
+        :loading="breedsLoading"
       />
     </div>
 
@@ -103,6 +103,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: ModelValue]
 }>();
 
+const breedsList = ref<SelectItem[]>([]);
+const breedsLoading = ref(false);
+
 const animalObject = computed({
   get: () => {
     const animalValue = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "";
@@ -126,57 +129,114 @@ const breedObject = computed({
 });
 
 const animalSexValue = computed({
-  get: () =>
-    props.modelValue?.animal_sex ||
-    props.modelValue?.sex ||
-    props.modelValue?.owner?.pet?.animal_sex ||
-    "",
-  set: (value) => updateNestedValue("animal_sex", value),
-});
-
-const breedValue = computed({
-  get: () =>
-    props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "",
-  set: (value) => updateNestedValue("breed", value),
+  get: () => {
+    return (
+      props.modelValue?.animal_sex ||
+      props.modelValue?.owner?.pet?.animal_sex ||
+      ""
+    );
+  },
+  set: (value: string) => updateNestedValue("animal_sex", value),
 });
 
 const animalNameValue = computed({
-  get: () =>
-    props.modelValue?.animal_name ||
-    props.modelValue?.name ||
-    props.modelValue?.owner?.pet?.animal_name ||
-    "",
-  set: (value) => updateNestedValue("animal_name", value),
+  get: () => {
+    return (
+      props.modelValue?.animal_name ||
+      props.modelValue?.owner?.pet?.animal_name ||
+      ""
+    );
+  },
+  set: (value: string) => updateNestedValue("animal_name", value),
 });
 
 const animalAgeValue = computed({
-  get: () =>
-    props.modelValue?.animal_age ||
-    props.modelValue?.owner?.pet?.animal_age ||
-    "",
-  set: (value) => updateNestedValue("animal_age", value),
+  get: () => {
+    return (
+      props.modelValue?.animal_age ||
+      props.modelValue?.owner?.pet?.animal_age ||
+      ""
+    );
+  },
+  set: (value: string) => updateNestedValue("animal_age", value),
 });
 
 const animalHeightValue = computed({
-  get: () =>
-    props.modelValue?.animal_height ||
-    props.modelValue?.owner?.pet?.animal_height ||
-    "",
-  set: (value) => updateNestedValue("animal_height", value),
+  get: () => {
+    return (
+      props.modelValue?.animal_height ||
+      props.modelValue?.owner?.pet?.animal_height ||
+      ""
+    );
+  },
+  set: (value: string) => updateNestedValue("animal_height", value),
 });
 
 const animalWeightValue = computed({
-  get: () =>
-    props.modelValue?.animal_weight ||
-    props.modelValue?.owner?.pet?.animal_weight ||
-    "",
-  set: (value) => updateNestedValue("animal_weight", value),
+  get: () => {
+    return (
+      props.modelValue?.animal_weight ||
+      props.modelValue?.owner?.pet?.animal_weight ||
+      ""
+    );
+  },
+  set: (value: string) => updateNestedValue("animal_weight", value),
 });
 
 const chipValue = computed({
-  get: () => props.modelValue?.chip || props.modelValue?.owner?.pet?.chip || "",
-  set: (value) => updateNestedValue("chip", value),
+  get: () => {
+    return (
+      props.modelValue?.chip ||
+      props.modelValue?.owner?.pet?.chip ||
+      ""
+    );
+  },
+  set: (value: string) => updateNestedValue("chip", value),
 });
+
+// Проверяем, есть ли породы для выбранного животного
+const hasBreeds = computed(() => {
+  return breedsList.value.length > 0;
+});
+
+const loadBreeds = async (animalType: string) => {
+  breedsLoading.value = true;
+  breedsList.value = [];
+  
+  try {
+    if (animalType === 'dog') {
+      const dogBreeds = await import('~/assets/data/dog_breeds.json');
+      breedsList.value = dogBreeds.default || dogBreeds;
+    } else if (animalType === 'cat') {
+      const catBreeds = await import('~/assets/data/cat_breeds.json');
+      breedsList.value = catBreeds.default || catBreeds;
+    }
+    // For other animal breeds there is no - leave an empty array
+  } catch (error) {
+    console.error('Error loading breeds:', error);
+    breedsList.value = [];
+  } finally {
+    breedsLoading.value = false;
+  }
+};
+
+// We monitor the animal's changes and load the corresponding breeds
+watch(animalObject, (newAnimal, oldAnimal) => {
+  const animalValue = newAnimal?.value;
+  
+  if (animalValue && animalValue !== oldAnimal?.value) {
+    loadBreeds(animalValue);
+  } else if (!animalValue) {
+    breedsList.value = [];
+  }
+
+  breedObject.value = undefined;
+});
+
+const initialAnimal = animalObject.value?.value;
+if (initialAnimal) {
+  loadBreeds(initialAnimal);
+}
 
 const updateNestedValue = (field: keyof PetData, value: string) => {
   const currentValue: ModelValue = { ...props.modelValue };
