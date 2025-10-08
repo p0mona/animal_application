@@ -128,9 +128,9 @@ const savePatient = async () => {
     formData.append("breed", form.owner.pet.breed);
     formData.append("sex", form.owner.pet.animal_sex);
     formData.append("animal", form.owner.pet.animal);
-    formData.append("animal_age", form.owner.pet.animal_age);
-    formData.append("animal_height", form.owner.pet.animal_height);
-    formData.append("animal_weight", form.owner.pet.animal_weight);
+    formData.append("animal_age", String(form.owner.pet.animal_age));
+    formData.append("animal_height", String(form.owner.pet.animal_height));
+    formData.append("animal_weight", String(form.owner.pet.animal_weight));
     formData.append("chip", form.owner.pet.chip);
 
     if (form.owner.image) {
