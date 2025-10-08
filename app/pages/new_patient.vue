@@ -39,7 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import type { SelectItem } from '~/types/pet';
 import animalsData from '~/assets/data/animals.json';
 
@@ -96,22 +97,6 @@ const form = reactive<PatientForm>({
     },
   },
 });
-
-const animals = ref(animalsData);
-const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
-
-const sex = ref<RadioGroupItem[]>([
-  { label: "Kobieta", value: "K" },
-  { label: "Mężczyzna", value: "M" },
-]);
-
-const animal_sex = ref<RadioGroupItem[]>([
-  { label: "Samica", value: "K" },
-  { label: "Samiec", value: "M" },
-]);
-
-const saving = ref(false);
-
 const savePatient = async () => {
   try {
     saving.value = true;
@@ -157,4 +142,36 @@ const savePatient = async () => {
     saving.value = false;
   }
 };
+
+const animals = computed<SelectItem[]>(() =>
+  (animalsData as any[]).map(item => ({
+    label: item.label,
+    value: item.value
+  }))
+);
+
+const breeds = computed<SelectItem[]>(() =>
+  ["Akita Inu", "Beagle", "Szpic"].map(b => ({ label: b, value: b }))
+);
+
+const sex = computed<SelectItem[]>(() =>
+  [
+    { label: "Kobieta", value: "K" },
+    { label: "Mężczyzna", value: "M" },
+  ]
+);
+
+const animal_sex_raw = [
+  { label: "Samica", value: "K" },
+  { label: "Samiec", value: "M" },
+];
+
+const animal_sex = computed<SelectItem[]>(() =>
+  animal_sex_raw.map(item => ({
+    label: item.label,
+    value: item.value
+  }))
+);
+
+const saving = ref(false);
 </script>
