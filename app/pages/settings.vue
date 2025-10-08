@@ -18,7 +18,6 @@
             <ProfileTabSettings
               v-model:profile="profile"
               :animals="animals"
-              :breeds="breeds"
               :sex="sex"
               :animal_sex="animal_sex"
             />
@@ -132,15 +131,24 @@ const navItems = [
 ];
 
 const profile = ref<ProfileData>({
-  animal_name: "Lucky",
-  animal_age: 2,
-  animal_height: 50,
-  animal_weight: 4,
-  chip: "123456789012345",
+  owner: {
+    pet: {
+      animal: "dog",
+      breed: "akita_inu",
+      animal_name: "Lucky",
+      animal_age: 2,
+      animal_height: 50,
+      animal_weight: 4,
+      chip: "123456789012345",
+      animal_sex: "K",
+    },
+    sos_phone: ""
+  },
   name: "Beata",
   sex: "K",
   birthday: "",
-  animal_sex: "K",
+  phone: "",
+  image: "",
 });
 
 const security = ref<SecurityData>({
