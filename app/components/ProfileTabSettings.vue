@@ -74,6 +74,38 @@ import { useUserStore } from "~/stores/user";
 import QRCode from "qrcode";
 import animalsData from '~/assets/data/animals.json';
 
+
+interface SelectItem {
+  label: string;
+  value: string;
+}
+
+interface PetData {
+  animal?: string;
+  breed?: string;
+  animal_sex?: string;
+  animal_name?: string;
+  animal_age?: string | number;
+  animal_height?: string | number;
+  animal_weight?: string | number;
+  chip?: string;
+}
+
+interface OwnerData {
+  pet?: PetData;
+  sos_phone?: string;
+}
+
+interface ProfileData {
+  name?: string;
+  birthday?: string;
+  sex?: string;
+  image?: string | null;
+  phone?: string;
+  owner?: OwnerData;
+  [key: string]: any;
+}
+
 const userStore = useUserStore();
 const router = useRouter();
 
@@ -87,18 +119,17 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   showNotification.value = true;
 };
 
-const animals = ref(animalsData);
-const breeds = ref(["Beagle", "Labrador", "Owczarek", "Perski", "Syjamski"]);
-const sex = ref([
+const animals = ref<SelectItem[]>(animalsData);
+const sex = ref<SelectItem[]>([
   { label: "Kobieta", value: "K" },
   { label: "Mężczyzna", value: "M" },
 ]);
-const animal_sex = ref([
+const animal_sex = ref<SelectItem[]>([
   { label: "Samica", value: "K" },
   { label: "Samiec", value: "M" },
 ]);
 
-const localProfile = ref({
+const localProfile = ref<ProfileData>({
   name: "",
   birthday: "",
   sex: "K",
