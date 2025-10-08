@@ -72,11 +72,8 @@ import { ref, onMounted, watch } from "vue";
 import { useUserStore } from "~/stores/user";
 import QRCode from "qrcode";
 import animalsData from '~/assets/data/animals.json';
+import type { SelectItem } from '~/types/pet';
 
-interface SelectItem {
-  label: string;
-  value: string;
-}
 
 interface PetData {
   animal?: string;

@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import type { RadioGroupItem } from "@nuxt/ui";
+import type { SelectItem } from '~/types/pet';
 import animalsData from '~/assets/data/animals.json';
 
 const router = useRouter();

@@ -52,11 +52,8 @@
 <script setup lang="ts">
 import BaseInput from "@/components/BaseInput.vue";
 import { computed, watch, ref, onMounted } from "vue";
+import type { SelectItem } from '~/types/pet';
 
-interface SelectItem {
-  label: string;
-  value: string;
-}
 
 interface PetData {
   animal?: string;

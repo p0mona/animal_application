@@ -66,11 +66,7 @@
 import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 import animalsList from "~/assets/data/animals.json";
-
-interface SelectItem {
-  label: string;
-  value: string;
-}
+import type { SelectItem } from '~/types/pet';
 
 interface PetData {
   animal?: string;
