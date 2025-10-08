@@ -235,7 +235,7 @@ async function generateQR() {
       name: localProfile.value.name,
       phone: localProfile.value.phone,
     },
-    pet: localProfile.value.owner.pet,
+    pet: localProfile.value.owner?.pet,
   };
 
   try {
