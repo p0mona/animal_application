@@ -7,7 +7,7 @@
       <USelectMenu
         :placeholder="animalPlaceholder"
         :items="animals"
-        v-model="animalValue"
+        v-model="animalObject"
         class="w-full h-8"
       />
     </div>
@@ -30,13 +30,14 @@
       />
     </div>
 
-    <div class="w-full space-y-2">
+    <div class="w-full space-y-2" v-if="hasBreeds">
       <p class="text-sm">Wybierz rasę</p>
       <USelectMenu
-        :placeholder="breedPlaceholder"
-        :items="breeds"
-        v-model="breedValue"
+        placeholder="-"
+        :items="breedsList"
+        v-model="breedObject"
         class="w-full h-8"
+:loading="breedsLoading"
       />
     </div>
 
@@ -102,10 +103,26 @@ const emit = defineEmits<{
   'update:modelValue': [value: ModelValue]
 }>();
 
-const animalValue = computed({
-  get: () =>
-    props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "",
-  set: (value) => updateNestedValue("animal", value),
+const animalObject = computed({
+  get: () => {
+    const animalValue = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "";
+    return props.animals.find(animal => animal.value === animalValue) || undefined;
+  },
+  set: (value: SelectItem | undefined) => {
+    const animalValue = value?.value || "";
+    updateNestedValue("animal", animalValue);
+  }
+});
+
+const breedObject = computed({
+  get: () => {
+    const breedValue = props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "";
+    return breedsList.value.find(breed => breed.value === breedValue) || undefined;
+  },
+  set: (value: SelectItem | undefined) => {
+    const breedValue = value?.value || "";
+    updateNestedValue("breed", breedValue);
+  }
 });
 
 const animalSexValue = computed({
