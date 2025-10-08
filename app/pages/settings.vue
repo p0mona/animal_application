@@ -68,6 +68,58 @@ import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 import animalsList from "~/assets/data/animals.json";
 
+interface SelectItem {
+  label: string;
+  value: string;
+}
+
+interface PetData {
+  animal?: string;
+  breed?: string;
+  animal_sex?: string;
+  animal_name?: string;
+  animal_age?: string | number;
+  animal_height?: string | number;
+  animal_weight?: string | number;
+  chip?: string;
+}
+
+interface OwnerData {
+  pet?: PetData;
+  sos_phone?: string;
+}
+
+interface ProfileData {
+  owner?: OwnerData;
+  name?: string;
+  sex?: string;
+  birthday?: string;
+  phone?: string;
+  image?: string;
+  [key: string]: any;
+}
+
+interface SecurityData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+interface NotificationsData {
+  email: boolean;
+  push: boolean;
+  sms: boolean;
+  news: boolean;
+  security: boolean;
+  marketing: boolean;
+}
+
+interface PreferencesData {
+  language: string;
+  timezone: string;
+  theme: string;
+}
+
 const activeTab = ref("profile");
 
 const navItems = [
@@ -79,7 +131,7 @@ const navItems = [
   { key: "sos", label: "Sos", icon: "heroicons:megaphone-16-solid" },
 ];
 
-const profile = ref({
+const profile = ref<ProfileData>({
   animal_name: "Lucky",
   animal_age: 2,
   animal_height: 50,
@@ -91,13 +143,13 @@ const profile = ref({
   animal_sex: "K",
 });
 
-const security = ref({
+const security = ref<SecurityData>({
   currentPassword: "",
   newPassword: "",
   confirmPassword: "",
 });
 
-const notifications = ref({
+const notifications = ref<NotificationsData>({
   email: true,
   push: false,
   sms: false,
@@ -106,7 +158,7 @@ const notifications = ref({
   marketing: false,
 });
 
-const preferences = ref({
+const preferences = ref<PreferencesData>({
   language: "pl",
   timezone: "Europe/Warsaw",
   theme: "system",
@@ -139,15 +191,14 @@ const securitySchema = {
     value === security.value.newPassword || "Hasła muszą być identyczne",
 };
 
-const animals = ref(animalsList);
-const breeds = ref(["Akita Inu", "Beagle", "Szpic"]);
+const animals = ref<SelectItem[]>(animalsList);
 
 const sex = ref<RadioGroupItem[]>([
   { label: "Kobieta", value: "K" },
   { label: "Mężczyzna", value: "M" },
 ]);
 
-const animal_sex = ref<RadioGroupItem[]>([
+const animal_sex = ref<SelectItem[]>([
   { label: "Samica", value: "K" },
   { label: "Samiec", value: "M" },
 ]);
