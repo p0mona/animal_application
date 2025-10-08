@@ -18,7 +18,6 @@
         <PetForm
           v-model="localProfile"
           :animals="animals"
-          :breeds="breeds"
           :animal_sex="animal_sex"
           animal-placeholder="Pies"
           breed-placeholder="Beagle"
