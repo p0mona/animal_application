@@ -126,6 +126,12 @@ const handleQrScanned = (qrData: any) => {
       }
     });
   }
+  
+  if (loadedFields.length > 0) {
+    showNotify("Załadowano dane z kodu QR", 'success');
+  } else {
+    showNotify('Kod QR został zeskanowany, ale nie zawierał danych do załadowania', "error");
+  }
 };
 
 const savePatient = async () => {
