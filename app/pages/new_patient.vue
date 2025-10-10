@@ -238,9 +238,7 @@ const animals = computed<SelectItem[]>(() =>
   }))
 );
 
-const breeds = computed<SelectItem[]>(() =>
-  ["Akita Inu", "Beagle", "Szpic"].map(b => ({ label: b, value: b }))
-);
+const breeds = computed<SelectItem[]>(() => [])
 
 const sex = computed<SelectItem[]>(() =>
   [
