@@ -13,7 +13,7 @@
       
       <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-64 flex items-center justify-center">
         <div v-if="isLoading" class="text-center">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto"></div>
           <p class="mt-2 text-gray-600">Inicjalizacja kamery...</p>
         </div>
         
@@ -47,9 +47,9 @@
           {{ scanError }}
         </div>
         
-        <div v-if="isValidating" class="mt-4 p-3 bg-blue-100 text-blue-700 rounded">
+        <div v-if="isValidating" class="mt-4 p-3 bg-primary-100 text-primary-700 rounded">
           <div class="flex items-center justify-center">
-            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
+            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500 mr-2"></div>
             Przetwarzanie kodu QR...
           </div>
         </div>
@@ -59,7 +59,6 @@
         <BaseButton 
           label="Przełącz kamerę" 
           @click="switchCamera"
-          :disabled="isValidating || isLoading || !!cameraError"
         />
         <BaseButton 
           label="Anuluj" 
