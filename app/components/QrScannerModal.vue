@@ -129,9 +129,6 @@ const initializeCamera = async () => {
       throw new Error('Twoja przeglądarka nie obsługuje dostępu do kamery');
     }
     
-    const permissions = await navigator.permissions.query({ name: 'camera' as PermissionName });
-    console.log('Camera permission state:', permissions.state);
-    
   } catch (err: any) {
     console.error('Camera initialization error:', err);
     cameraError.value = err.message || 'Nie można uruchomić kamery';
@@ -173,22 +170,33 @@ const onDetect = async (detectedCodes: any[]) => {
   
   try {
     const code = detectedCodes[0];
-    console.log('Raw QR code data:', code.rawValue);
+    const rawContent = code.rawValue;
     
-    if (!code.rawValue || code.rawValue.trim() === '') {
+    if (!rawContent || rawContent.trim() === '') {
       throw new Error('Pusty kod QR');
     }
     
-    const parsedData = JSON.parse(code.rawValue);
-    console.log('Parsed QR data:', parsedData);
-    
-    if (!parsedData.owner_name && !parsedData.pet_name) {
-      throw new Error('Brak wymaganych danych w kodzie QR');
+    let parsedData;
+    try {
+      parsedData = JSON.parse(rawContent);
+      
+    } catch (parseError) {
+      parsedData = { raw_content: rawContent };
     }
     
-    await new Promise(resolve => setTimeout(resolve, 800));
+    const normalizedData = normalizeQrData(parsedData);
     
-    emit('scanned', parsedData);
+    if (!isValidQrData(normalizedData)) {
+      const availableFields = Object.entries(normalizedData)
+        .filter(([_, value]) => value !== undefined && value !== null)
+        .map(([key, value]) => `${key}: "${value}" (type: ${typeof value})`);
+      
+      throw new Error("Kod QR nie zawiera wymaganych danych.");
+    }
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    console.log('Emitting scanned data:', normalizedData);
+    emit('scanned', normalizedData);
     closeModal();
     
   } catch (err: any) {
