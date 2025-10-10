@@ -85,13 +85,19 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { QrcodeStream } from 'vue-qrcode-reader';
 
 interface QrData {
-  owner_name?: string;
-  owner_phone?: string;
-  pet_name?: string;
-  pet_breed?: string;
-  pet_chip?: string;
-  pet_age?: string;
-  pet_weight?: string;
+  name?: string;
+  birthday?: string;
+  sex?: string;
+  phone?: string;
+  
+  animal?: string;
+  animal_sex?: string;
+  breed?: string;
+  animal_name?: string;
+  animal_age?: string;
+  animal_height?: string;
+  animal_weight?: string;
+  chip?: string;
 }
 
 const emit = defineEmits<{
