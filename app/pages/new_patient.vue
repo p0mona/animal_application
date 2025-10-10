@@ -109,17 +109,23 @@ const form = reactive<PatientForm>({
 });
 
 const handleQrScanned = (qrData: any) => {
-  console.log('QR Data received:', qrData);
+  const loadedFields: string[] = [];
   
-  if (qrData.owner_name) form.owner.name = qrData.owner_name;
-  if (qrData.owner_phone) form.owner.phone = qrData.owner_phone;
-  if (qrData.pet_name) form.owner.pet.animal_name = qrData.pet_name;
-  if (qrData.pet_breed) form.owner.pet.breed = qrData.pet_breed;
-  if (qrData.pet_chip) form.owner.pet.chip = qrData.pet_chip;
-  if (qrData.pet_age) form.owner.pet.animal_age = qrData.pet_age;
-  if (qrData.pet_weight) form.owner.pet.animal_weight = qrData.pet_weight;
+  if (qrData.owner) {
+    Object.entries(qrData.owner).forEach(([key, value]) => {
+      if (value && String(value).trim() !== '') {
+        loadedFields.push(`owner.${key}`);
+      }
+    });
+  }
   
-  showNotify('Dane z kodu QR zostały załadowane', 'success');
+  if (qrData.pet) {
+    Object.entries(qrData.pet).forEach(([key, value]) => {
+      if (value && String(value).trim() !== '') {
+        loadedFields.push(`pet.${key}`);
+      }
+    });
+  }
 };
 
 const savePatient = async () => {
