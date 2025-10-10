@@ -142,6 +142,30 @@ const initializeCamera = async () => {
   }
 };
 
+const isValidQrData = (data: any): boolean => {
+  console.log('Checking data validity:', data);
+  
+  if (typeof data !== 'object' || data === null) {
+    console.log('Data is not an object');
+    return false;
+  }
+
+  const hasAnyData = Object.values(data).some(value => 
+    value !== undefined && 
+    value !== null && 
+    String(value).trim() !== ''
+  );
+
+  console.log('Data has any content:', hasAnyData);
+  return hasAnyData;
+};
+
+const normalizeQrData = (data: any): QrData => {
+  console.log('Normalizing data:', data);
+  
+  return { ...data };
+};
+
 const onDetect = async (detectedCodes: any[]) => {
   if (isValidating.value || !detectedCodes.length) return;
   
