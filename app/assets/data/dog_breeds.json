@@ -47,7 +47,10 @@
   { "label": "Sznaucer Miniaturowy", "value": "sznaucer-miniaturowy" },
   { "label": "Tibetan Terrier", "value": "tibetan-terrier" },
   { "label": "Weimaraner", "value": "weimaraner" },
-  { "label": "West Highland White Terrier", "value": "west-highland-white-terrier" },
+  {
+    "label": "West Highland White Terrier",
+    "value": "west-highland-white-terrier"
+  },
   { "label": "Whippet", "value": "whippet" },
   { "label": "Yorkshire Terrier", "value": "yorkshire-terrier" }
 ]

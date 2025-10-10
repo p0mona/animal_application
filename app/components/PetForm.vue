@@ -52,7 +52,7 @@
 <script setup lang="ts">
 import BaseInput from "@/components/BaseInput.vue";
 import { computed, ref, watch, onMounted } from "vue";
-import type { SelectItem } from '~/types/pet';
+import type { SelectItem } from "~/types/pet";
 
 interface PetData {
   animal?: string;
@@ -88,7 +88,7 @@ const breedsLoading = ref(false);
 const animalObject = computed({
   get: () => {
     const val = props.modelValue?.animal || "";
-    return props.animals.find(a => a.value === val);
+    return props.animals.find((a) => a.value === val);
   },
   set: (val: SelectItem | undefined) => {
     updateValue("animal", val?.value || "");
@@ -98,7 +98,7 @@ const animalObject = computed({
 const breedObject = computed({
   get: () => {
     const val = props.modelValue?.breed || "";
-    return breedsList.value.find(b => b.value === val);
+    return breedsList.value.find((b) => b.value === val);
   },
   set: (val: SelectItem | undefined) => {
     updateValue("breed", val?.value || "");
@@ -107,27 +107,27 @@ const breedObject = computed({
 
 const animalNameValue = computed({
   get: () => props.modelValue?.animal_name || "",
-  set: val => updateValue("animal_name", val),
+  set: (val) => updateValue("animal_name", val),
 });
 
 const animalAgeValue = computed({
   get: () => String(props.modelValue?.animal_age || ""),
-  set: val => updateValue("animal_age", val),
+  set: (val) => updateValue("animal_age", val),
 });
 
 const animalHeightValue = computed({
   get: () => String(props.modelValue?.animal_height || ""),
-  set: val => updateValue("animal_height", val),
+  set: (val) => updateValue("animal_height", val),
 });
 
 const animalWeightValue = computed({
   get: () => String(props.modelValue?.animal_weight || ""),
-  set: val => updateValue("animal_weight", val),
+  set: (val) => updateValue("animal_weight", val),
 });
 
 const chipValue = computed({
   get: () => props.modelValue?.chip || "",
-  set: val => updateValue("chip", val),
+  set: (val) => updateValue("chip", val),
 });
 
 const localAnimalSex = ref(props.modelValue?.animal_sex || "K");

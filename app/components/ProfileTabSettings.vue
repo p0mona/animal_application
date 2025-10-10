@@ -71,9 +71,8 @@
 import { ref, onMounted, watch } from "vue";
 import { useUserStore } from "~/stores/user";
 import QRCode from "qrcode";
-import animalsData from '~/assets/data/animals.json';
-import type { SelectItem } from '~/types/pet';
-
+import animalsData from "~/assets/data/animals.json";
+import type { SelectItem } from "~/types/pet";
 
 interface PetData {
   animal?: string;
@@ -154,9 +153,13 @@ onMounted(async () => {
   updateLocalProfileFromStore();
 });
 
-watch(() => userStore.user, () => {
-  updateLocalProfileFromStore();
-}, { deep: true });
+watch(
+  () => userStore.user,
+  () => {
+    updateLocalProfileFromStore();
+  },
+  { deep: true },
+);
 
 function updateLocalProfileFromStore() {
   if (!userStore.user) return;

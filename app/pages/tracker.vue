@@ -10,9 +10,16 @@
       <div v-if="entries.length" class="bg-gray-100 rounded-lg p-4">
         <h3 class="font-semibold mb-2">Wykres:</h3>
         <svg class="w-full h-40" viewBox="0 0 100 40">
-          <line x1="0" y1="40" x2="100" y2="40" stroke="gray" stroke-width="1" />
+          <line
+            x1="0"
+            y1="40"
+            x2="100"
+            y2="40"
+            stroke="gray"
+            stroke-width="1"
+          />
           <line x1="0" y1="0" x2="0" y2="40" stroke="gray" stroke-width="1" />
-          
+
           <polyline
             :points="weightLine"
             fill="none"
@@ -26,7 +33,7 @@
             stroke="orchid"
             stroke-width="2"
           />
-          
+
           <text x="5" y="10" fill="mediumpurple" font-size="3">Waga</text>
           <text x="5" y="15" fill="orchid" font-size="3">Wzrost</text>
         </svg>
@@ -72,7 +79,7 @@
           class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
           :disabled="loading"
         >
-          {{ loading ? 'Dodawanie...' : 'Dodaj' }}
+          {{ loading ? "Dodawanie..." : "Dodaj" }}
         </button>
       </form>
 
@@ -93,7 +100,10 @@
               <div class="w-full bg-gray-200 rounded h-2">
                 <div
                   class="bg-[#9370DB] h-2 rounded transition-all"
-                  :style="{ width: Math.min((entry.weight / maxWeight) * 100, 100) + '%' }"
+                  :style="{
+                    width:
+                      Math.min((entry.weight / maxWeight) * 100, 100) + '%',
+                  }"
                 ></div>
               </div>
               <div class="flex items-center justify-between">
@@ -103,7 +113,10 @@
               <div class="w-full bg-gray-200 rounded h-2">
                 <div
                   class="bg-[#DA70D6] h-2 rounded transition-all"
-                  :style="{ width: Math.min((entry.height / maxHeight) * 100, 100) + '%' }"
+                  :style="{
+                    width:
+                      Math.min((entry.height / maxHeight) * 100, 100) + '%',
+                  }"
                 ></div>
               </div>
             </div>
@@ -129,10 +142,10 @@ interface Entry {
 }
 
 const entries = ref<Entry[]>([]);
-const newEntry = ref<Entry>({ 
-  date: "", 
-  weight: 0, 
-  height: 0 
+const newEntry = ref<Entry>({
+  date: "",
+  weight: 0,
+  height: 0,
 });
 const loading = ref(false);
 const message = ref("");
@@ -142,33 +155,35 @@ const maxWeight = 200;
 const maxHeight = 250;
 
 function getToken(): string | null {
-  return localStorage.getItem('token') || getCookie('token');
+  return localStorage.getItem("token") || getCookie("token");
 }
 
 function getCookie(name: string): string | null {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
   return null;
 }
 
 function showMessage(text: string, isError = false) {
   message.value = text;
-  messageClass.value = isError ? "bg-red-100 text-red-700" : "bg-primary-100 text-primary-700";
+  messageClass.value = isError
+    ? "bg-red-100 text-red-700"
+    : "bg-primary-100 text-primary-700";
   setTimeout(() => {
     message.value = "";
   }, 5000);
 }
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('pl-PL');
+  return new Date(dateStr).toLocaleDateString("pl-PL");
 }
 
 function getTodayDate(): string {
   const today = new Date();
   const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
@@ -182,11 +197,11 @@ async function loadEntries() {
 
     const res = await fetch("http://localhost:3001/tracker", {
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
     });
-    
+
     if (!res.ok) {
       if (res.status === 401) {
         showMessage("Nie jesteś zalogowany", true);
@@ -194,10 +209,11 @@ async function loadEntries() {
       }
       throw new Error(`HTTP error! status: ${res.status}`);
     }
-    
+
     const data = await res.json();
-    entries.value = data.sort((a: Entry, b: Entry) => 
-      new Date(a.date).getTime() - new Date(b.date).getTime()
+    entries.value = data.sort(
+      (a: Entry, b: Entry) =>
+        new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
   } catch (error: any) {
     console.error("Błąd ładowania danych:", error);
@@ -206,7 +222,11 @@ async function loadEntries() {
 }
 
 async function addEntry() {
-  if (!newEntry.value.date || newEntry.value.weight <= 0 || newEntry.value.height <= 0) {
+  if (
+    !newEntry.value.date ||
+    newEntry.value.weight <= 0 ||
+    newEntry.value.height <= 0
+  ) {
     showMessage("Wszystkie pola są wymagane i muszą być większe niż 0", true);
     return;
   }
@@ -222,9 +242,9 @@ async function addEntry() {
 
     const res = await fetch("http://localhost:3001/tracker", {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
       body: JSON.stringify(newEntry.value),
@@ -238,13 +258,15 @@ async function addEntry() {
     }
 
     entries.value.push(data);
-    entries.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    
+    entries.value.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    );
+
     showMessage("Pomyślnie dodano nowy wpis!");
-    newEntry.value = { 
-      date: getTodayDate(), 
-      weight: 0, 
-      height: 0 
+    newEntry.value = {
+      date: getTodayDate(),
+      weight: 0,
+      height: 0,
     };
   } catch (error: any) {
     console.error("Błąd dodawania:", error);

@@ -8,21 +8,21 @@
       :duration="3000"
       @close="showNotification = false"
     />
-    
+
     <!-- QR Scanner Modal -->
     <QrScannerModal
       v-if="showQrScanner"
       @close="showQrScanner = false"
       @scanned="handleQrScanned"
     />
-    
+
     <BackButton to="/patients_settings" />
 
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Nowy pacjent</h1>
       <div>
-        <BaseButton label="Zeskanuj QR" @click="showQrScanner = true"/>
+        <BaseButton label="Zeskanuj QR" @click="showQrScanner = true" />
       </div>
     </div>
 
@@ -49,8 +49,8 @@
 <script setup lang="ts">
 import { reactive, ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import type { SelectItem } from '~/types/pet';
-import animalsData from '~/assets/data/animals.json';
+import type { SelectItem } from "~/types/pet";
+import animalsData from "~/assets/data/animals.json";
 
 const router = useRouter();
 
@@ -112,22 +112,22 @@ const handleQrScanned = (qrData: any) => {
   if (qrData.owner) {
     if (qrData.owner.name) {
       form.owner.name = qrData.owner.name;
-      console.log('Set owner.name:', qrData.owner.name);
+      console.log("Set owner.name:", qrData.owner.name);
     }
     if (qrData.owner.birthday) {
       form.owner.birthday = qrData.owner.birthday;
-      console.log('Set owner.birthday:', qrData.owner.birthday);
+      console.log("Set owner.birthday:", qrData.owner.birthday);
     }
     if (qrData.owner.sex) {
       form.owner.sex = qrData.owner.sex;
-      console.log('Set owner.sex:', qrData.owner.sex);
+      console.log("Set owner.sex:", qrData.owner.sex);
     }
     if (qrData.owner.phone) {
       form.owner.phone = qrData.owner.phone;
-      console.log('Set owner.phone:', qrData.owner.phone);
+      console.log("Set owner.phone:", qrData.owner.phone);
     }
   }
-  
+
   if (qrData.pet) {
     if (qrData.pet.animal) {
       form.owner.pet.animal = qrData.pet.animal;
@@ -154,29 +154,32 @@ const handleQrScanned = (qrData: any) => {
       form.owner.pet.chip = qrData.pet.chip;
     }
   }
-  
+
   const loadedFields: string[] = [];
-  
+
   if (qrData.owner) {
     Object.entries(qrData.owner).forEach(([key, value]) => {
-      if (value && String(value).trim() !== '') {
+      if (value && String(value).trim() !== "") {
         loadedFields.push(`owner.${key}`);
       }
     });
   }
-  
+
   if (qrData.pet) {
     Object.entries(qrData.pet).forEach(([key, value]) => {
-      if (value && String(value).trim() !== '') {
+      if (value && String(value).trim() !== "") {
         loadedFields.push(`pet.${key}`);
       }
     });
   }
-  
+
   if (loadedFields.length > 0) {
-    showNotify("Załadowano dane z kodu QR", 'success');
+    showNotify("Załadowano dane z kodu QR", "success");
   } else {
-    showNotify('Kod QR został zeskanowany, ale nie zawierał danych do załadowania', "error");
+    showNotify(
+      "Kod QR został zeskanowany, ale nie zawierał danych do załadowania",
+      "error",
+    );
   }
 };
 
@@ -225,27 +228,28 @@ const savePatient = async () => {
     }, 2000);
   } catch (error: any) {
     console.error("Error saving patient:", error);
-    showNotify(error.data?.message || "Błąd podczas zapisywania pacjenta", "error");
+    showNotify(
+      error.data?.message || "Błąd podczas zapisywania pacjenta",
+      "error",
+    );
   } finally {
     saving.value = false;
   }
 };
 
 const animals = computed<SelectItem[]>(() =>
-  (animalsData as any[]).map(item => ({
+  (animalsData as any[]).map((item) => ({
     label: item.label,
-    value: item.value
-  }))
+    value: item.value,
+  })),
 );
 
-const breeds = computed<SelectItem[]>(() => [])
+const breeds = computed<SelectItem[]>(() => []);
 
-const sex = computed<SelectItem[]>(() =>
-  [
-    { label: "Kobieta", value: "K" },
-    { label: "Mężczyzna", value: "M" },
-  ]
-);
+const sex = computed<SelectItem[]>(() => [
+  { label: "Kobieta", value: "K" },
+  { label: "Mężczyzna", value: "M" },
+]);
 
 const animal_sex_raw = [
   { label: "Samica", value: "K" },
@@ -253,9 +257,9 @@ const animal_sex_raw = [
 ];
 
 const animal_sex = computed<SelectItem[]>(() =>
-  animal_sex_raw.map(item => ({
+  animal_sex_raw.map((item) => ({
     label: item.label,
-    value: item.value
-  }))
+    value: item.value,
+  })),
 );
 </script>

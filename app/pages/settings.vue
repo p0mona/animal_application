@@ -66,7 +66,7 @@
 import { ref } from "vue";
 import type { RadioGroupItem } from "@nuxt/ui";
 import animalsList from "~/assets/data/animals.json";
-import type { SelectItem } from '~/types/pet';
+import type { SelectItem } from "~/types/pet";
 
 interface PetData {
   animal?: string;
@@ -138,7 +138,7 @@ const profile = ref<ProfileData>({
       chip: "123456789012345",
       animal_sex: "K",
     },
-    sos_phone: ""
+    sos_phone: "",
   },
   name: "Beata",
   sex: "K",
