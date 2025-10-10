@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/ui": "^3.3.2",
     "@tailwindcss/vite": "^4.1.12",
+    "chart.js": "^4.5.0",
     "nuxt": "^4.0.3",
     "pinia": "^3.0.3",
     "qrcode": "^1.5.4",
@@ -23,6 +24,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@types/chart.js": "^2.9.41",
     "@types/qrcode": "^1.5.5"
   }
 }
