@@ -109,6 +109,52 @@ const form = reactive<PatientForm>({
 });
 
 const handleQrScanned = (qrData: any) => {
+  if (qrData.owner) {
+    if (qrData.owner.name) {
+      form.owner.name = qrData.owner.name;
+      console.log('Set owner.name:', qrData.owner.name);
+    }
+    if (qrData.owner.birthday) {
+      form.owner.birthday = qrData.owner.birthday;
+      console.log('Set owner.birthday:', qrData.owner.birthday);
+    }
+    if (qrData.owner.sex) {
+      form.owner.sex = qrData.owner.sex;
+      console.log('Set owner.sex:', qrData.owner.sex);
+    }
+    if (qrData.owner.phone) {
+      form.owner.phone = qrData.owner.phone;
+      console.log('Set owner.phone:', qrData.owner.phone);
+    }
+  }
+  
+  if (qrData.pet) {
+    if (qrData.pet.animal) {
+      form.owner.pet.animal = qrData.pet.animal;
+    }
+    if (qrData.pet.animal_sex) {
+      form.owner.pet.animal_sex = qrData.pet.animal_sex;
+    }
+    if (qrData.pet.breed) {
+      form.owner.pet.breed = qrData.pet.breed;
+    }
+    if (qrData.pet.animal_name) {
+      form.owner.pet.animal_name = qrData.pet.animal_name;
+    }
+    if (qrData.pet.animal_age) {
+      form.owner.pet.animal_age = qrData.pet.animal_age;
+    }
+    if (qrData.pet.animal_height) {
+      form.owner.pet.animal_height = qrData.pet.animal_height;
+    }
+    if (qrData.pet.animal_weight) {
+      form.owner.pet.animal_weight = qrData.pet.animal_weight;
+    }
+    if (qrData.pet.chip) {
+      form.owner.pet.chip = qrData.pet.chip;
+    }
+  }
+  
   const loadedFields: string[] = [];
   
   if (qrData.owner) {
