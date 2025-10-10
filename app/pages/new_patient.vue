@@ -97,6 +97,7 @@ const form = reactive<PatientForm>({
     },
   },
 });
+
 const savePatient = async () => {
   try {
     saving.value = true;
@@ -117,6 +118,11 @@ const savePatient = async () => {
     formData.append("animal_height", String(form.owner.pet.animal_height));
     formData.append("animal_weight", String(form.owner.pet.animal_weight));
     formData.append("chip", form.owner.pet.chip);
+
+    formData.append("owner_name", form.owner.name);
+    formData.append("owner_birthday", form.owner.birthday);
+    formData.append("owner_sex", form.owner.sex);
+    formData.append("owner_phone", form.owner.phone);
 
     if (form.owner.image) {
       formData.append("image", form.owner.image);
