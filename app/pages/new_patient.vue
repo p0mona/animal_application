@@ -8,13 +8,21 @@
       :duration="3000"
       @close="showNotification = false"
     />
+    
+    <!-- QR Scanner Modal -->
+    <QrScannerModal
+      v-if="showQrScanner"
+      @close="showQrScanner = false"
+      @scanned="handleQrScanned"
+    />
+    
     <BackButton to="/patients_settings" />
 
     <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Nowy pacjent</h1>
       <div>
-        <BaseButton label="Zeskanuj QR" />
+        <BaseButton label="Zeskanuj QR" @click="showQrScanner = true"/>
       </div>
     </div>
 
@@ -49,6 +57,8 @@ const router = useRouter();
 const showNotification = ref(false);
 const notificationMessage = ref("");
 const notificationType = ref<"success" | "error">("success");
+const showQrScanner = ref(false);
+const saving = ref(false);
 
 const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
@@ -97,6 +107,20 @@ const form = reactive<PatientForm>({
     },
   },
 });
+
+const handleQrScanned = (qrData: any) => {
+  console.log('QR Data received:', qrData);
+  
+  if (qrData.owner_name) form.owner.name = qrData.owner_name;
+  if (qrData.owner_phone) form.owner.phone = qrData.owner_phone;
+  if (qrData.pet_name) form.owner.pet.animal_name = qrData.pet_name;
+  if (qrData.pet_breed) form.owner.pet.breed = qrData.pet_breed;
+  if (qrData.pet_chip) form.owner.pet.chip = qrData.pet_chip;
+  if (qrData.pet_age) form.owner.pet.animal_age = qrData.pet_age;
+  if (qrData.pet_weight) form.owner.pet.animal_weight = qrData.pet_weight;
+  
+  showNotify('Dane z kodu QR zostały załadowane', 'success');
+};
 
 const savePatient = async () => {
   try {
@@ -178,6 +202,4 @@ const animal_sex = computed<SelectItem[]>(() =>
     value: item.value
   }))
 );
-
-const saving = ref(false);
 </script>
