@@ -232,4 +232,20 @@ onMounted(() => {
   newEntry.value.date = getTodayDate();
   loadEntries();
 });
+
+const weightLine = computed(() => {
+  if (!entries.value.length) return "";
+  const step = 100 / (entries.value.length - 1 || 1);
+  return entries.value
+    .map((e, i) => `${i * step},${40 - (e.weight / maxWeight) * 40}`)
+    .join(" ");
+});
+
+const heightLine = computed(() => {
+  if (!entries.value.length) return "";
+  const step = 100 / (entries.value.length - 1 || 1);
+  return entries.value
+    .map((e, i) => `${i * step},${40 - (e.height / maxHeight) * 40}`)
+    .join(" ");
+});
 </script>
