@@ -54,7 +54,6 @@ import BaseInput from "@/components/BaseInput.vue";
 import { computed, ref, watch, onMounted } from "vue";
 import type { SelectItem } from '~/types/pet';
 
-
 interface PetData {
   animal?: string;
   breed?: string;
@@ -66,25 +65,8 @@ interface PetData {
   chip?: string;
 }
 
-interface OwnerData {
-  pet?: PetData;
-}
-
-interface ModelValue {
-  animal?: string;
-  breed?: string;
-  animal_sex?: string;
-  animal_name?: string;
-  animal_age?: string | number;
-  animal_height?: string | number;
-  animal_weight?: string | number;
-  chip?: string;
-  owner?: OwnerData;
-  [key: string]: any;
-}
-
 interface Props {
-  modelValue: ModelValue;
+  modelValue: any;
   animals: SelectItem[];
   animal_sex: SelectItem[];
   animalPlaceholder?: string;
@@ -97,7 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  "update:modelValue": [value: ModelValue];
+  "update:modelValue": [value: any];
 }>();
 
 const breedsList = ref<SelectItem[]>([]);
@@ -105,48 +87,52 @@ const breedsLoading = ref(false);
 
 const animalObject = computed({
   get: () => {
-    const val = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal || "";
+    const val = props.modelValue?.animal || "";
     return props.animals.find(a => a.value === val);
   },
   set: (val: SelectItem | undefined) => {
-    updateNestedValue("animal", val?.value || "");
+    updateValue("animal", val?.value || "");
   },
 });
 
 const breedObject = computed({
   get: () => {
-    const val = props.modelValue?.breed || props.modelValue?.owner?.pet?.breed || "";
+    const val = props.modelValue?.breed || "";
     return breedsList.value.find(b => b.value === val);
   },
   set: (val: SelectItem | undefined) => {
-    updateNestedValue("breed", val?.value || "");
+    updateValue("breed", val?.value || "");
   },
 });
 
 const animalNameValue = computed({
-  get: () => props.modelValue?.animal_name || props.modelValue?.owner?.pet?.animal_name || "",
-  set: val => updateNestedValue("animal_name", val),
+  get: () => props.modelValue?.animal_name || "",
+  set: val => updateValue("animal_name", val),
 });
+
 const animalAgeValue = computed({
-  get: () => String(props.modelValue?.animal_age || props.modelValue?.owner?.pet?.animal_age || ""),
-  set: val => updateNestedValue("animal_age", val),
+  get: () => String(props.modelValue?.animal_age || ""),
+  set: val => updateValue("animal_age", val),
 });
+
 const animalHeightValue = computed({
-  get: () => String(props.modelValue?.animal_height || props.modelValue?.owner?.pet?.animal_height || ""),
-  set: val => updateNestedValue("animal_height", val),
+  get: () => String(props.modelValue?.animal_height || ""),
+  set: val => updateValue("animal_height", val),
 });
+
 const animalWeightValue = computed({
-  get: () => String(props.modelValue?.animal_weight || props.modelValue?.owner?.pet?.animal_weight || ""),
-  set: val => updateNestedValue("animal_weight", val),
+  get: () => String(props.modelValue?.animal_weight || ""),
+  set: val => updateValue("animal_weight", val),
 });
+
 const chipValue = computed({
-  get: () => props.modelValue?.chip || props.modelValue?.owner?.pet?.chip || "",
-  set: val => updateNestedValue("chip", val),
+  get: () => props.modelValue?.chip || "",
+  set: val => updateValue("chip", val),
 });
 
 const localAnimalSex = ref(props.modelValue?.animal_sex || "K");
 watch(localAnimalSex, (val) => {
-  updateNestedValue("animal_sex", val);
+  updateValue("animal_sex", val);
 });
 
 const hasBreeds = computed(() => breedsList.value.length > 0);
@@ -176,16 +162,13 @@ watch(animalObject, (newVal, oldVal) => {
 });
 
 onMounted(() => {
-  const initial = props.modelValue?.animal || props.modelValue?.owner?.pet?.animal;
+  const initial = props.modelValue?.animal;
   if (initial) loadBreeds(initial);
 });
 
-// --- Функция обновления modelValue ---
-const updateNestedValue = (field: keyof PetData, value: string | number) => {
-  const current: ModelValue = { ...props.modelValue };
-  if (!current.owner) current.owner = {};
-  if (!current.owner.pet) current.owner.pet = {};
-  current.owner.pet[field] = String(value); // конвертируем в string
-  emit("update:modelValue", current);
+const updateValue = (field: string, value: any) => {
+  const updated = { ...props.modelValue };
+  updated[field] = value;
+  emit("update:modelValue", updated);
 };
 </script>
