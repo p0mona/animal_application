@@ -13,7 +13,7 @@
     <!-- Текст посередине -->
     <div class="flex-1">
       <h2 class="text-lg font-semibold text-gray-900">{{ name }}</h2>
-      <p class="text-sm text-gray-500">{{ breed }} - {{ getSexLabel(sex) }}</p>
+      <p class="text-sm text-gray-500">{{ formattedBreed }} - {{ getSexLabel(sex) }}</p>
     </div>
 
     <!-- Кнопка справа -->
@@ -25,13 +25,39 @@
 
 <script setup lang="ts">
 import { NuxtLink } from "#components";
+import { ref, computed, onMounted } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   name: string;
   breed: string;
   image: string;
   sex: string;
 }>();
+
+const dogBreeds = ref<any[]>([]);
+const catBreeds = ref<any[]>([]);
+
+onMounted(async () => {
+  try {
+    const dogData = await import('~/assets/data/dog_breeds.json');
+    dogBreeds.value = dogData.default || dogData;
+    
+    const catData = await import('~/assets/data/cat_breeds.json');
+    catBreeds.value = catData.default || catData;
+  } catch (err) {
+    console.error('Error loading breed data:', err);
+  }
+});
+
+const formattedBreed = computed(() => {
+  if (!props.breed) return '';
+  const catBreed = catBreeds.value.find(b => b.value === props.breed);
+  if (catBreed) return catBreed.label;
+  const dogBreed = dogBreeds.value.find(b => b.value === props.breed);
+  if (dogBreed) return dogBreed.label;
+  
+  return props.breed;
+});
 
 const getImageUrl = (imagePath: string) => {
   if (!imagePath || imagePath === "/images/example-photo.jpg") {
