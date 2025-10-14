@@ -58,8 +58,8 @@
                 <h5 class="font-semibold text-lg mb-3">Właściciel</h5>
                 <div class="space-y-2">
                   <p><span class="font-medium">Imię:</span> {{ patient.owner?.name || '-----' }}</p>
-                  <p><span class="font-medium">Data urodzenia:</span> {{ formattedOwnerBirthday }}</p>
-                  <p><span class="font-medium">Płeć:</span> {{ ownerSex }}</p>
+                  <p><span class="font-medium">Data urodzenia:</span> {{ patient.owner?.birthday }}</p>
+                  <p><span class="font-medium">Płeć:</span> {{ patient.owner?.sex}}</p>
                   <p><span class="font-medium">Kontakt:</span> {{ patient.owner?.phone || '-----' }}</p>
                 </div>
               </div>
@@ -135,7 +135,6 @@
           <BorderButton 
             label="Usuń pacjenta" 
             @click="deletePatient"
-            :loading="deleting"
           />
         </div>
       </div>
