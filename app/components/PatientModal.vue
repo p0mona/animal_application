@@ -136,6 +136,10 @@
             label="Usuń pacjenta" 
             @click="deletePatient"
           />
+          <BaseButton 
+            label="Edytuj pacjenta" 
+            @click="editPatient"
+          />
         </div>
       </div>
     </div>
@@ -209,17 +213,6 @@ const patientSex = computed(() => {
   return sex === 'K' ? 'Samica' : sex === 'M' ? 'Samiec' : '-----';
 });
 
-const ownerSex = computed(() => {
-  if (!props.patient?.owner) return '-----';
-  const sex = props.patient.owner.sex;
-  return sex === 'K' ? 'Kobieta' : sex === 'M' ? 'Mężczyzna' : '-----';
-});
-
-const formattedOwnerBirthday = computed(() => {
-  if (!props.patient?.owner?.birthday) return '-----';
-  return props.patient.owner.birthday;
-});
-
 const formattedBreed = computed(() => {
   if (!props.patient?.breed) return '-----';
   const catBreed = catBreeds.value.find((b) => b.value === props.patient!.breed);
@@ -253,6 +246,16 @@ const getImageUrl = (imagePath: string) => {
 const handleImageError = (event: Event) => {
   const img = event.target as HTMLImageElement;
   img.src = "/images/example-photo.jpg";
+};
+
+const editPatient = () => {
+  if (!props.patient) return;
+  
+  closeModal();
+  
+  setTimeout(() => {
+    navigateTo(`/edit_patient/${props.patient!._id}`);
+  }, 100);
 };
 
 const deletePatient = async () => {
