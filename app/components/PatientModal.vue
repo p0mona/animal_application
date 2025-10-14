@@ -130,8 +130,7 @@
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p class="mt-4 text-gray-500">Ładowanie danych pacjenta...</p>
         </div>
-
-        <div class="flex justify-end space-x-3 p-6 border-t border-gray-200" v-if="patient">
+        <div class="flex justify-end space-x-3 p-6 border-t border-gray-200" v-if="activeTab === 'patient'">
           <BorderButton 
             label="Usuń pacjenta" 
             @click="deletePatient"
