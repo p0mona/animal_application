@@ -13,21 +13,36 @@
       <PatientCard
         v-for="(patient, index) in patients"
         :key="patient._id || index"
+        :_id="patient._id"
         :name="patient.name"
         :breed="patient.breed"
         :image="patient.image"
         :sex="patient.sex"
+        :animal="patient.animal"
+        :animal_age="patient.animal_age"
+        :animal_height="patient.animal_height"
+        :animal_weight="patient.animal_weight"
+        :chip="patient.chip"
+        :owner="patient.owner"
+        @view-details="openPatientModal"
       />
 
       <div v-if="patients.length === 0" class="text-center py-8 text-gray-500">
         <p>Brak pacjentów w bazie danych. Dodaj pierwszego pacjenta.</p>
       </div>
     </div>
+
+    <PatientModal
+      v-model:isOpen="showPatientModal"
+      :patient="selectedPatient"
+      @patient-deleted="handlePatientDeleted"
+    />
   </FullWidthLayout>
 </template>
 
 <script setup lang="ts">
 import PatientCard from "~/components/PatientCard.vue";
+import PatientModal from "~/components/PatientModal.vue";
 
 interface Patient {
   _id: string;
@@ -50,7 +65,18 @@ interface Patient {
 }
 
 const patients = ref<Patient[]>([]);
+const showPatientModal = ref(false);
+const selectedPatient = ref<Patient | null>(null);
 const error = ref("");
+
+const openPatientModal = (patient: Patient) => {
+  selectedPatient.value = patient;
+  showPatientModal.value = true;
+};
+
+const handlePatientDeleted = (patientId: string) => {
+  patients.value = patients.value.filter(p => p._id !== patientId);
+};
 
 const loadPatients = async () => {
   try {
