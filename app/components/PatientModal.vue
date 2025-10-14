@@ -28,7 +28,6 @@
 
           <!-- Profil -->
           <div v-if="activeTab === 'patient'" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Фото - первый столбец -->
             <div class="flex justify-center lg:justify-start">
               <img
                 :src="patientImage"
@@ -48,7 +47,7 @@
                   <p><span class="font-medium">Płeć:</span> {{ patientSex }}</p>
                   <p><span class="font-medium">Gatunek:</span> {{ patient.animal || '-----' }}</p>
                   <p><span class="font-medium">Wiek:</span> {{ patient.animal_age || '-----' }}</p>
-                  <p><span class="font-medium">Wysokość:</span> {{ patient.animal_height ? `${patient.animal_height} cm` : '-----' }}</p>
+                  <p><span class="font-medium">Wzrost:</span> {{ patient.animal_height ? `${patient.animal_height} cm` : '-----' }}</p>
                   <p><span class="font-medium">Waga:</span> {{ patient.animal_weight ? `${patient.animal_weight} kg` : '-----' }}</p>
                 </div>
               </div>
