@@ -74,13 +74,10 @@
             required
           />
         </div>
-        <button
-          type="submit"
-          class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+        <BaseButton 
+          :label="loading ? 'Dodawanie...' : 'Dodaj'" 
           :disabled="loading"
-        >
-          {{ loading ? "Dodawanie..." : "Dodaj" }}
-        </button>
+        />
       </form>
 
       <div v-if="entries.length" class="space-y-4">
