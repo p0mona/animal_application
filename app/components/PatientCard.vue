@@ -19,22 +19,73 @@
     </div>
 
     <!-- Кнопка справа -->
-    <NuxtLink to="/patient">
-      <BaseButton label="Przejdź" />
-    </NuxtLink>
+    <BaseButton 
+      label="Przejdź" 
+      @click="$emit('view-details', patientData)" 
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { NuxtLink } from "#components";
 import { ref, computed, onMounted } from "vue";
 
-const props = defineProps<{
+interface PatientData {
+  _id: string;
   name: string;
   breed: string;
   image: string;
   sex: string;
+  animal?: string;
+  animal_age?: string;
+  animal_height?: string;
+  animal_weight?: string;
+  chip?: string;
+  owner?: {
+    name: string;
+    birthday: string;
+    sex: string;
+    phone: string;
+    image?: string;
+  };
+}
+
+const props = defineProps<{
+  _id: string;
+  name: string;
+  breed: string;
+  image: string;
+  sex: string;
+  animal?: string;
+  animal_age?: string;
+  animal_height?: string;
+  animal_weight?: string;
+  chip?: string;
+  owner?: {
+    name: string;
+    birthday: string;
+    sex: string;
+    phone: string;
+    image?: string;
+  };
 }>();
+
+const emit = defineEmits<{
+  'view-details': [patient: PatientData]
+}>();
+
+const patientData = computed<PatientData>(() => ({
+  _id: props._id,
+  name: props.name,
+  breed: props.breed,
+  image: props.image,
+  sex: props.sex,
+  animal: props.animal,
+  animal_age: props.animal_age,
+  animal_height: props.animal_height,
+  animal_weight: props.animal_weight,
+  chip: props.chip,
+  owner: props.owner
+}));
 
 const dogBreeds = ref<any[]>([]);
 const catBreeds = ref<any[]>([]);
