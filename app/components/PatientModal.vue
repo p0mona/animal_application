@@ -1,23 +1,37 @@
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
     <!-- Overlay -->
-    <div 
-      class="fixed inset-0 bg-black/50 flex items-center justify-center" 
+    <div
+      class="fixed inset-0 bg-black/50 flex items-center justify-center"
       @click="closeModal"
     ></div>
-    
+
     <!-- Modal -->
     <div class="flex min-h-full items-center justify-center p-4">
-      <div class="relative bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div
+        class="relative bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+      >
         <!-- Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200"
+        >
           <h2 class="text-2xl font-bold text-gray-900">Szczegóły pacjenta</h2>
-          <button 
+          <button
             @click="closeModal"
             class="text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -27,7 +41,10 @@
           <Navigation :items="navItems" v-model="activeTab" class="mb-6" />
 
           <!-- Profil -->
-          <div v-if="activeTab === 'patient'" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            v-if="activeTab === 'patient'"
+            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
             <div class="flex justify-center lg:justify-start">
               <img
                 :src="patientImage"
@@ -41,14 +58,42 @@
               <div>
                 <h5 class="font-semibold text-lg mb-3">Pupil</h5>
                 <div class="space-y-2">
-                  <p><span class="font-medium">Imię:</span> {{ patient.name || '-----' }}</p>
-                  <p><span class="font-medium">Rasa:</span> {{ formattedBreed }}</p>
-                  <p><span class="font-medium">Nr chipu:</span> {{ patient.chip || '-----' }}</p>
+                  <p>
+                    <span class="font-medium">Imię:</span>
+                    {{ patient.name || "-----" }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Rasa:</span> {{ formattedBreed }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Nr chipu:</span>
+                    {{ patient.chip || "-----" }}
+                  </p>
                   <p><span class="font-medium">Płeć:</span> {{ patientSex }}</p>
-                  <p><span class="font-medium">Gatunek:</span> {{ patient.animal || '-----' }}</p>
-                  <p><span class="font-medium">Wiek:</span> {{ patient.animal_age || '-----' }}</p>
-                  <p><span class="font-medium">Wzrost:</span> {{ patient.animal_height ? `${patient.animal_height} cm` : '-----' }}</p>
-                  <p><span class="font-medium">Waga:</span> {{ patient.animal_weight ? `${patient.animal_weight} kg` : '-----' }}</p>
+                  <p>
+                    <span class="font-medium">Gatunek:</span>
+                    {{ patient.animal || "-----" }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Wiek:</span>
+                    {{ patient.animal_age || "-----" }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Wzrost:</span>
+                    {{
+                      patient.animal_height
+                        ? `${patient.animal_height} cm`
+                        : "-----"
+                    }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Waga:</span>
+                    {{
+                      patient.animal_weight
+                        ? `${patient.animal_weight} kg`
+                        : "-----"
+                    }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -57,10 +102,22 @@
               <div>
                 <h5 class="font-semibold text-lg mb-3">Właściciel</h5>
                 <div class="space-y-2">
-                  <p><span class="font-medium">Imię:</span> {{ patient.owner?.name || '-----' }}</p>
-                  <p><span class="font-medium">Data urodzenia:</span> {{ patient.owner?.birthday }}</p>
-                  <p><span class="font-medium">Płeć:</span> {{ patient.owner?.sex}}</p>
-                  <p><span class="font-medium">Kontakt:</span> {{ patient.owner?.phone || '-----' }}</p>
+                  <p>
+                    <span class="font-medium">Imię:</span>
+                    {{ patient.owner?.name || "-----" }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Data urodzenia:</span>
+                    {{ patient.owner?.birthday }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Płeć:</span>
+                    {{ patient.owner?.sex }}
+                  </p>
+                  <p>
+                    <span class="font-medium">Kontakt:</span>
+                    {{ patient.owner?.phone || "-----" }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -103,7 +160,10 @@
           </div>
 
           <!-- Vaccination Section -->
-          <div v-if="activeTab === 'vaccination'" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            v-if="activeTab === 'vaccination'"
+            class="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
             <VaccinationGroup
               title="Obowiązkowe szczepionki"
               :vaccines="[
@@ -127,18 +187,17 @@
         </div>
 
         <div v-else class="p-6 text-center">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div
+            class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+          ></div>
           <p class="mt-4 text-gray-500">Ładowanie danych pacjenta...</p>
         </div>
-        <div class="flex justify-end space-x-3 p-6 border-t border-gray-200" v-if="activeTab === 'patient'">
-          <BorderButton 
-            label="Usuń pacjenta" 
-            @click="deletePatient"
-          />
-          <BaseButton 
-            label="Edytuj pacjenta" 
-            @click="editPatient"
-          />
+        <div
+          class="flex justify-end space-x-3 p-6 border-t border-gray-200"
+          v-if="activeTab === 'patient'"
+        >
+          <BorderButton label="Usuń pacjenta" @click="deletePatient" />
+          <BaseButton label="Edytuj pacjenta" @click="editPatient" />
         </div>
       </div>
     </div>
@@ -175,8 +234,8 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  'update:isOpen': [value: boolean]
-  'patient-deleted': [patientId: string]
+  "update:isOpen": [value: boolean];
+  "patient-deleted": [patientId: string];
 }>();
 
 const activeTab = ref("patient");
@@ -196,34 +255,38 @@ const navItems = [
 ];
 
 const patientImage = computed(() => {
-  if (!props.patient) return '/images/example-photo.jpg';
+  if (!props.patient) return "/images/example-photo.jpg";
   if (props.patient.image) {
     return getImageUrl(props.patient.image);
   }
   if (props.patient.owner?.image) {
     return getImageUrl(props.patient.owner.image);
   }
-  return '/images/example-photo.jpg';
+  return "/images/example-photo.jpg";
 });
 
 const patientSex = computed(() => {
-  if (!props.patient) return '-----';
+  if (!props.patient) return "-----";
   const sex = props.patient.sex;
-  return sex === 'K' ? 'Samica' : sex === 'M' ? 'Samiec' : '-----';
+  return sex === "K" ? "Samica" : sex === "M" ? "Samiec" : "-----";
 });
 
 const formattedBreed = computed(() => {
-  if (!props.patient?.breed) return '-----';
-  const catBreed = catBreeds.value.find((b) => b.value === props.patient!.breed);
+  if (!props.patient?.breed) return "-----";
+  const catBreed = catBreeds.value.find(
+    (b) => b.value === props.patient!.breed,
+  );
   if (catBreed) return catBreed.label;
-  const dogBreed = dogBreeds.value.find((b) => b.value === props.patient!.breed);
+  const dogBreed = dogBreeds.value.find(
+    (b) => b.value === props.patient!.breed,
+  );
   if (dogBreed) return dogBreed.label;
   return props.patient.breed;
 });
 
 // Methods
 const closeModal = () => {
-  emit('update:isOpen', false);
+  emit("update:isOpen", false);
 };
 
 const getImageUrl = (imagePath: string) => {
@@ -249,9 +312,9 @@ const handleImageError = (event: Event) => {
 
 const editPatient = () => {
   if (!props.patient) return;
-  
+
   closeModal();
-  
+
   setTimeout(() => {
     navigateTo(`/edit_patient/${props.patient!._id}`);
   }, 100);
@@ -277,7 +340,7 @@ const deletePatient = async () => {
       },
     });
 
-    emit('patient-deleted', props.patient._id);
+    emit("patient-deleted", props.patient._id);
     closeModal();
   } catch (error: any) {
     console.error("Error deleting patient:", error);

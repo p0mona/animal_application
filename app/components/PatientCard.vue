@@ -19,10 +19,7 @@
     </div>
 
     <!-- Кнопка справа -->
-    <BaseButton 
-      label="Przejdź" 
-      @click="$emit('view-details', patientData)" 
-    />
+    <BaseButton label="Przejdź" @click="$emit('view-details', patientData)" />
   </div>
 </template>
 
@@ -70,7 +67,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  'view-details': [patient: PatientData]
+  "view-details": [patient: PatientData];
 }>();
 
 const patientData = computed<PatientData>(() => ({
@@ -84,7 +81,7 @@ const patientData = computed<PatientData>(() => ({
   animal_height: props.animal_height,
   animal_weight: props.animal_weight,
   chip: props.chip,
-  owner: props.owner
+  owner: props.owner,
 }));
 
 const dogBreeds = ref<any[]>([]);

@@ -28,15 +28,15 @@
         :breeds="breeds"
         :animal_sex="animal_sex"
       />
-      
+
       <div class="mt-8">
         <OwnerForm v-model="form.owner" :sex="sex" />
         <div class="mt-8 flex justify-end space-x-4">
           <BorderButton label="Anuluj" @click="goBack" />
-          <BaseButton 
-            label="Zapisz zmiany" 
-            @click="updatePatient" 
-            :loading="saving" 
+          <BaseButton
+            label="Zapisz zmiany"
+            @click="updatePatient"
+            :loading="saving"
           />
         </div>
       </div>
@@ -116,7 +116,7 @@ const form = reactive<FormData>({
     sex: "K",
     phone: "",
     image: null,
-  }
+  },
 });
 
 const showNotify = (message: string, type: "success" | "error" = "success") => {
@@ -131,9 +131,12 @@ const loadPatient = async () => {
     if (!token) return showNotify("Nie jesteś zalogowany", "error");
 
     const patientId = route.params.id as string;
-    const response = await $fetch(`http://localhost:3001/patients/${patientId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }) as PatientResponse;
+    const response = (await $fetch(
+      `http://localhost:3001/patients/${patientId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    )) as PatientResponse;
 
     if (response) {
       form.pet.animal_name = response.name || "";
@@ -167,19 +170,19 @@ const updatePatient = async () => {
 
     const formData = new FormData();
 
-    formData.append('name', form.pet.animal_name);
-    formData.append('breed', form.pet.breed);
-    formData.append('sex', form.pet.animal_sex);
-    formData.append('animal', form.pet.animal);
-    formData.append('animal_age', form.pet.animal_age);
-    formData.append('animal_height', form.pet.animal_height);
-    formData.append('animal_weight', form.pet.animal_weight);
-    formData.append('chip', form.pet.chip);
+    formData.append("name", form.pet.animal_name);
+    formData.append("breed", form.pet.breed);
+    formData.append("sex", form.pet.animal_sex);
+    formData.append("animal", form.pet.animal);
+    formData.append("animal_age", form.pet.animal_age);
+    formData.append("animal_height", form.pet.animal_height);
+    formData.append("animal_weight", form.pet.animal_weight);
+    formData.append("chip", form.pet.chip);
 
-    formData.append('owner_name', form.owner.name);
-    formData.append('owner_birthday', form.owner.birthday);
-    formData.append('owner_sex', form.owner.sex);
-    formData.append('owner_phone', form.owner.phone);
+    formData.append("owner_name", form.owner.name);
+    formData.append("owner_birthday", form.owner.birthday);
+    formData.append("owner_sex", form.owner.sex);
+    formData.append("owner_phone", form.owner.phone);
 
     if (form.owner.image) {
       formData.append("image", form.owner.image);
@@ -202,10 +205,15 @@ const updatePatient = async () => {
 
 const handleQrScanned = (qrData: any) => {
   const updates: string[] = [];
-  
+
   if (qrData.owner) {
-    const ownerKeys: (keyof OwnerFormData)[] = ['name', 'birthday', 'sex', 'phone'];
-    ownerKeys.forEach(key => {
+    const ownerKeys: (keyof OwnerFormData)[] = [
+      "name",
+      "birthday",
+      "sex",
+      "phone",
+    ];
+    ownerKeys.forEach((key) => {
       if (qrData.owner[key]) {
         (form.owner[key] as string) = qrData.owner[key];
         updates.push(`owner.${key}`);
@@ -215,14 +223,14 @@ const handleQrScanned = (qrData: any) => {
 
   if (qrData.pet) {
     const petMappings: Record<string, keyof PetFormData> = {
-      animal_name: 'animal_name',
-      breed: 'breed',
-      animal_sex: 'animal_sex',
-      animal: 'animal',
-      animal_age: 'animal_age',
-      animal_height: 'animal_height',
-      animal_weight: 'animal_weight',
-      chip: 'chip'
+      animal_name: "animal_name",
+      breed: "breed",
+      animal_sex: "animal_sex",
+      animal: "animal",
+      animal_age: "animal_age",
+      animal_height: "animal_height",
+      animal_weight: "animal_weight",
+      chip: "chip",
     };
 
     Object.entries(petMappings).forEach(([qrKey, formKey]) => {
@@ -234,8 +242,10 @@ const handleQrScanned = (qrData: any) => {
   }
 
   showNotify(
-    updates.length > 0 ? "Załadowano dane z kodu QR" : "Brak danych do załadowania",
-    updates.length > 0 ? "success" : "error"
+    updates.length > 0
+      ? "Załadowano dane z kodu QR"
+      : "Brak danych do załadowania",
+    updates.length > 0 ? "success" : "error",
   );
 };
 
@@ -247,20 +257,20 @@ interface SelectItem {
 }
 
 const animals: SelectItem[] = [
-  { label: "Kot", value: "cat" }, 
-  { label: "Pies", value: "dog" }
+  { label: "Kot", value: "cat" },
+  { label: "Pies", value: "dog" },
 ];
 
 const breeds: SelectItem[] = [];
 
 const sex: SelectItem[] = [
-  { label: "Kobieta", value: "K" }, 
-  { label: "Mężczyzna", value: "M" }
+  { label: "Kobieta", value: "K" },
+  { label: "Mężczyzna", value: "M" },
 ];
 
 const animal_sex: SelectItem[] = [
-  { label: "Samica", value: "K" }, 
-  { label: "Samiec", value: "M" }
+  { label: "Samica", value: "K" },
+  { label: "Samiec", value: "M" },
 ];
 
 onMounted(loadPatient);

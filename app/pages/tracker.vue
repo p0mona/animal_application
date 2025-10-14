@@ -74,8 +74,8 @@
             required
           />
         </div>
-        <BaseButton 
-          :label="loading ? 'Dodawanie...' : 'Dodaj'" 
+        <BaseButton
+          :label="loading ? 'Dodawanie...' : 'Dodaj'"
           :disabled="loading"
         />
       </form>

@@ -75,7 +75,7 @@ const openPatientModal = (patient: Patient) => {
 };
 
 const handlePatientDeleted = (patientId: string) => {
-  patients.value = patients.value.filter(p => p._id !== patientId);
+  patients.value = patients.value.filter((p) => p._id !== patientId);
 };
 
 const loadPatients = async () => {
