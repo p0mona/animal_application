@@ -81,6 +81,7 @@ const menuLinks = computed(() => {
       { label: "Przypomnienia", to: "/reminders" },
       { label: "Dokumenty", to: "/documents" },
       { label: "Tracker", to: "/tracker" },
+      { label: "Klinika weterynaryjna", to: "/vet_clinic" },
       { label: "Schronisko", to: "/shelter" },
       { label: "Behawiorysta", to: "/trainer" },
       { label: "Wyloguj się", action: "logout" },
@@ -89,7 +90,6 @@ const menuLinks = computed(() => {
 
   if (user.value?.userType === "VET") {
     return [
-      { label: "Klinika weterynaryjna", to: "/vet_clinic" },
       { label: "Ustawienia", to: "/vet_settings" },
       { label: "Schronisko", to: "/shelter" },
       { label: "Behawiorysta", to: "/trainer" },
