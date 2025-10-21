@@ -120,6 +120,20 @@ const showNotification = ref(false);
 const notificationMessage = ref("");
 const notificationType = ref("success");
 
+function openModal(trainer) {
+  selectedTrainer.value = trainer;
+}
+
+function closeModal() {
+  selectedTrainer.value = null;
+}
+
+function editAnnouncement() {
+  if (selectedTrainer.value) {
+    navigateTo(`/edit_announcement/${selectedTrainer.value._id}`);
+  }
+}
+
 async function deleteAnnouncement() {
   if (!selectedTrainer.value) return;
 
@@ -235,16 +249,14 @@ const loadAnnouncements = async () => {
   }
 };
 
-function openModal(trainer) {
-  selectedTrainer.value = trainer;
-}
-
-function closeModal() {
-  selectedTrainer.value = null;
-}
-
 onMounted(() => {
   currentUserId.value = getCurrentUserId();
   loadAnnouncements();
 });
+</script>
+
+<script>
+export default {
+  ssr: false
+}
 </script>
