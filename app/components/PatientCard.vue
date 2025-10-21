@@ -14,7 +14,8 @@
     <div class="flex-1">
       <h2 class="text-lg font-semibold text-gray-900">{{ name }}</h2>
       <p class="text-sm text-gray-500">
-        {{ formattedBreed }} - {{ getSexLabel(sex) }}
+        <span v-if="formattedBreed">{{ formattedBreed }} - {{ getSexLabel(sex) }}</span>
+        <span v-else>{{ getSexLabel(sex) }}</span>
       </p>
     </div>
 
