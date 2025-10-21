@@ -38,32 +38,30 @@
   </FullWidthLayout>
 </template>
 
-<script setup lang="ts">
-import { reactive, ref, computed } from "vue";
+<script setup>
+import { reactive, ref } from "vue";
 
 const form = reactive({
   name: "",
   experience: "",
   contact: "",
-  image: null as File | null,
+  image: null,
   description: "",
 });
 
 const loading = ref(false);
-
-// Notifications
 const showNotification = ref(false);
 const notificationMessage = ref("");
-const notificationType = ref<"success" | "error">("success");
+const notificationType = ref("success");
 
-const notificationClass = computed(() => {
-  return {
-    success: "bg-green-100 border border-green-400 text-green-700",
-    error: "bg-red-100 border border-red-400 text-red-700",
-  }[notificationType.value];
-});
+const getAuthToken = () => {
+  if (process.client) {
+    return localStorage.getItem('token') || sessionStorage.getItem('token');
+  }
+  return null;
+};
 
-const showNotify = (message: string, type: "success" | "error" = "success") => {
+const showNotify = (message, type = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
@@ -100,15 +98,30 @@ const submitForm = async () => {
     }
 
     const API_URL = "http://localhost:3001/announcement";
-    const response = await fetch(API_URL, { method: "POST", body: formData });
+    const token = getAuthToken();
+    
+    if (!token) {
+      throw new Error("Musisz być zalogowany, aby dodać ogłoszenie");
+    }
 
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+
+    const response = await fetch(API_URL, { 
+      method: "POST", 
+      body: formData,
+      headers
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
     const result = await response.json();
 
-    showNotify(
-      result.message || "Ogłoszenie zostało pomyślnie dodane!",
-      "success",
-    );
+    showNotify("Ogłoszenie zostało pomyślnie dodane!", "success");
 
     // reset form
     form.name = "";
@@ -116,14 +129,23 @@ const submitForm = async () => {
     form.contact = "";
     form.description = "";
     form.image = null;
-  } catch (error: any) {
-    console.error(error);
-    showNotify(
-      error.message || "Wystąpił błąd podczas dodawania ogłoszenia",
-      "error",
-    );
+
+    // перенаправление на страницу объявлений
+    setTimeout(() => {
+      navigateTo('/trainer');
+    }, 1500);
+
+  } catch (error) {
+    console.error("Submission error:", error);
+    showNotify(error.message || "Wystąpił błąd podczas dodawania ogłoszenia", "error");
   } finally {
     loading.value = false;
   }
 };
+</script>
+
+<script>
+export default {
+  ssr: false
+}
 </script>

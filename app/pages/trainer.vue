@@ -43,6 +43,7 @@
         :image="announcement.image"
         :experience="announcement.experience"
         :contact="announcement.contact"
+        :canDelete="isOwner(announcement)"
         @click="openModal(announcement)"
         class="cursor-pointer hover:scale-105 transition-transform"
       />
@@ -71,7 +72,7 @@
             <h2 class="text-xl font-bold mb-2">{{ selectedTrainer.name }}</h2>
             <p class="text-gray-600 mb-2">
               <strong>Doświadczenie:</strong>
-              {{ selectedTrainer.experience }} lat
+              {{ selectedTrainer.experience || 0 }} lat
             </p>
             <p class="text-gray-600 mb-2">
               <strong>Kontakt:</strong> {{ selectedTrainer.contact }}
@@ -88,7 +89,7 @@
               :alt="selectedTrainer.name"
               class="w-full rounded-xl mb-4"
             />
-            <div class="flex justify-end">
+            <div class="flex justify-end" v-if="isOwner(selectedTrainer)">
               <BorderButton
                 label="Usuń"
                 class="border-red-600 text-red-600"
@@ -104,17 +105,89 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import TrainerCard from "~/components/TrainerCard.vue";
 
 const announcements = ref([]);
 const selectedTrainer = ref(null);
-const loading = ref(false);
+const loading = ref(true);
 const deleting = ref(false);
 const errorMessage = ref("");
+const currentUserId = ref(null);
 
 const showNotification = ref(false);
 const notificationMessage = ref("");
 const notificationType = ref("success");
+
+async function deleteAnnouncement() {
+  if (!selectedTrainer.value) return;
+
+  const confirmDelete = confirm("Czy na pewno chcesz usunąć to ogłoszenie?");
+  if (!confirmDelete) return;
+
+  deleting.value = true;
+  errorMessage.value = "";
+
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error("Musisz być zalogowany, aby usunąć ogłoszenie");
+    }
+
+    const response = await fetch(
+      `http://localhost:3001/announcement/${selectedTrainer.value._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      },
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    announcements.value = announcements.value.filter(
+      (announcement) => announcement._id !== selectedTrainer.value._id,
+    );
+
+    closeModal();
+    showNotificationMessage("Ogłoszenie zostało pomyślnie usunięte", "success");
+  } catch (error) {
+    console.error("Error deleting announcement:", error);
+    errorMessage.value = error.message || "Wystąpił błąd podczas usuwania ogłoszenia";
+    showNotificationMessage(error.message || "Wystąpił błąd podczas usuwania ogłoszenia", "error");
+  } finally {
+    deleting.value = false;
+  }
+}
+
+const getAuthToken = () => {
+  if (process.client) {
+    return localStorage.getItem('token') || sessionStorage.getItem('token');
+  }
+  return null;
+};
+
+const getCurrentUserId = () => {
+  try {
+    const token = getAuthToken();
+    if (!token) return null;
+    
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.id;
+  } catch (error) {
+    console.error('Error getting user ID from token:', error);
+    return null;
+  }
+};
+
+const isOwner = (announcement) => {
+  if (!currentUserId.value || !announcement?.createdBy) return false;
+  return announcement.createdBy._id === currentUserId.value;
+};
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return "/images/default-trainer.jpg";
@@ -147,7 +220,6 @@ const loadAnnouncements = async () => {
 
     const data = await response.json();
     announcements.value = data;
-    console.log("Loaded announcements:", data);
   } catch (error) {
     console.error("Error loading announcements:", error);
     errorMessage.value = "Wystąpił błąd podczas ładowania ogłoszeń";
@@ -169,49 +241,7 @@ function closeModal() {
 }
 
 onMounted(() => {
+  currentUserId.value = getCurrentUserId();
   loadAnnouncements();
 });
-
-async function deleteAnnouncement() {
-  if (!selectedTrainer.value) return;
-
-  const confirmDelete = confirm("Czy na pewno chcesz usunąć to ogłoszenie?");
-  if (!confirmDelete) return;
-
-  deleting.value = true;
-  errorMessage.value = "";
-
-  try {
-    const response = await fetch(
-      `http://localhost:3001/announcement/${selectedTrainer.value._id}`,
-      {
-        method: "DELETE",
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    console.log("Delete result:", result);
-
-    announcements.value = announcements.value.filter(
-      (announcement) => announcement._id !== selectedTrainer.value._id,
-    );
-
-    closeModal();
-
-    showNotificationMessage("Ogłoszenie zostało pomyślnie usunięte", "success");
-  } catch (error) {
-    console.error("Error deleting announcement:", error);
-    errorMessage.value = "Wystąpił błąd podczas usuwania ogłoszenia";
-    showNotificationMessage(
-      "Wystąpił błąd podczas usuwania ogłoszenia",
-      "error",
-    );
-  } finally {
-    deleting.value = false;
-  }
-}
 </script>
