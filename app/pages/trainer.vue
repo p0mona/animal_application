@@ -77,9 +77,8 @@
             <p class="text-gray-600 mb-2">
               <strong>Kontakt:</strong> {{ selectedTrainer.contact }}
             </p>
-            <p class="text-gray-600 font-semibold">Opis:</p>
-            <p class="text-gray-600">
-              {{ selectedTrainer.description }}
+            <p class="text-gray-600 mb-2">
+              <strong>Opis:</strong> {{ selectedTrainer.description }}
             </p>
           </div>
 
@@ -92,7 +91,7 @@
             <div class="flex justify-end" v-if="isOwner(selectedTrainer)">
               <BorderButton
                 label="Usuń"
-                class="border-red-600 text-red-600"
+                class="border-red-500 text-red-500 hover:border-red-600 active:border-red-700 hover:text-red-600 active:text-red-700 aria-disabled:border-red-600"
                 @click="deleteAnnouncement"
               />
             </div>
