@@ -139,7 +139,9 @@
                   />
                 </div>
                 <div class="flex justify-end">
-                  <BaseButton label="Zaplanuj nową wizytę" class="mt-4" />
+                  <NuxtLink to="/new_appointment">
+                    <BaseButton label="Zaplanuj nową wizytę" class="mt-4" />
+                  </NuxtLink>
                 </div>
               </div>
 
