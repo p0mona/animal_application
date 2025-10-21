@@ -88,7 +88,11 @@
               :alt="selectedTrainer.name"
               class="w-full rounded-xl mb-4"
             />
-            <div class="flex justify-end" v-if="isOwner(selectedTrainer)">
+            <div class="flex justify-end space-x-2" v-if="isOwner(selectedTrainer)">
+              <BorderButton
+                label="Edytuj"
+                @click="editAnnouncement"
+              />
               <BorderButton
                 label="Usuń"
                 class="border-red-500 text-red-500 hover:border-red-600 active:border-red-700 hover:text-red-600 active:text-red-700 aria-disabled:border-red-600"
