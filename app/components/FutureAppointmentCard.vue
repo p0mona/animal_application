@@ -7,6 +7,9 @@
         {{ formatDate(appointment.date) }} - {{ appointment.time }}
       </h2>
       <p class="text-sm text-gray-500">{{ appointment.reason }}</p>
+      <p v-if="appointment.notes" class="text-xs text-gray-600 mt-1">
+        {{ appointment.notes }}
+      </p>
     </div>
 
     <div class="flex space-x-2">
