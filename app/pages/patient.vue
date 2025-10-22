@@ -125,31 +125,8 @@ const navItems = [
   },
 ];
 
-const future = [
-  {
-    date: "14.12.2025",
-    time: "17:00",
-    reason: "Szczepionka na wściekliznę",
-  },
-];
-
-const past = [
-  {
-    date: "10.11.2024",
-    time: "10:00",
-    reason: "Odrobaczenie",
-  },
-  {
-    date: "01.08.2025",
-    time: "12:00",
-    reason: "Szczepionka na wściekliznę",
-  },
-  {
-    date: "27.08.2025",
-    time: "09:00",
-    reason: "Check Up",
-  },
-];
+const future = ref<Appointment[]>([]);
+const past = ref<Appointment[]>([]);
 
 const vac = ref({
   nasal: true,
