@@ -242,9 +242,12 @@ const emit = defineEmits<{
 
 const activeTab = ref("patient");
 const deleting = ref(false);
+const appointmentsLoading = ref(false);
 
 const dogBreeds = ref<any[]>([]);
 const catBreeds = ref<any[]>([]);
+const futureAppointments = ref<Appointment[]>([]);
+const pastAppointments = ref<Appointment[]>([]);
 
 const navItems = [
   { key: "patient", label: "Pacjent", icon: "i-heroicons-user" },
@@ -357,32 +360,32 @@ const deletePatient = async () => {
   }
 };
 
-// Mock data
-const future = [
-  {
-    date: "14.12.2025",
-    time: "17:00",
-    reason: "Szczepionka na wściekliznę",
-  },
-];
-
-const past = [
-  {
-    date: "10.11.2024",
-    time: "10:00",
-    reason: "Odrobaczenie",
-  },
-  {
-    date: "01.08.2025",
-    time: "12:00",
-    reason: "Szczepionka na wściekliznę",
-  },
-  {
-    date: "27.08.2025",
-    time: "09:00",
-    reason: "Check Up",
-  },
-];
+const loadAppointments = async () => {
+  if (!props.patient) return;
+  
+  try {
+    appointmentsLoading.value = true;
+    const token = localStorage.getItem("token");
+    
+    const response = await $fetch<AppointmentsResponse>(
+      `http://localhost:3001/appointments/patient/${props.patient._id}`, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+    futureAppointments.value = response.future || [];
+    pastAppointments.value = response.past || [];
+  } catch (error) {
+    console.error("Error loading appointments:", error);
+    futureAppointments.value = [];
+    pastAppointments.value = [];
+  } finally {
+    appointmentsLoading.value = false;
+  }
+};
 
 const vac = ref({
   nasal: true,
