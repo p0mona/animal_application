@@ -108,7 +108,7 @@
                   </p>
                   <p>
                     <span class="font-medium">Data urodzenia:</span>
-                    {{ patient.owner?.birthday }}
+                    {{ patient.owner?.birthday || "-----" }}
                   </p>
                   <p>
                     <span class="font-medium">Płeć:</span>
@@ -125,21 +125,31 @@
 
           <!-- Wizyty -->
           <div v-if="activeTab === 'appointment'" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div v-if="appointmentsLoading" class="text-center py-8">
+              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <p class="mt-4 text-gray-500">Ładowanie wizyt...</p>
+            </div>
+            
+            <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Future appointment Section -->
               <div>
                 <h3 class="text-base font-semibold mb-4">Zaplanowane wizyty</h3>
                 <div class="space-y-4">
                   <FutureAppointmentCard
-                    v-for="(appointment, index) in future"
-                    :key="index"
-                    :date="appointment.date"
-                    :time="appointment.time"
-                    :reason="appointment.reason"
+                    v-for="(appointment, index) in futureAppointments"
+                    :key="appointment._id || index"
+                    :appointment="appointment"
+                    @cancel="cancelAppointment"
+                    @edit="editAppointment"
                   />
+                  
+                  <div v-if="futureAppointments.length === 0" class="text-center py-4 text-gray-500">
+                    <p>Brak zaplanowanych wizyt</p>
+                  </div>
                 </div>
+
                 <div class="flex justify-end">
-                  <NuxtLink to="/new_appointment">
+                  <NuxtLink :to="`/new_appointment?patient_id=${patient._id}`">
                     <BaseButton label="Zaplanuj nową wizytę" class="mt-4" />
                   </NuxtLink>
                 </div>
@@ -150,12 +160,15 @@
                 <h3 class="text-base font-semibold mb-4">Historia wizyt</h3>
                 <div class="space-y-4">
                   <PastAppointmentCard
-                    v-for="(appointment, index) in past"
-                    :key="index"
-                    :date="appointment.date"
-                    :time="appointment.time"
-                    :reason="appointment.reason"
+                    v-for="(appointment, index) in pastAppointments"
+                    :key="appointment._id || index"
+                    :appointment="appointment"
+                    @view-details="viewAppointmentDetails"
                   />
+                  
+                  <div v-if="pastAppointments.length === 0" class="text-center py-4 text-gray-500">
+                    <p>Brak historii wizyt</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -198,7 +211,11 @@
           class="flex justify-end space-x-3 p-6 border-t border-gray-200"
           v-if="activeTab === 'patient'"
         >
-          <BorderButton label="Usuń pacjenta" @click="deletePatient" />
+          <BorderButton 
+            label="Usuń pacjenta" 
+            @click="deletePatient" 
+            :loading="deleting"
+          />
           <BaseButton label="Edytuj pacjenta" @click="editPatient" />
         </div>
       </div>
