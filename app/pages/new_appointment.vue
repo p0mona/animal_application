@@ -195,5 +195,34 @@ const validateAndCreateAppointment = () => {
     }
   }
 };
+
+const loadPatients = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      error.value = "Nie jesteś zalogowany";
+      return;
+    }
+
+    // Явно указываем тип ответа
+    const response = await $fetch<Patient[]>("http://localhost:3001/patients", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    patients.value = response;
+
+    // Автозаполнение patient_id из query параметра
+    const route = useRoute();
+    const patientId = route.query.patient_id as string;
+    if (patientId && patients.value.some(p => p._id === patientId)) {
+      form.value.patient_id = patientId;
+    }
+  } catch (err: any) {
+    console.error("Error loading patients:", err);
+    error.value = "Błąd podczas ładowania pacjentów";
+  }
+};
 });
 </script>
