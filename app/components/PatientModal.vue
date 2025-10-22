@@ -207,7 +207,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
+import type { Appointment, AppointmentsResponse } from '~/types/appointments';
 
 interface Patient {
   _id: string;
@@ -385,6 +386,36 @@ const loadAppointments = async () => {
   } finally {
     appointmentsLoading.value = false;
   }
+};
+
+const cancelAppointment = async (appointment: Appointment) => {
+  if (!confirm("Czy na pewno chcesz odwołać tę wizytę?")) return;
+
+  try {
+    const token = localStorage.getItem("token");
+    await $fetch(`http://localhost:3001/appointments/${appointment._id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: "cancelled" }),
+    });
+
+    // Refresh appointments
+    await loadAppointments();
+  } catch (error) {
+    console.error("Error cancelling appointment:", error);
+    alert("Błąd podczas odwoływania wizyty");
+  }
+};
+
+const editAppointment = (appointment: Appointment) => {
+  navigateTo(`/edit_appointment/${appointment._id}`);
+};
+
+const viewAppointmentDetails = (appointment: Appointment) => {
+  navigateTo(`/appointment_details/${appointment._id}`);
 };
 
 const vac = ref({
