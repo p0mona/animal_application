@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <BackButton to="/patient" />
+    <BackButton to="/patients_settings" />
 
     <h1 class="mb-5 text-2xl font-bold">Nowa wizyta</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
