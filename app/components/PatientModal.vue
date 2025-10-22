@@ -112,7 +112,7 @@
                   </p>
                   <p>
                     <span class="font-medium">Płeć:</span>
-                    {{ patient.owner?.sex }}
+                    {{ formatOwnerSex(patient.owner?.sex) }}
                   </p>
                   <p>
                     <span class="font-medium">Kontakt:</span>
@@ -310,6 +310,11 @@ const getImageUrl = (imagePath: string) => {
 const handleImageError = (event: Event) => {
   const img = event.target as HTMLImageElement;
   img.src = "/images/example-photo.jpg";
+};
+
+const formatOwnerSex = (sex?: string) => {
+  if (!sex) return "-----";
+  return sex === "K" ? "Kobieta" : sex === "M" ? "Mężczyzna" : sex;
 };
 
 const editPatient = () => {
