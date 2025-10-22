@@ -3,6 +3,11 @@
     <BackButton to="/patients_settings" />
 
     <h1 class="mb-5 text-2xl font-bold">Nowa wizyta</h1>
+    
+    <div v-if="error" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+      {{ error }}
+    </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="space-y-4">
         <!-- Пациент -->
