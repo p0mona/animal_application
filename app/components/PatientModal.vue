@@ -427,6 +427,18 @@ const vac = ref({
   leptospirosis: true,
 });
 
+watch(() => props.patient, (newPatient) => {
+  if (newPatient && activeTab.value === 'appointment') {
+    loadAppointments();
+  }
+});
+
+watch(activeTab, (newTab) => {
+  if (newTab === 'appointment' && props.patient) {
+    loadAppointments();
+  }
+});
+
 onMounted(async () => {
   try {
     const dogData = await import("~/assets/data/dog_breeds.json");
