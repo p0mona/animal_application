@@ -64,17 +64,56 @@
           <p v-if="errors.time" class="text-red-500 text-sm mt-1">{{ errors.time }}</p>
         </div>
       </div>
-      <div class="space-y-2">
-        <BaseInput label="Termin" id="date" type="date" v-model="form.date" />
-        <BaseInput
-          label="Godzina"
-          id="oclock"
-          v-model="form.oclock"
-          type="time"
-        />
-        <BaseInput label="Cel" v-model="form.object" />
-        <div class="flex justify-end mt-4">
-          <BaseButton label="Zapisz" />
+      
+      <div class="space-y-4">
+        <!-- Причина -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Powód wizyty
+          </label>
+          <input 
+            type="text"
+            v-model="form.reason"
+            placeholder="Np. Szczepienie, badanie kontrolne..."
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            :class="{ 'border-red-500': errors.reason }"
+          />
+          <p v-if="errors.reason" class="text-red-500 text-sm mt-1">{{ errors.reason }}</p>
+        </div>
+        
+        <!-- Заметки -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Uwagi
+          </label>
+          <textarea 
+            v-model="form.notes"
+            placeholder="Dodatkowe uwagi..."
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          ></textarea>
+        </div>
+        
+        <!-- Длительность -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Czas trwania (minuty)
+          </label>
+          <input 
+            type="number"
+            v-model="form.duration"
+            min="10"
+            max="120"
+            step="10"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+          />
+        </div>
+        
+        <div class="flex justify-end space-x-3 mt-6">
+          <BorderButton label="Anuluj" @click="$router.push('/patients_settings')" />
+          <BaseButton 
+            label="Zapisz wizytę"
+            @click="validateAndCreateAppointment" 
+          />
         </div>
       </div>
     </div>
