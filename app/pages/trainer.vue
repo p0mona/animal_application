@@ -88,11 +88,11 @@
               :alt="selectedTrainer.name"
               class="w-full rounded-xl mb-4"
             />
-            <div class="flex justify-end space-x-2" v-if="isOwner(selectedTrainer)">
-              <BorderButton
-                label="Edytuj"
-                @click="editAnnouncement"
-              />
+            <div
+              class="flex justify-end space-x-2"
+              v-if="isOwner(selectedTrainer)"
+            >
+              <BorderButton label="Edytuj" @click="editAnnouncement" />
               <BorderButton
                 label="Usuń"
                 class="border-red-500 text-red-500 hover:border-red-600 active:border-red-700 hover:text-red-600 active:text-red-700 aria-disabled:border-red-600"
@@ -154,14 +154,16 @@ async function deleteAnnouncement() {
       {
         method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       },
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`,
+      );
     }
 
     const result = await response.json();
@@ -174,8 +176,12 @@ async function deleteAnnouncement() {
     showNotificationMessage("Ogłoszenie zostało pomyślnie usunięte", "success");
   } catch (error) {
     console.error("Error deleting announcement:", error);
-    errorMessage.value = error.message || "Wystąpił błąd podczas usuwania ogłoszenia";
-    showNotificationMessage(error.message || "Wystąpił błąd podczas usuwania ogłoszenia", "error");
+    errorMessage.value =
+      error.message || "Wystąpił błąd podczas usuwania ogłoszenia";
+    showNotificationMessage(
+      error.message || "Wystąpił błąd podczas usuwania ogłoszenia",
+      "error",
+    );
   } finally {
     deleting.value = false;
   }
@@ -183,7 +189,7 @@ async function deleteAnnouncement() {
 
 const getAuthToken = () => {
   if (process.client) {
-    return localStorage.getItem('token') || sessionStorage.getItem('token');
+    return localStorage.getItem("token") || sessionStorage.getItem("token");
   }
   return null;
 };
@@ -192,11 +198,11 @@ const getCurrentUserId = () => {
   try {
     const token = getAuthToken();
     if (!token) return null;
-    
-    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    const payload = JSON.parse(atob(token.split(".")[1]));
     return payload.id;
   } catch (error) {
-    console.error('Error getting user ID from token:', error);
+    console.error("Error getting user ID from token:", error);
     return null;
   }
 };
@@ -257,6 +263,6 @@ onMounted(() => {
 
 <script>
 export default {
-  ssr: false
-}
+  ssr: false,
+};
 </script>

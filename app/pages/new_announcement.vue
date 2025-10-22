@@ -56,7 +56,7 @@ const notificationType = ref("success");
 
 const getAuthToken = () => {
   if (process.client) {
-    return localStorage.getItem('token') || sessionStorage.getItem('token');
+    return localStorage.getItem("token") || sessionStorage.getItem("token");
   }
   return null;
 };
@@ -99,24 +99,26 @@ const submitForm = async () => {
 
     const API_URL = "http://localhost:3001/announcement";
     const token = getAuthToken();
-    
+
     if (!token) {
       throw new Error("Musisz być zalogowany, aby dodać ogłoszenie");
     }
 
     const headers = {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
 
-    const response = await fetch(API_URL, { 
-      method: "POST", 
+    const response = await fetch(API_URL, {
+      method: "POST",
       body: formData,
-      headers
+      headers,
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`,
+      );
     }
 
     const result = await response.json();
@@ -132,12 +134,14 @@ const submitForm = async () => {
 
     // перенаправление на страницу объявлений
     setTimeout(() => {
-      navigateTo('/trainer');
+      navigateTo("/trainer");
     }, 1500);
-
   } catch (error) {
     console.error("Submission error:", error);
-    showNotify(error.message || "Wystąpił błąd podczas dodawania ogłoszenia", "error");
+    showNotify(
+      error.message || "Wystąpił błąd podczas dodawania ogłoszenia",
+      "error",
+    );
   } finally {
     loading.value = false;
   }
@@ -146,6 +150,6 @@ const submitForm = async () => {
 
 <script>
 export default {
-  ssr: false
-}
+  ssr: false,
+};
 </script>

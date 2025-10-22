@@ -126,10 +126,12 @@
           <!-- Wizyty -->
           <div v-if="activeTab === 'appointment'" class="space-y-4">
             <div v-if="appointmentsLoading" class="text-center py-8">
-              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <div
+                class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+              ></div>
               <p class="mt-4 text-gray-500">Ładowanie wizyt...</p>
             </div>
-            
+
             <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Future appointment Section -->
               <div>
@@ -142,8 +144,11 @@
                     @cancel="cancelAppointment"
                     @edit="editAppointment"
                   />
-                  
-                  <div v-if="futureAppointments.length === 0" class="text-center py-4 text-gray-500">
+
+                  <div
+                    v-if="futureAppointments.length === 0"
+                    class="text-center py-4 text-gray-500"
+                  >
                     <p>Brak zaplanowanych wizyt</p>
                   </div>
                 </div>
@@ -165,8 +170,11 @@
                     :appointment="appointment"
                     @view-details="viewAppointmentDetails"
                   />
-                  
-                  <div v-if="pastAppointments.length === 0" class="text-center py-4 text-gray-500">
+
+                  <div
+                    v-if="pastAppointments.length === 0"
+                    class="text-center py-4 text-gray-500"
+                  >
                     <p>Brak historii wizyt</p>
                   </div>
                 </div>
@@ -211,9 +219,9 @@
           class="flex justify-end space-x-3 p-6 border-t border-gray-200"
           v-if="activeTab === 'patient'"
         >
-          <BorderButton 
-            label="Usuń pacjenta" 
-            @click="deletePatient" 
+          <BorderButton
+            label="Usuń pacjenta"
+            @click="deletePatient"
             :loading="deleting"
           />
           <BaseButton label="Edytuj pacjenta" @click="editPatient" />
@@ -225,7 +233,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
-import type { Appointment, AppointmentsResponse } from '~/types/appointments';
+import type { Appointment, AppointmentsResponse } from "~/types/appointments";
 
 interface Patient {
   _id: string;
@@ -380,20 +388,20 @@ const deletePatient = async () => {
 
 const loadAppointments = async () => {
   if (!props.patient) return;
-  
+
   try {
     appointmentsLoading.value = true;
     const token = localStorage.getItem("token");
-    
+
     const response = await $fetch<AppointmentsResponse>(
-      `http://localhost:3001/appointments/patient/${props.patient._id}`, 
+      `http://localhost:3001/appointments/patient/${props.patient._id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
-    
+
     futureAppointments.value = response.future || [];
     pastAppointments.value = response.past || [];
   } catch (error) {
@@ -444,14 +452,17 @@ const vac = ref({
   leptospirosis: true,
 });
 
-watch(() => props.patient, (newPatient) => {
-  if (newPatient && activeTab.value === 'appointment') {
-    loadAppointments();
-  }
-});
+watch(
+  () => props.patient,
+  (newPatient) => {
+    if (newPatient && activeTab.value === "appointment") {
+      loadAppointments();
+    }
+  },
+);
 
 watch(activeTab, (newTab) => {
-  if (newTab === 'appointment' && props.patient) {
+  if (newTab === "appointment" && props.patient) {
     loadAppointments();
   }
 });

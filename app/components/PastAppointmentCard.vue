@@ -15,15 +15,12 @@
       </p>
     </div>
 
-    <BaseButton 
-      label="Szczegóły" 
-      @click="$emit('view-details', appointment)"
-    />
+    <BaseButton label="Szczegóły" @click="$emit('view-details', appointment)" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Appointment } from '~/types/appointments';
+import type { Appointment } from "~/types/appointments";
 
 interface Props {
   appointment: Appointment;
@@ -32,18 +29,18 @@ interface Props {
 defineProps<Props>();
 
 defineEmits<{
-  'view-details': [appointment: Appointment];
+  "view-details": [appointment: Appointment];
 }>();
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('pl-PL');
+  return new Date(dateString).toLocaleDateString("pl-PL");
 };
 
 const getStatusLabel = (status: string) => {
   const statuses: { [key: string]: string } = {
-    completed: 'Zakończona',
-    cancelled: 'Odwołana',
-    scheduled: 'Zaplanowana'
+    completed: "Zakończona",
+    cancelled: "Odwołana",
+    scheduled: "Zaplanowana",
   };
   return statuses[status] || status;
 };

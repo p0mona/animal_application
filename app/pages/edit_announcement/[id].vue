@@ -20,7 +20,10 @@
       <p class="text-gray-600">Ładowanie ogłoszenia...</p>
     </div>
 
-    <div v-else-if="errorMessage" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+    <div
+      v-else-if="errorMessage"
+      class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded"
+    >
       {{ errorMessage }}
     </div>
 
@@ -35,25 +38,28 @@
         <BaseInput label="Wpisz kontakt" v-model="form.contact" />
         <BaseInput label="Dodaj opis" v-model="form.description" />
         <FileUpload v-model="form.newImage" class="mt-4" />
-        <p class="text-sm text-gray-500 mt-1">Zostaw puste, aby zachować obecne zdjęcie</p>
+        <p class="text-sm text-gray-500 mt-1">
+          Zostaw puste, aby zachować obecne zdjęcie
+        </p>
       </div>
 
       <div>
         <div class="mb-4">
           <p class="text-sm text-gray-700 mb-2">Aktualne zdjęcie:</p>
-          <img 
-            :src="getImageUrl(currentImage)" 
+          <img
+            :src="getImageUrl(currentImage)"
             :alt="form.name"
             class="w-full max-w-xs rounded-lg"
           />
         </div>
-        
+
         <div class="flex justify-end space-x-2 mt-4">
-          <BorderButton 
-            label="Anuluj" 
-            @click="navigateTo('/trainer')"
+          <BorderButton label="Anuluj" @click="navigateTo('/trainer')" />
+          <BaseButton
+            label="Zapisz zmiany"
+            :loading="saving"
+            @click="submitForm"
           />
-          <BaseButton label="Zapisz zmiany" :loading="saving" @click="submitForm" />
         </div>
       </div>
     </div>
@@ -86,7 +92,7 @@ const errorMessage = ref("");
 // Функция для получения токена
 const getAuthToken = () => {
   if (process.client) {
-    return localStorage.getItem('token') || sessionStorage.getItem('token');
+    return localStorage.getItem("token") || sessionStorage.getItem("token");
   }
   return null;
 };
@@ -117,15 +123,20 @@ const loadAnnouncement = async () => {
       throw new Error("Musisz być zalogowany, aby edytować ogłoszenie");
     }
 
-    const response = await fetch(`http://localhost:3001/announcement/${announcementId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await fetch(
+      `http://localhost:3001/announcement/${announcementId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`,
+      );
     }
 
     const announcement = await response.json();
@@ -142,11 +153,14 @@ const loadAnnouncement = async () => {
     form.contact = announcement.contact;
     form.description = announcement.description;
     currentImage.value = announcement.image;
-
   } catch (error) {
     console.error("Error loading announcement:", error);
-    errorMessage.value = error.message || "Wystąpił błąd podczas ładowania ogłoszenia";
-    showNotify(error.message || "Wystąpił błąd podczas ładowania ogłoszenia", "error");
+    errorMessage.value =
+      error.message || "Wystąpił błąd podczas ładowania ogłoszenia";
+    showNotify(
+      error.message || "Wystąpił błąd podczas ładowania ogłoszenia",
+      "error",
+    );
   } finally {
     loading.value = false;
   }
@@ -157,11 +171,11 @@ const getCurrentUserId = () => {
   try {
     const token = getAuthToken();
     if (!token) return null;
-    
-    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    const payload = JSON.parse(atob(token.split(".")[1]));
     return payload.id;
   } catch (error) {
-    console.error('Error getting user ID from token:', error);
+    console.error("Error getting user ID from token:", error);
     return null;
   }
 };
@@ -169,10 +183,15 @@ const getCurrentUserId = () => {
 const submitForm = async () => {
   if (!form.name.trim()) return showNotify("Imię jest wymagane", "error");
   if (!form.experience || parseInt(form.experience) < 0)
-    return showNotify("Doświadczenie jest wymagane i musi być liczbą dodatnią", "error");
+    return showNotify(
+      "Doświadczenie jest wymagane i musi być liczbą dodatnią",
+      "error",
+    );
   if (!form.contact.trim()) return showNotify("Kontakt jest wymagany", "error");
-  if (!form.description.trim()) return showNotify("Opis jest wymagany", "error");
-  if (form.description.length < 10) return showNotify("Opis musi mieć co najmniej 10 znaków", "error");
+  if (!form.description.trim())
+    return showNotify("Opis jest wymagany", "error");
+  if (form.description.length < 10)
+    return showNotify("Opis musi mieć co najmniej 10 znaków", "error");
 
   saving.value = true;
   showNotification.value = false;
@@ -194,18 +213,23 @@ const submitForm = async () => {
     }
 
     const headers = {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
 
-    const response = await fetch(`http://localhost:3001/announcement/${announcementId}`, { 
-      method: "PUT", 
-      body: formData,
-      headers
-    });
+    const response = await fetch(
+      `http://localhost:3001/announcement/${announcementId}`,
+      {
+        method: "PUT",
+        body: formData,
+        headers,
+      },
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`,
+      );
     }
 
     const result = await response.json();
@@ -214,12 +238,14 @@ const submitForm = async () => {
 
     // Перенаправляем на страницу объявлений
     setTimeout(() => {
-      navigateTo('/trainer');
+      navigateTo("/trainer");
     }, 1500);
-
   } catch (error) {
     console.error("Update error:", error);
-    showNotify(error.message || "Wystąpił błąd podczas aktualizacji ogłoszenia", "error");
+    showNotify(
+      error.message || "Wystąpił błąd podczas aktualizacji ogłoszenia",
+      "error",
+    );
   } finally {
     saving.value = false;
   }
@@ -232,6 +258,6 @@ onMounted(() => {
 
 <script>
 export default {
-  ssr: false
-}
+  ssr: false,
+};
 </script>

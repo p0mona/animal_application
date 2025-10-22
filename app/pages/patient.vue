@@ -107,7 +107,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { Appointment } from '~/types/appointments';
+import type { Appointment } from "~/types/appointments";
 
 const activeTab = ref("patient");
 
