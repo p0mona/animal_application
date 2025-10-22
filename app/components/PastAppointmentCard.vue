@@ -7,6 +7,12 @@
         {{ formatDate(appointment.date) }} - {{ appointment.time }}
       </h2>
       <p class="text-sm text-gray-500">{{ appointment.reason }}</p>
+      <p class="text-xs text-gray-400">
+        Status: {{ getStatusLabel(appointment.status) }}
+      </p>
+      <p v-if="appointment.notes" class="text-xs text-gray-600 mt-1">
+        {{ appointment.notes }}
+      </p>
     </div>
 
     <BaseButton 
