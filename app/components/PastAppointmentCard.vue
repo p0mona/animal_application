@@ -34,4 +34,17 @@ defineProps<Props>();
 defineEmits<{
   'view-details': [appointment: Appointment];
 }>();
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('pl-PL');
+};
+
+const getStatusLabel = (status: string) => {
+  const statuses: { [key: string]: string } = {
+    completed: 'Zakończona',
+    cancelled: 'Odwołana',
+    scheduled: 'Zaplanowana'
+  };
+  return statuses[status] || status;
+};
 </script>
