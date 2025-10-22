@@ -52,10 +52,8 @@
           <div class="space-y-4">
             <FutureAppointmentCard
               v-for="(appointment, index) in future"
-              :key="index"
-              :date="appointment.date"
-              :time="appointment.time"
-              :reason="appointment.reason"
+              :key="appointment._id || index"
+              :appointment="appointment"
             />
           </div>
           <div class="flex justify-end">
@@ -71,10 +69,8 @@
           <div class="space-y-4">
             <PastAppointmentCard
               v-for="(appointment, index) in past"
-              :key="index"
-              :date="appointment.date"
-              :time="appointment.time"
-              :reason="appointment.reason"
+              :key="appointment._id || index"
+              :appointment="appointment"
             />
           </div>
         </div>
