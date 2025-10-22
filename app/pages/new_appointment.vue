@@ -125,13 +125,39 @@
   </Layout>
 </template>
 
-<script setup>
-const form = ref({
-  birthday: "",
-  oclock: "",
-  object: "",
-  animal_name: "",
-  name: "",
-  contact: "",
+<script setup lang="ts">
+interface Patient {
+  _id: string;
+  name: string;
+  breed: string;
+}
+
+interface AppointmentForm {
+  patient_id: string;
+  date: string;
+  time: string;
+  reason: string;
+  duration: number;
+  notes: string;
+}
+
+interface FormErrors {
+  patient_id?: string;
+  date?: string;
+  time?: string;
+  reason?: string;
+}
+
+const patients = ref<Patient[]>([]);
+const form = ref<AppointmentForm>({
+  patient_id: "",
+  date: "",
+  time: "",
+  reason: "",
+  duration: 30,
+  notes: ""
+});
+
+const errors = ref<FormErrors>({});
 });
 </script>
