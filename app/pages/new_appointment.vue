@@ -224,5 +224,52 @@ const loadPatients = async () => {
     error.value = "Błąd podczas ładowania pacjentów";
   }
 };
+
+const createAppointment = async () => {
+  try {
+    error.value = "";
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      error.value = "Nie jesteś zalogowany";
+      return;
+    }
+
+    // Подготовка данных для отправки
+    const appointmentData = {
+      patient_id: form.value.patient_id,
+      date: form.value.date,
+      time: form.value.time,
+      reason: form.value.reason,
+      duration: form.value.duration,
+      notes: form.value.notes
+    };
+
+    console.log('Sending appointment data:', appointmentData);
+
+    const response = await $fetch("http://localhost:3001/appointments", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(appointmentData),
+    });
+
+    console.log('Appointment created successfully:', response);
+
+    // Успешное создание - редирект
+    await navigateTo('/patients_settings');
+    
+  } catch (err: any) {
+    console.error("Error creating appointment:", err);
+    error.value = err.data?.message || "Błąd podczas tworzenia wizyty";
+    
+    // Показать более детальную ошибку
+    if (err.data?.details) {
+      error.value += `: ${err.data.details}`;
+    }
+  }
+};
 });
 </script>
