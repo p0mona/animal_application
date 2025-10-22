@@ -159,5 +159,41 @@ const form = ref<AppointmentForm>({
 });
 
 const errors = ref<FormErrors>({});
+const validateForm = (): boolean => {
+  errors.value = {};
+
+  if (!form.value.patient_id) {
+    errors.value.patient_id = "Proszę wybrać pacjenta";
+  }
+
+  if (!form.value.date) {
+    errors.value.date = "Proszę wybrać datę";
+  }
+
+  if (!form.value.time) {
+    errors.value.time = "Proszę wybrać godzinę";
+  }
+
+  if (!form.value.reason) {
+    errors.value.reason = "Proszę podać powód wizyty";
+  }
+
+  console.log('Form validation errors:', errors.value);
+  return Object.keys(errors.value).length === 0;
+};
+
+const validateAndCreateAppointment = () => {
+  console.log('Form data before validation:', form.value);
+  
+  if (validateForm()) {
+    createAppointment();
+  } else {
+    // Прокрутка к первой ошибке
+    const firstErrorElement = document.querySelector('.border-red-500');
+    if (firstErrorElement) {
+      firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+};
 });
 </script>
