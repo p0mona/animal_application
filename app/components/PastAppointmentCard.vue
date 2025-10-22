@@ -9,16 +9,23 @@
       <p class="text-sm text-gray-500">{{ reason }}</p>
     </div>
 
-    <NuxtLink to="/details_read">
-      <BaseButton label="Szczegóły" />
-    </NuxtLink>
+    <BaseButton 
+      label="Szczegóły" 
+      @click="$emit('view-details', appointment)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  date: string | Date;
-  time: string;
-  reason?: string;
+import type { Appointment } from '~/types/appointments';
+
+interface Props {
+  appointment: Appointment;
+}
+
+defineProps<Props>();
+
+defineEmits<{
+  'view-details': [appointment: Appointment];
 }>();
 </script>
