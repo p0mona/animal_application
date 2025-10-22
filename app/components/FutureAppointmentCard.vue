@@ -4,9 +4,9 @@
   >
     <div class="flex-1">
       <h2 class="text-lg font-semibold text-gray-900">
-        {{ date }} - {{ time }}
+        {{ formatDate(appointment.date) }} - {{ appointment.time }}
       </h2>
-      <p class="text-sm text-gray-500">{{ reason }}</p>
+      <p class="text-sm text-gray-500">{{ appointment.reason }}</p>
     </div>
 
     <div class="flex space-x-2">
