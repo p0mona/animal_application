@@ -9,7 +9,7 @@
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="space-y-4">
+      <div class="space-y-4">
         <!-- Пациент -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -287,5 +287,22 @@ const createAppointment = async () => {
     }
   }
 };
+
+// Watch для очистки ошибок при изменении полей
+watch(() => form.value.patient_id, () => { 
+  if (form.value.patient_id) errors.value.patient_id = undefined; 
+});
+watch(() => form.value.date, () => { 
+  if (form.value.date) errors.value.date = undefined; 
+});
+watch(() => form.value.time, () => { 
+  if (form.value.time) errors.value.time = undefined; 
+});
+watch(() => form.value.reason, () => { 
+  if (form.value.reason) errors.value.reason = undefined; 
+});
+
+onMounted(() => {
+  loadPatients();
 });
 </script>
