@@ -39,4 +39,8 @@ defineEmits<{
   edit: [appointment: Appointment];
   cancel: [appointment: Appointment];
 }>();
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('pl-PL');
+};
 </script>
