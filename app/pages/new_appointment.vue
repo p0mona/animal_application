@@ -159,6 +159,22 @@ const form = ref<AppointmentForm>({
 });
 
 const errors = ref<FormErrors>({});
+const error = ref("");
+
+const minDate = new Date().toISOString().split('T')[0];
+
+// Генерация доступных временных слотов
+const availableTimeSlots = computed(() => {
+  const slots: { label: string; value: string }[] = [];
+  for (let hour = 9; hour <= 17; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+      slots.push({ label: timeString, value: timeString });
+    }
+  }
+  return slots;
+});
+
 const validateForm = (): boolean => {
   errors.value = {};
 
