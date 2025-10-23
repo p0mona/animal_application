@@ -49,7 +49,6 @@ const sexOptions = props.sex || [
   { label: "Mężczyzna", value: "M" },
 ];
 
-// Синхронизация с родителем через v-model
 const form = computed({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),

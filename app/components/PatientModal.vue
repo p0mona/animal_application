@@ -36,7 +36,6 @@
           </button>
         </div>
 
-        <!-- Content -->
         <div class="p-6" v-if="patient">
           <Navigation :items="navItems" v-model="activeTab" class="mb-6" />
 

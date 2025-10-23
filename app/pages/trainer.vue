@@ -1,6 +1,5 @@
 <template>
   <FullWidthLayout>
-    <!-- Компонент уведомлений -->
     <Notification
       v-if="showNotification"
       :message="notificationMessage"
@@ -9,7 +8,6 @@
       @close="showNotification = false"
     />
 
-    <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Znajdź behawiorystę</h1>
       <div class="flex justify-end">
@@ -19,7 +17,6 @@
       </div>
     </div>
 
-    <!-- Сообщения о загрузке и ошибках -->
     <div v-if="loading" class="text-center py-8">
       <p class="text-gray-600">Ładowanie ogłoszeń...</p>
     </div>
@@ -31,7 +28,6 @@
       {{ errorMessage }}
     </div>
 
-    <!-- Сетка карточек -->
     <section
       v-if="!loading && announcements.length > 0"
       class="max-w-5xl mx-auto p-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
@@ -49,12 +45,12 @@
       />
     </section>
 
-    <!-- Сообщение если нет объявлений -->
+    <!-- Message if there are no announcements -->
     <div v-if="!loading && announcements.length === 0" class="text-center py-8">
       <p class="text-gray-500">Brak ogłoszeń. Dodaj pierwsze ogłoszenie!</p>
     </div>
 
-    <!-- Модальное окно -->
+    <!-- Modal window -->
     <div
       v-if="selectedTrainer"
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"

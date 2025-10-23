@@ -1,18 +1,15 @@
 <template>
   <FullWidthLayout>
-    <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Konto</h1>
     </div>
 
     <Navigation :items="navItems" v-model="activeTab" />
 
-    <!-- Profile Content -->
     <div v-if="activeTab === 'profile'">
       <VetProfileTabSettings />
     </div>
 
-    <!-- Security Content -->
     <div v-if="activeTab === 'security'">
       <SecurityTabSettings
         v-model:security="security"
@@ -21,12 +18,10 @@
       />
     </div>
 
-    <!-- Notifications Content -->
     <div v-if="activeTab === 'notifications'">
       <NotificationsTabSettings v-model:notifications="notifications" />
     </div>
 
-    <!-- Preferences Content -->
     <div v-if="activeTab === 'preferences'">
       <PreferencesTabSettings
         v-model:preferences="preferences"

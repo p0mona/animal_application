@@ -35,7 +35,6 @@ const saveSosPhone = async () => {
     return;
   }
 
-  // Базовая валидация номера телефона
   const digitsOnly = sosPhone.value.replace(/[\s-]/g, "");
   const phoneRegex = /^\d{9}$/;
   if (!phoneRegex.test(digitsOnly)) {

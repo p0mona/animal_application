@@ -12,7 +12,7 @@
         <UFormMessage />
       </UFormField>
 
-      <!--Właściciel / Weterynarz-->
+      <!--Owner / Vet -->
       <UFormField label="Kim jesteś?" name="userType" required>
         <URadioGroup
           v-model="state.userType"
@@ -152,7 +152,7 @@ const toast = useToast();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
-    // Валидация совпадения паролей
+    // Validate password match
     if (state.password !== state.confirmPassword) {
       toast.add({
         title: "Błąd",
@@ -167,7 +167,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       body: {
         email: state.email,
         password: state.password,
-        userType: state.userType, // отправляем выбранный тип пользователя
+        userType: state.userType,
       },
     })) as { message: string };
 

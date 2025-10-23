@@ -5,12 +5,10 @@
         class="max-w-[930px] bg-white w-full rounded-2xl shadow-lg p-6 space-y-4"
       >
         <UContainer class="py-8">
-          <!-- Заголовок -->
           <div class="flex items-center justify-between mb-8">
             <h1 class="text-2xl font-bold text-gray-900">Ustawienia</h1>
           </div>
 
-          <!-- Навигация -->
           <Navigation :items="navItems" v-model="activeTab" />
 
           <!-- Profile Content -->

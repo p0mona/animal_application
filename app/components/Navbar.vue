@@ -18,14 +18,14 @@
       />
     </header>
 
-    <!-- Затемнение -->
+<!-- Dimming -->
     <div
       v-if="isOpen"
       @click="isOpen = false"
       class="fixed inset-0 bg-black/50 z-50"
     ></div>
 
-    <!-- Боковое меню -->
+    <!-- Sidebar menu -->
     <nav
       :class="[
         'fixed top-0 right-0 h-full w-64 bg-white p-5 transition-transform z-100',
@@ -63,7 +63,6 @@ const userStore = useUserStore();
 
 const user = computed(() => userStore.user);
 
-// Меню динамически в зависимости от userType
 const menuLinks = computed(() => {
   if (!userStore.isLoggedIn) {
     return [
@@ -101,14 +100,14 @@ const menuLinks = computed(() => {
   return [];
 });
 
-// Функция выхода
+// Logout function
 function logout() {
   userStore.clearUser();
   isOpen.value = false;
   navigateTo("/");
 }
 
-// Динамическая аватарка
+// Dynamic avatar
 const avatarSrc = computed(() => {
   if (!user.value) {
     return "/images/guest.jpg";

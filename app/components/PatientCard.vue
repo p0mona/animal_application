@@ -2,7 +2,6 @@
   <div
     class="flex items-center bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 p-4 space-x-4"
   >
-    <!-- Фото слева -->
     <img
       :src="getImageUrl(image)"
       :alt="name"
@@ -10,7 +9,6 @@
       @error="handleImageError"
     />
 
-    <!-- Текст посередине -->
     <div class="flex-1">
       <h2 class="text-lg font-semibold text-gray-900">{{ name }}</h2>
       <p class="text-sm text-gray-500">
@@ -21,7 +19,6 @@
       </p>
     </div>
 
-    <!-- Кнопка справа -->
     <BaseButton label="Przejdź" @click="$emit('view-details', patientData)" />
   </div>
 </template>

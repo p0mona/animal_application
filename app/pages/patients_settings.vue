@@ -1,6 +1,5 @@
 <template>
   <FullWidthLayout>
-    <!-- Заголовок и кнопка добавления -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Pacjenci</h1>
       <NuxtLink to="/new_patient" class="mr-4">
@@ -8,7 +7,6 @@
       </NuxtLink>
     </div>
 
-    <!-- Список пациентов -->
     <div class="space-y-4">
       <PatientCard
         v-for="(patient, index) in patients"

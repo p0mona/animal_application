@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <!-- Модальное окно -->
+    <!-- Modal window -->
     <div
       v-if="showModal"
       class="fixed bg-black/50 inset-0 flex items-center justify-center z-50 p-4"
@@ -144,7 +144,7 @@
             </div>
           </div>
 
-          <!-- Просмотр документа -->
+          <!-- Document preview -->
           <div v-else class="flex justify-center">
             <!-- PDF -->
             <div v-if="isPdf" class="w-full">
@@ -155,7 +155,7 @@
               ></iframe>
             </div>
 
-            <!-- Изображения -->
+            <!-- image -->
             <div v-else-if="isImage" class="text-center">
               <img
                 :src="imageObjectUrl"
@@ -164,7 +164,7 @@
               />
             </div>
 
-            <!-- Другие типы файлов -->
+            <!-- other types of files -->
             <div v-else class="text-center py-12">
               <FileIcon
                 :fileType="selectedDocument?.fileType"
@@ -185,7 +185,6 @@
           </div>
         </div>
 
-        <!-- Кнопки действий -->
         <div class="flex justify-end space-x-3 p-6 border-t bg-gray-50">
           <BorderButton
             @click="downloadDocument(selectedDocument?._id)"

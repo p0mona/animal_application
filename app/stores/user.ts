@@ -83,7 +83,7 @@ export const useUserStore = defineStore("user", () => {
 
       if (res.ok) {
         const userData = await res.json();
-        setUser(userData); // Используем существующую функцию
+        setUser(userData);
       }
     } catch (error) {
       console.error("Error fetching profile:", error);

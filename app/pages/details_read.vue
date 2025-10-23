@@ -2,7 +2,6 @@
   <FullWidthLayout>
     <BackButton to="/patient" />
 
-    <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Szczególy wizyty</h1>
     </div>

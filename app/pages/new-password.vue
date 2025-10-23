@@ -135,7 +135,7 @@ const text = computed(() => {
   return "Silne hasło";
 });
 
-// Получаем токен из URL
+// Get token from URL
 let token = "";
 onMounted(() => {
   token = (route.query.token as string) || "";

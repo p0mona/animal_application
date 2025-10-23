@@ -2,12 +2,10 @@
   <FullWidthLayout>
     <BackButton to="/trainer" />
 
-    <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Edytuj ogłoszenie</h1>
     </div>
 
-    <!-- Notifications -->
     <Notification
       v-if="showNotification"
       :message="notificationMessage"
@@ -89,7 +87,6 @@ const notificationMessage = ref("");
 const notificationType = ref("success");
 const errorMessage = ref("");
 
-// Функция для получения токена
 const getAuthToken = () => {
   if (process.client) {
     return localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -112,7 +109,6 @@ const showNotify = (message, type = "success") => {
   showNotification.value = true;
 };
 
-// Загружаем данные объявления
 const loadAnnouncement = async () => {
   loading.value = true;
   errorMessage.value = "";
@@ -141,13 +137,13 @@ const loadAnnouncement = async () => {
 
     const announcement = await response.json();
 
-    // Проверяем, является ли пользователь владельцем
+    // Check if the user is the owner
     const currentUserId = getCurrentUserId();
     if (announcement.createdBy._id !== currentUserId) {
       throw new Error("Nie masz uprawnień do edycji tego ogłoszenia");
     }
 
-    // Заполняем форму данными
+    // Fill the form with data
     form.name = announcement.name;
     form.experience = announcement.experience.toString();
     form.contact = announcement.contact;
@@ -166,7 +162,7 @@ const loadAnnouncement = async () => {
   }
 };
 
-// Получаем ID пользователя из токена
+// Get user ID from token
 const getCurrentUserId = () => {
   try {
     const token = getAuthToken();
@@ -236,7 +232,6 @@ const submitForm = async () => {
 
     showNotify("Ogłoszenie zostało pomyślnie zaktualizowane!", "success");
 
-    // Перенаправляем на страницу объявлений
     setTimeout(() => {
       navigateTo("/trainer");
     }, 1500);

@@ -2,12 +2,10 @@
   <FullWidthLayout>
     <BackButton to="/trainer" />
 
-    <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Ogłoszenie</h1>
     </div>
 
-    <!-- Notifications -->
     <Notification
       v-if="showNotification"
       :message="notificationMessage"
@@ -87,7 +85,6 @@ const submitForm = async () => {
   try {
     const formData = new FormData();
 
-    // Добавляем поля как строки
     formData.append("name", form.name.trim());
     formData.append("experience", form.experience.toString());
     formData.append("contact", form.contact.trim());
@@ -132,7 +129,6 @@ const submitForm = async () => {
     form.description = "";
     form.image = null;
 
-    // перенаправление на страницу объявлений
     setTimeout(() => {
       navigateTo("/trainer");
     }, 1500);

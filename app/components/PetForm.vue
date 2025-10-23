@@ -56,17 +56,6 @@ import BaseInput from "@/components/BaseInput.vue";
 import { computed, ref, watch, onMounted } from "vue";
 import type { SelectItem } from "~/types/pet";
 
-interface PetData {
-  animal?: string;
-  breed?: string;
-  animal_sex?: string;
-  animal_name?: string;
-  animal_age?: string | number;
-  animal_height?: string | number;
-  animal_weight?: string | number;
-  chip?: string;
-}
-
 interface Props {
   modelValue: any;
   animals: SelectItem[];

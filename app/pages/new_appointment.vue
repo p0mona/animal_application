@@ -13,7 +13,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="space-y-4">
-        <!-- Пациент -->
+        <!-- Patient -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Pacjent
@@ -37,7 +37,7 @@
           </p>
         </div>
 
-        <!-- Дата -->
+        <!-- Date -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Data
@@ -55,7 +55,7 @@
           </p>
         </div>
 
-        <!-- Время -->
+        <!-- Time -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Godzina
@@ -87,7 +87,7 @@
       </div>
 
       <div class="space-y-4">
-        <!-- Причина -->
+        <!-- Reason -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Powód wizyty
@@ -104,7 +104,7 @@
           </p>
         </div>
 
-        <!-- Заметки -->
+        <!-- Notes -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Uwagi
@@ -116,7 +116,7 @@
           ></textarea>
         </div>
 
-        <!-- Длительность -->
+        <!-- Duration -->
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Czas trwania (minuty)
@@ -194,7 +194,7 @@ const isLoadingAppointments = ref(false);
 
 const minDate = new Date().toISOString().split("T")[0];
 
-// Генерация доступных временных слотов
+// Generate available time slots
 const availableTimeSlots = computed(() => {
   const slots: TimeSlot[] = [];
   for (let hour = 9; hour <= 17; hour++) {
@@ -248,13 +248,12 @@ const loadExistingAppointments = async () => {
 
     existingAppointments.value = response;
     
-    // Если текущее выбранное время занято, сбрасываем его
+    // If the currently selected time is taken, reset it
     if (form.value.time && existingAppointments.value.some(app => app.time === form.value.time)) {
       form.value.time = "";
     }
   } catch (err: any) {
     console.error("Error loading existing appointments:", err);
-    // Не показываем ошибку пользователю, просто оставляем список пустым
     existingAppointments.value = [];
   } finally {
     isLoadingAppointments.value = false;
@@ -275,7 +274,7 @@ const validateForm = (): boolean => {
   if (!form.value.time) {
     errors.value.time = "Proszę wybrać godzinę";
   } else {
-    // Дополнительная проверка, что выбранное время не занято
+    // Additional check to ensure the selected time is not occupied
     const selectedSlot = filteredTimeSlots.value.find(slot => slot.value === form.value.time);
     if (selectedSlot?.isBooked) {
       errors.value.time = "Wybrana godzina jest już zajęta";
@@ -296,7 +295,6 @@ const validateAndCreateAppointment = () => {
   if (validateForm()) {
     createAppointment();
   } else {
-    // Прокрутка к первой ошибке
     const firstErrorElement = document.querySelector(".border-red-500");
     if (firstErrorElement) {
       firstErrorElement.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -312,7 +310,6 @@ const loadPatients = async () => {
       return;
     }
 
-    // Явно указываем тип ответа
     const response = await $fetch<Patient[]>("http://localhost:3001/patients", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -321,7 +318,6 @@ const loadPatients = async () => {
 
     patients.value = response;
 
-    // Автозаполнение patient_id из query параметра
     const route = useRoute();
     const patientId = route.query.patient_id as string;
     if (patientId && patients.value.some((p) => p._id === patientId)) {
@@ -343,7 +339,7 @@ const createAppointment = async () => {
       return;
     }
 
-    // Подготовка данных для отправки
+    // Prepare data for submission
     const appointmentData = {
       patient_id: form.value.patient_id,
       date: form.value.date,
@@ -366,20 +362,18 @@ const createAppointment = async () => {
 
     console.log("Appointment created successfully:", response);
 
-    // Успешное создание - редирект
     await navigateTo("/patients_settings");
   } catch (err: any) {
     console.error("Error creating appointment:", err);
     error.value = err.data?.message || "Błąd podczas tworzenia wizyty";
 
-    // Показать более детальную ошибку
+    // Show a more detailed error
     if (err.data?.details) {
       error.value += `: ${err.data.details}`;
     }
   }
 };
 
-// Watch для очистки ошибок при изменении полей
 watch(
   () => form.value.patient_id,
   () => {

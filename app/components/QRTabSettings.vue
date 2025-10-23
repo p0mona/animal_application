@@ -4,7 +4,7 @@
       <h2 class="text-lg font-semibold text-gray-900">QR</h2>
     </template>
     <div class="w-full flex flex-col items-center">
-      <!-- Показываем QR код только после генерации -->
+      <!-- Show QR code only after generation -->
       <p class="text-center mb-4">
         Wygeneruj kod QR z imieniem właściciela i numerem telefonu. Można go
         umieścić na obroży, aby w razie zaginięcia pupila łatwo się z Tobą
@@ -41,7 +41,7 @@ const userStore = useUserStore();
 const isGenerating = ref(false);
 const qrImageUrl = ref<string | null>(null);
 
-// Получаем данные пользователя
+// Fetch user data
 const userData = computed(() => userStore.user);
 const ownerInfo = computed(() => {
   if (!userData.value) return null;
@@ -52,7 +52,6 @@ const ownerInfo = computed(() => {
   };
 });
 
-// Генерация QR кода
 const generateQR = async () => {
   if (!ownerInfo.value) {
     alert("Brak danych użytkownika. Proszę uzupełnić profil.");
@@ -68,10 +67,10 @@ const generateQR = async () => {
 
   try {
     const cleanPhone = ownerInfo.value.phone.replace(/[\s\-\(\)]/g, "");
-    // Создаем текст для QR кода в формате tel: для звонка
+    // Create QR code text in tel: format for calling
     const callLink = `tel:${cleanPhone}`;
 
-    // Генерируем QR код с ссылкой для звонка
+    // Generate QR code with a call link
     const url = await QRCode.toDataURL(callLink, {
       width: 300,
       margin: 2,
@@ -90,7 +89,6 @@ const generateQR = async () => {
   }
 };
 
-// Скачивание QR кода
 const downloadQR = () => {
   if (!qrImageUrl.value) return;
 

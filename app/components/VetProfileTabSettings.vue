@@ -13,7 +13,6 @@
     </template>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Левая колонка -->
       <div class="space-y-4">
         <BaseInput label="Imię" v-model="localProfile.name" />
         <BaseInput label="Miejsce pracy" v-model="localProfile.vet.hospital" />
@@ -32,14 +31,12 @@
         </div>
       </div>
 
-      <!-- Правая колонка: фото -->
       <div class="flex justify-center items-start">
         <div class="relative group cursor-pointer">
           <FileUpload v-model="localProfile.image" />
         </div>
       </div>
     </div>
-    <!-- Notification Component -->
     <Notification
       v-if="showNotification"
       :message="notificationMessage"
@@ -82,7 +79,6 @@ const localProfile = ref({
   },
 });
 
-// Загружаем данные при монтировании
 onMounted(async () => {
   if (!userStore.user) {
     await userStore.getProfile();

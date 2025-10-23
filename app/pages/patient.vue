@@ -2,7 +2,6 @@
   <FullWidthLayout>
     <BackButton to="/patients_settings" />
 
-    <!-- Заголовок -->
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-2xl font-bold text-gray-900">Pacjent</h1>
       <div class="flex justify-end">
@@ -43,7 +42,7 @@
       </div>
     </div>
 
-    <!-- Wizyty -->
+    <!-- Appointments -->
     <div v-if="activeTab === 'appointment'" class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Future appointment Section -->

@@ -51,7 +51,6 @@
       </section>
     </div>
 
-    <!-- Круглая SOS кнопка -->
     <UButton
       v-if="userStore.user?.userType === 'OWNER'"
       class="fixed bottom-6 right-6 cursor-pointer bg-[#FF2400] hover:bg-[#e62000] active:bg-[#c9260d] text-white font-bold w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-xl border-4 border-white"
@@ -76,7 +75,6 @@ const navItems = [
 
 const activeTab = ref("article");
 
-// Получаем сохраненный номер SOS из store
 const sosPhone = computed(() => {
   return userStore.user?.owner?.sos_phone || "";
 });
@@ -98,7 +96,6 @@ const handleSosCall = () => {
     return;
   }
 
-  // Подтверждение звонка
   const confirmed = confirm(
     `Czy chcesz zadzwonić pod numer awaryjny?\n${formatPhone(sosPhone.value)}`,
   );
@@ -113,7 +110,7 @@ const makeSosCall = () => {
     const phoneNumber = sosPhone.value.replace(/(?!^\+)\D/g, "");
     const telLink = `tel:${phoneNumber}`;
 
-    // Пытаемся открыть приложение телефона
+    // Attempt to open the phone app
     window.location.href = telLink;
   } catch (error) {
     console.error("Error while initializing connection:", error);

@@ -218,7 +218,6 @@ const closeModal = () => {
 const saveEvent = async () => {
   if (!canSave.value) return;
 
-  // Проверка на будущую дату
   if (!isFutureDate(selectedDate.value)) {
     showNotification("Data przypomnienia musi być w przyszłości", "error");
     return;
@@ -284,10 +283,10 @@ const loadReminders = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    // Сначала очищаем прошедшие напоминания
+    // First clear past reminders
     await cleanupPastReminders();
 
-    // Затем загружаем актуальные
+    // Then load the current ones
     const response = await fetch("http://localhost:3001/reminders", {
       headers: { Authorization: `Bearer ${token}` },
     });
