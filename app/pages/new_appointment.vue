@@ -48,6 +48,7 @@
             :min="minDate"
             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             :class="{ 'border-red-500': errors.date }"
+            @change="loadExistingAppointments"
           />
           <p v-if="errors.date" class="text-red-500 text-sm mt-1">
             {{ errors.date }}
@@ -66,15 +67,21 @@
           >
             <option value="">Wybierz godzinę</option>
             <option
-              v-for="timeSlot in availableTimeSlots"
+              v-for="timeSlot in filteredTimeSlots"
               :key="timeSlot.value"
               :value="timeSlot.value"
+              :disabled="timeSlot.isBooked"
+              :class="{ 'text-gray-400 bg-gray-100': timeSlot.isBooked }"
             >
               {{ timeSlot.label }}
+              <span v-if="timeSlot.isBooked"> (zajęte)</span>
             </option>
           </select>
           <p v-if="errors.time" class="text-red-500 text-sm mt-1">
             {{ errors.time }}
+          </p>
+          <p v-if="filteredTimeSlots.length === 0 && form.date" class="text-gray-500 text-sm mt-1">
+            Brak dostępnych terminów w wybranym dniu
           </p>
         </div>
       </div>
@@ -140,6 +147,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Appointment } from '~/types/appointments';
+
 interface Patient {
   _id: string;
   name: string;
@@ -162,7 +171,14 @@ interface FormErrors {
   reason?: string;
 }
 
+interface TimeSlot {
+  label: string;
+  value: string;
+  isBooked: boolean;
+}
+
 const patients = ref<Patient[]>([]);
+const existingAppointments = ref<Appointment[]>([]);
 const form = ref<AppointmentForm>({
   patient_id: "",
   date: "",
@@ -174,20 +190,76 @@ const form = ref<AppointmentForm>({
 
 const errors = ref<FormErrors>({});
 const error = ref("");
+const isLoadingAppointments = ref(false);
 
 const minDate = new Date().toISOString().split("T")[0];
 
 // Генерация доступных временных слотов
 const availableTimeSlots = computed(() => {
-  const slots: { label: string; value: string }[] = [];
+  const slots: TimeSlot[] = [];
   for (let hour = 9; hour <= 17; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
       const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-      slots.push({ label: timeString, value: timeString });
+      slots.push({ 
+        label: timeString, 
+        value: timeString,
+        isBooked: false
+      });
     }
   }
   return slots;
 });
+
+const filteredTimeSlots = computed(() => {
+  if (!form.value.date) {
+    return availableTimeSlots.value;
+  }
+
+  return availableTimeSlots.value.map(slot => {
+    const isBooked = existingAppointments.value.some(appointment => 
+      appointment.time === slot.value
+    );
+    return {
+      ...slot,
+      isBooked
+    };
+  });
+});
+
+const loadExistingAppointments = async () => {
+  if (!form.value.date) {
+    existingAppointments.value = [];
+    return;
+  }
+
+  try {
+    isLoadingAppointments.value = true;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      error.value = "Nie jesteś zalogowany";
+      return;
+    }
+
+    const response = await $fetch<Appointment[]>(`http://localhost:3001/appointments?date=${form.value.date}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    existingAppointments.value = response;
+    
+    // Если текущее выбранное время занято, сбрасываем его
+    if (form.value.time && existingAppointments.value.some(app => app.time === form.value.time)) {
+      form.value.time = "";
+    }
+  } catch (err: any) {
+    console.error("Error loading existing appointments:", err);
+    // Не показываем ошибку пользователю, просто оставляем список пустым
+    existingAppointments.value = [];
+  } finally {
+    isLoadingAppointments.value = false;
+  }
+};
 
 const validateForm = (): boolean => {
   errors.value = {};
@@ -202,6 +274,12 @@ const validateForm = (): boolean => {
 
   if (!form.value.time) {
     errors.value.time = "Proszę wybrać godzinę";
+  } else {
+    // Дополнительная проверка, что выбранное время не занято
+    const selectedSlot = filteredTimeSlots.value.find(slot => slot.value === form.value.time);
+    if (selectedSlot?.isBooked) {
+      errors.value.time = "Wybrana godzina jest już zajęta";
+    }
   }
 
   if (!form.value.reason) {
@@ -311,7 +389,10 @@ watch(
 watch(
   () => form.value.date,
   () => {
-    if (form.value.date) errors.value.date = undefined;
+    if (form.value.date) {
+      errors.value.date = undefined;
+      loadExistingAppointments();
+    }
   },
 );
 watch(
