@@ -4,11 +4,12 @@
 
     <div class="w-full space-y-2">
       <p class="text-sm">Wybierz zwierzę</p>
-      <USelectMenu
+      <BaseSelect
+        type="menu"
         :placeholder="animalPlaceholder"
         :items="animals"
         v-model="animalObject"
-        class="w-full h-8"
+        class="h-8"
       />
     </div>
 
@@ -32,12 +33,13 @@
 
     <div class="w-full space-y-2" v-if="hasBreeds">
       <p class="text-sm">Wybierz rasę</p>
-      <USelectMenu
+      <BaseSelect
+        type="menu"
         placeholder="-"
         :items="breedsList"
         v-model="breedObject"
-        class="w-full h-8"
         :loading="breedsLoading"
+        class="h-8"
       />
     </div>
 

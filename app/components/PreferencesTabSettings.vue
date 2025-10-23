@@ -9,28 +9,25 @@
         <div class="space-y-4 space-x-4">
           <UFormGroup label="Język" name="language" class="space-y-2">
             <p class="text-sm">Język</p>
-            <USelect
+            <BaseSelect
               v-model="localPreferences.language"
               :items="languageOptions"
-              class="w-full"
             />
           </UFormGroup>
 
           <UFormGroup label="Strefa czasowa" name="timezone" class="space-y-2">
             <p class="text-sm">Strefa czasowa</p>
-            <USelect
+            <BaseSelect
               v-model="localPreferences.timezone"
-              :items="timezoneOptions"
-              class="w-full"
+              :items="themeOptions"
             />
           </UFormGroup>
 
           <UFormGroup label="Motyw" name="theme" class="space-y-2">
             <p class="text-sm">Motyw</p>
-            <USelect
+            <BaseSelect
               v-model="localPreferences.theme"
               :items="themeOptions"
-              class="w-full"
             />
           </UFormGroup>
         </div>
