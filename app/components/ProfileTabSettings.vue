@@ -16,7 +16,7 @@
       <!-- Pupil Section -->
       <div>
         <PetForm
-          v-model="localProfile"
+          v-model="petData"
           :animals="animals"
           :animal_sex="animal_sex"
           animal-placeholder="Pies"
@@ -141,6 +141,24 @@ const localProfile = ref<ProfileData>({
       chip: "",
     },
   },
+});
+
+const petData = computed({
+  get: () => {
+    return localProfile.value.owner?.pet || {};
+  },
+  set: (value) => {
+    if (!localProfile.value.owner) {
+      localProfile.value.owner = { 
+        pet: {},
+        sos_phone: "" 
+      };
+    }
+    localProfile.value.owner.pet = { 
+      ...localProfile.value.owner.pet,
+      ...value 
+    };
+  }
 });
 
 const showQRModal = ref(false);
