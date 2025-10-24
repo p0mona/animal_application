@@ -48,6 +48,7 @@
 import { reactive, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import type { SelectItem } from "~/types/pet";
+import type { OwnerFormData } from "~/types/ownerData";
 import animalsData from "~/assets/data/animals.json";
 
 const router = useRouter();
@@ -64,26 +65,8 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   showNotification.value = true;
 };
 
-interface OwnerForm {
-  name: string;
-  birthday: string;
-  sex: string;
-  phone: string;
-  image: File | null;
-  pet: {
-    animal: string;
-    animal_sex: string;
-    breed: string;
-    animal_name: string;
-    animal_age: string;
-    animal_height: string;
-    animal_weight: string;
-    chip: string;
-  };
-}
-
 interface PatientForm {
-  owner: OwnerForm;
+  owner: OwnerFormData; // используем OwnerFormData
 }
 
 const form = reactive<PatientForm>({
@@ -193,19 +176,27 @@ const savePatient = async () => {
 
     const formData = new FormData();
 
-    formData.append("name", form.owner.pet.animal_name);
-    formData.append("breed", form.owner.pet.breed);
-    formData.append("sex", form.owner.pet.animal_sex);
-    formData.append("animal", form.owner.pet.animal);
-    formData.append("animal_age", String(form.owner.pet.animal_age));
-    formData.append("animal_height", String(form.owner.pet.animal_height));
-    formData.append("animal_weight", String(form.owner.pet.animal_weight));
-    formData.append("chip", form.owner.pet.chip);
+    // Добавляем хелпер для безопасного добавления в FormData
+    const appendIfDefined = (key: string, value: string | number | undefined) => {
+      if (value !== undefined && value !== null && value !== "") {
+        formData.append(key, String(value));
+      }
+    };
 
-    formData.append("owner_name", form.owner.name);
-    formData.append("owner_birthday", form.owner.birthday);
-    formData.append("owner_sex", form.owner.sex);
-    formData.append("owner_phone", form.owner.phone);
+    // Используем безопасное добавление
+    appendIfDefined("name", form.owner.pet.animal_name);
+    appendIfDefined("breed", form.owner.pet.breed);
+    appendIfDefined("sex", form.owner.pet.animal_sex);
+    appendIfDefined("animal", form.owner.pet.animal);
+    appendIfDefined("animal_age", form.owner.pet.animal_age);
+    appendIfDefined("animal_height", form.owner.pet.animal_height);
+    appendIfDefined("animal_weight", form.owner.pet.animal_weight);
+    appendIfDefined("chip", form.owner.pet.chip);
+
+    appendIfDefined("owner_name", form.owner.name);
+    appendIfDefined("owner_birthday", form.owner.birthday);
+    appendIfDefined("owner_sex", form.owner.sex);
+    appendIfDefined("owner_phone", form.owner.phone);
 
     if (form.owner.image) {
       formData.append("image", form.owner.image);

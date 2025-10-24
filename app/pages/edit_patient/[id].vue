@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import type { PetData } from "~/types/petData";
+import type { OwnerData } from "~/types/ownerData";
 
 const router = useRouter();
 const route = useRoute();
@@ -77,17 +78,9 @@ interface PatientResponse {
   };
 }
 
-interface OwnerFormData {
-  name: string;
-  birthday: string;
-  sex: string;
-  phone: string;
-  image: File | null;
-}
-
 interface FormData {
   pet: PetData;
-  owner: OwnerFormData;
+  owner: OwnerData;
 }
 
 const form = reactive<FormData>({
@@ -205,7 +198,7 @@ const handleQrScanned = (qrData: any) => {
   const updates: string[] = [];
 
   if (qrData.owner) {
-    const ownerKeys: (keyof OwnerFormData)[] = [
+    const ownerKeys: (keyof OwnerData)[] = [
       "name",
       "birthday",
       "sex",

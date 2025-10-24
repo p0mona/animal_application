@@ -73,12 +73,7 @@ import { useUserStore } from "~/stores/user";
 import QRCode from "qrcode";
 import animalsData from "~/assets/data/animals.json";
 import type { SelectItem } from "~/types/pet";
-import type { PetData } from "~/types/petData";
-
-interface OwnerData {
-  pet?: PetData;
-  sos_phone?: string;
-}
+import type { OwnerData } from "~/types/ownerData";
 
 interface ProfileData {
   name?: string;
