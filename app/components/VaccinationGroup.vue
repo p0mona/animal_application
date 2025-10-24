@@ -21,7 +21,9 @@ interface Vaccine {
 const props = defineProps<{
   title: string;
   vaccines: Vaccine[];
-  model: Record<string, boolean>;
+  model: Record<string, any>;
+const emit = defineEmits<{
+  'vaccination-change': [key: string, value: boolean];
 }>();
 
 const handleChange = (key: string, value: boolean | 'indeterminate') => {
