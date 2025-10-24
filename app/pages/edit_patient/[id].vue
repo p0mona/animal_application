@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import type { PetData } from "~/types/petData";
 import type { OwnerData } from "~/types/ownerData";
+import type { PatientData } from "~/types/patientData";
 
 const router = useRouter();
 const route = useRoute();
@@ -57,26 +58,6 @@ const notificationType = ref<"success" | "error">("success");
 const showQrScanner = ref(false);
 const saving = ref(false);
 const loading = ref(true);
-
-interface PatientResponse {
-  _id: string;
-  name?: string;
-  breed?: string;
-  image?: string;
-  sex?: string;
-  animal?: string;
-  animal_age?: string;
-  animal_height?: string;
-  animal_weight?: string;
-  chip?: string;
-  owner?: {
-    name?: string;
-    birthday?: string;
-    sex?: string;
-    phone?: string;
-    image?: string;
-  };
-}
 
 interface FormData {
   pet: PetData;
@@ -120,7 +101,7 @@ const loadPatient = async () => {
       {
         headers: { Authorization: `Bearer ${token}` },
       },
-    )) as PatientResponse;
+    )) as PatientData;
 
     if (response) {
       form.pet.animal_name = response.name || "";

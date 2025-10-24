@@ -25,50 +25,41 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
+import type { PatientData } from '~/types/patientData'
 
-interface PatientData {
+interface PatientCardProps {
   _id: string;
-  name: string;
-  breed: string;
-  image: string;
-  sex: string;
+  name?: string;
+  breed?: string;
+  image?: string;
+  sex?: string;
   animal?: string;
   animal_age?: string;
   animal_height?: string;
   animal_weight?: string;
   chip?: string;
   owner?: {
-    name: string;
-    birthday: string;
-    sex: string;
-    phone: string;
-    image?: string;
+    name?: string;
+    birthday?: string;
+    sex?: string;
+    phone?: string;
+     image?: string | File | null;
   };
 }
 
-const props = defineProps<{
-  _id: string;
-  name: string;
-  breed: string;
-  image: string;
-  sex: string;
-  animal?: string;
-  animal_age?: string;
-  animal_height?: string;
-  animal_weight?: string;
-  chip?: string;
-  owner?: {
-    name: string;
-    birthday: string;
-    sex: string;
-    phone: string;
-    image?: string;
-  };
-}>();
-
-const emit = defineEmits<{
-  "view-details": [patient: PatientData];
-}>();
+const props = withDefaults(defineProps<PatientCardProps>(), {
+  name: '',
+  breed: '',
+  image: '',
+  sex: '',
+  owner: () => ({
+    name: '',
+    birthday: '',
+    sex: '',
+    phone: '',
+    image: ''
+  })
+});
 
 const patientData = computed<PatientData>(() => ({
   _id: props._id,
@@ -81,8 +72,12 @@ const patientData = computed<PatientData>(() => ({
   animal_height: props.animal_height,
   animal_weight: props.animal_weight,
   chip: props.chip,
-  owner: props.owner,
+  owner: props.owner
 }));
+
+const emit = defineEmits<{
+  "view-details": [patient: PatientData];
+}>();
 
 const dogBreeds = ref<any[]>([]);
 const catBreeds = ref<any[]>([]);
@@ -109,8 +104,12 @@ const formattedBreed = computed(() => {
   return props.breed;
 });
 
-const getImageUrl = (imagePath: string) => {
-  if (!imagePath || imagePath === "/images/example-photo.jpg") {
+const getImageUrl = (imagePath: string | File | null | undefined) => {
+  if (!imagePath || imagePath instanceof File) {
+    return "/images/example-photo.jpg";
+  }
+
+  if (imagePath === "/images/example-photo.jpg") {
     return "/images/example-photo.jpg";
   }
 

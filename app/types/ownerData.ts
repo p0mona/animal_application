@@ -5,7 +5,7 @@ export interface OwnerData {
   birthday?: string;
   sex?: string;
   phone?: string;
-  image?: File | null;
+  image?: string | File | null;
   pet?: PetData;
   sos_phone?: string;
 }

@@ -130,12 +130,7 @@
 
 <script setup lang="ts">
 import type { Appointment } from '~/types/appointments';
-
-interface Patient {
-  _id: string;
-  name: string;
-  breed: string;
-}
+import type { PatientData } from '~/types/patientData';
 
 interface AppointmentForm {
   patient_id: string;
@@ -159,7 +154,7 @@ interface TimeSlot {
   isBooked: boolean;
 }
 
-const patients = ref<Patient[]>([]);
+const patients = ref<PatientData[]>([]);
 const existingAppointments = ref<Appointment[]>([]);
 const form = ref<AppointmentForm>({
   patient_id: "",
@@ -292,7 +287,7 @@ const loadPatients = async () => {
       return;
     }
 
-    const response = await $fetch<Patient[]>("http://localhost:3001/patients", {
+    const response = await $fetch<PatientData[]>("http://localhost:3001/patients", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -233,30 +233,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import type { Appointment, AppointmentsResponse } from "~/types/appointments";
-
-interface Patient {
-  _id: string;
-  name: string;
-  breed: string;
-  image: string;
-  sex: string;
-  animal?: string;
-  animal_age?: string;
-  animal_height?: string;
-  animal_weight?: string;
-  chip?: string;
-  owner?: {
-    name: string;
-    birthday: string;
-    sex: string;
-    phone: string;
-    image?: string;
-  };
-}
+import type { PatientData } from "~/types/patientData";
 
 interface Props {
   isOpen: boolean;
-  patient: Patient | null;
+  patient: PatientData | null;
 }
 
 const props = defineProps<Props>();
@@ -319,8 +300,12 @@ const closeModal = () => {
   emit("update:isOpen", false);
 };
 
-const getImageUrl = (imagePath: string) => {
-  if (!imagePath || imagePath === "/images/example-photo.jpg") {
+const getImageUrl = (imagePath: string | File | null | undefined) => {
+  if (!imagePath || imagePath instanceof File) {
+    return "/images/example-photo.jpg";
+  }
+
+  if (imagePath === "/images/example-photo.jpg") {
     return "/images/example-photo.jpg";
   }
   if (imagePath.startsWith("http")) {

@@ -66,7 +66,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
 };
 
 interface PatientForm {
-  owner: OwnerFormData; // используем OwnerFormData
+  owner: OwnerFormData;
 }
 
 const form = reactive<PatientForm>({

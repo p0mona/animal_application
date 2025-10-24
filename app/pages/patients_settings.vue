@@ -41,33 +41,14 @@
 <script setup lang="ts">
 import PatientCard from "~/components/PatientCard.vue";
 import PatientModal from "~/components/PatientModal.vue";
+import type { PatientData } from "~/types/patientData"
 
-interface Patient {
-  _id: string;
-  name: string;
-  breed: string;
-  image: string;
-  sex: string;
-  animal?: string;
-  animal_age?: string;
-  animal_height?: string;
-  animal_weight?: string;
-  chip?: string;
-  owner?: {
-    name: string;
-    birthday: string;
-    sex: string;
-    phone: string;
-    image?: string;
-  };
-}
-
-const patients = ref<Patient[]>([]);
+const patients = ref<PatientData[]>([]);
 const showPatientModal = ref(false);
-const selectedPatient = ref<Patient | null>(null);
+const selectedPatient = ref<PatientData | null>(null);
 const error = ref("");
 
-const openPatientModal = (patient: Patient) => {
+const openPatientModal = (patient: PatientData) => {
   selectedPatient.value = patient;
   showPatientModal.value = true;
 };
@@ -90,7 +71,7 @@ const loadPatients = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })) as Patient[];
+    })) as PatientData[];
 
     patients.value = response;
   } catch (err: any) {
