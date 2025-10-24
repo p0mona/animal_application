@@ -23,13 +23,12 @@
             class="w-full border border-gray-300 rounded-lg px-3 py-2"
             :class="{ 'border-red-500': errors.patient_id }"
           >
-            <option value="">Wybierz pacjenta</option>
             <option
               v-for="patient in patients"
               :key="patient._id"
               :value="patient._id"
             >
-              {{ patient.name }} - {{ patient.breed }}
+              {{ getPatientDisplayName(patient) }}
             </option>
           </select>
           <p v-if="errors.patient_id" class="text-red-500 text-sm mt-1">
@@ -131,6 +130,9 @@
 <script setup lang="ts">
 import type { Appointment } from '~/types/appointments';
 import type { PatientData } from '~/types/patientData';
+import animalTypesData from '~/assets/data/animals.json';
+import dogBreedsData from '~/assets/data/dog_breeds.json';
+import catBreedsData from '~/assets/data/cat_breeds.json';
 
 interface AppointmentForm {
   patient_id: string;
@@ -169,7 +171,9 @@ const errors = ref<FormErrors>({});
 const error = ref("");
 const isLoadingAppointments = ref(false);
 
-const minDate = new Date().toISOString().split("T")[0];
+const animalTypes = ref(animalTypesData);
+const dogBreeds = ref(dogBreedsData);
+const catBreeds = ref(catBreedsData);
 
 // Generate available time slots
 const availableTimeSlots = computed(() => {
@@ -202,6 +206,30 @@ const filteredTimeSlots = computed(() => {
     };
   });
 });
+
+const getBreedDisplayName = (animalType: string | undefined, breedValue: string) => {
+  if (!animalType) return breedValue;
+  
+  if (animalType === 'dog') {
+    const breed = dogBreeds.value.find(b => b.value === breedValue);
+    return breed ? breed.label : breedValue;
+  } else if (animalType === 'cat') {
+    const breed = catBreeds.value.find(b => b.value === breedValue);
+    return breed ? breed.label : breedValue;
+  }
+  return breedValue;
+};
+
+const getPatientDisplayName = (patient: PatientData) => {
+  if (patient.breed) {
+    const breedDisplayName = getBreedDisplayName(patient.animal, patient.breed);
+    return `${patient.name} - ${breedDisplayName}`;
+  } else if (patient.animal) {
+    const animalType = animalTypes.value.find(type => type.value === patient.animal);
+    return `${patient.name} - ${animalType ? animalType.label : patient.animal}`;
+  }
+  return patient.name;
+};
 
 const loadExistingAppointments = async () => {
   if (!form.value.date) {
