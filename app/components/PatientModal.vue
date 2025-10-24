@@ -194,7 +194,8 @@
                 { key: 'rubarths_disease', label: 'Choroba Rubartha' },
                 { key: 'rabies', label: 'Wścieklizna' },
               ]"
-              :model="vac"
+              :model="vaccinations"
+              :patient-id="patient._id"
             />
 
             <VaccinationGroup
@@ -203,7 +204,8 @@
                 { key: 'kennel_cough', label: 'Kaszel kenelow' },
                 { key: 'leptospirosis', label: 'Leptospiroza' },
               ]"
-              :model="vac"
+              :model="vaccinations"
+              :patient-id="patient._id"
             />
           </div>
         </div>
@@ -254,6 +256,15 @@ const dogBreeds = ref<any[]>([]);
 const catBreeds = ref<any[]>([]);
 const futureAppointments = ref<Appointment[]>([]);
 const pastAppointments = ref<Appointment[]>([]);
+
+const vaccinations = ref<Record<string, boolean>>({
+  nasal: false,
+  parvovirus: false,
+  rubarths_disease: false,
+  rabies: false,
+  kennel_cough: false,
+  leptospirosis: false,
+});
 
 const navItems = [
   { key: "patient", label: "Pacjent", icon: "i-heroicons-user" },
@@ -426,15 +437,6 @@ const editAppointment = (appointment: Appointment) => {
 const viewAppointmentDetails = (appointment: Appointment) => {
   navigateTo(`/appointment_details/${appointment._id}`);
 };
-
-const vac = ref({
-  nasal: true,
-  parvovirus: true,
-  rubarths_disease: true,
-  rabies: false,
-  kennel_cough: false,
-  leptospirosis: true,
-});
 
 watch(
   () => props.patient,
