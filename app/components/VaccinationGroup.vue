@@ -4,9 +4,10 @@
     <UCheckbox
       v-for="vaccine in vaccines"
       :key="vaccine.key"
-      v-model="model[vaccine.key]"
+      :model-value="Boolean(model[vaccine.key])"
       class="[&_[data-state=checked]]:bg-violet-500"
       :label="vaccine.label"
+      @update:modelValue="handleChange(vaccine.key, $event)"
     />
   </div>
 </template>
@@ -22,4 +23,14 @@ const props = defineProps<{
   vaccines: Vaccine[];
   model: Record<string, boolean>;
 }>();
+
+const handleChange = (key: string, value: boolean | 'indeterminate') => {
+  const boolValue = value === true;
+  
+  emit('vaccination-change', key, boolValue);
+  
+  if (props.patientId) {
+    saveToServer(key, boolValue);
+  }
+};
 </script>
