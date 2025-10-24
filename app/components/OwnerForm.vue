@@ -1,6 +1,9 @@
 <template>
   <div>
     <FileUpload v-model="form.image" @file-selected="handleFileSelected" />
+    <p class="text-sm text-gray-500 mt-1">
+      Zostaw puste, aby zachować obecne zdjęcie
+    </p>
 
     <div class="flex flex-col space-y-4 mt-4">
       <h5 class="text-lg font-semibold">Właściciel</h5>

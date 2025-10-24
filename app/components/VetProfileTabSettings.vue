@@ -34,6 +34,9 @@
       <div class="flex justify-center items-start">
         <div class="relative group cursor-pointer">
           <FileUpload v-model="localProfile.image" />
+          <p class="text-sm text-gray-500 mt-1">
+            Zostaw puste, aby zachować obecne zdjęcie
+          </p>
         </div>
       </div>
     </div>
