@@ -22,7 +22,7 @@ const props = defineProps<{
   title: string;
   vaccines: Vaccine[];
   model: Record<string, any>;
-patientId?: string;
+  patientId?: string;
 }>();
 
 const emit = defineEmits<{
@@ -36,6 +36,31 @@ const handleChange = (key: string, value: boolean | 'indeterminate') => {
   
   if (props.patientId) {
     saveToServer(key, boolValue);
+  }
+};
+
+const saveToServer = async (key: string, value: boolean) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Nie jesteś zalogowany");
+      return;
+    }
+
+    await $fetch(`http://localhost:3001/patients/${props.patientId}/vaccinations`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        [key]: value
+      }),
+    });
+
+    console.log(`Vaccination ${key} updated to ${value}`);
+  } catch (error: any) {
+    console.error("Error saving vaccination:", error);
   }
 };
 </script>
