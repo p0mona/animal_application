@@ -1,12 +1,20 @@
 <template>
-  <USelectMenu
-    v-bind="$attrs"
-    :items="items"
-    :placeholder="placeholder"
-    :loading="loading"
-    v-model="modelValue"
-    class="w-full"
-  />
+  <div class="w-full">
+    <!-- Label -->
+    <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1">
+      {{ label }}
+    </label>
+
+    <!-- Select -->
+    <USelectMenu
+      v-bind="$attrs"
+      :items="items"
+      :placeholder="placeholder"
+      :loading="loading"
+      v-model="modelValue"
+      class="w-full"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -26,6 +34,10 @@ const props = defineProps({
   type: {
     type: String as PropType<'select' | 'menu'>,
     default: 'select'
+  },
+  label: {
+    type: String,
+    default: ''
   }
 })
 
