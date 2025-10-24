@@ -196,6 +196,7 @@
               ]"
               :model="vaccinations"
               :patient-id="patient._id"
+              @vaccination-change="handleVaccinationChange"
             />
 
             <VaccinationGroup
@@ -206,6 +207,7 @@
               ]"
               :model="vaccinations"
               :patient-id="patient._id"
+              @vaccination-change="handleVaccinationChange"
             />
           </div>
         </div>
@@ -405,6 +407,12 @@ const loadAppointments = async () => {
     pastAppointments.value = [];
   } finally {
     appointmentsLoading.value = false;
+  }
+};
+
+const handleVaccinationChange = (key: string, value: boolean) => {
+  if (key in vaccinations.value) {
+    vaccinations.value[key] = value;
   }
 };
 
