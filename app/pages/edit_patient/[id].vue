@@ -45,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+import type { PetData } from "~/types/petData";
+
 const router = useRouter();
 const route = useRoute();
 
@@ -75,17 +77,6 @@ interface PatientResponse {
   };
 }
 
-interface PetFormData {
-  animal_name: string;
-  breed: string;
-  animal_sex: string;
-  animal: string;
-  animal_age: string;
-  animal_height: string;
-  animal_weight: string;
-  chip: string;
-}
-
 interface OwnerFormData {
   name: string;
   birthday: string;
@@ -95,7 +86,7 @@ interface OwnerFormData {
 }
 
 interface FormData {
-  pet: PetFormData;
+  pet: PetData;
   owner: OwnerFormData;
 }
 
@@ -170,19 +161,26 @@ const updatePatient = async () => {
 
     const formData = new FormData();
 
-    formData.append("name", form.pet.animal_name);
-    formData.append("breed", form.pet.breed);
-    formData.append("sex", form.pet.animal_sex);
-    formData.append("animal", form.pet.animal);
-    formData.append("animal_age", form.pet.animal_age);
-    formData.append("animal_height", form.pet.animal_height);
-    formData.append("animal_weight", form.pet.animal_weight);
-    formData.append("chip", form.pet.chip);
+    // Преобразуем все значения в строки и убираем undefined
+    const appendIfDefined = (key: string, value: string | number | undefined) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    };
 
-    formData.append("owner_name", form.owner.name);
-    formData.append("owner_birthday", form.owner.birthday);
-    formData.append("owner_sex", form.owner.sex);
-    formData.append("owner_phone", form.owner.phone);
+    appendIfDefined("name", form.pet.animal_name);
+    appendIfDefined("breed", form.pet.breed);
+    appendIfDefined("sex", form.pet.animal_sex);
+    appendIfDefined("animal", form.pet.animal);
+    appendIfDefined("animal_age", form.pet.animal_age);
+    appendIfDefined("animal_height", form.pet.animal_height);
+    appendIfDefined("animal_weight", form.pet.animal_weight);
+    appendIfDefined("chip", form.pet.chip);
+
+    appendIfDefined("owner_name", form.owner.name);
+    appendIfDefined("owner_birthday", form.owner.birthday);
+    appendIfDefined("owner_sex", form.owner.sex);
+    appendIfDefined("owner_phone", form.owner.phone);
 
     if (form.owner.image) {
       formData.append("image", form.owner.image);
@@ -222,7 +220,7 @@ const handleQrScanned = (qrData: any) => {
   }
 
   if (qrData.pet) {
-    const petMappings: Record<string, keyof PetFormData> = {
+    const petMappings: Record<string, keyof PetData> = {
       animal_name: "animal_name",
       breed: "breed",
       animal_sex: "animal_sex",
