@@ -22,6 +22,9 @@ const props = defineProps<{
   title: string;
   vaccines: Vaccine[];
   model: Record<string, any>;
+patientId?: string;
+}>();
+
 const emit = defineEmits<{
   'vaccination-change': [key: string, value: boolean];
 }>();
