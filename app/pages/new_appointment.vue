@@ -18,19 +18,12 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Pacjent
           </label>
-          <select
+          <USelect
             v-model="form.patient_id"
-            class="w-full border border-gray-300 rounded-lg px-3 py-2"
-            :class="{ 'border-red-500': errors.patient_id }"
-          >
-            <option
-              v-for="patient in patients"
-              :key="patient._id"
-              :value="patient._id"
-            >
-              {{ getPatientDisplayName(patient) }}
-            </option>
-          </select>
+            :items="patientItems"
+            placeholder="Wybierz pacjenta"
+            class="mt-1"
+          />
           <p v-if="errors.patient_id" class="text-red-500 text-sm mt-1">
             {{ errors.patient_id }}
           </p>
@@ -54,23 +47,12 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">
             Godzina
           </label>
-          <select
+          <USelect
             v-model="form.time"
-            class="w-full border border-gray-300 rounded-lg px-3 py-2"
-            :class="{ 'border-red-500': errors.time }"
-          >
-            <option value="">Wybierz godzinę</option>
-            <option
-              v-for="timeSlot in filteredTimeSlots"
-              :key="timeSlot.value"
-              :value="timeSlot.value"
-              :disabled="timeSlot.isBooked"
-              :class="{ 'text-gray-400 bg-gray-100': timeSlot.isBooked }"
-            >
-              {{ timeSlot.label }}
-              <span v-if="timeSlot.isBooked"> (zajęte)</span>
-            </option>
-          </select>
+            :items="timeSlotItems"
+            placeholder="Wybierz godzinę"
+            class="w-full h-8 mt-1"
+          />
           <p v-if="errors.time" class="text-red-500 text-sm mt-1">
             {{ errors.time }}
           </p>
@@ -130,6 +112,7 @@
 <script setup lang="ts">
 import type { Appointment } from '~/types/appointments';
 import type { PatientData } from '~/types/patientData';
+import type { SelectMenuItem } from '#ui/types';
 import animalTypesData from '~/assets/data/animals.json';
 import dogBreedsData from '~/assets/data/dog_breeds.json';
 import catBreedsData from '~/assets/data/cat_breeds.json';
@@ -205,6 +188,23 @@ const filteredTimeSlots = computed(() => {
       isBooked
     };
   });
+});
+
+// Patient items for USelect
+const patientItems = computed<SelectMenuItem[]>(() => {
+  return patients.value.map(patient => ({
+    label: getPatientDisplayName(patient),
+    value: patient._id
+  }));
+});
+
+// Time slot items for USelect
+const timeSlotItems = computed<SelectMenuItem[]>(() => {
+  return filteredTimeSlots.value.map(slot => ({
+    label: slot.isBooked ? `${slot.label} (zajęte)` : slot.label,
+    value: slot.value,
+    disabled: slot.isBooked
+  }));
 });
 
 const getBreedDisplayName = (animalType: string | undefined, breedValue: string) => {
