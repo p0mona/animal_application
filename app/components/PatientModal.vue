@@ -410,6 +410,31 @@ const loadAppointments = async () => {
   }
 };
 
+const loadVaccinations = async () => {
+  if (!props.patient) return;
+
+  try {
+    const token = localStorage.getItem("token");
+    const response = await $fetch<any>(
+      `http://localhost:3001/patients/${props.patient._id}/vaccinations`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.vaccinations) {
+      vaccinations.value = {
+        ...vaccinations.value,
+        ...response.vaccinations
+      };
+    }
+  } catch (error) {
+    console.error("Error loading vaccinations:", error);
+  }
+};
+
 const handleVaccinationChange = (key: string, value: boolean) => {
   if (key in vaccinations.value) {
     vaccinations.value[key] = value;
@@ -452,12 +477,18 @@ watch(
     if (newPatient && activeTab.value === "appointment") {
       loadAppointments();
     }
+    if (newPatient && activeTab.value === "vaccination") {
+      loadVaccinations();
+    }
   },
 );
 
 watch(activeTab, (newTab) => {
   if (newTab === "appointment" && props.patient) {
     loadAppointments();
+  }
+  if (newTab === "vaccination" && props.patient) {
+    loadVaccinations();
   }
 });
 
