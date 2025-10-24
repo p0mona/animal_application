@@ -89,15 +89,10 @@
       <div class="space-y-4">
         <!-- Reason -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            Powód wizyty
-          </label>
-          <input
-            type="text"
-            v-model="form.reason"
-            placeholder="Np. Szczepienie, badanie kontrolne..."
-            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            :class="{ 'border-red-500': errors.reason }"
+          <BaseInput 
+            label="Powód wizyty" 
+            v-model="form.reason" 
+            class="font-medium"
           />
           <p v-if="errors.reason" class="text-red-500 text-sm mt-1">
             {{ errors.reason }}
@@ -106,28 +101,20 @@
 
         <!-- Notes -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            Uwagi
-          </label>
-          <textarea
-            v-model="form.notes"
-            placeholder="Dodatkowe uwagi..."
-            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          ></textarea>
+          <BaseInput 
+            label="Uwagi" 
+            v-model="form.notes" 
+            class="font-medium"
+          />
         </div>
 
         <!-- Duration -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            Czas trwania (minuty)
-          </label>
-          <input
+          <BaseInput 
+            label="Czas trwania (minuty)" 
+            v-model="form.duration" 
+            class="font-medium"
             type="number"
-            v-model="form.duration"
-            min="10"
-            max="120"
-            step="10"
-            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
           />
         </div>
 
