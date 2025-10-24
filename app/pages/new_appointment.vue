@@ -39,16 +39,11 @@
 
         <!-- Date -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            Data
-          </label>
-          <input
+          <BaseInput
+            label="Data"
             type="date"
             v-model="form.date"
-            :min="minDate"
-            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-            :class="{ 'border-red-500': errors.date }"
-            @change="loadExistingAppointments"
+            class="font-medium"
           />
           <p v-if="errors.date" class="text-red-500 text-sm mt-1">
             {{ errors.date }}
