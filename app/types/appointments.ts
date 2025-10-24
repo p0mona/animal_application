@@ -1,4 +1,4 @@
-import type { PatientData } from '~/types/patientData'
+import type { PatientData } from "~/types/patientData";
 
 export interface Appointment {
   _id: string;

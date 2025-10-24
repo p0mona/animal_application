@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import PatientCard from "~/components/PatientCard.vue";
 import PatientModal from "~/components/PatientModal.vue";
-import type { PatientData } from "~/types/patientData"
+import type { PatientData } from "~/types/patientData";
 
 const patients = ref<PatientData[]>([]);
 const showPatientModal = ref(false);

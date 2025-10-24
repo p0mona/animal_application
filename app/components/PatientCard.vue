@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
-import type { PatientData } from '~/types/patientData'
+import type { PatientData } from "~/types/patientData";
 
 interface PatientCardProps {
   _id: string;
@@ -43,22 +43,22 @@ interface PatientCardProps {
     birthday?: string;
     sex?: string;
     phone?: string;
-     image?: string | File | null;
+    image?: string | File | null;
   };
 }
 
 const props = withDefaults(defineProps<PatientCardProps>(), {
-  name: '',
-  breed: '',
-  image: '',
-  sex: '',
+  name: "",
+  breed: "",
+  image: "",
+  sex: "",
   owner: () => ({
-    name: '',
-    birthday: '',
-    sex: '',
-    phone: '',
-    image: ''
-  })
+    name: "",
+    birthday: "",
+    sex: "",
+    phone: "",
+    image: "",
+  }),
 });
 
 const patientData = computed<PatientData>(() => ({
@@ -72,7 +72,7 @@ const patientData = computed<PatientData>(() => ({
   animal_height: props.animal_height,
   animal_weight: props.animal_weight,
   chip: props.chip,
-  owner: props.owner
+  owner: props.owner,
 }));
 
 const emit = defineEmits<{

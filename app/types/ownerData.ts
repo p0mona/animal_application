@@ -1,4 +1,4 @@
-import type { PetData } from '~/types/petData'
+import type { PetData } from "~/types/petData";
 
 export interface OwnerData {
   name?: string;

@@ -177,7 +177,10 @@ const savePatient = async () => {
     const formData = new FormData();
 
     // Добавляем хелпер для безопасного добавления в FormData
-    const appendIfDefined = (key: string, value: string | number | undefined) => {
+    const appendIfDefined = (
+      key: string,
+      value: string | number | undefined,
+    ) => {
       if (value !== undefined && value !== null && value !== "") {
         formData.append(key, String(value));
       }

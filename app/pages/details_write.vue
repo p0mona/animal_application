@@ -15,11 +15,7 @@
 
       <div class="w-full space-y-2">
         <p class="text-sm">Rasa</p>
-        <BaseSelect
-          type="menu"
-          placeholder="-"
-          :items="breeds"
-        />
+        <BaseSelect type="menu" placeholder="-" :items="breeds" />
       </div>
 
       <div class="w-full mt-4 mb-4">

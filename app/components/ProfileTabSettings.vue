@@ -125,16 +125,16 @@ const petData = computed({
   },
   set: (value) => {
     if (!localProfile.value.owner) {
-      localProfile.value.owner = { 
+      localProfile.value.owner = {
         pet: {},
-        sos_phone: "" 
+        sos_phone: "",
       };
     }
-    localProfile.value.owner.pet = { 
+    localProfile.value.owner.pet = {
       ...localProfile.value.owner.pet,
-      ...value 
+      ...value,
     };
-  }
+  },
 });
 
 const showQRModal = ref(false);

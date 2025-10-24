@@ -56,7 +56,10 @@
           <p v-if="errors.time" class="text-red-500 text-sm mt-1">
             {{ errors.time }}
           </p>
-          <p v-if="filteredTimeSlots.length === 0 && form.date" class="text-gray-500 text-sm mt-1">
+          <p
+            v-if="filteredTimeSlots.length === 0 && form.date"
+            class="text-gray-500 text-sm mt-1"
+          >
             Brak dostępnych terminów w wybranym dniu
           </p>
         </div>
@@ -65,9 +68,9 @@
       <div class="space-y-4">
         <!-- Reason -->
         <div>
-          <BaseInput 
-            label="Powód wizyty" 
-            v-model="form.reason" 
+          <BaseInput
+            label="Powód wizyty"
+            v-model="form.reason"
             class="font-medium"
           />
           <p v-if="errors.reason" class="text-red-500 text-sm mt-1">
@@ -77,18 +80,14 @@
 
         <!-- Notes -->
         <div>
-          <BaseInput 
-            label="Uwagi" 
-            v-model="form.notes" 
-            class="font-medium"
-          />
+          <BaseInput label="Uwagi" v-model="form.notes" class="font-medium" />
         </div>
 
         <!-- Duration -->
         <div>
-          <BaseInput 
-            label="Czas trwania (minuty)" 
-            v-model="form.duration" 
+          <BaseInput
+            label="Czas trwania (minuty)"
+            v-model="form.duration"
             class="font-medium"
             type="number"
           />
@@ -110,12 +109,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Appointment } from '~/types/appointments';
-import type { PatientData } from '~/types/patientData';
-import type { SelectMenuItem } from '#ui/types';
-import animalTypesData from '~/assets/data/animals.json';
-import dogBreedsData from '~/assets/data/dog_breeds.json';
-import catBreedsData from '~/assets/data/cat_breeds.json';
+import type { Appointment } from "~/types/appointments";
+import type { PatientData } from "~/types/patientData";
+import type { SelectMenuItem } from "#ui/types";
+import animalTypesData from "~/assets/data/animals.json";
+import dogBreedsData from "~/assets/data/dog_breeds.json";
+import catBreedsData from "~/assets/data/cat_breeds.json";
 
 interface AppointmentForm {
   patient_id: string;
@@ -164,10 +163,10 @@ const availableTimeSlots = computed(() => {
   for (let hour = 9; hour <= 17; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
       const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-      slots.push({ 
-        label: timeString, 
+      slots.push({
+        label: timeString,
         value: timeString,
-        isBooked: false
+        isBooked: false,
       });
     }
   }
@@ -179,42 +178,45 @@ const filteredTimeSlots = computed(() => {
     return availableTimeSlots.value;
   }
 
-  return availableTimeSlots.value.map(slot => {
-    const isBooked = existingAppointments.value.some(appointment => 
-      appointment.time === slot.value
+  return availableTimeSlots.value.map((slot) => {
+    const isBooked = existingAppointments.value.some(
+      (appointment) => appointment.time === slot.value,
     );
     return {
       ...slot,
-      isBooked
+      isBooked,
     };
   });
 });
 
 // Patient items for USelect
 const patientItems = computed<SelectMenuItem[]>(() => {
-  return patients.value.map(patient => ({
+  return patients.value.map((patient) => ({
     label: getPatientDisplayName(patient),
-    value: patient._id
+    value: patient._id,
   }));
 });
 
 // Time slot items for USelect
 const timeSlotItems = computed<SelectMenuItem[]>(() => {
-  return filteredTimeSlots.value.map(slot => ({
+  return filteredTimeSlots.value.map((slot) => ({
     label: slot.isBooked ? `${slot.label} (zajęte)` : slot.label,
     value: slot.value,
-    disabled: slot.isBooked
+    disabled: slot.isBooked,
   }));
 });
 
-const getBreedDisplayName = (animalType: string | undefined, breedValue: string) => {
+const getBreedDisplayName = (
+  animalType: string | undefined,
+  breedValue: string,
+) => {
   if (!animalType) return breedValue;
-  
-  if (animalType === 'dog') {
-    const breed = dogBreeds.value.find(b => b.value === breedValue);
+
+  if (animalType === "dog") {
+    const breed = dogBreeds.value.find((b) => b.value === breedValue);
     return breed ? breed.label : breedValue;
-  } else if (animalType === 'cat') {
-    const breed = catBreeds.value.find(b => b.value === breedValue);
+  } else if (animalType === "cat") {
+    const breed = catBreeds.value.find((b) => b.value === breedValue);
     return breed ? breed.label : breedValue;
   }
   return breedValue;
@@ -225,7 +227,9 @@ const getPatientDisplayName = (patient: PatientData) => {
     const breedDisplayName = getBreedDisplayName(patient.animal, patient.breed);
     return `${patient.name} - ${breedDisplayName}`;
   } else if (patient.animal) {
-    const animalType = animalTypes.value.find(type => type.value === patient.animal);
+    const animalType = animalTypes.value.find(
+      (type) => type.value === patient.animal,
+    );
     return `${patient.name} - ${animalType ? animalType.label : patient.animal}`;
   }
   return patient.name;
@@ -245,16 +249,22 @@ const loadExistingAppointments = async () => {
       return;
     }
 
-    const response = await $fetch<Appointment[]>(`http://localhost:3001/appointments?date=${form.value.date}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<Appointment[]>(
+      `http://localhost:3001/appointments?date=${form.value.date}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     existingAppointments.value = response;
-    
+
     // If the currently selected time is taken, reset it
-    if (form.value.time && existingAppointments.value.some(app => app.time === form.value.time)) {
+    if (
+      form.value.time &&
+      existingAppointments.value.some((app) => app.time === form.value.time)
+    ) {
       form.value.time = "";
     }
   } catch (err: any) {
@@ -280,7 +290,9 @@ const validateForm = (): boolean => {
     errors.value.time = "Proszę wybrać godzinę";
   } else {
     // Additional check to ensure the selected time is not occupied
-    const selectedSlot = filteredTimeSlots.value.find(slot => slot.value === form.value.time);
+    const selectedSlot = filteredTimeSlots.value.find(
+      (slot) => slot.value === form.value.time,
+    );
     if (selectedSlot?.isBooked) {
       errors.value.time = "Wybrana godzina jest już zajęta";
     }
@@ -315,11 +327,14 @@ const loadPatients = async () => {
       return;
     }
 
-    const response = await $fetch<PatientData[]>("http://localhost:3001/patients", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<PatientData[]>(
+      "http://localhost:3001/patients",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     patients.value = response;
 

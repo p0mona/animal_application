@@ -26,14 +26,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  'vaccination-change': [key: string, value: boolean];
+  "vaccination-change": [key: string, value: boolean];
 }>();
 
-const handleChange = (key: string, value: boolean | 'indeterminate') => {
+const handleChange = (key: string, value: boolean | "indeterminate") => {
   const boolValue = value === true;
-  
-  emit('vaccination-change', key, boolValue);
-  
+
+  emit("vaccination-change", key, boolValue);
+
   if (props.patientId) {
     saveToServer(key, boolValue);
   }
@@ -47,16 +47,19 @@ const saveToServer = async (key: string, value: boolean) => {
       return;
     }
 
-    await $fetch(`http://localhost:3001/patients/${props.patientId}/vaccinations`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+    await $fetch(
+      `http://localhost:3001/patients/${props.patientId}/vaccinations`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          [key]: value,
+        }),
       },
-      body: JSON.stringify({
-        [key]: value
-      }),
-    });
+    );
 
     console.log(`Vaccination ${key} updated to ${value}`);
   } catch (error: any) {

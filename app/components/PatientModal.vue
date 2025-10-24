@@ -421,13 +421,13 @@ const loadVaccinations = async () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (response.vaccinations) {
       vaccinations.value = {
         ...vaccinations.value,
-        ...response.vaccinations
+        ...response.vaccinations,
       };
     }
   } catch (error) {

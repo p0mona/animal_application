@@ -136,7 +136,10 @@ const updatePatient = async () => {
     const formData = new FormData();
 
     // Преобразуем все значения в строки и убираем undefined
-    const appendIfDefined = (key: string, value: string | number | undefined) => {
+    const appendIfDefined = (
+      key: string,
+      value: string | number | undefined,
+    ) => {
       if (value !== undefined && value !== null) {
         formData.append(key, String(value));
       }
@@ -179,12 +182,7 @@ const handleQrScanned = (qrData: any) => {
   const updates: string[] = [];
 
   if (qrData.owner) {
-    const ownerKeys: (keyof OwnerData)[] = [
-      "name",
-      "birthday",
-      "sex",
-      "phone",
-    ];
+    const ownerKeys: (keyof OwnerData)[] = ["name", "birthday", "sex", "phone"];
     ownerKeys.forEach((key) => {
       if (qrData.owner[key]) {
         (form.owner[key] as string) = qrData.owner[key];

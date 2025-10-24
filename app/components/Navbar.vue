@@ -18,7 +18,7 @@
       />
     </header>
 
-<!-- Dimming -->
+    <!-- Dimming -->
     <div
       v-if="isOpen"
       @click="isOpen = false"

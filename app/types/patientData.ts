@@ -1,6 +1,6 @@
-import type { OwnerData } from '~/types/ownerData'
+import type { OwnerData } from "~/types/ownerData";
 
-export interface PatientData{
+export interface PatientData {
   _id: string;
   name?: string;
   breed?: string;
@@ -11,5 +11,5 @@ export interface PatientData{
   animal_height?: string;
   animal_weight?: string;
   chip?: string;
-  owner?: OwnerData
+  owner?: OwnerData;
 }

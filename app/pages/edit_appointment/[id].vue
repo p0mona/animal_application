@@ -57,7 +57,10 @@
           <p v-if="errors.time" class="text-red-500 text-sm mt-1">
             {{ errors.time }}
           </p>
-          <p v-if="filteredTimeSlots.length === 0 && form.date" class="text-gray-500 text-sm mt-1">
+          <p
+            v-if="filteredTimeSlots.length === 0 && form.date"
+            class="text-gray-500 text-sm mt-1"
+          >
             Brak dostępnych terminów w wybranym dniu
           </p>
         </div>
@@ -66,9 +69,9 @@
       <div class="space-y-4">
         <!-- Reason -->
         <div>
-          <BaseInput 
-            label="Powód wizyty" 
-            v-model="form.reason" 
+          <BaseInput
+            label="Powód wizyty"
+            v-model="form.reason"
             class="font-medium"
           />
           <p v-if="errors.reason" class="text-red-500 text-sm mt-1">
@@ -78,18 +81,14 @@
 
         <!-- Notes -->
         <div>
-          <BaseInput 
-            label="Uwagi" 
-            v-model="form.notes" 
-            class="font-medium"
-          />
+          <BaseInput label="Uwagi" v-model="form.notes" class="font-medium" />
         </div>
 
         <!-- Duration -->
         <div>
-          <BaseInput 
-            label="Czas trwania (minuty)" 
-            v-model="form.duration" 
+          <BaseInput
+            label="Czas trwania (minuty)"
+            v-model="form.duration"
             class="font-medium"
             type="number"
           />
@@ -111,9 +110,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Appointment } from '~/types/appointments';
-import type { PatientData } from '~/types/patientData';
-import type { SelectMenuItem } from '#ui/types';
+import type { Appointment } from "~/types/appointments";
+import type { PatientData } from "~/types/patientData";
+import type { SelectMenuItem } from "#ui/types";
 
 interface AppointmentForm {
   patient_id: string;
@@ -150,7 +149,7 @@ const form = ref<AppointmentForm>({
   reason: "",
   duration: 30,
   notes: "",
-  status: "scheduled"
+  status: "scheduled",
 });
 
 const errors = ref<FormErrors>({});
@@ -164,10 +163,10 @@ const availableTimeSlots = computed(() => {
   for (let hour = 9; hour <= 17; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
       const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-      slots.push({ 
-        label: timeString, 
+      slots.push({
+        label: timeString,
         value: timeString,
-        isBooked: false
+        isBooked: false,
       });
     }
   }
@@ -179,31 +178,32 @@ const filteredTimeSlots = computed(() => {
     return availableTimeSlots.value;
   }
 
-  return availableTimeSlots.value.map(slot => {
-    const isBooked = existingAppointments.value.some(appointment => 
-      appointment.time === slot.value && appointment._id !== appointmentId
+  return availableTimeSlots.value.map((slot) => {
+    const isBooked = existingAppointments.value.some(
+      (appointment) =>
+        appointment.time === slot.value && appointment._id !== appointmentId,
     );
     return {
       ...slot,
-      isBooked
+      isBooked,
     };
   });
 });
 
 // Patient items for USelect
 const patientItems = computed<SelectMenuItem[]>(() => {
-  return patients.value.map(patient => ({
-    label: `${patient.name} - ${patient.breed || patient.animal || 'brak'}`,
-    value: patient._id
+  return patients.value.map((patient) => ({
+    label: `${patient.name} - ${patient.breed || patient.animal || "brak"}`,
+    value: patient._id,
   }));
 });
 
 // Time slot items for USelect
 const timeSlotItems = computed<SelectMenuItem[]>(() => {
-  return filteredTimeSlots.value.map(slot => ({
+  return filteredTimeSlots.value.map((slot) => ({
     label: slot.isBooked ? `${slot.label} (zajęte)` : slot.label,
     value: slot.value,
-    disabled: slot.isBooked
+    disabled: slot.isBooked,
   }));
 });
 
@@ -221,17 +221,24 @@ const loadExistingAppointments = async () => {
       return;
     }
 
-    const response = await $fetch<Appointment[]>(`http://localhost:3001/appointments?date=${form.value.date}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<Appointment[]>(
+      `http://localhost:3001/appointments?date=${form.value.date}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     existingAppointments.value = response;
-    
+
     // If the currently selected time is taken by another appointment, reset it
-    if (form.value.time && existingAppointments.value.some(app => 
-      app.time === form.value.time && app._id !== appointmentId)) {
+    if (
+      form.value.time &&
+      existingAppointments.value.some(
+        (app) => app.time === form.value.time && app._id !== appointmentId,
+      )
+    ) {
       form.value.time = "";
     }
   } catch (err: any) {
@@ -257,7 +264,9 @@ const validateForm = (): boolean => {
     errors.value.time = "Proszę wybrać godzinę";
   } else {
     // Additional check to ensure the selected time is not occupied by another appointment
-    const selectedSlot = filteredTimeSlots.value.find(slot => slot.value === form.value.time);
+    const selectedSlot = filteredTimeSlots.value.find(
+      (slot) => slot.value === form.value.time,
+    );
     if (selectedSlot?.isBooked) {
       errors.value.time = "Wybrana godzina jest już zajęta";
     }
@@ -289,11 +298,14 @@ const loadPatients = async () => {
       return;
     }
 
-    const response = await $fetch<PatientData[]>("http://localhost:3001/patients", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<PatientData[]>(
+      "http://localhost:3001/patients",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     patients.value = response;
   } catch (err: any) {
@@ -310,11 +322,14 @@ const loadAppointment = async () => {
       return;
     }
 
-    const response = await $fetch<Appointment>(`http://localhost:3001/appointments/${appointmentId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<Appointment>(
+      `http://localhost:3001/appointments/${appointmentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     // Fill form with existing data
     form.value = {
@@ -324,7 +339,7 @@ const loadAppointment = async () => {
       reason: response.reason,
       duration: response.duration || 30,
       notes: response.notes || "",
-      status: response.status || "scheduled"
+      status: response.status || "scheduled",
     };
 
     // Load appointments for the selected date
@@ -354,17 +369,20 @@ const updateAppointment = async () => {
       reason: form.value.reason,
       duration: form.value.duration,
       notes: form.value.notes,
-      status: form.value.status
+      status: form.value.status,
     };
 
-    const response = await $fetch(`http://localhost:3001/appointments/${appointmentId}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+    const response = await $fetch(
+      `http://localhost:3001/appointments/${appointmentId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointmentData),
       },
-      body: JSON.stringify(appointmentData),
-    });
+    );
 
     console.log("Appointment updated successfully:", response);
 
