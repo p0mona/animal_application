@@ -74,16 +74,7 @@ import QRCode from "qrcode";
 import animalsData from "~/assets/data/animals.json";
 import type { SelectItem } from "~/types/pet";
 import type { OwnerData } from "~/types/ownerData";
-
-interface ProfileData {
-  name?: string;
-  birthday?: string;
-  sex?: string;
-  image?: string | null;
-  phone?: string;
-  owner?: OwnerData;
-  [key: string]: any;
-}
+import type { ProfileData } from "~/types/profileData";
 
 const userStore = useUserStore();
 const router = useRouter();

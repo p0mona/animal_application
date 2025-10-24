@@ -66,16 +66,7 @@ import type { RadioGroupItem } from "@nuxt/ui";
 import animalsList from "~/assets/data/animals.json";
 import type { SelectItem } from "~/types/pet";
 import type { OwnerData } from "~/types/ownerData";
-
-interface ProfileData {
-  owner?: OwnerData;
-  name?: string;
-  sex?: string;
-  birthday?: string;
-  phone?: string;
-  image?: string;
-  [key: string]: any;
-}
+import type { ProfileData } from "~/types/profileData";
 
 interface SecurityData {
   currentPassword: string;
