@@ -75,8 +75,8 @@
           />
         </div>
         <BaseButton
-          :label="loading ? 'Dodawanie...' : 'Dodaj'"
-          :disabled="loading"
+          type="submit"
+          label="Dodaj"
         />
       </form>
 
@@ -126,10 +126,31 @@
       </div>
     </div>
   </Layout>
+  <Notification
+    v-if="showNotification"
+    :message="notificationMessage"
+    :type="notificationType"
+    :duration="3000"
+    @close="showNotification = false"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 interface Entry {
   _id?: string;
@@ -152,21 +173,14 @@ const maxWeight = 200;
 const maxHeight = 250;
 
 function getToken(): string | null {
-  return localStorage.getItem("token") || getCookie("token");
-}
-
-function getCookie(name: string): string | null {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
-  return null;
+  return localStorage.getItem("token");
 }
 
 function showMessage(text: string, isError = false) {
   message.value = text;
   messageClass.value = isError
     ? "bg-red-100 text-red-700"
-    : "bg-primary-100 text-primary-700";
+    : "bg-green-100 text-green-700";
   setTimeout(() => {
     message.value = "";
   }, 5000);
@@ -189,6 +203,7 @@ async function loadEntries() {
     const token = getToken();
     if (!token) {
       showMessage("Nie jesteś zalogowany", true);
+      showNotify("Błąd autoryzacji. Zaloguj się ponownie.", "error");
       return;
     }
 
@@ -196,12 +211,12 @@ async function loadEntries() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
     });
 
     if (!res.ok) {
       if (res.status === 401) {
         showMessage("Nie jesteś zalogowany", true);
+        showNotify("Błąd autoryzacji. Zaloguj się ponownie.", "error");
         return;
       }
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -212,9 +227,13 @@ async function loadEntries() {
       (a: Entry, b: Entry) =>
         new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
+    
+    if (entries.value.length > 0) {
+    }
   } catch (error: any) {
     console.error("Błąd ładowania danych:", error);
     showMessage("Błąd przy ładowaniu zapisów: " + error.message, true);
+    showNotify("Błąd podczas ładowania danych", "error");
   }
 }
 
@@ -225,6 +244,24 @@ async function addEntry() {
     newEntry.value.height <= 0
   ) {
     showMessage("Wszystkie pola są wymagane i muszą być większe niż 0", true);
+    showNotify("Wszystkie pola są wymagane i muszą być większe niż 0", "error");
+    return;
+  }
+
+  const selectedDate = new Date(newEntry.value.date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  if (selectedDate > today) {
+    showMessage("Nie można dodać wpisu z przyszłą datą", true);
+    showNotify("Nie można dodać wpisu z przyszłą datą", "error");
+    return;
+  }
+
+  const existingEntry = entries.value.find(entry => entry.date === newEntry.value.date);
+  if (existingEntry) {
+    showMessage("Wpis dla tej daty już istnieje", true);
+    showNotify("Wpis dla tej daty już istnieje", "error");
     return;
   }
 
@@ -234,6 +271,7 @@ async function addEntry() {
     const token = getToken();
     if (!token) {
       showMessage("Nie jesteś zalogowany", true);
+      showNotify("Błąd autoryzacji. Zaloguj się ponownie.", "error");
       return;
     }
 
@@ -243,23 +281,25 @@ async function addEntry() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
       body: JSON.stringify(newEntry.value),
     });
 
-    const data = await res.json();
-
     if (!res.ok) {
-      showMessage(data.message || "Błąd przy dodawaniu zapisu", true);
+      const errorData = await res.json();
+      showMessage(errorData.message || "Błąd przy dodawaniu zapisu", true);
+      showNotify(errorData.message || "Błąd przy dodawaniu zapisu", "error");
       return;
     }
 
+    const data = await res.json();
+    
     entries.value.push(data);
     entries.value.sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
-    showMessage("Pomyślnie dodano nowy wpis!");
+    showMessage("Pomyślnie dodano nowy wpis!", false);
+    
     newEntry.value = {
       date: getTodayDate(),
       weight: 0,
@@ -268,6 +308,7 @@ async function addEntry() {
   } catch (error: any) {
     console.error("Błąd dodawania:", error);
     showMessage("Błąd przy dodawaniu zapisu: " + error.message, true);
+    showNotify("Błąd podczas dodawania wpisu", "error");
   } finally {
     loading.value = false;
   }

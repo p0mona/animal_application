@@ -130,7 +130,7 @@
         :content="appointment.notes || 'Brak informacji'"
       />
 
-      <div class="flex justify-end space-x-3 mt-8" v-if="canEdit">
+      <div class="flex justify-end space-x-3 mt-8">
         <BaseButton
           label="Edytuj szczegóły wizyty"
           @click="editAppointmentDetails"
@@ -141,11 +141,33 @@
     <div v-else class="text-center py-8">
       <p class="text-gray-500">Nie znaleziono danych wizyty</p>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </FullWidthLayout>
 </template>
 
 <script setup lang="ts">
 import type { Appointment } from "~/types/appointments";
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 const route = useRoute();
 const appointmentId = route.params.id as string;
@@ -154,16 +176,6 @@ const appointment = ref<Appointment | null>(null);
 const loading = ref(true);
 const error = ref("");
 
-const canEdit = computed(() => {
-  if (!appointment.value?.date) return false;
-
-  const appointmentDate = new Date(appointment.value.date);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  return appointmentDate >= today && appointment.value.status === "scheduled";
-});
-
 const loadAppointment = async () => {
   try {
     loading.value = true;
@@ -171,6 +183,7 @@ const loadAppointment = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -190,6 +203,7 @@ const loadAppointment = async () => {
   } catch (err: any) {
     console.error("Error loading appointment:", err);
     error.value = "Błąd podczas ładowania danych wizyty";
+    showNotify("Błąd podczas ładowania danych wizyty", "error");
   } finally {
     loading.value = false;
   }
@@ -215,6 +229,11 @@ const getAnimalTypeName = (animalType: string | undefined) => {
 };
 
 const editAppointmentDetails = () => {
+  if (!appointment.value) {
+    showNotify("Brak danych wizyty", "error");
+    return;
+  }
+  
   navigateTo(`/edit_appointment_details/${appointmentId}`);
 };
 

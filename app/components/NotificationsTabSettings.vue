@@ -10,19 +10,16 @@
           <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
           <BaseCheckbox
-            :model-value="Boolean(localNotifications.email)"
+            v-model="localNotifications.email"
             label="Email"
-            @update:modelValue="(value) => handleCheckboxChange('email', value)"
           />
           <BaseCheckbox
-            :model-value="Boolean(localNotifications.push)"
+            v-model="localNotifications.push"
             label="Powiadomienia push"
-            @update:modelValue="(value) => handleCheckboxChange('push', value)"
           />
           <BaseCheckbox
-            :model-value="Boolean(localNotifications.sms)"
+            v-model="localNotifications.sms"
             label="SMS"
-            @update:modelValue="(value) => handleCheckboxChange('sms', value)"
           />
 
           <UDivider />
@@ -30,19 +27,16 @@
           <h3 class="text-base font-semibold">Typy powiadomień</h3>
 
           <BaseCheckbox
-            :model-value="Boolean(localNotifications.news)"
+            v-model="localNotifications.news"
             label="Aktualności i ogłoszenia"
-            @update:modelValue="(value) => handleCheckboxChange('news', value)"
           />
           <BaseCheckbox
-            :model-value="Boolean(localNotifications.security)"
+            v-model="localNotifications.security"
             label="Alerty bezpieczeństwa"
-            @update:modelValue="(value) => handleCheckboxChange('security', value)"
           />
           <BaseCheckbox
-            :model-value="Boolean(localNotifications.marketing)"
+            v-model="localNotifications.marketing"
             label="Oferty marketingowe"
-            @update:modelValue="(value) => handleCheckboxChange('marketing', value)"
           />
         </div>
 
@@ -50,16 +44,37 @@
           <BaseButton 
             label="Zapisz ustawienia" 
             @click="saveAllSettings"
-            :loading="saving"
           />
         </div>
       </UForm>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </UCard>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 interface Notifications {
   email: boolean;
@@ -80,21 +95,30 @@ const emit = defineEmits<{
 
 const localNotifications = ref<Notifications>({ ...props.notifications });
 const saving = ref(false);
-const saveStatus = ref<'idle' | 'success' | 'error'>('idle');
 
-const handleCheckboxChange = (key: keyof Notifications, value: boolean | 'indeterminate') => {
+watch(() => props.notifications, (newVal) => {
+  localNotifications.value = { ...newVal };
+}, { deep: true });
+
+const handleCheckboxChange = async (key: keyof Notifications, value: boolean | 'indeterminate') => {
   const boolValue = value === true;
   
   localNotifications.value[key] = boolValue;
   
-  saveNotificationSetting(key, boolValue);
+  try {
+    await saveNotificationSetting(key, boolValue);
+    showNotify(`Ustawienie ${key} zostało zapisane`, 'success');
+  } catch (error) {
+    localNotifications.value[key] = !boolValue;
+    showNotify(`Błąd podczas zapisywania ustawienia ${key}`, 'error');
+  }
 };
 
 const loadNotifications = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("No token found");
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -125,35 +149,23 @@ const loadNotifications = async () => {
 };
 
 const saveNotificationSetting = async (key: keyof Notifications, value: boolean) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
-    console.log(`Saving ${key}:`, value);
-
-    const response = await $fetch('http://localhost:3001/profile/notifications', {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        [key]: value
-      }),
-    });
-
-    saveStatus.value = 'success';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
-  } catch (error: any) {
-    console.error("Error saving notification setting:", error);
-    saveStatus.value = 'error';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
-    
-    localNotifications.value[key] = !value;
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No token found");
   }
+
+  const response = await $fetch('http://localhost:3001/profile/notifications', {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      [key]: value
+    }),
+  });
+
+  return response;
 };
 
 const saveAllSettings = async () => {
@@ -161,7 +173,7 @@ const saveAllSettings = async () => {
     saving.value = true;
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("No token found");
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -175,12 +187,11 @@ const saveAllSettings = async () => {
       body: JSON.stringify(localNotifications.value),
     });
 
-    saveStatus.value = 'success';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+    showNotify("Ustawienia zostały zapisane", "success");
+    emit("update:notifications", { ...localNotifications.value });
   } catch (error: any) {
     console.error("Error saving notifications:", error);
-    saveStatus.value = 'error';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+    showNotify("Błąd podczas zapisywania ustawień", "error");
   } finally {
     saving.value = false;
   }

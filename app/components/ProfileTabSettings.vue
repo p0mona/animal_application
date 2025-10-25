@@ -13,7 +13,6 @@
     </template>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Pupil Section -->
       <div>
         <PetForm
           v-model="petData"
@@ -24,7 +23,6 @@
         />
       </div>
 
-      <!-- Owner Section -->
       <div>
         <div>
           <OwnerForm v-model="localProfile" :sex="sex" />
@@ -35,7 +33,7 @@
         </div>
       </div>
     </div>
-    <!-- Notification Component -->
+
     <Notification
       v-if="showNotification"
       :message="notificationMessage"

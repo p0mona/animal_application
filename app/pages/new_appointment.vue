@@ -22,7 +22,7 @@
             v-model="form.patient_id"
             :items="patientItems"
             placeholder="Wybierz pacjenta"
-            class="mt-1"
+            class="mt-1 w-full"
           />
           <p v-if="errors.patient_id" class="text-red-500 text-sm mt-1">
             {{ errors.patient_id }}
@@ -105,6 +105,14 @@
         </div>
       </div>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </Layout>
 </template>
 
@@ -138,6 +146,20 @@ interface TimeSlot {
   isBooked: boolean;
 }
 
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
+
 const patients = ref<PatientData[]>([]);
 const existingAppointments = ref<Appointment[]>([]);
 const form = ref<AppointmentForm>({
@@ -152,6 +174,7 @@ const form = ref<AppointmentForm>({
 const errors = ref<FormErrors>({});
 const error = ref("");
 const isLoadingAppointments = ref(false);
+const creatingAppointment = ref(false);
 
 const animalTypes = ref(animalTypesData);
 const dogBreeds = ref(dogBreedsData);
@@ -270,6 +293,7 @@ const loadExistingAppointments = async () => {
   } catch (err: any) {
     console.error("Error loading existing appointments:", err);
     existingAppointments.value = [];
+    showNotify("Błąd podczas ładowania istniejących wizyt", "error");
   } finally {
     isLoadingAppointments.value = false;
   }
@@ -324,6 +348,7 @@ const loadPatients = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -346,16 +371,19 @@ const loadPatients = async () => {
   } catch (err: any) {
     console.error("Error loading patients:", err);
     error.value = "Błąd podczas ładowania pacjentów";
+    showNotify("Błąd podczas ładowania listy pacjentów", "error");
   }
 };
 
 const createAppointment = async () => {
   try {
     error.value = "";
+    creatingAppointment.value = true;
 
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -382,15 +410,23 @@ const createAppointment = async () => {
 
     console.log("Appointment created successfully:", response);
 
-    await navigateTo("/patients_settings");
+    showNotify("Wizyta została pomyślnie utworzona", "success");
+    
+    setTimeout(async () => {
+      await navigateTo("/patients_settings");
+    }, 1500);
+    
   } catch (err: any) {
     console.error("Error creating appointment:", err);
     error.value = err.data?.message || "Błąd podczas tworzenia wizyty";
 
-    // Show a more detailed error
     if (err.data?.details) {
       error.value += `: ${err.data.details}`;
     }
+
+    showNotify(error.value, "error");
+  } finally {
+    creatingAppointment.value = false;
   }
 };
 

@@ -201,16 +201,39 @@
         </div>
       </div>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </FullWidthLayout>
 </template>
 
 <script setup>
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref("success");
+
+const showNotify = (message, type = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
+
 const documents = ref([]);
 const documentName = ref("");
 const uploading = ref(false);
 const error = ref("");
 const selectedFile = ref(null);
 const fileInput = ref(null);
+const deletingDocument = ref(false);
 
 const showModal = ref(false);
 const selectedDocument = ref(null);
@@ -306,6 +329,7 @@ const openModal = async (doc) => {
     console.error("Error loading document:", error);
     documentError.value = "Nie można załadować dokumentu: " + error.message;
     loadingDocument.value = false;
+    showNotify(`Błąd ładowania dokumentu: ${error.message}`, "error");
   }
 };
 
@@ -358,6 +382,9 @@ const loadDocuments = async () => {
     console.error("Błąd ładowania:", error);
     if (error.status === 403) {
       error.value = "Błąd autoryzacji. Zaloguj się ponownie.";
+      showNotify("Błąd autoryzacji. Zaloguj się ponownie.", "error");
+    } else {
+      showNotify("Błąd podczas ładowania dokumentów", "error");
     }
   }
 };
@@ -373,6 +400,7 @@ const handleFileSelect = (event) => {
 const uploadDocument = async () => {
   if (!selectedFile.value || !documentName.value) {
     error.value = "Proszę wybrać plik i podać nazwę";
+    showNotify("Proszę wybrać plik i podać nazwę dokumentu", "error");
     return;
   }
 
@@ -395,12 +423,15 @@ const uploadDocument = async () => {
 
     await loadDocuments();
     resetForm();
+    showNotify(`Dokument "${documentName.value}" został pomyślnie zapisany`, "success");
   } catch (error) {
     console.error("Błąd upload:", error);
     if (error.status === 403) {
       error.value = "Błąd autoryzacji. Zaloguj się ponownie.";
+      showNotify("Błąd autoryzacji. Zaloguj się ponownie.", "error");
     } else {
       error.value = error.data?.message || "Błąd podczas zapisywania dokumentu";
+      showNotify(error.value, "error");
     }
   } finally {
     uploading.value = false;
@@ -433,27 +464,30 @@ const downloadDocument = async (id) => {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
+      
+      showNotify(`Dokument "${doc?.name}" został pobrany`, "success");
     } else {
       throw new Error("Download failed");
     }
   } catch (error) {
     console.error("Błąd download:", error);
-    alert(
-      "Błąd podczas pobierania dokumentu: " +
-        (error.message || "Sprawdź autoryzację"),
-    );
+    showNotify("Błąd podczas pobierania dokumentu", "error");
   }
 };
 
 const deleteDocument = async (id) => {
-  if (!confirm("Czy na pewno chcesz usunąć ten dokument?")) {
+  const doc = documents.value.find((d) => d._id === id);
+  if (!doc) return;
+
+  if (!confirm(`Czy na pewno chcesz usunąć dokument "${doc.name}"?`)) {
     return;
   }
 
   try {
+    deletingDocument.value = true;
     const token = getAuthToken();
     if (!token) {
-      alert("Błąd autoryzacji. Zaloguj się ponownie.");
+      showNotify("Błąd autoryzacji. Zaloguj się ponownie.", "error");
       return;
     }
 
@@ -466,12 +500,12 @@ const deleteDocument = async (id) => {
 
     closeModal();
     await loadDocuments();
+    showNotify(`Dokument "${doc.name}" został usunięty`, "success");
   } catch (error) {
     console.error("Błąd usuwania:", error);
-    alert(
-      "Błąd podczas usuwania dokumentu: " +
-        (error.data?.message || "Spróbuj ponownie"),
-    );
+    showNotify("Błąd podczas usuwania dokumentu", "error");
+  } finally {
+    deletingDocument.value = false;
   }
 };
 

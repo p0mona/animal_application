@@ -132,18 +132,43 @@
 
       <div class="flex justify-end space-x-3 pt-6">
         <BorderButton label="Anuluj" @click="goBack" />
-        <BaseButton label="Zapisz zmiany" @click="saveChanges" />
+        <BaseButton 
+          label="Zapisz zmiany" 
+          @click="saveChanges" 
+        />
       </div>
     </div>
 
     <div v-else class="text-center py-8">
       <p class="text-gray-500">Nie znaleziono danych wizyty</p>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </FullWidthLayout>
 </template>
 
 <script setup lang="ts">
 import type { Appointment } from "~/types/appointments";
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 const route = useRoute();
 const appointmentId = route.params.id as string;
@@ -169,6 +194,7 @@ const loadAppointment = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -194,6 +220,7 @@ const loadAppointment = async () => {
   } catch (err: any) {
     console.error("Error loading appointment:", err);
     error.value = "Błąd podczas ładowania danych wizyty";
+    showNotify("Błąd podczas ładowania danych wizyty", "error");
   } finally {
     loading.value = false;
   }
@@ -206,6 +233,7 @@ const saveChanges = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -230,11 +258,16 @@ const saveChanges = async () => {
       },
     );
 
-    await navigateTo(`/appointment_details/${appointmentId}`);
+    showNotify("Szczegóły wizyty zostały pomyślnie zapisane", "success");
+    
+    setTimeout(async () => {
+      await navigateTo(`/appointment_details/${appointmentId}`);
+    }, 1500);
+    
   } catch (err: any) {
     console.error("Error saving medical details:", err);
     error.value = err.data?.message || "Błąd podczas zapisywania zmian";
-    alert(`Błąd: ${error.value}`);
+    showNotify(error.value, "error");
   } finally {
     saving.value = false;
   }

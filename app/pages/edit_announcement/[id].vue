@@ -55,7 +55,6 @@
           <BorderButton label="Anuluj" @click="navigateTo('/trainer')" />
           <BaseButton
             label="Zapisz zmiany"
-            :loading="saving"
             @click="submitForm"
           />
         </div>

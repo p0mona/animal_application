@@ -39,16 +39,37 @@
           <BaseButton 
             label="Zapisz ustawienia" 
             @click="saveAllPreferences"
-            :loading="saving"
           />
         </div>
       </UForm>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </UCard>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 interface Preferences {
   language: string;
@@ -69,14 +90,17 @@ const emit = defineEmits<{
 
 const localPreferences = ref<Preferences>({ ...props.preferences });
 const saving = ref(false);
-const saveStatus = ref<'idle' | 'success' | 'error'>('idle');
 const errorMessage = ref('');
+
+watch(() => props.preferences, (newVal) => {
+  localPreferences.value = { ...newVal };
+}, { deep: true });
 
 const loadPreferences = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("No token found");
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -106,37 +130,6 @@ const handlePreferenceChange = async (key: keyof Preferences, value: any) => {
   const stringValue = typeof value === 'object' ? value.value : value;
   
   localPreferences.value[key] = stringValue;
-  
-  await savePreferenceSetting(key, stringValue);
-};
-
-const savePreferenceSetting = async (key: keyof Preferences, value: string) => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
-    const response = await $fetch('http://localhost:3001/profile/preferences', {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        [key]: value
-      }),
-    });
-
-    saveStatus.value = 'success';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
-  } catch (error: any) {
-    console.error("Error saving preference setting:", error);
-    errorMessage.value = error.data?.message || error.message || "Nieznany błąd";
-    saveStatus.value = 'error';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
-  }
 };
 
 const saveAllPreferences = async () => {
@@ -144,7 +137,7 @@ const saveAllPreferences = async () => {
     saving.value = true;
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("No token found");
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -157,13 +150,11 @@ const saveAllPreferences = async () => {
       body: JSON.stringify(localPreferences.value),
     });
 
-    saveStatus.value = 'success';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+    showNotify("Preferencje zostały zapisane", "success");
+    emit("update:preferences", { ...localPreferences.value });
   } catch (error: any) {
     console.error("Error saving preferences:", error);
-    errorMessage.value = error.data?.message || error.message || "Nieznany błąd";
-    saveStatus.value = 'error';
-    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+    showNotify("Błąd podczas zapisywania preferencji", "error");
   } finally {
     saving.value = false;
   }

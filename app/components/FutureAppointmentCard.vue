@@ -15,12 +15,21 @@
     <div class="flex space-x-2">
       <BorderButton
         label="Odwołaj"
-        @click="$emit('cancel', appointment)"
+        @click="handleCancel"
         class="border-red-500 text-red-500 hover:border-red-600 active:border-red-700 hover:text-red-600 active:text-red-700 aria-disabled:border-red-600"
       />
       <BaseButton label="Edytuj" @click="$emit('edit', appointment)" />
     </div>
   </div>
+
+  <!-- Компонент уведомления -->
+  <Notification
+    v-if="showNotification"
+    :message="notificationMessage"
+    :type="notificationType"
+    :duration="3000"
+    @close="showNotification = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -30,12 +39,43 @@ interface Props {
   appointment: Appointment;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-defineEmits<{
+const emit = defineEmits<{
   edit: [appointment: Appointment];
   cancel: [appointment: Appointment];
 }>();
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+const cancelling = ref(false);
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
+
+const handleCancel = async () => {
+  try {
+    cancelling.value = true;
+    
+    emit('cancel', props.appointment);
+    
+    showNotify("Wizyta została pomyślnie odwołana", "success");
+    
+  } catch (error) {
+    console.error("Error cancelling appointment:", error);
+    showNotify("Błąd podczas odwoływania wizyty", "error");
+  } finally {
+    cancelling.value = false;
+  }
+};
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("pl-PL");

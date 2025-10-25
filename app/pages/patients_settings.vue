@@ -35,6 +35,14 @@
       :patient="selectedPatient"
       @patient-deleted="handlePatientDeleted"
     />
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </FullWidthLayout>
 </template>
 
@@ -42,6 +50,20 @@
 import PatientCard from "~/components/PatientCard.vue";
 import PatientModal from "~/components/PatientModal.vue";
 import type { PatientData } from "~/types/patientData";
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 const patients = ref<PatientData[]>([]);
 const showPatientModal = ref(false);
@@ -54,7 +76,12 @@ const openPatientModal = (patient: PatientData) => {
 };
 
 const handlePatientDeleted = (patientId: string) => {
+  const deletedPatient = patients.value.find(p => p._id === patientId);
+  const patientName = deletedPatient?.name || 'Pacjent';
+  
   patients.value = patients.value.filter((p) => p._id !== patientId);
+  
+  showNotify(`${patientName} został pomyślnie usunięty`, 'success');
 };
 
 const loadPatients = async () => {
@@ -64,6 +91,7 @@ const loadPatients = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -77,6 +105,7 @@ const loadPatients = async () => {
   } catch (err: any) {
     console.error("Error loading patients:", err);
     error.value = "Błąd podczas ładowania pacjentów";
+    showNotify("Błąd podczas ładowania listy pacjentów", "error");
   }
 };
 

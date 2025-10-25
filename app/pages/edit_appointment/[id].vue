@@ -106,6 +106,14 @@
         </div>
       </div>
     </div>
+
+    <Notification
+      v-if="showNotification"
+      :message="notificationMessage"
+      :type="notificationType"
+      :duration="3000"
+      @close="showNotification = false"
+    />
   </Layout>
 </template>
 
@@ -136,6 +144,20 @@ interface TimeSlot {
   value: string;
   isBooked: boolean;
 }
+
+const showNotification = ref(false);
+const notificationMessage = ref("");
+const notificationType = ref<"success" | "error">("success");
+
+const showNotify = (message: string, type: "success" | "error" = "success") => {
+  notificationMessage.value = message;
+  notificationType.value = type;
+  showNotification.value = true;
+  
+  setTimeout(() => {
+    showNotification.value = false;
+  }, 3000);
+};
 
 const route = useRoute();
 const appointmentId = route.params.id as string;
@@ -218,6 +240,7 @@ const loadExistingAppointments = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -244,6 +267,7 @@ const loadExistingAppointments = async () => {
   } catch (err: any) {
     console.error("Error loading existing appointments:", err);
     existingAppointments.value = [];
+    showNotify("Błąd podczas ładowania istniejących wizyt", "error");
   } finally {
     isLoadingAppointments.value = false;
   }
@@ -295,6 +319,7 @@ const loadPatients = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -311,6 +336,7 @@ const loadPatients = async () => {
   } catch (err: any) {
     console.error("Error loading patients:", err);
     error.value = "Błąd podczas ładowania pacjentów";
+    showNotify("Błąd podczas ładowania listy pacjentów", "error");
   }
 };
 
@@ -319,6 +345,7 @@ const loadAppointment = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -331,9 +358,13 @@ const loadAppointment = async () => {
       },
     );
 
+    const patientId = typeof response.patient_id === 'string' 
+      ? response.patient_id 
+      : (response.patient_id as any)?._id || '';
+
     // Fill form with existing data
     form.value = {
-      patient_id: response.patient_id,
+      patient_id: patientId,
       date: response.date,
       time: response.time,
       reason: response.reason,
@@ -347,6 +378,7 @@ const loadAppointment = async () => {
   } catch (err: any) {
     console.error("Error loading appointment:", err);
     error.value = "Błąd podczas ładowania wizyty";
+    showNotify("Błąd podczas ładowania danych wizyty", "error");
   }
 };
 
@@ -358,6 +390,7 @@ const updateAppointment = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       error.value = "Nie jesteś zalogowany";
+      showNotify("Błąd autoryzacji", "error");
       return;
     }
 
@@ -386,7 +419,11 @@ const updateAppointment = async () => {
 
     console.log("Appointment updated successfully:", response);
 
-    await navigateTo("/patients_settings");
+    showNotify("Wizyta została pomyślnie zaktualizowana", "success");
+    setTimeout(async () => {
+      await navigateTo("/patients_settings");
+    }, 1500);
+    
   } catch (err: any) {
     console.error("Error updating appointment:", err);
     error.value = err.data?.message || "Błąd podczas aktualizacji wizyty";
@@ -394,6 +431,8 @@ const updateAppointment = async () => {
     if (err.data?.details) {
       error.value += `: ${err.data.details}`;
     }
+
+    showNotify(error.value, "error");
   } finally {
     updating.value = false;
   }
