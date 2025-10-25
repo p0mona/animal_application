@@ -70,5 +70,41 @@ const handleCheckboxChange = (key: keyof Notifications, value: boolean | 'indete
   saveNotificationSetting(key, boolValue);
 };
 
+const loadNotifications = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    const response = await $fetch<{ notifications: Notifications }>('http://localhost:3001/profile/notifications', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+
+    if (response.notifications) {
+      localNotifications.value = response.notifications;
+      emit("update:notifications", response.notifications);
+    }
+  } catch (error: any) {
+    console.error("Error loading notifications:", error);
+    const defaultNotifications: Notifications = {
+      email: true,
+      push: true,
+      sms: true,
+      news: true,
+      security: true,
+      marketing: true
+    };
+    localNotifications.value = defaultNotifications;
+    emit("update:notifications", defaultNotifications);
+  }
+};
+
+onMounted(() => {
+  loadNotifications();
 });
 </script>
