@@ -37,8 +37,9 @@
     </div>
   </UCard>
 </template>
+
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, onMounted } from "vue";
 
 interface Preferences {
     language: string;
@@ -96,6 +97,36 @@ const handlePreferenceChange = async (key: keyof Preferences, value: any) => {
   
   await savePreferenceSetting(key, stringValue);
 };
+
+const savePreferenceSetting = async (key: keyof Preferences, value: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    const response = await $fetch('http://localhost:3001/profile/preferences', {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        [key]: value
+      }),
+    });
+
+    saveStatus.value = 'success';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  } catch (error: any) {
+    console.error("Error saving preference setting:", error);
+    errorMessage.value = error.data?.message || error.message || "Nieznany błąd";
+    saveStatus.value = 'error';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  }
+};
+
 
 onMounted(() => {
   loadPreferences();
