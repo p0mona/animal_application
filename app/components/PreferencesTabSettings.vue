@@ -59,6 +59,36 @@ const emit = defineEmits<{
 
 const localPreferences = ref<Preferences>({ ...props.preferences });
 
+const loadPreferences = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    const response = await $fetch<{ preferences: Preferences }>('http://localhost:3001/profile/preferences', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.preferences) {
+      localPreferences.value = response.preferences;
+      emit("update:preferences", response.preferences);
+    }
+  } catch (error: any) {
+    console.error("Error loading preferences:", error);
+    const defaultPreferences: Preferences = {
+      language: "pl",
+      timezone: "Europe/Warsaw",
+      theme: "system"
+    };
+    localPreferences.value = defaultPreferences;
+    emit("update:preferences", defaultPreferences);
+  }
+};
+
 const handlePreferenceChange = async (key: keyof Preferences, value: any) => {
   const stringValue = typeof value === 'object' ? value.value : value;
   
@@ -66,5 +96,8 @@ const handlePreferenceChange = async (key: keyof Preferences, value: any) => {
   
   await savePreferenceSetting(key, stringValue);
 };
+
+onMounted(() => {
+  loadPreferences();
 });
 </script>
