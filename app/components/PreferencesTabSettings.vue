@@ -6,33 +6,42 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <UForm :state="localPreferences">
-        <div class="space-y-4 space-x-4">
+        <div class="space-y-4">
           <UFormGroup label="Język" name="language" class="space-y-2">
             <p class="text-sm">Język</p>
             <BaseSelect
-              v-model="localPreferences.language"
+              :model-value="localPreferences.language"
               :items="languageOptions"
+              @update:modelValue="(value) => handlePreferenceChange('language', value)"
             />
           </UFormGroup>
 
           <UFormGroup label="Strefa czasowa" name="timezone" class="space-y-2">
             <p class="text-sm">Strefa czasowa</p>
             <BaseSelect
-              v-model="localPreferences.timezone"
+              :model-value="localPreferences.timezone"
               :items="timezoneOptions"
+              @update:modelValue="(value) => handlePreferenceChange('timezone', value)"
             />
           </UFormGroup>
 
           <UFormGroup label="Motyw" name="theme" class="space-y-2">
             <p class="text-sm">Motyw</p>
             <BaseSelect
-              v-model="localPreferences.theme"
+              :model-value="localPreferences.theme"
               :items="themeOptions"
+              @update:modelValue="(value) => handlePreferenceChange('theme', value)"
             />
           </UFormGroup>
         </div>
 
-        <BaseButton label="Zapisz" class="mt-6" />
+        <div class="flex justify-between items-center mt-6">
+          <BaseButton 
+            label="Zapisz ustawienia" 
+            @click="saveAllPreferences"
+            :loading="saving"
+          />
+        </div>
       </UForm>
     </div>
   </UCard>
@@ -42,9 +51,9 @@
 import { ref, onMounted } from "vue";
 
 interface Preferences {
-    language: string;
-    timezone: string;
-    theme: string;
+  language: string;
+  timezone: string;
+  theme: string;
 }
 
 const props = defineProps<{
