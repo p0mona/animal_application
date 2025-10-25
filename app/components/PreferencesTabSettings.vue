@@ -59,6 +59,9 @@ const emit = defineEmits<{
 }>();
 
 const localPreferences = ref<Preferences>({ ...props.preferences });
+const saving = ref(false);
+const saveStatus = ref<'idle' | 'success' | 'error'>('idle');
+const errorMessage = ref('');
 
 const loadPreferences = async () => {
   try {
@@ -127,6 +130,35 @@ const savePreferenceSetting = async (key: keyof Preferences, value: string) => {
   }
 };
 
+const saveAllPreferences = async () => {
+  try {
+    saving.value = true;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    const response = await $fetch('http://localhost:3001/profile/preferences', {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(localPreferences.value),
+    });
+
+    saveStatus.value = 'success';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  } catch (error: any) {
+    console.error("Error saving preferences:", error);
+    errorMessage.value = error.data?.message || error.message || "Nieznany błąd";
+    saveStatus.value = 'error';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  } finally {
+    saving.value = false;
+  }
+};
 
 onMounted(() => {
   loadPreferences();
