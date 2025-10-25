@@ -34,7 +34,7 @@
           />
         </div>
 
-        <BaseButton label="Zapisz ustawienia" class="mt-4" />
+        <BaseButton label="Zapisz ustawienia" class="mt-6" />
       </UForm>
     </div>
   </UCard>

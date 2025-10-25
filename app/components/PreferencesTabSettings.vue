@@ -32,7 +32,7 @@
           </UFormGroup>
         </div>
 
-        <BaseButton label="Zapisz" class="mt-2" />
+        <BaseButton label="Zapisz" class="mt-6" />
       </UForm>
     </div>
   </UCard>
