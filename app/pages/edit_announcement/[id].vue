@@ -53,10 +53,7 @@
 
         <div class="flex justify-end space-x-2 mt-4">
           <BorderButton label="Anuluj" @click="navigateTo('/trainer')" />
-          <BaseButton
-            label="Zapisz zmiany"
-            @click="submitForm"
-          />
+          <BaseButton label="Zapisz zmiany" @click="submitForm" />
         </div>
       </div>
     </div>

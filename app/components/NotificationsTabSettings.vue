@@ -9,18 +9,12 @@
         <div class="space-y-4">
           <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
-          <BaseCheckbox
-            v-model="localNotifications.email"
-            label="Email"
-          />
+          <BaseCheckbox v-model="localNotifications.email" label="Email" />
           <BaseCheckbox
             v-model="localNotifications.push"
             label="Powiadomienia push"
           />
-          <BaseCheckbox
-            v-model="localNotifications.sms"
-            label="SMS"
-          />
+          <BaseCheckbox v-model="localNotifications.sms" label="SMS" />
 
           <UDivider />
 
@@ -41,10 +35,7 @@
         </div>
 
         <div class="flex justify-between items-center mt-6">
-          <BaseButton 
-            label="Zapisz ustawienia" 
-            @click="saveAllSettings"
-          />
+          <BaseButton label="Zapisz ustawienia" @click="saveAllSettings" />
         </div>
       </UForm>
     </div>
@@ -70,7 +61,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -96,21 +87,28 @@ const emit = defineEmits<{
 const localNotifications = ref<Notifications>({ ...props.notifications });
 const saving = ref(false);
 
-watch(() => props.notifications, (newVal) => {
-  localNotifications.value = { ...newVal };
-}, { deep: true });
+watch(
+  () => props.notifications,
+  (newVal) => {
+    localNotifications.value = { ...newVal };
+  },
+  { deep: true },
+);
 
-const handleCheckboxChange = async (key: keyof Notifications, value: boolean | 'indeterminate') => {
+const handleCheckboxChange = async (
+  key: keyof Notifications,
+  value: boolean | "indeterminate",
+) => {
   const boolValue = value === true;
-  
+
   localNotifications.value[key] = boolValue;
-  
+
   try {
     await saveNotificationSetting(key, boolValue);
-    showNotify(`Ustawienie ${key} zostało zapisane`, 'success');
+    showNotify(`Ustawienie ${key} zostało zapisane`, "success");
   } catch (error) {
     localNotifications.value[key] = !boolValue;
-    showNotify(`Błąd podczas zapisywania ustawienia ${key}`, 'error');
+    showNotify(`Błąd podczas zapisywania ustawienia ${key}`, "error");
   }
 };
 
@@ -122,12 +120,14 @@ const loadNotifications = async () => {
       return;
     }
 
-    const response = await $fetch<{ notifications: Notifications }>('http://localhost:3001/profile/notifications', {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<{ notifications: Notifications }>(
+      "http://localhost:3001/profile/notifications",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
-
+    );
 
     if (response.notifications) {
       localNotifications.value = response.notifications;
@@ -141,27 +141,30 @@ const loadNotifications = async () => {
       sms: true,
       news: true,
       security: true,
-      marketing: true
+      marketing: true,
     };
     localNotifications.value = defaultNotifications;
     emit("update:notifications", defaultNotifications);
   }
 };
 
-const saveNotificationSetting = async (key: keyof Notifications, value: boolean) => {
+const saveNotificationSetting = async (
+  key: keyof Notifications,
+  value: boolean,
+) => {
   const token = localStorage.getItem("token");
   if (!token) {
     throw new Error("No token found");
   }
 
-  const response = await $fetch('http://localhost:3001/profile/notifications', {
+  const response = await $fetch("http://localhost:3001/profile/notifications", {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      [key]: value
+      [key]: value,
     }),
   });
 
@@ -177,15 +180,17 @@ const saveAllSettings = async () => {
       return;
     }
 
-
-    const response = await $fetch('http://localhost:3001/profile/notifications', {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+    const response = await $fetch(
+      "http://localhost:3001/profile/notifications",
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(localNotifications.value),
       },
-      body: JSON.stringify(localNotifications.value),
-    });
+    );
 
     showNotify("Ustawienia zostały zapisane", "success");
     emit("update:notifications", { ...localNotifications.value });

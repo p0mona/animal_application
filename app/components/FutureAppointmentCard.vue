@@ -55,7 +55,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -64,11 +64,10 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
 const handleCancel = async () => {
   try {
     cancelling.value = true;
-    
-    emit('cancel', props.appointment);
-    
+
+    emit("cancel", props.appointment);
+
     showNotify("Wizyta została pomyślnie odwołana", "success");
-    
   } catch (error) {
     console.error("Error cancelling appointment:", error);
     showNotify("Błąd podczas odwoływania wizyty", "error");

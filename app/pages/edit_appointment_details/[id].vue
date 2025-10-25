@@ -132,10 +132,7 @@
 
       <div class="flex justify-end space-x-3 pt-6">
         <BorderButton label="Anuluj" @click="goBack" />
-        <BaseButton 
-          label="Zapisz zmiany" 
-          @click="saveChanges" 
-        />
+        <BaseButton label="Zapisz zmiany" @click="saveChanges" />
       </div>
     </div>
 
@@ -164,7 +161,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -259,11 +256,10 @@ const saveChanges = async () => {
     );
 
     showNotify("Szczegóły wizyty zostały pomyślnie zapisane", "success");
-    
+
     setTimeout(async () => {
       await navigateTo(`/appointment_details/${appointmentId}`);
     }, 1500);
-    
   } catch (err: any) {
     console.error("Error saving medical details:", err);
     error.value = err.data?.message || "Błąd podczas zapisywania zmian";

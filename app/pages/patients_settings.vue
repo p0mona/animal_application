@@ -59,7 +59,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -76,12 +76,12 @@ const openPatientModal = (patient: PatientData) => {
 };
 
 const handlePatientDeleted = (patientId: string) => {
-  const deletedPatient = patients.value.find(p => p._id === patientId);
-  const patientName = deletedPatient?.name || 'Pacjent';
-  
+  const deletedPatient = patients.value.find((p) => p._id === patientId);
+  const patientName = deletedPatient?.name || "Pacjent";
+
   patients.value = patients.value.filter((p) => p._id !== patientId);
-  
-  showNotify(`${patientName} został pomyślnie usunięty`, 'success');
+
+  showNotify(`${patientName} został pomyślnie usunięty`, "success");
 };
 
 const loadPatients = async () => {

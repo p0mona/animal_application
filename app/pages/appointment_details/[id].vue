@@ -163,7 +163,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -233,7 +233,7 @@ const editAppointmentDetails = () => {
     showNotify("Brak danych wizyty", "error");
     return;
   }
-  
+
   navigateTo(`/edit_appointment_details/${appointmentId}`);
 };
 

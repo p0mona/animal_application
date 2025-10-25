@@ -36,7 +36,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -69,7 +69,7 @@ const saveSosPhone = async () => {
   try {
     saving.value = true;
     error.value = "";
-    
+
     await userStore.updateProfile({
       ...userStore.user,
       owner: {
@@ -77,7 +77,7 @@ const saveSosPhone = async () => {
         sos_phone: sosPhone.value.trim(),
       },
     });
-    
+
     showNotify("Numer SOS został pomyślnie zapisany", "success");
   } catch (err: any) {
     error.value = err.message || "Wystąpił błąd podczas zapisywania numeru SOS";

@@ -74,10 +74,7 @@
             required
           />
         </div>
-        <BaseButton
-          type="submit"
-          label="Dodaj"
-        />
+        <BaseButton type="submit" label="Dodaj" />
       </form>
 
       <div v-if="entries.length" class="space-y-4">
@@ -146,7 +143,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -227,7 +224,7 @@ async function loadEntries() {
       (a: Entry, b: Entry) =>
         new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
-    
+
     if (entries.value.length > 0) {
     }
   } catch (error: any) {
@@ -251,14 +248,16 @@ async function addEntry() {
   const selectedDate = new Date(newEntry.value.date);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   if (selectedDate > today) {
     showMessage("Nie można dodać wpisu z przyszłą datą", true);
     showNotify("Nie można dodać wpisu z przyszłą datą", "error");
     return;
   }
 
-  const existingEntry = entries.value.find(entry => entry.date === newEntry.value.date);
+  const existingEntry = entries.value.find(
+    (entry) => entry.date === newEntry.value.date,
+  );
   if (existingEntry) {
     showMessage("Wpis dla tej daty już istnieje", true);
     showNotify("Wpis dla tej daty już istnieje", "error");
@@ -292,14 +291,14 @@ async function addEntry() {
     }
 
     const data = await res.json();
-    
+
     entries.value.push(data);
     entries.value.sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
     showMessage("Pomyślnie dodano nowy wpis!", false);
-    
+
     newEntry.value = {
       date: getTodayDate(),
       weight: 0,

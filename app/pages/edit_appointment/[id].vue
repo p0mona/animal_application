@@ -153,7 +153,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -358,9 +358,10 @@ const loadAppointment = async () => {
       },
     );
 
-    const patientId = typeof response.patient_id === 'string' 
-      ? response.patient_id 
-      : (response.patient_id as any)?._id || '';
+    const patientId =
+      typeof response.patient_id === "string"
+        ? response.patient_id
+        : (response.patient_id as any)?._id || "";
 
     // Fill form with existing data
     form.value = {
@@ -423,7 +424,6 @@ const updateAppointment = async () => {
     setTimeout(async () => {
       await navigateTo("/patients_settings");
     }, 1500);
-    
   } catch (err: any) {
     console.error("Error updating appointment:", err);
     error.value = err.data?.message || "Błąd podczas aktualizacji wizyty";

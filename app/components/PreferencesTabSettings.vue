@@ -12,7 +12,9 @@
             <BaseSelect
               :model-value="localPreferences.language"
               :items="languageOptions"
-              @update:modelValue="(value) => handlePreferenceChange('language', value)"
+              @update:modelValue="
+                (value) => handlePreferenceChange('language', value)
+              "
             />
           </UFormGroup>
 
@@ -21,7 +23,9 @@
             <BaseSelect
               :model-value="localPreferences.timezone"
               :items="timezoneOptions"
-              @update:modelValue="(value) => handlePreferenceChange('timezone', value)"
+              @update:modelValue="
+                (value) => handlePreferenceChange('timezone', value)
+              "
             />
           </UFormGroup>
 
@@ -30,16 +34,15 @@
             <BaseSelect
               :model-value="localPreferences.theme"
               :items="themeOptions"
-              @update:modelValue="(value) => handlePreferenceChange('theme', value)"
+              @update:modelValue="
+                (value) => handlePreferenceChange('theme', value)
+              "
             />
           </UFormGroup>
         </div>
 
         <div class="flex justify-between items-center mt-6">
-          <BaseButton 
-            label="Zapisz ustawienia" 
-            @click="saveAllPreferences"
-          />
+          <BaseButton label="Zapisz ustawienia" @click="saveAllPreferences" />
         </div>
       </UForm>
     </div>
@@ -65,7 +68,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -90,11 +93,15 @@ const emit = defineEmits<{
 
 const localPreferences = ref<Preferences>({ ...props.preferences });
 const saving = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref("");
 
-watch(() => props.preferences, (newVal) => {
-  localPreferences.value = { ...newVal };
-}, { deep: true });
+watch(
+  () => props.preferences,
+  (newVal) => {
+    localPreferences.value = { ...newVal };
+  },
+  { deep: true },
+);
 
 const loadPreferences = async () => {
   try {
@@ -104,11 +111,14 @@ const loadPreferences = async () => {
       return;
     }
 
-    const response = await $fetch<{ preferences: Preferences }>('http://localhost:3001/profile/preferences', {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await $fetch<{ preferences: Preferences }>(
+      "http://localhost:3001/profile/preferences",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     if (response.preferences) {
       localPreferences.value = response.preferences;
@@ -119,7 +129,7 @@ const loadPreferences = async () => {
     const defaultPreferences: Preferences = {
       language: "pl",
       timezone: "Europe/Warsaw",
-      theme: "system"
+      theme: "system",
     };
     localPreferences.value = defaultPreferences;
     emit("update:preferences", defaultPreferences);
@@ -127,8 +137,8 @@ const loadPreferences = async () => {
 };
 
 const handlePreferenceChange = async (key: keyof Preferences, value: any) => {
-  const stringValue = typeof value === 'object' ? value.value : value;
-  
+  const stringValue = typeof value === "object" ? value.value : value;
+
   localPreferences.value[key] = stringValue;
 };
 
@@ -141,7 +151,7 @@ const saveAllPreferences = async () => {
       return;
     }
 
-    const response = await $fetch('http://localhost:3001/profile/preferences', {
+    const response = await $fetch("http://localhost:3001/profile/preferences", {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,

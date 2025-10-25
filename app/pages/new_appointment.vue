@@ -154,7 +154,7 @@ const showNotify = (message: string, type: "success" | "error" = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -411,11 +411,10 @@ const createAppointment = async () => {
     console.log("Appointment created successfully:", response);
 
     showNotify("Wizyta została pomyślnie utworzona", "success");
-    
+
     setTimeout(async () => {
       await navigateTo("/patients_settings");
     }, 1500);
-    
   } catch (err: any) {
     console.error("Error creating appointment:", err);
     error.value = err.data?.message || "Błąd podczas tworzenia wizyty";

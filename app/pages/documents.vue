@@ -221,7 +221,7 @@ const showNotify = (message, type = "success") => {
   notificationMessage.value = message;
   notificationType.value = type;
   showNotification.value = true;
-  
+
   setTimeout(() => {
     showNotification.value = false;
   }, 3000);
@@ -423,7 +423,10 @@ const uploadDocument = async () => {
 
     await loadDocuments();
     resetForm();
-    showNotify(`Dokument "${documentName.value}" został pomyślnie zapisany`, "success");
+    showNotify(
+      `Dokument "${documentName.value}" został pomyślnie zapisany`,
+      "success",
+    );
   } catch (error) {
     console.error("Błąd upload:", error);
     if (error.status === 403) {
@@ -464,7 +467,7 @@ const downloadDocument = async (id) => {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-      
+
       showNotify(`Dokument "${doc?.name}" został pobrany`, "success");
     } else {
       throw new Error("Download failed");
