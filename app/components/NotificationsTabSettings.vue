@@ -41,25 +41,34 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, onMounted } from "vue";
 
-const props = defineProps<{
-  notifications: {
+interface Notifications {
     email: boolean;
     push: boolean;
     sms: boolean;
     news: boolean;
     security: boolean;
     marketing: boolean;
-  };
+}
+
+const props = defineProps<{
+  notifications: Notifications;
 }>();
 
 const emit = defineEmits<{
-  (e: "update:notifications", value: typeof props.notifications): void;
+  (e: "update:notifications", value: Notifications): void;
 }>();
 
-const localNotifications = computed({
-  get: () => props.notifications,
-  set: (val) => emit("update:notifications", val),
+const localNotifications = ref<Notifications>({ ...props.notifications });
+
+const handleCheckboxChange = (key: keyof Notifications, value: boolean | 'indeterminate') => {
+  const boolValue = value === true;
+  
+  localNotifications.value[key] = boolValue;
+  
+  saveNotificationSetting(key, boolValue);
+};
+
 });
 </script>
