@@ -19,7 +19,7 @@
             <p class="text-sm">Strefa czasowa</p>
             <BaseSelect
               v-model="localPreferences.timezone"
-              :items="themeOptions"
+              :items="timezoneOptions"
             />
           </UFormGroup>
 
