@@ -61,6 +61,8 @@ const emit = defineEmits<{
 }>();
 
 const localNotifications = ref<Notifications>({ ...props.notifications });
+const saving = ref(false);
+const saveStatus = ref<'idle' | 'success' | 'error'>('idle');
 
 const handleCheckboxChange = (key: keyof Notifications, value: boolean | 'indeterminate') => {
   const boolValue = value === true;
@@ -133,6 +135,36 @@ const saveNotificationSetting = async (key: keyof Notifications, value: boolean)
     setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
     
     localNotifications.value[key] = !value;
+  }
+};
+
+const saveAllSettings = async () => {
+  try {
+    saving.value = true;
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+
+    const response = await $fetch('http://localhost:3001/profile/notifications', {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(localNotifications.value),
+    });
+
+    saveStatus.value = 'success';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  } catch (error: any) {
+    console.error("Error saving notifications:", error);
+    saveStatus.value = 'error';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  } finally {
+    saving.value = false;
   }
 };
 
