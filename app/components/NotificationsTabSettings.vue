@@ -104,6 +104,38 @@ const loadNotifications = async () => {
   }
 };
 
+const saveNotificationSetting = async (key: keyof Notifications, value: boolean) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    console.log(`Saving ${key}:`, value);
+
+    const response = await $fetch('http://localhost:3001/profile/notifications', {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        [key]: value
+      }),
+    });
+
+    saveStatus.value = 'success';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+  } catch (error: any) {
+    console.error("Error saving notification setting:", error);
+    saveStatus.value = 'error';
+    setTimeout(() => { saveStatus.value = 'idle'; }, 2000);
+    
+    localNotifications.value[key] = !value;
+  }
+};
+
 onMounted(() => {
   loadNotifications();
 });
