@@ -9,32 +9,50 @@
         <div class="space-y-4">
           <h3 class="text-base font-semibold">Kanały powiadomień</h3>
 
-          <BaseCheckbox v-model="notifications.email" label="Email" />
           <BaseCheckbox
-            v-model="localNotifications.push"
-            label="Powiadomienia push"
+            :model-value="Boolean(localNotifications.email)"
+            label="Email"
+            @update:modelValue="(value) => handleCheckboxChange('email', value)"
           />
-          <BaseCheckbox v-model="localNotifications.sms" label="SMS" />
+          <BaseCheckbox
+            :model-value="Boolean(localNotifications.push)"
+            label="Powiadomienia push"
+            @update:modelValue="(value) => handleCheckboxChange('push', value)"
+          />
+          <BaseCheckbox
+            :model-value="Boolean(localNotifications.sms)"
+            label="SMS"
+            @update:modelValue="(value) => handleCheckboxChange('sms', value)"
+          />
 
           <UDivider />
 
           <h3 class="text-base font-semibold">Typy powiadomień</h3>
 
           <BaseCheckbox
-            v-model="localNotifications.news"
+            :model-value="Boolean(localNotifications.news)"
             label="Aktualności i ogłoszenia"
+            @update:modelValue="(value) => handleCheckboxChange('news', value)"
           />
           <BaseCheckbox
-            v-model="localNotifications.security"
+            :model-value="Boolean(localNotifications.security)"
             label="Alerty bezpieczeństwa"
+            @update:modelValue="(value) => handleCheckboxChange('security', value)"
           />
           <BaseCheckbox
-            v-model="localNotifications.marketing"
+            :model-value="Boolean(localNotifications.marketing)"
             label="Oferty marketingowe"
+            @update:modelValue="(value) => handleCheckboxChange('marketing', value)"
           />
         </div>
 
-        <BaseButton label="Zapisz ustawienia" class="mt-6" />
+        <div class="flex justify-between items-center mt-6">
+          <BaseButton 
+            label="Zapisz ustawienia" 
+            @click="saveAllSettings"
+            :loading="saving"
+          />
+        </div>
       </UForm>
     </div>
   </UCard>
@@ -44,12 +62,12 @@
 import { ref, onMounted } from "vue";
 
 interface Notifications {
-    email: boolean;
-    push: boolean;
-    sms: boolean;
-    news: boolean;
-    security: boolean;
-    marketing: boolean;
+  email: boolean;
+  push: boolean;
+  sms: boolean;
+  news: boolean;
+  security: boolean;
+  marketing: boolean;
 }
 
 const props = defineProps<{
