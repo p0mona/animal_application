@@ -40,23 +40,31 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-const props = defineProps<{
-  preferences: {
+interface Preferences {
     language: string;
     timezone: string;
     theme: string;
-  };
+}
+
+const props = defineProps<{
+  preferences: Preferences;
   languageOptions: { value: string; label: string }[];
   timezoneOptions: { value: string; label: string }[];
   themeOptions: { value: string; label: string }[];
 }>();
 
 const emit = defineEmits<{
-  (e: "update:preferences", value: typeof props.preferences): void;
+  (e: "update:preferences", value: Preferences): void;
 }>();
 
-const localPreferences = computed({
-  get: () => props.preferences,
-  set: (val) => emit("update:preferences", val),
+const localPreferences = ref<Preferences>({ ...props.preferences });
+
+const handlePreferenceChange = async (key: keyof Preferences, value: any) => {
+  const stringValue = typeof value === 'object' ? value.value : value;
+  
+  localPreferences.value[key] = stringValue;
+  
+  await savePreferenceSetting(key, stringValue);
+};
 });
 </script>
